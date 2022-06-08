@@ -1,0 +1,16 @@
+[
+{
+    "id": "0",
+    "name": "ClaviClaviss",
+    "prefab_name": "Robot_Clavis",
+    "hologram_name": "Hologram_Clavis",
+    "desc": "Naturalis행성, Clavis 혁명군들이 Mars 로봇을 탈취해 개조한 로봇"
+},
+{
+    "id": "1",
+    "name": "Mars",
+    "prefab_name": "Robot_Mars",
+    "hologram_name": "Hologram_Mars",
+    "desc": "Hubirs 행성의 병기 Mars"
+}
+]
