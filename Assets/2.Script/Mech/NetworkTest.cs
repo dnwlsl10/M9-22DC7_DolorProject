@@ -8,7 +8,6 @@ using TMPro;
 
 public class NetworkTest : MonoBehaviourPunCallbacks
 {
-    public PhotonView PV;
     public GameObject simulator;
     public bool testMode;
 
@@ -51,7 +50,8 @@ public class NetworkTest : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         print("Joined Room" + PhotonNetwork.CurrentRoom.PlayerCount);
-        PhotonNetwork.Instantiate(testMode ? "Prefab/Mech_Test" : "Prefab/Mech_ForUse", Vector3.zero, Quaternion.identity);
+        // PhotonNetwork.Instantiate(testMode ? "Prefab/Mech_Test" : "Prefab/Mech_ForUse", Vector3.zero, Quaternion.identity);
+        PhotonNetwork.Instantiate("Prefab/Mech_Test", Vector3.zero, Quaternion.identity);
     
         if (testMode) Invoke("SpawnSimulator", 1);
     }

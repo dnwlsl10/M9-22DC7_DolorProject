@@ -176,7 +176,6 @@ GameObject:
   m_Component:
   - component: {fileID: 770568859}
   - component: {fileID: 770568858}
-  - component: {fileID: 770568860}
   m_Layer: 0
   m_Name: Network
   m_TagString: Untagged
@@ -196,9 +195,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e9c0d132e943ad418c2d5374e6c3d26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PV: {fileID: 770568860}
   simulator: {fileID: 3410773279070289068, guid: b9c485564d9038b48baec1c7f8884352, type: 3}
-  testMode: 1
+  testMode: 0
 --- !u!4 &770568859
 Transform:
   m_ObjectHideFlags: 0
@@ -213,28 +211,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &770568860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 770568857}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 3
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &1607253572
 GameObject:
   m_ObjectHideFlags: 0
