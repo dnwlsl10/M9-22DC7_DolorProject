@@ -43,7 +43,12 @@ public class MechLand : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
-        anim.SetLayerWeight(1, 1);
         scriptManager.EnableScripts(ref componentsAfterStartScene);
+        for (float f = 0; f < 1; f += Time.deltaTime)
+        {
+            anim.SetLayerWeight(1, f/1);
+            yield return null;
+        }
+        anim.SetLayerWeight(1, 1);
     }
 }

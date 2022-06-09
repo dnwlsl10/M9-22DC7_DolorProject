@@ -66,6 +66,7 @@ public class HandIK : MonoBehaviour
         public Transform CreateLocalTarget()
         {
             GameObject go = new GameObject(controller.ToString() + "Target");
+            go.transform.position = vrOrigin.transform.position;
 
             rb = go.AddComponent<Rigidbody>();
             rb.constraints = RigidbodyConstraints.FreezeRotation;
@@ -73,6 +74,7 @@ public class HandIK : MonoBehaviour
             rb.useGravity = false;
 
             SphereCollider collider = go.AddComponent<SphereCollider>();
+            // collider.isTrigger = true;
             collider.radius = 0.4f;
             collider.center = Vector3.right * 0.5f * (controller == XRNode.RightHand ? 1 : -1);
 

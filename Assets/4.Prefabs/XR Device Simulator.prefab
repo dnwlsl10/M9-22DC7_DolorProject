@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3410773279070289058}
   - component: {fileID: 3410773279070289059}
   - component: {fileID: 3492375531282619123}
-  - component: {fileID: 8414470091340850891}
   m_Layer: 0
   m_Name: XR Device Simulator
   m_TagString: Untagged
@@ -107,45 +106,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ActionAssets:
   - {fileID: -944628639613478452, guid: da2b439d1a2de5c46a4f428f8cf4fe19, type: 3}
---- !u!114 &8414470091340850891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3410773279070289068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2ab7a48926282046bcfd9867c6a1b91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultAction: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  camRef:
-  - {fileID: 7862207684358717888, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: -530380113134220495, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  rightControllerRef:
-  - {fileID: -3326005586356538449, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: 5101698808175986029, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: -1277054153949319361, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: 3279264004350380116, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: -5908353012961274365, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: -8222252007134549311, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: -5913262927076077117, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: 875253871413052681, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  leftControllerRef:
-  - {fileID: -2024308242397127297, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: 8248158260566104461, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: 684395432459739428, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: -5982496924579745919, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: -4289430672226363583, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: -6395602842196007441, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: 71106601250685021, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: -8785819595477538065, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: -7363382999065477798, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - {fileID: 7779212132400271959, guid: c348712bda248c246b8c49b3db54643f, type: 3}

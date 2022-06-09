@@ -6,9 +6,6 @@ using Photon.Pun;
 
 public class MechIKNetworkManager : MonoBehaviour
 {
-    public Transform mechRightHand;
-    public Transform mechLeftHand;
-
     IKSolverVR.Arm rightArmIK;
     IKSolverVR.Arm leftArmIK;
     PhotonView pv;
@@ -16,7 +13,7 @@ public class MechIKNetworkManager : MonoBehaviour
     IEnumerator leftIKCoroutine;
     IEnumerator rightIKCoroutine;
 
-    private void Awake() 
+    private void Start() 
     {
         VRIK vrIK = GetComponent<VRIK>();
         pv = GetComponent<PhotonView>();
@@ -27,30 +24,31 @@ public class MechIKNetworkManager : MonoBehaviour
         if (pv.IsMine)
             SetLocalIKTarget();
         else
+        {
             SetRemoteIKTarget();
+            GetComponent<Animator>().applyRootMotion = false;
+        }
     }
 
     void SetLocalIKTarget()
     {
-        HandIK[] hands = GameObject.FindObjectsOfType<HandIK>();
+        // HandIK[] hands = GameObject.FindObjectsOfType<HandIK>();
 
-        foreach (var hand in hands)
-        {
-            if (hand.vrController.controller == UnityEngine.XR.XRNode.RightHand)
-                rightArmIK.target = hand.vrController.CreateLocalTarget();
-            else if (hand.vrController.controller == UnityEngine.XR.XRNode.LeftHand)
-                leftArmIK.target = hand.vrController.CreateLocalTarget();
-            else
-                Debug.Log("XRNode is not set to Controller");
-        }
+        // foreach (var hand in hands)
+        // {
+        //     if (hand.vrController.controller == UnityEngine.XR.XRNode.RightHand)
+        //         rightArmIK.target = hand.vrController.CreateLocalTarget();
+        //     else if (hand.vrController.controller == UnityEngine.XR.XRNode.LeftHand)
+        //         leftArmIK.target = hand.vrController.CreateLocalTarget();
+        //     else
+        //         Debug.Log("XRNode is not set to Controller");
+        // }
 
         SetIKWeight(true, 0);
         SetIKWeight(false, 0);
     }
     void SetRemoteIKTarget()
     {
-        rightArmIK.target = mechRightHand;
-        leftArmIK.target = mechLeftHand;
 
         SetIKWeight(true, 0);
         SetIKWeight(false, 0);
@@ -58,13 +56,14 @@ public class MechIKNetworkManager : MonoBehaviour
 
     public void SetWeightUsingRPC(bool isLeft, int targetWeight)
     {
-        // pv.RPC("RPCSetWeight", RpcTarget.All, isLeft, targetWeight);
+        pv.RPC("RPCSetWeight", RpcTarget.All, isLeft, targetWeight);
 
-        RPCSetWeight(isLeft, targetWeight);
+        // RPCSetWeight(isLeft, targetWeight);
     }
     [PunRPC]
     private void RPCSetWeight(bool isLeft, int targetWeight)
     {
+        print("RPC");
         if (isLeft)
         {
             if (leftIKCoroutine != null)
