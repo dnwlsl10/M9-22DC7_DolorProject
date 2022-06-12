@@ -8,8 +8,9 @@ using UnityEngine.XR.Interaction.Toolkit;
 [System.Serializable, CreateAssetMenu(fileName = "NewButtonHandler")]
 public class ButtonHandler : InputHandler
 {
+    // public InputDeviceCharacteristics character
     public InputHelpers.Button button;
-    public delegate void EventContainer(InputDevice device);
+    public delegate void EventContainer();
     public event EventContainer OnButtonUp;
     public event EventContainer OnButtonDown;
     public bool isPress {get; private set;}
@@ -21,7 +22,7 @@ public class ButtonHandler : InputHandler
             if (isPress != tmp)
             {
                 isPress = tmp;
-                (isPress ? OnButtonDown : OnButtonUp)?.Invoke(device);
+                (isPress ? OnButtonDown : OnButtonUp)?.Invoke();
             }
         }
     }

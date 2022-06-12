@@ -23,6 +23,7 @@ public class InputManager : MonoBehaviour
             InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);
             if (devices.Count > 0)
             {
+                print("Right Controller Found!");
                 rightController = devices[0];
                 StartCoroutine(UpdateInputValues(rightController));
                 break;
@@ -39,6 +40,7 @@ public class InputManager : MonoBehaviour
             InputDevices.GetDevicesWithCharacteristics(leftControllerCharacteristics, devices);
             if (devices.Count > 0)
             {
+                print("Left Controller Found!");
                 leftController = devices[0];
                 StartCoroutine(UpdateInputValues(leftController));
                 break;
@@ -50,7 +52,7 @@ public class InputManager : MonoBehaviour
 
     IEnumerator UpdateInputValues(InputDevice controller)
     {
-        if (controller.characteristics == (InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller))
+        if (controller.characteristics.HasFlag(InputDeviceCharacteristics.Right))
             while(true)
             {
                 foreach(var button in rightControllerInputList)
@@ -59,7 +61,7 @@ public class InputManager : MonoBehaviour
                 yield return null;
             }
             
-        else if (controller.characteristics == (InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller))
+        else if (controller.characteristics.HasFlag(InputDeviceCharacteristics.Left))
             while(true)
             {
                 foreach(var button in leftControllerInputList)

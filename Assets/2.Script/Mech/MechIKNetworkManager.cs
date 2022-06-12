@@ -32,23 +32,13 @@ public class MechIKNetworkManager : MonoBehaviour
 
     void SetLocalIKTarget()
     {
-        // HandIK[] hands = GameObject.FindObjectsOfType<HandIK>();
-
-        // foreach (var hand in hands)
-        // {
-        //     if (hand.vrController.controller == UnityEngine.XR.XRNode.RightHand)
-        //         rightArmIK.target = hand.vrController.CreateLocalTarget();
-        //     else if (hand.vrController.controller == UnityEngine.XR.XRNode.LeftHand)
-        //         leftArmIK.target = hand.vrController.CreateLocalTarget();
-        //     else
-        //         Debug.Log("XRNode is not set to Controller");
-        // }
-
         SetIKWeight(true, 0);
         SetIKWeight(false, 0);
     }
     void SetRemoteIKTarget()
     {
+        leftArmIK.target.GetComponent<Rigidbody>().isKinematic = true;
+        rightArmIK.target.GetComponent<Rigidbody>().isKinematic = true;
 
         SetIKWeight(true, 0);
         SetIKWeight(false, 0);
