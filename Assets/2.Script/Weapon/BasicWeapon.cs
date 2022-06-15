@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class BasicWeapon : WeaponBase1
+public class BasicWeapon : WeaponBase
 {
     public event AmmoEvent OnValueChange;
     [Header("ButtonHandler")]
@@ -49,7 +49,7 @@ public class BasicWeapon : WeaponBase1
     private void OnEnable()
     {
 #if test
-        print("BasicWeapon is in TestMode");
+        Debug.LogWarning("BasicWeapon is in TestMode");
         shootButton.action.started += StartWeaponAction;
         shootButton.action.canceled += StopWeaponAction;
 #else

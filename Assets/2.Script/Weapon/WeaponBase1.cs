@@ -15,7 +15,7 @@ public struct WeaponSetting
 }
 public delegate void AmmoEvent(float curAmmo, float maxAmmo);
 
-public class WeaponBase1 : MonoBehaviour
+public class WeaponBase : MonoBehaviour
 {
     [SerializeField]
     protected AudioSource audioSource;

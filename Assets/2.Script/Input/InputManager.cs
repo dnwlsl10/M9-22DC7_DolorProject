@@ -11,63 +11,51 @@ public class InputManager : MonoBehaviour
     InputDevice rightController;
     InputDevice leftController;
 
-    IEnumerator Start() 
+    void Start() 
+    {
+        StartCoroutine(FindController(true));
+        StartCoroutine(FindController(false));
+    }
+
+    IEnumerator FindController(bool isLeft)
     {
         List<InputDevice> devices = new List<InputDevice>();
 
         while(true)
         {
-            InputDeviceCharacteristics rightControllerCharacteristics =
-                InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
+            InputDeviceCharacteristics ControllerCharacteristics =
+                InputDeviceCharacteristics.Controller | (isLeft ? InputDeviceCharacteristics.Left : InputDeviceCharacteristics.Right);
 
-            InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);
+            InputDevices.GetDevicesWithCharacteristics(ControllerCharacteristics, devices);
             if (devices.Count > 0)
             {
-                print("Right Controller Found!");
-                rightController = devices[0];
-                StartCoroutine(UpdateInputValues(rightController));
+                if (isLeft) leftController = devices[0];
+                else rightController = devices[0];
+
+                devices.Clear();
                 break;
             }
             
-            yield return null;
-        }
-
-        while(true)
-        {
-            InputDeviceCharacteristics leftControllerCharacteristics =
-                InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller;
-
-            InputDevices.GetDevicesWithCharacteristics(leftControllerCharacteristics, devices);
-            if (devices.Count > 0)
-            {
-                print("Left Controller Found!");
-                leftController = devices[0];
-                StartCoroutine(UpdateInputValues(leftController));
-                break;
-            }
-
             yield return null;
         }
     }
 
-    IEnumerator UpdateInputValues(InputDevice controller)
+    bool isLeft;
+    private void Update() 
+    {
+        if (rightController != null)
+            UpdateInput(rightController);
+        if (leftController != null)
+            UpdateInput(leftController);
+    }
+
+    void UpdateInput(InputDevice controller)
     {
         if (controller.characteristics.HasFlag(InputDeviceCharacteristics.Right))
-            while(true)
-            {
-                foreach(var button in rightControllerInputList)
-                    button.UpdateValue(ref controller);
-
-                yield return null;
-            }
-            
+            foreach(var button in ( rightControllerInputList))
+                button.UpdateValue(ref controller);
         else if (controller.characteristics.HasFlag(InputDeviceCharacteristics.Left))
-            while(true)
-            {
-                foreach(var button in leftControllerInputList)
-                    button.UpdateValue(ref controller);
-
-                yield return null;
-            }
+            foreach(var button in ( leftControllerInputList))
+                button.UpdateValue(ref controller);
     }
 }

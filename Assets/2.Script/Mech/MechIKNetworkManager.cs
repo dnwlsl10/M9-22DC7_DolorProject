@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using RootMotion.FinalIK;
 using Photon.Pun;
-
 public class MechIKNetworkManager : MonoBehaviour
 {
+    [ContextMenu("Toggle Mesh")]
+    void ToggleMesh()
+    {
+        foreach (var renderer in localDisableMesh)
+            renderer.enabled = !renderer.enabled;
+    }
     public List<Renderer> localDisableMesh;
     IKSolverVR.Arm rightArmIK;
     IKSolverVR.Arm leftArmIK;
