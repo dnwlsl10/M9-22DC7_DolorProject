@@ -74,21 +74,21 @@ public class NetworkTest : MonoBehaviourPunCallbacks
         CreateRoom();
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
+    //public override void OnPlayerEnteredRoom(Player newPlayer)
+    //{
         
-    }
+    //}
 
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
+    //public override void OnPlayerLeftRoom(Player otherPlayer)
+    //{
         
-    }
+    //}
 
-    public override void OnMasterClientSwitched(Player newMasterClient)
-    {
+    //public override void OnMasterClientSwitched(Player newMasterClient)
+    //{
 
-    }
+    //}
 
 #endregion
 }
