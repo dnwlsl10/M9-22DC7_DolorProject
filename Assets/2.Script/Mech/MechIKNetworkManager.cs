@@ -6,6 +6,7 @@ using Photon.Pun;
 
 public class MechIKNetworkManager : MonoBehaviour
 {
+    public List<Renderer> localDisableMesh;
     IKSolverVR.Arm rightArmIK;
     IKSolverVR.Arm leftArmIK;
     PhotonView pv;
@@ -30,8 +31,16 @@ public class MechIKNetworkManager : MonoBehaviour
         }
     }
 
+    private void DisableMesh(List<Renderer> meshList)
+    {
+        foreach (var mesh in meshList)
+            mesh.enabled = false;
+    }
+
     void SetLocalIKTarget()
     {
+        DisableMesh(localDisableMesh);
+
         SetIKWeight(true, 0);
         SetIKWeight(false, 0);
     }
