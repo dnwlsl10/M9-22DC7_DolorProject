@@ -5,13 +5,49 @@ using UnityEngine.UI;
 
 public class Lobby : MonoBehaviour
 {
-    public Button btnStartGame;
-    public System.Action OnCompelet;
+    public SelectionMachine selectionMachine;
+    public Garage garage;
+    public System.Action<int> OnCompelet;
+    public ScenecTigger scenecTigger;
+    [SerializeField]
+    private bool isTest;
     public void Start()
     {
-        this.btnStartGame.onClick.AddListener(() =>
+
+        if (isTest)
         {
-            this.OnCompelet();
-        });
+            Debug.Log("Test ÀÔ´Ï´Ù.");
+            this.Init();
+        }
+    }
+
+    public void Update()
+    {
+        scenecTigger.OnChangeScene = () =>
+        {
+            Debug.Log(selectionMachine.selectID);
+            OnCompelet(selectionMachine.selectID);
+        };
+    }
+
+    public void Init()
+    {
+        DataManager.GetInstance().LoadDatas();
+        var robotDatas = DataManager.GetInstance().dicRobotDatas;
+        foreach (var data in robotDatas)
+        {
+            var robotData = data.Value;
+            selectionMachine.Init(robotData);
+            garage.Init(robotData);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log(selectionMachine.selectID);
+            OnCompelet(selectionMachine.selectID);
+        }
     }
 }

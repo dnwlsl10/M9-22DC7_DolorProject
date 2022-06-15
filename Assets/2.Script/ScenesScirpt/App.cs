@@ -70,9 +70,11 @@ public class App : MonoBehaviour
                     {
                         Debug.Log(obj.isDone);
 
-                        var loby = GameObject.FindObjectOfType<Lobby>();
+                        var lobby = GameObject.FindObjectOfType<Lobby>();
 
-                        loby.OnCompelet = () =>
+                        lobby.Init();
+
+                        lobby.OnCompelet = (id) =>
                         {
                             this.ChangeScene(eSceneType.InGame);
                         };

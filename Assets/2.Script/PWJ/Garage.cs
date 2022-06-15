@@ -19,9 +19,10 @@ public class Garage : MonoBehaviour
     public Transform content;
     private List<Robot> robots = new List<Robot>();
     public SelectionMachine selectionMachine;
-    private float speed = 100f;
+    private float speed = 3f;
     public DoorValue doorValue;
-
+    public Animator leftAni;
+    public Animator rightAni;
     public void Init(RobotData robotData)
     {
         var prefab = Resources.Load<GameObject>("Prefab/" + robotData.prefab_name);
@@ -43,6 +44,8 @@ public class Garage : MonoBehaviour
 
             SelectRobot(id, () =>
             {
+                leftAni.SetTrigger("open");
+                rightAni.SetTrigger("open");
                 StartCoroutine(StartOpenDoors(() => {
                     selectionMachine.OpenDoorCompelet();
                 }));
@@ -54,6 +57,8 @@ public class Garage : MonoBehaviour
     {
         selectionMachine.OnCancle = () =>
         {
+            leftAni.SetTrigger("close");
+            rightAni.SetTrigger("close");
             StartCoroutine(StartCloseDoors(() => {
                 if (setActiveObj != null)
                 {
@@ -66,10 +71,10 @@ public class Garage : MonoBehaviour
     }
     IEnumerator StartOpenDoors(System.Action OnCompelet)
     {
-        while (this.rightDoor.position != doorValue.rightMove.position || this.leftDoor.position != doorValue.leftMove.position)
+        while (Vector3.Distance(this.rightDoor.position, doorValue.rightMove.position) > 0.3f || Vector3.Distance(this.leftDoor.position , doorValue.leftMove.position) > 0.3f)
         {
-            this.rightDoor.position = Vector3.Lerp(this.rightDoor.position, doorValue.rightMove.position, Time.deltaTime * this.speed);
-            this.leftDoor.position = Vector3.Lerp(this.leftDoor.position, doorValue.leftMove.position, Time.deltaTime * this.speed);
+/*            this.rightDoor.position = Vector3.Lerp(this.rightDoor.position, doorValue.rightMove.position, Time.deltaTime * this.speed);
+            this.leftDoor.position = Vector3.Lerp(this.leftDoor.position, doorValue.leftMove.position, Time.deltaTime * this.speed);*/
 
             yield return new WaitForSeconds(0.1f);
         }
@@ -77,10 +82,10 @@ public class Garage : MonoBehaviour
     }
     IEnumerator StartCloseDoors(System.Action OnCompelet)
     {
-        while (this.rightDoor.position != doorValue.rightOrigin.position || this.leftDoor.position != doorValue.leftOrigin.position)
+        while (Vector3.Distance(this.rightDoor.position, doorValue.rightOrigin.position) > 0.3f || Vector3.Distance(this.leftDoor.position , doorValue.leftOrigin.position) > 0.3f)
         {
-            this.rightDoor.position = Vector3.Lerp(this.rightDoor.position, doorValue.rightOrigin.position, Time.deltaTime * this.speed);
-            this.leftDoor.position = Vector3.Lerp(this.leftDoor.position, doorValue.leftOrigin.position, Time.deltaTime * this.speed);
+/*            this.rightDoor.position = Vector3.Lerp(this.rightDoor.position, doorValue.rightOrigin.position, Time.deltaTime * this.speed);
+            this.leftDoor.position = Vector3.Lerp(this.leftDoor.position, doorValue.leftOrigin.position, Time.deltaTime * this.speed);*/
 
             yield return new WaitForSeconds(0.1f);
         }

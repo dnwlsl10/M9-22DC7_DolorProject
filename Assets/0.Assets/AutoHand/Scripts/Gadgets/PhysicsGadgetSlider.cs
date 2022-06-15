@@ -38,6 +38,7 @@ public class PhysicsGadgetSlider : PhysicsGadgetConfigurableLimitReader{
     void Max(){
         mid = false;
         max = true;
+            Debug.Log("Å¬¸¯");
         OnMax?.Invoke();
     }
 
