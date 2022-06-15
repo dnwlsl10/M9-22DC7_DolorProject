@@ -112,10 +112,14 @@ Material:
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!114 &2887643836261393989
 =======
 --- !u!114 &8674293266382406454
 >>>>>>> jadev
+=======
+--- !u!114 &3497971735384590331
+>>>>>>> 5f9e809a10dc6674ef0a30bb83248c733643a6a2
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

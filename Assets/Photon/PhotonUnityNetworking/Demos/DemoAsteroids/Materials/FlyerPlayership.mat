@@ -124,7 +124,11 @@ Material:
     - _EmissionColor: {r: 1.8382353, g: 1.8382353, b: 1.8382353, a: 1}
     - _SpecColor: {r: 0.078431375, g: 0.078431375, b: 0.078431375, a: 1}
   m_BuildTextureStacks: []
+<<<<<<< HEAD
 --- !u!114 &829101655504731433
+=======
+--- !u!114 &8906417117816640568
+>>>>>>> 5f9e809a10dc6674ef0a30bb83248c733643a6a2
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

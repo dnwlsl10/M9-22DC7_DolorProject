@@ -84,6 +84,8 @@ public class ObjectPooler : MonoBehaviour
         instance._SpawnFromPool(name, position, Quaternion.identity);
     public static GameObject SpawnFromPool(string name, Vector3 position, Quaternion rotation) => 
         instance._SpawnFromPool(name, position, rotation);
+    public static GameObject SpawnFromPool(GameObject prefab, Vector3 position, Quaternion rotation) =>
+        instance._SpawnFromPool(prefab, position, rotation);
 
     public static T SpawnFromPool<T>(string name, Vector3 position) where T : Component
     {
@@ -156,6 +158,17 @@ public class ObjectPooler : MonoBehaviour
         return objectToSpawn;
     }
 
+    GameObject _SpawnFromPool(GameObject prefab, Vector3 position, Quaternion rotation)
+    {
+        if (!poolDictionary.ContainsKey(prefab.name))
+        {
+            Debug.LogWarning("Pool with name " + prefab.name + "doesn't exist // Instantiate object");
+            return Instantiate(prefab, position, rotation);
+        }
+
+        return _SpawnFromPool(prefab.name, position, rotation);
+    }
+
     void ArrangePool(GameObject obj)
     {
         bool isFind = false;
@@ -184,7 +197,11 @@ public class ObjectPooler : MonoBehaviour
     public static void ReturnToPool(GameObject obj)
     {
         if (!instance.poolDictionary.ContainsKey(obj.name))
-            throw new Exception($"Pool with name {obj.name} doesn't exist");
+        {
+            Destroy(obj);
+            Debug.LogWarning("Pool with name " + obj.name + "doesn't exist // Destroy object");
+            //throw new Exception($"Pool with name {obj.name} doesn't exist");
+        }
 
         instance.poolDictionary[obj.name].Enqueue(obj);
         if (obj.transform.root != ObjectPooler.instance.transform)
