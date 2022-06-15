@@ -43,14 +43,18 @@ public class InputManager : MonoBehaviour
     bool isLeft;
     private void Update() 
     {
-        if (rightController != null)
-            UpdateInput(rightController);
-        if (leftController != null)
-            UpdateInput(leftController);
+        UpdateInput(rightController);
+        UpdateInput(leftController);
     }
 
     void UpdateInput(InputDevice controller)
     {
+        if (controller.isValid == false)
+        {
+            Debug.LogWarning("Invalid controller");
+            return;
+        }
+
         if (controller.characteristics.HasFlag(InputDeviceCharacteristics.Right))
             foreach(var button in ( rightControllerInputList))
                 button.UpdateValue(ref controller);
