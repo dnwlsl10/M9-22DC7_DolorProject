@@ -6,7 +6,7 @@ using Photon.Pun;
 
 public class BasicWeapon : WeaponBase
 {
-    public event AmmoEvent OnValueChange;
+    public event Cur_MaxEvent OnValueChange;
     [Header("ButtonHandler")]
 #if test
     public UnityEngine.InputSystem.InputActionReference gripButton;
@@ -124,7 +124,6 @@ public class BasicWeapon : WeaponBase
         CurrentAmmo--;
 
         // pv.RPC("RPCAttack", RPCTarget.All, bulletSpawnPoint.position, bulletSpawnPoint.rotation)
-        print(bulletSpawnPoint.position + " // " + bulletSpawnPoint.eulerAngles);
         RPCAttack(bulletSpawnPoint.position, bulletSpawnPoint.rotation);
 
         if (CurrentAmmo <= 0)
@@ -156,6 +155,7 @@ public class BasicWeapon : WeaponBase
     {
         isReloading = true;
 
+        yield return new WaitForSeconds(2f);
         while(false /* until reload procedure finish */)
             yield return null;
 

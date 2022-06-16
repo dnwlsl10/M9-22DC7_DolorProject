@@ -4,22 +4,25 @@ using UnityEngine;
 
 public class Status : MonoBehaviour, IDamageable
 {
+    public event Cur_MaxEvent OnHpValueChange;
     public int maxHP = 100;
     private float hp;
+    bool hpValueFixed;
     public float HP
     {
         get{return hp;}
         private set
         {
-            if (value > maxHP)
-                hp = maxHP;
-            else if (value <= 0)
+            if (hpValueFixed) return;
+
+            float prevHp = hp;
+            hp = (value <= 0 ? 0 : (value > maxHP ? maxHP : value));
+
+            if (prevHp != hp)
             {
-                hp = 0;
-                OnDeath();
+                OnHpValueChange?.Invoke(hp, maxHP);
+                if (hp == 0) OnDeath();
             }
-            else
-                hp = value;
         }
     }
 
@@ -31,6 +34,6 @@ public class Status : MonoBehaviour, IDamageable
 
     private void OnDeath()
     {
-
+        hpValueFixed = true;
     }
 }

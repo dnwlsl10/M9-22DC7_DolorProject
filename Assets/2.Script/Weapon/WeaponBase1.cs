@@ -13,7 +13,7 @@ public struct WeaponSetting
     public float attackRate;
     public float attackDistance;
 }
-public delegate void AmmoEvent(float curAmmo, float maxAmmo);
+public delegate void Cur_MaxEvent(float curValue, float maxValue);
 
 public class WeaponBase : MonoBehaviour
 {

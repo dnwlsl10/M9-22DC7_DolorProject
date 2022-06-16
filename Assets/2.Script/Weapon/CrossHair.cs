@@ -1,4 +1,4 @@
-#define test
+//#define test
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,8 +26,9 @@ public class CrossHair : MonoBehaviour
         lr.material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
         lr.material.color = Color.red;
         Debug.LogWarning("CrossHair is in Test mode");
-        OnUseCrosshair();
 #endif
+
+        OnUseCrosshair();
     }
 
     public void OnUseCrosshair()
