@@ -13,10 +13,9 @@ public class Lobby : MonoBehaviour
     private bool isTest;
     public void Start()
     {
-
         if (isTest)
         {
-            Debug.Log("Test �Դϴ�.");
+            Debug.Log("Test �Դϴ�.");
             this.Init();
         }
     }
@@ -46,8 +45,7 @@ public class Lobby : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log(selectionMachine.selectID);
-            OnCompelet(selectionMachine.selectID);
-        }
+            this.OnCompelet();
+        });
     }
 }
