@@ -4,12 +4,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public enum eSceneType
 {
-    App, Logo, Title , Lobby, InGame
+    App, Logo, Title, Lobby, Connect, InGame
 }
+
+
+
 public class App : MonoBehaviour
 {
     private eSceneType sceneType;
-
+    private UserInfo userInfo;
     private void Awake()
     {
         Screen.SetResolution(1920, 1080, false);
@@ -18,7 +21,6 @@ public class App : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(this.gameObject);
-
         this.ChangeScene(eSceneType.Logo);
     }
 
@@ -76,8 +78,26 @@ public class App : MonoBehaviour
 
                         lobby.OnCompelet = (id) =>
                         {
+                            userInfo = new UserInfo(id);
                             this.ChangeScene(eSceneType.InGame);
                         };
+
+                    };
+                }
+                break;
+            case eSceneType.Connect:
+                {
+                    AsyncOperation ao = SceneManager.LoadSceneAsync("Connect");
+                    ao.completed += (obj) =>
+                    {
+                        Debug.Log(obj.isDone);
+
+                        var connect = GameObject.FindObjectOfType<Connect>();
+
+                        /*     connect.OnCompelet = () =>
+                             {
+                                 this.ChangeScene(eSceneType.InGame);
+                             };*/
 
                     };
                 }
@@ -98,3 +118,4 @@ public class App : MonoBehaviour
 
     }
 }
+
