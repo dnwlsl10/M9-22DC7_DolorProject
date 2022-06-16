@@ -1,8 +1,14 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: c144fff9a4d2eb4449b137bdce7b2377
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
+=======
+guid: ee1734b1a7bac244bb5f15ecd778b5f2
+folderAsset: yes
+DefaultImporter:
+>>>>>>> dev/PWJ
   userData: 
   assetBundleName: 
   assetBundleVariant: 
