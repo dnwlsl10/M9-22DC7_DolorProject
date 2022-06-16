@@ -18,10 +18,6 @@ public class Lobby : MonoBehaviour
             Debug.Log("Test �Դϴ�.");
             this.Init();
         }
-    }
-
-    public void Update()
-    {
         scenecTigger.OnChangeScene = () =>
         {
             Debug.Log(selectionMachine.selectID);
@@ -45,7 +41,7 @@ public class Lobby : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            this.OnCompelet();
-        });
+            this.OnCompelet(selectionMachine.selectID);
+        };
     }
 }
