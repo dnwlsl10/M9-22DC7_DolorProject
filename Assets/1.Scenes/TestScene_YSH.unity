@@ -190,7 +190,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 770568857}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e9c0d132e943ad418c2d5374e6c3d26, type: 3}
   m_Name: 
@@ -307,67 +307,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 42.604, z: 0}
---- !u!1001 &962918337
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4113017129593425552, guid: 2ad42d54484995e469e23424b4f954c1, type: 3}
-      propertyPath: m_Name
-      value: Mech_Test_offline
-      objectReference: {fileID: 0}
-    - target: {fileID: 4113017129593524912, guid: 2ad42d54484995e469e23424b4f954c1, type: 3}
-      propertyPath: m_RootOrder
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 4113017129593524912, guid: 2ad42d54484995e469e23424b4f954c1, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4113017129593524912, guid: 2ad42d54484995e469e23424b4f954c1, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4113017129593524912, guid: 2ad42d54484995e469e23424b4f954c1, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4113017129593524912, guid: 2ad42d54484995e469e23424b4f954c1, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4113017129593524912, guid: 2ad42d54484995e469e23424b4f954c1, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4113017129593524912, guid: 2ad42d54484995e469e23424b4f954c1, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4113017129593524912, guid: 2ad42d54484995e469e23424b4f954c1, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4113017129593524912, guid: 2ad42d54484995e469e23424b4f954c1, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4113017129593524912, guid: 2ad42d54484995e469e23424b4f954c1, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4113017129593524912, guid: 2ad42d54484995e469e23424b4f954c1, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6616993689719250502, guid: 2ad42d54484995e469e23424b4f954c1, type: 3}
-      propertyPath: sceneViewId
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2ad42d54484995e469e23424b4f954c1, type: 3}
 --- !u!1 &1160287289
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,6 +317,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1160287291}
   - component: {fileID: 1160287290}
+  - component: {fileID: 1160287292}
   m_Layer: 0
   m_Name: ObjectPool
   m_TagString: Untagged
@@ -418,6 +358,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1160287292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160287289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1607253572
 GameObject:
   m_ObjectHideFlags: 0

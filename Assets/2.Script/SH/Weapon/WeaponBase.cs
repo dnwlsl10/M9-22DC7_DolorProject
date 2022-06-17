@@ -24,7 +24,7 @@ public class WeaponBase : MonoBehaviour
     protected float lastAttackTime = 0;
     protected bool isReloading;
     protected bool isAttacking;
-    protected PhotonView pv;
+    public PhotonView pv;
 
     public virtual void StartWeaponAction(){}
     public virtual void StopWeaponAction(){}
@@ -48,7 +48,7 @@ public class WeaponBase : MonoBehaviour
 
     protected void Awake()
     {
-        pv = transform.root.GetComponent<PhotonView>();
+        pv = GetComponent<PhotonView>();
         Initialize();
     }
 }

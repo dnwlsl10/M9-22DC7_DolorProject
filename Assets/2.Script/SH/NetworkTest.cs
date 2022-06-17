@@ -54,6 +54,7 @@ public class NetworkTest : MonoBehaviourPunCallbacks
         // PhotonNetwork.Instantiate(testMode ? "Prefab/Mech_Test" : "Prefab/Mech_ForUse", Vector3.zero, Quaternion.identity);
         // PhotonNetwork.Instantiate("Prefab/Mech_Test", Vector3.zero, Quaternion.identity);
         PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
+        ObjectPooler.instance.InitPool();
     
         if (testMode) Invoke("SpawnSimulator", 1);
     }

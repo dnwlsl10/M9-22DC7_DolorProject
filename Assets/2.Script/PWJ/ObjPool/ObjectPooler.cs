@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Photon.Pun;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -27,8 +28,12 @@ public class ObjectPoolerEditor : Editor
 public class ObjectPooler : MonoBehaviour
 {
     public static ObjectPooler instance;
-    void Awake() => instance = this;
-
+    private PhotonView pv;
+    void Awake() 
+    {
+        instance = this;
+        pv = GetComponent<PhotonView>();
+    }
     [Serializable]
     public class Pool
     {
@@ -60,6 +65,11 @@ public class ObjectPooler : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
+        
+    }
+
+    public void InitPool()
+    {
         spawnObjects = new List<GameObject>();
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
 
@@ -128,7 +138,8 @@ public class ObjectPooler : MonoBehaviour
 
     GameObject CreateNewObject(string name, GameObject prefab)
     {
-        var obj = Instantiate(prefab, transform);
+        // var obj = Instantiate(prefab, transform);
+        var obj = PhotonNetwork.Instantiate(name, Vector3.one * 100, Quaternion.identity);
         obj.name = name;
         obj.SetActive(false); // call OnDisable() --> ReturnToPool
 
@@ -151,11 +162,23 @@ public class ObjectPooler : MonoBehaviour
 
         // activate object from pool
         GameObject objectToSpawn = poolQueue.Dequeue();
-        objectToSpawn.transform.position = position;
-        objectToSpawn.transform.rotation = rotation;
-        objectToSpawn.SetActive(true);
+        
+        pv.RPC("SetSpawnedObject", RpcTarget.All, objectToSpawn.GetComponent<PhotonView>().ViewID, position, rotation);
+
+        // objectToSpawn.transform.position = position;
+        // objectToSpawn.transform.rotation = rotation;
+        // objectToSpawn.SetActive(true);
 
         return objectToSpawn;
+    }
+
+    [PunRPC]
+    private void SetSpawnedObject(int viewID, Vector3 position, Quaternion rotation)
+    {
+        GameObject obj = PhotonNetwork.GetPhotonView(viewID).gameObject;
+        obj.transform.position = position;
+        obj.transform.rotation = rotation;
+        obj.SetActive(true);
     }
 
     GameObject _SpawnFromPool(GameObject prefab, Vector3 position, Quaternion rotation)
@@ -201,6 +224,11 @@ public class ObjectPooler : MonoBehaviour
             Destroy(obj);
             Debug.LogWarning("Pool with name " + obj.name + "doesn't exist // Destroy object");
             //throw new Exception($"Pool with name {obj.name} doesn't exist");
+        }
+
+        if (obj.GetComponent<PhotonView>().IsMine == false)
+        {
+            return;
         }
 
         instance.poolDictionary[obj.name].Enqueue(obj);

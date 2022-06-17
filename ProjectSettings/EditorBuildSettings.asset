@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/1.Scenes/TestScene_YSH.unity
+    guid: 3fe31c7e63528f447b53a84e3ff30ca2
+  - enabled: 1
     path: Assets/1.Scenes/App.unity
     guid: d179c31c37e11cb408a297da1cce654f
   - enabled: 1

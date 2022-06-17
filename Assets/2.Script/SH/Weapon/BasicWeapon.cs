@@ -123,9 +123,9 @@ public class BasicWeapon : WeaponBase
         lastAttackTime = Time.time;
         CurrentAmmo--;
 
-        if (PhotonNetwork.IsConnected)
-            pv.RPC("RPCAttack", RpcTarget.All, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-        else
+        // if (PhotonNetwork.IsConnected)
+        //     pv.RPC("RPCAttack", RpcTarget.All, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        // else
             RPCAttack(bulletSpawnPoint.position, bulletSpawnPoint.rotation);
 
         if (CurrentAmmo <= 0)
