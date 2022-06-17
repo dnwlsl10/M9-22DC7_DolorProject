@@ -99,28 +99,34 @@ public class HandIK : MonoBehaviour
         isLeft = vrController.controller == XRNode.LeftHand;
     }
 
-    private void OnEnable() 
+/*    private void OnEnable()
     {
         grip.action.started += OnEventTrigger;
         grip.action.canceled += OnEventTrigger;
     }
-
+*/
     private void FixedUpdate() 
     {
         vrController.MapLocal();
     }
     
-    private void OnEventTrigger(InputAction.CallbackContext ctx)
+/*    private void OnEventTrigger(InputAction.CallbackContext ctx)
     {
+
         ikManager.SetWeightUsingRPC(isLeft, ctx.ReadValueAsButton() ? 1 : 0);
 
         if (characterHandMesh != null)
             characterHandMesh.enabled = !ctx.ReadValueAsButton();
+    }*/
+
+    public void OnGrabController(int weight)
+    {
+        ikManager.SetWeightUsingRPC(isLeft, weight);
     }
     
-    private void OnDisable() 
+/*    private void OnDisable() 
     {
         grip.action.started -= OnEventTrigger;
         grip.action.canceled -= OnEventTrigger;
-    }
+    }*/
 }

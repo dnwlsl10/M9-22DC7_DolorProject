@@ -32,9 +32,9 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - RobotTarget
+  - AutoHand
+  - Body
   - HandPlayer
   - Hand
   - Grabbable
