@@ -22,7 +22,8 @@ public class MechIKNetworkManager : MonoBehaviour
         rightArmIK = vrIK.solver.rightArm;
         leftArmIK = vrIK.solver.leftArm;
 
-        if (pv.IsMine)
+
+        if (pv.IsMine || PhotonNetwork.InLobby)
             SetLocalIKTarget();
         else
         {
@@ -55,9 +56,12 @@ public class MechIKNetworkManager : MonoBehaviour
 
     public void SetWeightUsingRPC(bool isLeft, int targetWeight)
     {
-        pv.RPC("RPCSetWeight", RpcTarget.All, isLeft, targetWeight);
-
-        // RPCSetWeight(isLeft, targetWeight);
+        if (PhotonNetwork.InLobby) SetIKWeight(isLeft, targetWeight);
+        else
+        {
+            RPCSetWeight(isLeft, targetWeight);
+            pv.RPC("RPCSetWeight", RpcTarget.All, isLeft, targetWeight);
+        }
     }
     [PunRPC]
     private void RPCSetWeight(bool isLeft, int targetWeight)

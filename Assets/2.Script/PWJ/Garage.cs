@@ -23,6 +23,7 @@ public class Garage : MonoBehaviour
     public DoorValue doorValue;
     public Animator leftAni;
     public Animator rightAni;
+    private Robot setActiveObj;
     public void Init(RobotData robotData)
     {
         var prefab = Resources.Load<GameObject>("Prefab/" + robotData.prefab_name);
@@ -33,7 +34,7 @@ public class Garage : MonoBehaviour
         robots.Add(robot);
         robot.gameObject.SetActive(false);
     }
-    private void Update()
+    private void Start()
     {
         this.OpenDoors();
         this.CloseDoors();
@@ -73,10 +74,7 @@ public class Garage : MonoBehaviour
     {
         while (Vector3.Distance(this.rightDoor.position, doorValue.rightMove.position) > 0.3f || Vector3.Distance(this.leftDoor.position , doorValue.leftMove.position) > 0.3f)
         {
-/*            this.rightDoor.position = Vector3.Lerp(this.rightDoor.position, doorValue.rightMove.position, Time.deltaTime * this.speed);
-            this.leftDoor.position = Vector3.Lerp(this.leftDoor.position, doorValue.leftMove.position, Time.deltaTime * this.speed);*/
-
-            yield return new WaitForSeconds(0.1f);
+            yield return null;
         }
         OnCompelet();
     }
@@ -84,14 +82,11 @@ public class Garage : MonoBehaviour
     {
         while (Vector3.Distance(this.rightDoor.position, doorValue.rightOrigin.position) > 0.3f || Vector3.Distance(this.leftDoor.position , doorValue.leftOrigin.position) > 0.3f)
         {
-/*            this.rightDoor.position = Vector3.Lerp(this.rightDoor.position, doorValue.rightOrigin.position, Time.deltaTime * this.speed);
-            this.leftDoor.position = Vector3.Lerp(this.leftDoor.position, doorValue.leftOrigin.position, Time.deltaTime * this.speed);*/
-
-            yield return new WaitForSeconds(0.1f);
+            yield return null;
         }
         OnCompelet();
     }
-    private Robot setActiveObj;
+
     void SelectRobot(int selectID, System.Action OnCompelet)
     {
         var selectRobot = robots.Find(x => x.robotId == selectID);
