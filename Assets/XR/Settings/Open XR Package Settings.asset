@@ -1,10 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
-<<<<<<< HEAD
---- !u!114 &-8636356682380425882
-=======
 --- !u!114 &-8815081066362794551
->>>>>>> 5f9e809a10dc6674ef0a30bb83248c733643a6a2
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13,21 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-<<<<<<< HEAD
-  m_Script: {fileID: 11500000, guid: b5a1f07dc5afe854f9f12a4194aca3fb, type: 3}
-  m_Name: Android
-  m_EditorClassIdentifier: 
-  features:
-  - {fileID: 3343040740160993778}
-  - {fileID: -3302235928578885810}
-  - {fileID: 8405031074754820048}
-  - {fileID: -6698312712888290934}
-  - {fileID: 913677340507863961}
-  - {fileID: 5307655789935185743}
-  - {fileID: -4551671495488276204}
-  m_renderMode: 1
-  m_depthSubmissionMode: 0
-=======
   m_Script: {fileID: 11500000, guid: 761fdd4502cb7a84e9ec7a2b24f33f37, type: 3}
   m_Name: MicrosoftMotionControllerProfile WSA
   m_EditorClassIdentifier: 
@@ -39,7 +20,6 @@ MonoBehaviour:
   company: Unity
   priority: 0
   required: 0
->>>>>>> 5f9e809a10dc6674ef0a30bb83248c733643a6a2
 --- !u!114 &-8331396640409094882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,11 +125,7 @@ MonoBehaviour:
   company: Unity
   priority: 0
   required: 0
-<<<<<<< HEAD
---- !u!114 &-6698312712888290934
-=======
 --- !u!114 &-6658180536904741089
->>>>>>> 5f9e809a10dc6674ef0a30bb83248c733643a6a2
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -159,11 +135,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f928d0d73a35f294fbe357ca17aa3547, type: 3}
-<<<<<<< HEAD
-  m_Name: MicrosoftHandInteraction Android
-=======
   m_Name: MicrosoftHandInteraction WSA
->>>>>>> 5f9e809a10dc6674ef0a30bb83248c733643a6a2
   m_EditorClassIdentifier: 
   m_enabled: 0
   nameUi: Microsoft Hand Interaction Profile
