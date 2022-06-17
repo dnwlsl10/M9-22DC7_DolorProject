@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public enum WeaponName {Basic, Shield, Missile, Grenade, Laser}
 [System.Serializable]
@@ -23,6 +24,7 @@ public class WeaponBase : MonoBehaviour
     protected float lastAttackTime = 0;
     protected bool isReloading;
     protected bool isAttacking;
+    protected PhotonView pv;
 
     public virtual void StartWeaponAction(){}
     public virtual void StopWeaponAction(){}
@@ -46,6 +48,7 @@ public class WeaponBase : MonoBehaviour
 
     protected void Awake()
     {
+        pv = transform.root.GetComponent<PhotonView>();
         Initialize();
     }
 }

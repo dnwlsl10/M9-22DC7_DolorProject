@@ -123,8 +123,10 @@ public class BasicWeapon : WeaponBase
         lastAttackTime = Time.time;
         CurrentAmmo--;
 
-        // pv.RPC("RPCAttack", RPCTarget.All, bulletSpawnPoint.position, bulletSpawnPoint.rotation)
-        RPCAttack(bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        if (PhotonNetwork.IsConnected)
+            pv.RPC("RPCAttack", RpcTarget.All, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        else
+            RPCAttack(bulletSpawnPoint.position, bulletSpawnPoint.rotation);
 
         if (CurrentAmmo <= 0)
             StartReload();

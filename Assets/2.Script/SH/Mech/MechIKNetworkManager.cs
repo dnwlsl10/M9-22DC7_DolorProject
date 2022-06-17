@@ -60,10 +60,12 @@ public class MechIKNetworkManager : MonoBehaviour
 
     public void SetWeightUsingRPC(bool isLeft, int targetWeight)
     {
-        pv.RPC("RPCSetWeight", RpcTarget.All, isLeft, targetWeight);
-
-        // RPCSetWeight(isLeft, targetWeight);
+        if (PhotonNetwork.IsConnected)
+            pv.RPC("RPCSetWeight", RpcTarget.All, isLeft, targetWeight);
+        else
+            RPCSetWeight(isLeft, targetWeight);
     }
+    
     [PunRPC]
     private void RPCSetWeight(bool isLeft, int targetWeight)
     {
