@@ -21,7 +21,7 @@ namespace Autohand.Demo{
                 body = GetComponent<Rigidbody>();
         }
 
-        public void Shoot() {
+       /* public void Shoot() {
             //Play the audio sound
             if(shootSound)
                 AudioSource.PlayClipAtPoint(shootSound, transform.position, shootVolume);
@@ -39,6 +39,6 @@ namespace Autohand.Demo{
                 Debug.DrawRay(barrelTip.position, barrelTip.forward*range, Color.red, 1);
 
             body.AddForce(barrelTip.transform.up*recoilPower*5, ForceMode.Impulse);
-        }
+        }*/
     }
 }

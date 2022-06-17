@@ -15,88 +15,86 @@ public class SelectionMachine : MonoBehaviour
 
     private bool isStart;
     private bool isSelect;
-    private bool isCancle;
     private int currentIndex;
     public int selectID { get; private set; }
 
     public System.Action<int> OnSelected;
     public System.Action OnCancle;
 
+    public SelectionGrab rightSelectGrab;
+    public SelectionGrab leftSelectGrab;
+    public ShapeChangeValue shapeChange;
+    public GameObject potal;
+    public SmControllerLights controllerLights;
+
     public void Init(RobotData robotData)
     {
+        this.shapeChange = this.GetComponentInChildren<ShapeChangeValue>();
         var obj = Instantiate<GameObject>(UIRobotPrefab, target);
         var robot = obj.GetComponent<UIRobot>();
         robot.Init(robotData);
         selectRobotList.Add(robot);
+        potal.gameObject.SetActive(false);
+        controllerLights.gameObject.SetActive(false);
     }
     void Start()
     {
+        this.shapeChange = this.GetComponentInChildren<ShapeChangeValue>();
         this.isStart = true;
         btnStart.gameObject.SetActive(true);
         btnRight.gameObject.SetActive(false);
         btnLeft.gameObject.SetActive(false);
         this.OnSetBtn();
+        potal.gameObject.SetActive(false);
+        controllerLights.gameObject.SetActive(false);
     }
+
+
+    private void Update()
+    {
+        rightSelectGrab.onRight = () =>
+        {
+            if (isSelect) BtnRight();
+        };
+
+
+        leftSelectGrab.onLeft = () =>
+        {
+            if (isSelect) BtnLeft();
+        };
+    }
+
     void OnSetBtn()
     {
-        btnStart.onClick.AddListener(() => {
-
-            if (isStart) BtnStart();
-
-            else if (isSelect) BtnSelect();
-
-            else if (isCancle) BtnCancle();
-        });
-        btnRight.onClick.AddListener(() => {
-
-            BtnRight();
-        });
-        btnLeft.onClick.AddListener(() => {
-
-            BtnLeft();
-        });
+        shapeChange.OnSelected = () =>
+        {
+            if (isSelect) OnSelect();
+        };
     }
-    void BtnCancle()
-    {
-        isCancle = false;
-        selectText.text = "Closeing...";
-        btnStart.interactable = false;
-        OnCancle();
-    }
-    void BtnStart()
+
+    void OnStart()
     {
         if (selectRobotList.Count != 0)
         {
+            controllerLights.gameObject.SetActive(true);
             isStart = false;
             isSelect = true;
             this.currentIndex = 0;
             selectRobotList[0].gameObject.SetActive(true);
-            btnRight.gameObject.SetActive(true);
-            selectText.text = "Select";
+            leftSelectGrab.OnStartValue();
+            rightSelectGrab.OnStartValue();
         }
     }
-    public void OpenDoorCompelet()
-    {
-        isCancle = true;
-        btnStart.interactable = true;
-        selectText.text = "Cancle";
-    }
-    public void CloseDoorCompelet()
-    {
-        isStart = true;
-        btnStart.interactable = true;
-        selectText.text = "Start";
-    }
-    void BtnSelect()
+
+    void OnSelect()
     {
         isSelect = false;
         this.selectID = selectRobotList[currentIndex].GetRobotID();
         selectRobotList[currentIndex].gameObject.SetActive(false);
-        selectText.text = "Opening...";
-        btnStart.interactable = false;
-        btnRight.gameObject.SetActive(false);
-        btnLeft.gameObject.SetActive(false);
+        controllerLights.gameObject.SetActive(false);
         OnSelected(selectID);
+        leftSelectGrab.OnDefultValue();
+        rightSelectGrab.OnDefultValue();
     }
     void BtnLeft()
     {
@@ -106,13 +104,17 @@ public class SelectionMachine : MonoBehaviour
 
         if (currentIndex == 0)
         {
-            btnLeft.gameObject.SetActive(false);
-            btnRight.gameObject.SetActive(true);
+            leftSelectGrab.isLeftExistence = false;
+            rightSelectGrab.isRightExistence = true;
+            this.rightSelectGrab.OnChangeGreen();
+            this.leftSelectGrab.OnChangeRed();
         }
         else
         {
-            btnLeft.gameObject.SetActive(true);
-            btnRight.gameObject.SetActive(true);
+            leftSelectGrab.isLeftExistence = true;
+            rightSelectGrab.isRightExistence = true;
+            this.rightSelectGrab.OnChangeGreen();
+            this.leftSelectGrab.OnChangeGreen();
         }
     }
     void BtnRight()
@@ -122,13 +124,39 @@ public class SelectionMachine : MonoBehaviour
 
         if (selectRobotList.Count - 1 == currentIndex)
         {
-            btnRight.gameObject.SetActive(false);
-            btnLeft.gameObject.SetActive(true);
+            rightSelectGrab.isRightExistence = false;
+            leftSelectGrab.isLeftExistence = true;
+            this.rightSelectGrab.OnChangeRed();
+            this.leftSelectGrab.OnChangeGreen();
         }
         else
         {
-            btnRight.gameObject.SetActive(true);
-            btnLeft.gameObject.SetActive(true);
+            rightSelectGrab.isRightExistence = true;
+            leftSelectGrab.isLeftExistence = true;
+            this.rightSelectGrab.OnChangeGreen();
+            this.leftSelectGrab.OnChangeGreen();
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isStart && other.gameObject.CompareTag("Player"))
+        {
+            OnStart();
+            StartCoroutine(this.shapeChange.OnStart());
+
+        }
+    }
+
+    public void OpenDoorCompelet()
+    {
+        this.shapeChange.isOpening = true;
+        potal.gameObject.SetActive(true);
+
+
+    }
+    public void CloseDoorCompelet()
+    {
+
     }
 }
