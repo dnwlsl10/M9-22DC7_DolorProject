@@ -49,23 +49,16 @@ public class SelectionMachine : MonoBehaviour
         controllerLights.gameObject.SetActive(false);
     }
 
-
-    private void Update()
+    void OnSetBtn()
     {
         rightSelectGrab.onRight = () =>
         {
             if (isSelect) BtnRight();
         };
-
-
         leftSelectGrab.onLeft = () =>
         {
             if (isSelect) BtnLeft();
         };
-    }
-
-    void OnSetBtn()
-    {
         shapeChange.OnSelected = () =>
         {
             if (isSelect) OnSelect();
@@ -152,8 +145,6 @@ public class SelectionMachine : MonoBehaviour
     {
         this.shapeChange.isOpening = true;
         potal.gameObject.SetActive(true);
-
-
     }
     public void CloseDoorCompelet()
     {

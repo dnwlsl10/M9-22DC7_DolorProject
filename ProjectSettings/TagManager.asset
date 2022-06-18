@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bullet
   - Left
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -32,9 +33,9 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - RobotTarget
+  - AutoHand
+  - Body
   - HandPlayer
   - Hand
   - Grabbable
