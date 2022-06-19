@@ -12,6 +12,7 @@ public class MechIKNetworkManager : MonoBehaviour
             renderer.enabled = !renderer.enabled;
     }
     public List<Renderer> localDisableMesh;
+    public List<GameObject> LayerToChangeRemote;
     IKSolverVR.Arm rightArmIK;
     IKSolverVR.Arm leftArmIK;
     PhotonView pv;
@@ -27,12 +28,11 @@ public class MechIKNetworkManager : MonoBehaviour
         rightArmIK = vrIK.solver.rightArm;
         leftArmIK = vrIK.solver.leftArm;
 
-
         if (pv.IsMine || PhotonNetwork.InLobby)
-            SetLocalIKTarget();
+            SetLocal();
         else
         {
-            SetRemoteIKTarget();
+            SetRemote();
             GetComponent<Animator>().applyRootMotion = false;
         }
     }
@@ -41,22 +41,28 @@ public class MechIKNetworkManager : MonoBehaviour
     {
         foreach (var mesh in meshList)
             mesh.enabled = false;
+        meshList.Clear();
     }
 
-    void SetLocalIKTarget()
+    void SetLocal()
     {
         DisableMesh(localDisableMesh);
 
         SetIKWeight(true, 0);
         SetIKWeight(false, 0);
     }
-    void SetRemoteIKTarget()
+    void SetRemote()
     {
-        leftArmIK.target.GetComponent<Rigidbody>().isKinematic = true;
-        rightArmIK.target.GetComponent<Rigidbody>().isKinematic = true;
+        ChangeRemoteLayer();
 
         SetIKWeight(true, 0);
         SetIKWeight(false, 0);
+    }
+    void ChangeRemoteLayer()
+    {
+        foreach (var obj in LayerToChangeRemote)
+            obj.layer = LayerMask.NameToLayer("RemotePlayer");
+        LayerToChangeRemote.Clear();
     }
 
     public void SetWeightUsingRPC(bool isLeft, int targetWeight)

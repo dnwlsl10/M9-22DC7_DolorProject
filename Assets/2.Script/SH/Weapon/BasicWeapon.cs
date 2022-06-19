@@ -48,6 +48,8 @@ public class BasicWeapon : WeaponBase
 
     private void OnEnable()
     {
+        if (pv.IsMine == false) return;
+
 #if test
         Debug.LogWarning("BasicWeapon is in TestMode");
         shootButton.action.started += StartWeaponAction;
@@ -59,6 +61,8 @@ public class BasicWeapon : WeaponBase
     }
     private void OnDisable()
     {
+        if (pv.IsMine == false) return;
+        
 #if test
         shootButton.action.started -= StartWeaponAction;
         shootButton.action.canceled -= StopWeaponAction;
@@ -123,9 +127,12 @@ public class BasicWeapon : WeaponBase
         lastAttackTime = Time.time;
         CurrentAmmo--;
 
-        // if (PhotonNetwork.IsConnected)
-        //     pv.RPC("RPCAttack", RpcTarget.All, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-        // else
+        if (PhotonNetwork.IsConnected)
+        {
+            print("RPCATTACK");
+            pv.RPC("RPCAttack", RpcTarget.AllViaServer, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        }
+        else
             RPCAttack(bulletSpawnPoint.position, bulletSpawnPoint.rotation);
 
         if (CurrentAmmo <= 0)
@@ -135,11 +142,8 @@ public class BasicWeapon : WeaponBase
     [PunRPC]
     private void RPCAttack(Vector3 bulletPosition, Quaternion bulletRotation)
     {
-        ObjectPooler.SpawnFromPool(bullet, bulletPosition, bulletRotation);
-        // GameObject go = Instantiate(bullet);
-        // go.transform.position = bulletPosition;
-        // go.transform.rotation = bulletRotation;
-        
+        if (pv.IsMine)
+            NetworkObjectPool.SpawnFromPool(bullet.name, bulletPosition, bulletRotation);
         StartCoroutine(OnMuzzleFlashEffect());
         PlaySound(onFireSFX);
     }

@@ -1,34 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 using System;
+using System.Collections.Generic;
+using Photon.Pun;
+using Photon.Realtime;
 
-#if UNITY_EDITOR
-using UnityEditor;
-
-[CustomEditor(typeof(ObjectPooler))]
-public class ObjectPoolerEditor : Editor
+public class NetworkObjectPool : MonoBehaviour
 {
-    const string INFO = "Pooled object must have\n"
-    + "void OnDisable()\n"
-    + "{\n"
-    + "ObjectPooler.ReturnToPool(gameObject); // must called only \"once\" in one object\n"
-    + "//CancelInvoke(); // if Script use Invoke function\n"
-    + "}";
-
-    public override void OnInspectorGUI()
+    public static NetworkObjectPool instance;
+    void Awake()
     {
-        EditorGUILayout.HelpBox(INFO, MessageType.Info);
-        base.OnInspectorGUI();
+        instance = this;
+        InitPool();
     }
-}
-#endif
-
-public class ObjectPooler : MonoBehaviour
-{
-    public static ObjectPooler instance;
-    void Awake() => instance = this;
-
+    
     [Serializable]
     public class Pool
     {
@@ -57,9 +42,8 @@ public class ObjectPooler : MonoBehaviour
         }
     }
 
-    void Start()
+    public void InitPool()
     {
-        DontDestroyOnLoad(this.gameObject);
         spawnObjects = new List<GameObject>();
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
 
@@ -70,13 +54,26 @@ public class ObjectPooler : MonoBehaviour
             for (int i = 0; i < pool.initSize; i++)
             {
                 var obj = CreateNewObject(pool.name, pool.prefab);
-                ArrangePool(obj);
             }
 
             if (poolDictionary[pool.name].Count <= 0)
                 Debug.LogError($"{pool.name}{INFO}");
             else if (poolDictionary[pool.name].Count != pool.initSize)
                 Debug.LogError($"There is more than two ReturnToPool function in {pool.name}");
+            
+        }
+    }
+
+    private void DestroyPool()
+    {
+        foreach(var pool in pools)
+        {
+            List<GameObject> spawnedObjList = spawnObjects.FindAll(x => x.name == pool.name);
+            foreach(var obj in spawnedObjList)
+            {
+                if (obj != null)
+                    Destroy(obj);
+            }
         }
     }
 
@@ -84,8 +81,6 @@ public class ObjectPooler : MonoBehaviour
         instance._SpawnFromPool(name, position, Quaternion.identity);
     public static GameObject SpawnFromPool(string name, Vector3 position, Quaternion rotation) => 
         instance._SpawnFromPool(name, position, rotation);
-    public static GameObject SpawnFromPool(GameObject prefab, Vector3 position, Quaternion rotation) =>
-        instance._SpawnFromPool(prefab, position, rotation);
 
     public static T SpawnFromPool<T>(string name, Vector3 position) where T : Component
     {
@@ -128,7 +123,8 @@ public class ObjectPooler : MonoBehaviour
 
     GameObject CreateNewObject(string name, GameObject prefab)
     {
-        var obj = Instantiate(prefab, transform);
+        // var obj = Instantiate(prefab, transform);
+        var obj = PhotonNetwork.Instantiate(name, Vector3.zero, Quaternion.identity);
         obj.name = name;
         obj.SetActive(false); // call OnDisable() --> ReturnToPool
 
@@ -151,22 +147,9 @@ public class ObjectPooler : MonoBehaviour
 
         // activate object from pool
         GameObject objectToSpawn = poolQueue.Dequeue();
-        objectToSpawn.transform.position = position;
-        objectToSpawn.transform.rotation = rotation;
-        objectToSpawn.SetActive(true);
+        objectToSpawn.GetComponent<NetworkPooledObject>().Spawn(position, rotation);
 
         return objectToSpawn;
-    }
-
-    GameObject _SpawnFromPool(GameObject prefab, Vector3 position, Quaternion rotation)
-    {
-        if (!poolDictionary.ContainsKey(prefab.name))
-        {
-            Debug.LogWarning("Pool with name " + prefab.name + "doesn't exist // Instantiate object");
-            return Instantiate(prefab, position, rotation);
-        }
-
-        return _SpawnFromPool(prefab.name, position, rotation);
     }
 
     void ArrangePool(GameObject obj)
@@ -198,14 +181,14 @@ public class ObjectPooler : MonoBehaviour
     {
         if (!instance.poolDictionary.ContainsKey(obj.name))
         {
-            Destroy(obj);
-            Debug.LogWarning("Pool with name " + obj.name + "doesn't exist // Destroy object");
-            //throw new Exception($"Pool with name {obj.name} doesn't exist");
+            // Destroy(obj);
+            // Debug.LogWarning("Pool with name " + obj.name + "doesn't exist // Destroy object");
+            throw new Exception($"Pool with name {obj.name} doesn't exist");
         }
 
         instance.poolDictionary[obj.name].Enqueue(obj);
-        if (obj.transform.root != ObjectPooler.instance.transform)
-        ObjectPooler.instance.SetParent(obj);
+        if (obj.transform.root != NetworkObjectPool.instance.transform)
+        NetworkObjectPool.instance.SetParent(obj);
     }
 
     void SetParent(GameObject obj)
@@ -218,6 +201,4 @@ public class ObjectPooler : MonoBehaviour
         obj.transform.parent = transform;
         ArrangePool(obj);
     }
-
-
 }

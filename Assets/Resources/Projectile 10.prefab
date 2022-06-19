@@ -14649,19 +14649,19 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4030331162844266}
+  - component: {fileID: -7208195245351861076}
   - component: {fileID: 198400494117706770}
   - component: {fileID: 114647723536511864}
   - component: {fileID: 199044981520133812}
   - component: {fileID: 108856531485638188}
-  - component: {fileID: 6893528457329362101}
-  - component: {fileID: -7208195245351861076}
+  - component: {fileID: 5462178551022997216}
   m_Layer: 0
   m_Name: Projectile 10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4030331162844266
 Transform:
   m_ObjectHideFlags: 0
@@ -14680,6 +14680,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-7208195245351861076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891902229039176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!198 &198400494117706770
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -18495,7 +18517,7 @@ ParticleSystem:
     radiusScale: 0.38
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4026534007
+      m_Bits: 2112
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -19468,6 +19490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a959a1b0b8414d4fb8a68bdc12d69ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 1
   EffectsOnCollision:
   - {fileID: 1795992203533318, guid: 890aba7398207db48978724168fac5a7, type: 3}
   DestroyTimeDelay: 2
@@ -19605,7 +19628,7 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &6893528457329362101
+--- !u!114 &5462178551022997216
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19614,31 +19637,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1891902229039176}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ccd60d7912432f4392e15d6b37aebd1, type: 3}
+  m_Script: {fileID: 11500000, guid: 969bd39c1b3d3964da6fe766e189a9f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-7208195245351861076
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1891902229039176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &1911558483409532
 GameObject:
   m_ObjectHideFlags: 0
