@@ -31,6 +31,11 @@ public class UIManager : MonoBehaviour
         HP.value -= damageAmount / 100f;
         //HP_text.text = "" + ;
     }
+    void HPUpdate(float cur_val, float max_val)
+    {
+        float per = cur_val / max_val;
+    }
+
 
     //public void UpdateSheidGauge(int shield_guage)
     //{
@@ -44,4 +49,9 @@ public class UIManager : MonoBehaviour
     //{
 
     //}
+    private void OnEnable()
+    {
+        BasicWeapon bw = null;
+        bw.OnValueChange += HPUpdate;
+    }
 }
