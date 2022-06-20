@@ -32,6 +32,15 @@ namespace RootMotion.FinalIK {
 
 			solver.locomotion.mode = IKSolverVR.Locomotion.Mode.Animated;
 			solver.locomotion.weight = 0;
+
+			var pun = transform.root.GetComponent<RootMotion.Demos.VRIK_PUN_Player>();
+			if (pun == null)
+				pun = gameObject.AddComponent<RootMotion.Demos.VRIK_PUN_Player>();
+			
+			pun.vrRig = transform.root.Find("Cockpit").gameObject;
+			pun.ik = this;
+			pun.leftHandAnchor = solver.leftArm.target;
+			pun.rightHandAnchor = solver.rightArm.target;
 		}
 
 		/// <summary>
