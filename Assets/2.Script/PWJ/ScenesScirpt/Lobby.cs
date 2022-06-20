@@ -44,4 +44,12 @@ public class Lobby : MonoBehaviour
             this.OnCompelet(selectionMachine.selectID);
         };
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            this.OnCompelet(0);
+        }
+    }
 }
