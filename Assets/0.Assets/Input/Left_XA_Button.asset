@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc3b7f412bf7fa946a2c38660e741991, type: 3}
-  m_Name: RightTriggerButton
+  m_Name: Left_XA_Button
   m_EditorClassIdentifier: 
-  LeftRight: 512
-  button: 4
+  LeftRight: 256
+  button: 6

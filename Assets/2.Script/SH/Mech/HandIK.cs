@@ -1,4 +1,4 @@
-#define SimulateMode
+//#define SimulateMode
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -99,6 +99,17 @@ public class HandIK : MonoBehaviour
         ikManager = GetComponentInParent<MechIKNetworkManager>();
         isLeft = vrController.controller == XRNode.LeftHand;
     }
+
+    private void FixedUpdate() 
+    {
+        vrController.MapLocal();
+    }
+    
+    public void OnGrabController(int weight)
+    {
+        ikManager.SetWeightUsingRPC(isLeft, weight);
+    }
+    
 #if SimulateMode
     private void OnEnable()
     {
@@ -120,16 +131,4 @@ public class HandIK : MonoBehaviour
         grip.action.canceled -= OnEventTrigger;
     }
 #endif
-
-    private void FixedUpdate() 
-    {
-        vrController.MapLocal();
-    }
-    
-
-    public void OnGrabController(int weight)
-    {
-        ikManager.SetWeightUsingRPC(isLeft, weight);
-    }
-    
 }
