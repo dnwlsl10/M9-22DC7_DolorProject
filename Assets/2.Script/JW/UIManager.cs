@@ -28,8 +28,8 @@ public class UIManager : MonoBehaviour
 
     public void UpdateHPGauge(float damageAmount)
     {
-        HP.value -= damageAmount / 100;
-        //HP_text.text = ;
+        HP.value -= damageAmount / 100f;
+        //HP_text.text = "" + ;
     }
 
     //public void UpdateSheidGauge(int shield_guage)
