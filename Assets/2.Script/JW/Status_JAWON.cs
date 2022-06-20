@@ -42,4 +42,9 @@ public class Status_JAWON : MonoBehaviour, IDamageable
     {
 
     }
+
+    public void TakeDamage(float damage, GameObject hitObject = null)
+    {
+        throw new System.NotImplementedException();
+    }
 }
