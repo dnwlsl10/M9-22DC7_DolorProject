@@ -28,12 +28,15 @@ public class MechMovementController : MonoBehaviour
     private Transform tr;
     private Quaternion targetRot;
     private Animator anim;
+    private Rigidbody rb;
+    Vector3 moveDir = Vector3.zero;
     private float deltaTime;
 
     void Awake()
     {
         tr = GetComponent<Transform>();
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
     }
 
     void Start()
@@ -41,6 +44,9 @@ public class MechMovementController : MonoBehaviour
         // StartCoroutine(IEStartRotate());
         StartCoroutine(IERotateVer2());
     }
+
+    private void FixedUpdate() => rb.AddForce(moveDir, ForceMode.VelocityChange);
+
 
     // Update is called once per frame
     void Update()
@@ -52,44 +58,26 @@ public class MechMovementController : MonoBehaviour
 
     private void UpdateMove()
     {
-        bool walk = true;
-
-        Vector2 inputDir = rightHandJoystick.action.ReadValue<Vector2>();
-        if (inputDir == Vector2.zero)
-            inputDir = leftHandJoystick.action.ReadValue<Vector2>();
+        moveDir = Vector3.zero;
+        Vector2 inputDir = leftHandJoystick.action.ReadValue<Vector2>();
 
         anim.SetFloat("moveX", inputDir.x);
         anim.SetFloat("moveY", inputDir.y);
 
-        if (inputDir.y > 0.5f)
+        float absX = Mathf.Abs(inputDir.x);
+        float absY = Mathf.Abs(inputDir.y);
+
+        if (absX > 0.5f || absY > 0.5f)
         {
-            tr.position += tr.forward * moveSpeed * deltaTime;
-            anim.SetBool("Walk", true);
-        }
-        else if (inputDir.y < -0.5f)
-        {
-            tr.position -= tr.forward * moveSpeed * deltaTime;
+            if (absX > absY)
+                moveDir = tr.right * (inputDir.x > 0 ? 1 : -1);
+            else
+                moveDir = tr.forward * (inputDir.y > 0 ? 1 : -1);
+
             anim.SetBool("Walk", true);
         }
         else
-        {
-            walk = false;
-        }
-        
-        if (inputDir.x > 0.5f)
-        {
-            tr.position += tr.right * moveSpeed * deltaTime;
-            anim.SetBool("Walk", true);
-        }
-        else if (inputDir.x < -0.5f)
-        {
-            tr.position -= tr.right * moveSpeed * deltaTime;
-            anim.SetBool("Walk", true);
-        }
-        else if (walk == false)
-        {
             anim.SetBool("Walk", false);
-        }
     }
 
     IEnumerator IEStartRotate()
@@ -160,6 +148,7 @@ public class MechMovementController : MonoBehaviour
             if (absAngle > rotateStartThreshold)
             {
                 anim.SetBool("Rotating", true);
+                anim.SetBool("RotateMirror", angle > 0 ? false : true);
                 rotSpeed = 0;
                 t = 0;
                 while (absAngle > rotateFinishThreshold)
@@ -186,22 +175,25 @@ public class MechMovementController : MonoBehaviour
                     else
                     {
                         anim.SetFloat("TurnSpeed", rotSpeed/45);
-                        anim.SetBool("RotateMirror", angle > 0 ? false : true);
                     }
                     yield return null;
                 }
 
-                anim.SetBool("Rotating", false);
-
-                if (anim.GetBool("Walk"))
+                for (float f = 0; f < 1; f += deltaTime)
                 {
-                    for (float f = 0; f < 1; f += deltaTime)
+                    rotSpeed = Mathf.Lerp(rotSpeed, 0, f);
+                    if (anim.GetBool("Walk"))
                     {
-                        rotSpeed = Mathf.Lerp(rotSpeed, 0, f);
                         targetRot = Quaternion.Euler(tr.eulerAngles - tr.up * (angle > 0 ? 1 : -1) * rotSpeed);
                         tr.rotation = Quaternion.RotateTowards(tr.rotation, targetRot, deltaTime * rotSpeed);
                     }
+                    else
+                    {
+                        anim.SetFloat("TurnSpeed", rotSpeed/45);
+                    }
+                    yield return null;
                 }
+                anim.SetBool("Rotating", false);
             }
 
             yield return null;
@@ -210,6 +202,4 @@ public class MechMovementController : MonoBehaviour
 
     public void SetMoveSpeed(float _value) => moveSpeed = _value;
     public void SetRotSpeed(float _value) => maxRotationSpeed = _value;
-    
-
 }

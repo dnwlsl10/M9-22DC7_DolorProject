@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class BasicWeapon : WeaponBase1
+public class BasicWeapon : WeaponBase
 {
-    public event AmmoEvent OnValueChange;
+    public event Cur_MaxEvent OnValueChange;
     [Header("ButtonHandler")]
 #if test
     public UnityEngine.InputSystem.InputActionReference gripButton;
@@ -48,8 +48,10 @@ public class BasicWeapon : WeaponBase1
 
     private void OnEnable()
     {
+        if (pv.IsMine == false) return;
+
 #if test
-        print("BasicWeapon is in TestMode");
+        Debug.LogWarning("BasicWeapon is in TestMode");
         shootButton.action.started += StartWeaponAction;
         shootButton.action.canceled += StopWeaponAction;
 #else
@@ -59,6 +61,8 @@ public class BasicWeapon : WeaponBase1
     }
     private void OnDisable()
     {
+        if (pv.IsMine == false) return;
+        
 #if test
         shootButton.action.started -= StartWeaponAction;
         shootButton.action.canceled -= StopWeaponAction;
@@ -123,9 +127,13 @@ public class BasicWeapon : WeaponBase1
         lastAttackTime = Time.time;
         CurrentAmmo--;
 
-        // pv.RPC("RPCAttack", RPCTarget.All, bulletSpawnPoint.position, bulletSpawnPoint.rotation)
-        print(bulletSpawnPoint.position + " // " + bulletSpawnPoint.eulerAngles);
-        RPCAttack(bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        if (PhotonNetwork.IsConnected)
+        {
+            print("RPCATTACK");
+            pv.RPC("RPCAttack", RpcTarget.AllViaServer, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        }
+        else
+            RPCAttack(bulletSpawnPoint.position, bulletSpawnPoint.rotation);
 
         if (CurrentAmmo <= 0)
             StartReload();
@@ -134,11 +142,8 @@ public class BasicWeapon : WeaponBase1
     [PunRPC]
     private void RPCAttack(Vector3 bulletPosition, Quaternion bulletRotation)
     {
-        ObjectPooler.SpawnFromPool(bullet, bulletPosition, bulletRotation);
-        // GameObject go = Instantiate(bullet);
-        // go.transform.position = bulletPosition;
-        // go.transform.rotation = bulletRotation;
-        
+        if (pv.IsMine)
+            NetworkObjectPool.SpawnFromPool(bullet.name, bulletPosition, bulletRotation);
         StartCoroutine(OnMuzzleFlashEffect());
         PlaySound(onFireSFX);
     }
@@ -156,6 +161,7 @@ public class BasicWeapon : WeaponBase1
     {
         isReloading = true;
 
+        yield return new WaitForSeconds(2f);
         while(false /* until reload procedure finish */)
             yield return null;
 

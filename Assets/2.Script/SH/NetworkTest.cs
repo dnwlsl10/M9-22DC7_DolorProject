@@ -48,20 +48,20 @@ public class NetworkTest : MonoBehaviourPunCallbacks
 
     public void LeaveRoom() => PhotonNetwork.LeaveRoom();
 
+    public GameObject objPool;
     public override void OnJoinedRoom()
     {
         print("Joined Room" + PhotonNetwork.CurrentRoom.PlayerCount);
         // PhotonNetwork.Instantiate(testMode ? "Prefab/Mech_Test" : "Prefab/Mech_ForUse", Vector3.zero, Quaternion.identity);
         // PhotonNetwork.Instantiate("Prefab/Mech_Test", Vector3.zero, Quaternion.identity);
         PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
-    
+        // Instantiate(objPool);
         if (testMode) Invoke("SpawnSimulator", 1);
     }
     private void SpawnSimulator()
     {
         Instantiate(simulator);
     }
-
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {

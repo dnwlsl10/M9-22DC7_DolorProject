@@ -8,6 +8,7 @@ public class InputMethodControl : MonoBehaviour
     public GameObject deviceBaseXR;
     public bool useDeviceBaseInput;
 
+
     private void Awake() {
         (useDeviceBaseInput ? deviceBaseXR : actionBaseXR).SetActive(true);
     }
