@@ -64,7 +64,7 @@ public class NetworkObjectPool : MonoBehaviour
         }
     }
 
-    private void DestroyPool()
+    public void DestroyPool()
     {
         foreach(var pool in pools)
         {
@@ -75,6 +75,8 @@ public class NetworkObjectPool : MonoBehaviour
                     Destroy(obj);
             }
         }
+
+        Destroy(gameObject);
     }
 
     public static GameObject SpawnFromPool(string name, Vector3 position) => 

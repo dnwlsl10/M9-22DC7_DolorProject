@@ -59,29 +59,25 @@ public class MechMovementController : MonoBehaviour
     private void UpdateMove()
     {
         moveDir = Vector3.zero;
-        bool walk = true;
-
-        Vector2 inputDir = rightHandJoystick.action.ReadValue<Vector2>();
-        if (inputDir == Vector2.zero)
-            inputDir = leftHandJoystick.action.ReadValue<Vector2>();
+        Vector2 inputDir = leftHandJoystick.action.ReadValue<Vector2>();
 
         anim.SetFloat("moveX", inputDir.x);
         anim.SetFloat("moveY", inputDir.y);
 
-        if (Mathf.Abs(inputDir.y) > 0.5f)
-        {
-            moveDir += tr.forward * (inputDir.y > 0 ? 1 : -1);
-            walk = true;
-        }
-        else walk = false;
+        float absX = Mathf.Abs(inputDir.x);
+        float absY = Mathf.Abs(inputDir.y);
 
-        if (Mathf.Abs(inputDir.x) > 0.5f)
+        if (absX > 0.5f || absY > 0.5f)
         {
-            moveDir += tr.right * (inputDir.x > 0 ? 1 : -1);
-            walk = true;
-        }
+            if (absX > absY)
+                moveDir = tr.right * (inputDir.x > 0 ? 1 : -1);
+            else
+                moveDir = tr.forward * (inputDir.y > 0 ? 1 : -1);
 
-        anim.SetBool("Walk", walk);
+            anim.SetBool("Walk", true);
+        }
+        else
+            anim.SetBool("Walk", false);
     }
 
     IEnumerator IEStartRotate()
@@ -152,6 +148,7 @@ public class MechMovementController : MonoBehaviour
             if (absAngle > rotateStartThreshold)
             {
                 anim.SetBool("Rotating", true);
+                anim.SetBool("RotateMirror", angle > 0 ? false : true);
                 rotSpeed = 0;
                 t = 0;
                 while (absAngle > rotateFinishThreshold)
@@ -178,22 +175,25 @@ public class MechMovementController : MonoBehaviour
                     else
                     {
                         anim.SetFloat("TurnSpeed", rotSpeed/45);
-                        anim.SetBool("RotateMirror", angle > 0 ? false : true);
                     }
                     yield return null;
                 }
 
-                anim.SetBool("Rotating", false);
-
-                if (anim.GetBool("Walk"))
+                for (float f = 0; f < 1; f += deltaTime)
                 {
-                    for (float f = 0; f < 1; f += deltaTime)
+                    rotSpeed = Mathf.Lerp(rotSpeed, 0, f);
+                    if (anim.GetBool("Walk"))
                     {
-                        rotSpeed = Mathf.Lerp(rotSpeed, 0, f);
                         targetRot = Quaternion.Euler(tr.eulerAngles - tr.up * (angle > 0 ? 1 : -1) * rotSpeed);
                         tr.rotation = Quaternion.RotateTowards(tr.rotation, targetRot, deltaTime * rotSpeed);
                     }
+                    else
+                    {
+                        anim.SetFloat("TurnSpeed", rotSpeed/45);
+                    }
+                    yield return null;
                 }
+                anim.SetBool("Rotating", false);
             }
 
             yield return null;

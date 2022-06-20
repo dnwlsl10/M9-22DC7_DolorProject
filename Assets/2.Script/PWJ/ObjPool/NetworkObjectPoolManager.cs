@@ -17,7 +17,7 @@ public class NetworkObjectPoolManager : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
-        Destroy(spawnedPool);
+        spawnedPool.GetComponent<NetworkObjectPool>().DestroyPool();
         GC.Collect();
     }
 
