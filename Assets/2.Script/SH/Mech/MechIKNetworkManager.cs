@@ -5,6 +5,26 @@ using RootMotion.FinalIK;
 using Photon.Pun;
 public class MechIKNetworkManager : MonoBehaviour
 {
+    [ContextMenu("Find All")]
+    void FindAll()
+    {
+        Transform meshRoot = transform.root.Find("root").Find("mesh");
+        localDisableMesh = new List<Renderer>();
+        for (int i = 0; i < meshRoot.childCount; i++)
+        {
+            Transform child = meshRoot.GetChild(i);
+            if (child.name.Equals("Arm")) continue;
+
+            Renderer[] tmp = child.GetComponentsInChildren<Renderer>();
+            localDisableMesh.AddRange(tmp);
+        }
+
+        LayerToChangeRemote = new List<GameObject>();
+        Collider[] cols = transform.root.GetComponentsInChildren<Collider>();
+        foreach (Collider col in cols)
+            LayerToChangeRemote.Add(col.gameObject);
+    }
+
     [ContextMenu("Toggle Mesh")]
     void ToggleMesh()
     {

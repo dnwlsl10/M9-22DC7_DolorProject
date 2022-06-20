@@ -2691,7 +2691,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1533607922238924956}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &4895371325753056663
 Rigidbody:
@@ -5188,7 +5188,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1533607922238924956}
-  m_RootOrder: 5
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &3954208857410232706
 Rigidbody:
@@ -6082,7 +6082,7 @@ Transform:
   - {fileID: 5471758858804806675}
   - {fileID: 6720114762473185068}
   m_Father: {fileID: 1533607922238924956}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &3077762723921563568
 GameObject:
@@ -8011,7 +8011,7 @@ Transform:
   - {fileID: 5785624168285862540}
   - {fileID: 8567614637686998544}
   m_Father: {fileID: 1533607922238924956}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4242974358060134114
 GameObject:
@@ -14901,7 +14901,7 @@ Transform:
   m_LocalScale: {x: 0.039559994, y: 0.03956, z: 0.03956}
   m_Children: []
   m_Father: {fileID: 1533607922238924956}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1144351989393966566
 MeshFilter:
@@ -15299,6 +15299,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1533607922238924956}
   - component: {fileID: 3056520563576905462}
+  - component: {fileID: 1703890651099955680}
   - component: {fileID: 7477543347276275580}
   - component: {fileID: 1897443615704153638}
   - component: {fileID: 417287529490690920}
@@ -15308,7 +15309,6 @@ GameObject:
   - component: {fileID: 2309365657528358707}
   - component: {fileID: 8960478079624722758}
   - component: {fileID: 7266096672617094101}
-  - component: {fileID: 1703890651099955680}
   - component: {fileID: 5601285028819206593}
   m_Layer: 6
   m_Name: Mech_Test_new 1 1
@@ -15328,12 +15328,12 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 8868874848426882608}
+  - {fileID: 2444194056250617405}
   - {fileID: 5189390297192858861}
   - {fileID: 2236594501869413432}
   - {fileID: 3040414136480623094}
   - {fileID: 1587512747865813065}
-  - {fileID: 8868874848426882608}
-  - {fileID: 2444194056250617405}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15361,6 +15361,47 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &1703890651099955680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6993773616165985969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 2
+    Name: Walk
+  - Type: 1
+    SynchronizeType: 2
+    Name: moveX
+  - Type: 1
+    SynchronizeType: 2
+    Name: moveY
+  - Type: 4
+    SynchronizeType: 1
+    Name: Rotating
+  - Type: 1
+    SynchronizeType: 1
+    Name: TurnSpeed
+  - Type: 4
+    SynchronizeType: 2
+    Name: RotateMirror
+  - Type: 9
+    SynchronizeType: 2
+    Name: Land
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
+  - SynchronizeType: 1
+    LayerIndex: 1
 --- !u!95 &7477543347276275580
 Animator:
   serializedVersion: 3
@@ -15664,47 +15705,6 @@ MonoBehaviour:
   proxyInterpolationSpeed: 20
   proxyMaxErrorSqrMag: 4
   remoteMaterialOverride: {fileID: 0}
---- !u!114 &1703890651099955680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6993773616165985969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 4
-    SynchronizeType: 2
-    Name: Walk
-  - Type: 1
-    SynchronizeType: 2
-    Name: moveX
-  - Type: 1
-    SynchronizeType: 2
-    Name: moveY
-  - Type: 4
-    SynchronizeType: 1
-    Name: Rotating
-  - Type: 1
-    SynchronizeType: 1
-    Name: TurnSpeed
-  - Type: 4
-    SynchronizeType: 2
-    Name: RotateMirror
-  - Type: 9
-    SynchronizeType: 2
-    Name: Land
-  m_SynchronizeLayers:
-  - SynchronizeType: 0
-    LayerIndex: 0
-  - SynchronizeType: 1
-    LayerIndex: 1
 --- !u!114 &5601285028819206593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20219,7 +20219,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1533607922238924956}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &2622497557906132687
 SkinnedMeshRenderer:

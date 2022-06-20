@@ -11,6 +11,51 @@ public class HandIK : MonoBehaviour
     [ContextMenu("Switch Movement Method")]
     void ChangeMethod() => vrController.UseTransformToMove = !vrController.UseTransformToMove;
 
+    [ContextMenu("Find Ref")]
+    public void AutoDetectReferences()
+    {
+        vrController = new VRMap();
+        vrController.vrOrigin = transform.root.GetComponentInChildren<Unity.XR.CoreUtils.XROrigin>().GetComponentInChildren<Camera>().transform;
+        vrController.rigOrigin = transform.root.Find("root").Find("pelvis").Find("spine.001").Find("spine.002").Find("neck").Find("head");
+        
+        if (gameObject.name.Contains("Left") || gameObject.name.Contains("left"))
+        {
+            Transform xrOrigin = vrController.vrOrigin.parent;
+            for (int i = 0; i < xrOrigin.childCount; i++)
+            {
+                if (xrOrigin.GetChild(i).name.Contains("Left") || gameObject.name.Contains("left"))
+                {
+                    vrController.vrTarget = xrOrigin.GetChild(i);
+                    break;
+                }
+            }
+            vrController.rigTarget = transform.root.Find("LeftHandTarget");
+            if (vrController.rigTarget == null)
+                vrController.rigTarget = transform.root.Find("IKTarget").Find("LeftHandTarget");
+            vrController.controller = XRNode.LeftHand;
+        }
+        else if (gameObject.name.Contains("Right") || gameObject.name.Contains("right"))
+        {
+            Transform xrOrigin = vrController.vrOrigin.parent;
+            for (int i = 0; i < xrOrigin.childCount; i++)
+            {
+                if (xrOrigin.GetChild(i).name.Contains("Right") || gameObject.name.Contains("right"))
+                {
+                    vrController.vrTarget = xrOrigin.GetChild(i);
+                    break;
+                }
+            }
+
+            vrController.rigTarget = transform.root.Find("RightHandTarget");
+            if (vrController.rigTarget == null)
+                vrController.rigTarget = transform.root.Find("IKTarget").Find("RightHandTarget");
+            vrController.controller = XRNode.RightHand;
+            vrController.scale = 4;
+        }
+
+        vrController.rb = vrController.rigTarget.GetComponent<Rigidbody>();
+    }
+
 
     [System.Serializable]
     public class VRMap
