@@ -4,37 +4,40 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using  UnityEngine.SceneManagement;
+
 public class Connect : MonoBehaviourPunCallbacks
 {
     public System.Action OnCompelet;
     private UserInfo userInfo;
+    private RobotData robotData;
     public GameObject playerPrefab;
     public Transform target;
     private readonly string gameVersion = "v1.0";
     public bool isTest;
+    public UIGame uIGame;
 
-    /*    public InputField userIdTxt;
-        public InputField roomNameTxt;
-
-        private Dictionary<string, GameObject> roomDic = new Dictionary<string, GameObject>();
-
-        public GameObject roomPrefab;
-
-        //πÊµÈ ∫Œ∏ 
-        public Transform scrollContent;
-    */
-
-    public void Start()
-    {
+    public void Start(){
+        
         if (isTest)
         {
             Init();
         }
     }
+    
+    private void Update() {
+        GameStart();
+    }
 
-    public void Init(UserInfo userInfoData = null)
-    {
+    public void Init(UserInfo userInfoData = null){
+
         this.userInfo = userInfoData;
+        
+        if(!isTest){
+            DataManager.GetInstance().LoadDatas();
+            this.robotData = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
+        }
+
         PhotonNetwork.LogLevel = PunLogLevel.Full;
         PhotonNetwork.SendRate = 30;
         PhotonNetwork.SerializationRate = 20;
@@ -43,85 +46,78 @@ public class Connect : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    public override void OnConnectedToMaster()
-    {
-        Debug.Log("1. ∆˜≈Ê º≠πˆø° ¡¢º”");
+    public override void OnConnectedToMaster(){
+
+        Debug.Log("1.Ïó∞Í≤∞");
         PhotonNetwork.JoinLobby(TypedLobby.Default);
     }
 
-    public override void OnJoinedLobby()
-    {
-        Debug.Log("2. ∑Œ∫Òø° ¡¢º”");
-        Instantiate(playerPrefab, target.transform.position , Quaternion.identity);
-    }
+    public override void OnJoinedLobby(){
 
-
-
-
-
-  /*  public override void OnJoinRandomFailed(short returnCode, string message)
-    {
-        Debug.Log("∑£¥˝ ∑Î ¡¢º” Ω«∆–");
-
-        RoomOptions roomOpt = new RoomOptions();
-        roomOpt.MaxPlayers = 4;
-        roomOpt.IsVisible = true;
-        roomOpt.IsOpen = true;
-
-        roomNameTxt.text = "Room_" + Random.Range(1, 100);
-        PhotonNetwork.JoinOrCreateRoom(roomNameTxt.text, roomOpt, null);
-    }
-
-    public override void OnCreatedRoom()
-    {
-        Debug.Log("3. πÊ ª˝º∫ øœ∑·");
-    }
-
-    public override void OnJoinedRoom()
-    {
-        Debug.Log("4. πÊ ¿‘¿Â øœ∑·");
-        if (PhotonNetwork.IsMasterClient)
+        Debug.Log("2.Î°úÎπÑ");
+        if (isTest)
         {
-            PhotonNetwork.LoadLevel("InGame");
+           var obj = Instantiate(playerPrefab, target.transform.position, Quaternion.identity);
         }
+        else
+        {
+            var prefab = Resources.Load<GameObject>("Prefab/" + robotData.connect_name);
+            var obj = Instantiate<GameObject>(prefab, target.transform.position, Quaternion.identity);
+        }
+
+        uIGame.Init(this);
     }
 
-    //πÊ∏ÆΩ∫∆Æ 
-
-
-
-
-    //Random πˆ∆∞ ≈¨∏ØΩ√
-    public void OnRandom()
-    {
-        if (!string.IsNullOrEmpty(userIdTxt.text))
-        {
-            PhotonNetwork.NickName = userIdTxt.text;
+    public void OnQuickStart(){
+        if(!PhotonNetwork.InRoom){
             PhotonNetwork.JoinRandomRoom();
         }
     }
 
-    //Room πˆ∆∞ ≈¨∏ØΩ√ (∑Îª˝º∫)
+    public override void OnCreatedRoom(){
+        Debug.Log("3.Î∞©ÏÉùÏÑ±");
+    }
 
-    public void OnMakeRoom()
-    {
-        RoomOptions ro = new RoomOptions();
-        ro.IsOpen = true;
-        ro.IsVisible = true;
-        ro.MaxPlayers = 2;
+    public override void OnJoinedRoom(){
+        Debug.Log("4.Î∞© Ï†ëÏÜç");
 
-        if (!string.IsNullOrEmpty(roomNameTxt.text))
+        if(!PhotonNetwork.IsMasterClient)
+            GameStart();
+    }
+
+    public void GameStart(){
+
+        if (isTest && PhotonNetwork.InRoom)
         {
-            PhotonNetwork.JoinOrCreateRoom(roomNameTxt.text, ro, null);
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+            {
+                SceneManager.LoadScene("InGame");
+            }
+        }
+        if(!isTest && PhotonNetwork.InRoom ) 
+        {
+            if(PhotonNetwork.CurrentRoom.PlayerCount == 2){
+                OnChangeScene();
+            }
         }
     }
 
-*/
+    string roomName;
 
-   
-    private void OnChangeScene()
-    {
+    public override void OnJoinRandomFailed(short returnCode, string message){
+        
+        Debug.Log("Î∞© ÏóÜÏùå");
+
+        RoomOptions roomOpt = new RoomOptions();
+        roomOpt.MaxPlayers = 2;
+        roomOpt.IsVisible = true;
+        roomOpt.IsOpen = true;
+
+        this.roomName = "Room_" + Random.Range(1, 100);
+        PhotonNetwork.JoinOrCreateRoom(this.roomName, roomOpt  ,null);
+    }
+
+    private void OnChangeScene(){
         OnCompelet();
     }
 }
-

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CleanSlider : MonoBehaviour
 {
     Slider slHP;
-    public GameObject fillArea;
+    GameObject fillArea;
     float fSliderBarTime;
     // Start is called before the first frame update
     void Start()

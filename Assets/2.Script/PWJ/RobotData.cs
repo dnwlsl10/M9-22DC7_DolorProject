@@ -7,5 +7,7 @@ public class RobotData
     public string name;
     public string prefab_name;
     public string hologram_name;
+    public string connect_name;
+    public string inGame_name;
     public string desc;
 }
