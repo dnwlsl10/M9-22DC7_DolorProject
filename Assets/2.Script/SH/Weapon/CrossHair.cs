@@ -1,34 +1,69 @@
+//#define test
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(LineRenderer))]
 public class CrossHair : MonoBehaviour
 {
-    LineRenderer lr;
-
     public Transform centerEye;
     public Transform crossHairImage;
+    private Renderer imageRenderer;
     public LayerMask screenLayer;
 
+    private IEnumerator coroutineHolder;
+    private WaitForEndOfFrame eof = new WaitForEndOfFrame();
+
+#if test
+    LineRenderer lr;
+#endif
 
     private void Awake() {
-        lr = GetComponent<LineRenderer>();
+        imageRenderer = crossHairImage.GetComponent<Renderer>();
+#if test
+        if (TryGetComponent<LineRenderer>(out lr) == false)
+            lr = gameObject.AddComponent<LineRenderer>();
+        lr.startWidth = lr.endWidth = 0.1f;
+        lr.material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        lr.material.color = Color.red;
+        Debug.LogWarning("CrossHair is in Test mode");
+#endif
+
+        OnUseCrosshair();
     }
 
+    public void OnUseCrosshair()
+    {
+        coroutineHolder = UseCrosshair();
+        StartCoroutine(coroutineHolder);
+    }
 
-    private void Update() {
-        lr.SetPosition(0, transform.position);
-        lr.SetPosition(1, transform.position + transform.forward * 100);
+    public void OnDisuseCrosshair()
+    {
+        if (coroutineHolder != null)
+            StopCoroutine(coroutineHolder);
+    }
 
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit targetHit, float.MaxValue))
+    IEnumerator UseCrosshair()
+    {
+        while (true)
         {
-            Vector3 screenToEye = centerEye.position - targetHit.point;
-            if (Physics.Raycast(targetHit.point, screenToEye, out RaycastHit screenHit, float.MaxValue, screenLayer))
+            yield return eof;
+            Ray ray = new Ray(transform.position, transform.forward);
+            imageRenderer.enabled = false;
+#if test
+            lr.SetPosition(0, ray.origin);
+            lr.SetPosition(1, ray.origin + ray.direction * 100);
+#endif
+            if (Physics.Raycast(ray, out RaycastHit targetHit, float.MaxValue))
             {
-                // crossHairImage.up = screenHit.normal;
-                crossHairImage.forward = -screenToEye.normalized;
-                crossHairImage.position = screenHit.point;
+                Vector3 targetToEye = centerEye.position - targetHit.point;
+                if (Physics.Raycast(targetHit.point, targetToEye, out RaycastHit screenHit, float.MaxValue, screenLayer))
+                {
+                    imageRenderer.enabled = true;
+                    crossHairImage.position = screenHit.point;
+                    crossHairImage.forward = -targetToEye.normalized;
+                    // crossHairImage.up = screenHit.normal;
+                }
             }
         }
     }

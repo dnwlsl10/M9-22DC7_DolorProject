@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using RootMotion.FinalIK;
 using Photon.Pun;
-
 public class MechIKNetworkManager : MonoBehaviour
 {
+    [ContextMenu("Toggle Mesh")]
+    void ToggleMesh()
+    {
+        foreach (var renderer in localDisableMesh)
+            renderer.enabled = !renderer.enabled;
+    }
     public List<Renderer> localDisableMesh;
+    public List<GameObject> LayerToChangeRemote;
     IKSolverVR.Arm rightArmIK;
     IKSolverVR.Arm leftArmIK;
     PhotonView pv;
@@ -22,12 +28,11 @@ public class MechIKNetworkManager : MonoBehaviour
         rightArmIK = vrIK.solver.rightArm;
         leftArmIK = vrIK.solver.leftArm;
 
-
         if (pv.IsMine || PhotonNetwork.InLobby)
-            SetLocalIKTarget();
+            SetLocal();
         else
         {
-            SetRemoteIKTarget();
+            SetRemote();
             GetComponent<Animator>().applyRootMotion = false;
         }
     }
@@ -36,22 +41,28 @@ public class MechIKNetworkManager : MonoBehaviour
     {
         foreach (var mesh in meshList)
             mesh.enabled = false;
+        meshList.Clear();
     }
 
-    void SetLocalIKTarget()
+    void SetLocal()
     {
         DisableMesh(localDisableMesh);
 
         SetIKWeight(true, 0);
         SetIKWeight(false, 0);
     }
-    void SetRemoteIKTarget()
+    void SetRemote()
     {
-        leftArmIK.target.GetComponent<Rigidbody>().isKinematic = true;
-        rightArmIK.target.GetComponent<Rigidbody>().isKinematic = true;
+        ChangeRemoteLayer();
 
         SetIKWeight(true, 0);
         SetIKWeight(false, 0);
+    }
+    void ChangeRemoteLayer()
+    {
+        foreach (var obj in LayerToChangeRemote)
+            obj.layer = LayerMask.NameToLayer("RemotePlayer");
+        LayerToChangeRemote.Clear();
     }
 
     public void SetWeightUsingRPC(bool isLeft, int targetWeight)
@@ -63,6 +74,7 @@ public class MechIKNetworkManager : MonoBehaviour
             pv.RPC("RPCSetWeight", RpcTarget.All, isLeft, targetWeight);
         }
     }
+    
     [PunRPC]
     private void RPCSetWeight(bool isLeft, int targetWeight)
     {
