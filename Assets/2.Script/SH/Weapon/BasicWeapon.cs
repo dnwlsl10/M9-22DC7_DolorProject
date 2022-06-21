@@ -160,6 +160,9 @@ public class BasicWeapon : WeaponBase1
             yield return null;
 
         isReloading = false;
+
+
+        
         CurrentAmmo = weaponSetting.maxAmmo;
     }
 }
