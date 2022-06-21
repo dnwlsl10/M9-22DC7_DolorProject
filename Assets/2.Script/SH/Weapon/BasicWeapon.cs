@@ -49,7 +49,7 @@ public class BasicWeapon : WeaponBase
 
     private void OnEnable()
     {
-        print(PhotonNetwork.SingleMode);
+        print("SingleMode :" + PhotonNetwork.SingleMode);
         if (pv.Mine == false) return;
 
 #if test
