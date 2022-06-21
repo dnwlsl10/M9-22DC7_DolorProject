@@ -18,9 +18,9 @@ using UnityEngine;
 //떼면 게이지가 초당 1씩 회복되고
 //애니메이션의 상태를 초기화
 
-public class SkillShield : WeaponBase1, IDamageable
+public class SkillShield : WeaponBase, IDamageable
 {
-    public event AmmoEvent OnValueChange;
+    public event Cur_MaxEvent OnValueChange;
 
     public GameObject shieldCreatePos;
     public GameObject shield;

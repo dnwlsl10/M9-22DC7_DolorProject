@@ -18,7 +18,7 @@ public class Status : MonoBehaviourPun, IDamageable
             if (hpValueFixed) return;
 
             float prevHp = hp;
-            hp = (value <= 0 ? 0 : (value > maxHP ? maxHP : value));
+            hp = Mathf.Clamp(value, 0, maxHP);
 
             if (prevHp != hp)
             {
@@ -32,7 +32,7 @@ public class Status : MonoBehaviourPun, IDamageable
         HP = maxHP;
     }
 
-    public void TakeDamage(float damage, GameObject hitObject=null)
+    public void TakeDamage(float damage)
     {
         Debug.Log("Damage" + damage);
         HP -= damage;

@@ -15,7 +15,7 @@ public class DamagePasser : MonoBehaviour, IDamageable
         target = transform.root.GetComponent<IDamageable>();
     }
 
-    public void TakeDamage(float damage, GameObject hitObject = null)
+    public void TakeDamage(float damage)
     {
         PassDamage(damage);
     }
