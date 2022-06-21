@@ -70,6 +70,7 @@ GameObject:
   - component: {fileID: 4218143646522008316}
   - component: {fileID: 4218143646522008292}
   - component: {fileID: 4218143646522008204}
+  - component: {fileID: -5084395276071795331}
   m_Layer: 27
   m_Name: Connect_Mars
   m_TagString: Untagged
@@ -129,7 +130,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4218143646522007772}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: ece38c70f8df5a04085f4f095eaae66e, type: 3}
   m_Controller: {fileID: 9100000, guid: c05b40cb7df62864299de5a5e2194e45, type: 2}
   m_CullingMode: 1
@@ -527,6 +528,18 @@ MonoBehaviour:
       onRightFootstep:
         m_PersistentCalls:
           m_Calls: []
+--- !u!114 &-5084395276071795331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4218143646522007772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612b46c795d0d1f4a9da1518fbfd59c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5888061609883111407
 GameObject:
   m_ObjectHideFlags: 0
@@ -5744,14 +5757,14 @@ MonoBehaviour:
   OnGrab:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 165222654096874932, guid: 386242486c5972145be957989b61c7df, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: PlayOneShot
-        m_Mode: 2
+      - m_Target: {fileID: -5084395276071795331}
+        m_TargetAssemblyTypeName: IKWeight, Assembly-CSharp
+        m_MethodName: OnRightGripEvent
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: d80edf00be4412f4a8d75b2729d47c14, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -5759,13 +5772,13 @@ MonoBehaviour:
   OnRelease:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 165222654096874932, guid: 386242486c5972145be957989b61c7df, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: PlayOneShot
-        m_Mode: 2
+      - m_Target: {fileID: -5084395276071795331}
+        m_TargetAssemblyTypeName: IKWeight, Assembly-CSharp
+        m_MethodName: OnRightGripEvent
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: df96814b0b3a8e9469d7ee8b84391484, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -6654,14 +6667,14 @@ MonoBehaviour:
   OnGrab:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 165222654096874932, guid: 386242486c5972145be957989b61c7df, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: PlayOneShot
-        m_Mode: 2
+      - m_Target: {fileID: -5084395276071795331}
+        m_TargetAssemblyTypeName: IKWeight, Assembly-CSharp
+        m_MethodName: OnLeftGripEvent
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: d80edf00be4412f4a8d75b2729d47c14, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -6669,13 +6682,13 @@ MonoBehaviour:
   OnRelease:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 165222654096874932, guid: 386242486c5972145be957989b61c7df, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: PlayOneShot
-        m_Mode: 2
+      - m_Target: {fileID: -5084395276071795331}
+        m_TargetAssemblyTypeName: IKWeight, Assembly-CSharp
+        m_MethodName: OnLeftGripEvent
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: df96814b0b3a8e9469d7ee8b84391484, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -8164,7 +8177,6 @@ MonoBehaviour:
     scale: 50
     speedMultiplier: 1
   characterHandMesh: {fileID: 0}
-  grip: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!1 &5888061611839788438
 GameObject:
   m_ObjectHideFlags: 0
@@ -8702,7 +8714,6 @@ MonoBehaviour:
     scale: 50
     speedMultiplier: 1
   characterHandMesh: {fileID: 0}
-  grip: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!1 &5888061611906412613
 GameObject:
   m_ObjectHideFlags: 0
@@ -17183,7 +17194,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7995175276430980486}
   m_Layer: 0
-  m_Name: metarig.001
+  m_Name: root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19930,6 +19941,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   centerEye: {fileID: 5888061610268298420}
   crossHairImage: {fileID: 7995175276365245070}
+  laserPoint: {fileID: 0}
   screenLayer:
     serializedVersion: 2
     m_Bits: 2147483648
@@ -28158,14 +28170,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6083458276d490542834511a2f11d393, type: 3}
---- !u!4 &5763582943552698295 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2380378541056534508, guid: 6083458276d490542834511a2f11d393, type: 3}
-  m_PrefabInstance: {fileID: 7995175276039786587}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4951580843497041165 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3045309690009582934, guid: 6083458276d490542834511a2f11d393, type: 3}
+  m_PrefabInstance: {fileID: 7995175276039786587}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5763582943552698295 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2380378541056534508, guid: 6083458276d490542834511a2f11d393, type: 3}
   m_PrefabInstance: {fileID: 7995175276039786587}
   m_PrefabAsset: {fileID: 0}
 --- !u!64 &7995175276039786590

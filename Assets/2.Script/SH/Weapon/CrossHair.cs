@@ -7,6 +7,7 @@ public class CrossHair : MonoBehaviour
 {
     public Transform centerEye;
     public Transform crossHairImage;
+    public Transform laserPoint;
     private Renderer imageRenderer;
     public LayerMask screenLayer;
 
@@ -48,8 +49,8 @@ public class CrossHair : MonoBehaviour
         while (true)
         {
             yield return eof;
-            Ray ray = new Ray(transform.position, transform.forward);
-            imageRenderer.enabled = true;
+            Ray ray = new Ray(laserPoint.position, laserPoint.forward);
+            imageRenderer.enabled = false;
 #if test
             lr.SetPosition(0, ray.origin);
             lr.SetPosition(1, ray.origin + ray.direction * 100);

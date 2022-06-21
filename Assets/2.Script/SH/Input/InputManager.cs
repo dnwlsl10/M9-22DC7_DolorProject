@@ -5,8 +5,8 @@ using UnityEngine.XR;
 
 public class InputManager : MonoBehaviour
 {
-    public List<InputHandler> rightControllerInputList = new List<InputHandler>();
     public List<InputHandler> leftControllerInputList = new List<InputHandler>();
+    public List<InputHandler> rightControllerInputList = new List<InputHandler>();
 
     InputDevice rightController;
     InputDevice leftController;
@@ -29,8 +29,18 @@ public class InputManager : MonoBehaviour
             InputDevices.GetDevicesWithCharacteristics(ControllerCharacteristics, devices);
             if (devices.Count > 0)
             {
-                if (isLeft) leftController = devices[0];
-                else rightController = devices[0];
+                if (isLeft) 
+                {
+                    leftController = devices[0];
+                    foreach(var inputHandler in leftControllerInputList)
+                        inputHandler.AssignController(leftController);
+                }
+                else 
+                {
+                    rightController = devices[0];
+                    foreach(var inputHandler in rightControllerInputList)
+                        inputHandler.AssignController(rightController);
+                }
 
                 devices.Clear();
                 break;
@@ -40,26 +50,18 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    bool isLeft;
     private void Update() 
     {
-        UpdateInput(rightController);
-        UpdateInput(leftController);
+        UpdateInput();
     }
 
-    void UpdateInput(InputDevice controller)
+    void UpdateInput()
     {
-        if (controller.isValid == false)
-        {
-            Debug.LogWarning("Invalid controller");
-            return;
-        }
-
-        if (controller.characteristics.HasFlag(InputDeviceCharacteristics.Right))
+        if (rightController.isValid)
             foreach(var button in ( rightControllerInputList))
-                button.UpdateValue(ref controller);
-        else if (controller.characteristics.HasFlag(InputDeviceCharacteristics.Left))
+                button.UpdateValue();
+        if (leftController.isValid)
             foreach(var button in ( leftControllerInputList))
-                button.UpdateValue(ref controller);
+                button.UpdateValue();
     }
 }

@@ -20317,7 +20317,6 @@ GameObject:
   - component: {fileID: 6616993689719250501}
   - component: {fileID: 5589712645351477353}
   - component: {fileID: 8405594855908573895}
-  - component: {fileID: 2532799805094720752}
   - component: {fileID: 445442935472324740}
   m_Layer: 10
   m_Name: Mech_Test_new
@@ -20700,21 +20699,6 @@ MonoBehaviour:
     LayerIndex: 0
   - SynchronizeType: 1
     LayerIndex: 1
---- !u!114 &2532799805094720752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4113017129593425552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f905fb73109dd8b41a4828aebb50c736, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionBaseXR: {fileID: 3409983527037083065}
-  deviceBaseXR: {fileID: 1474088279306804107}
-  useDeviceBaseInput: 0
 --- !u!114 &445442935472324740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21700,14 +21684,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6083458276d490542834511a2f11d393, type: 3}
---- !u!1 &2061002524410798136 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3045309690009582934, guid: 6083458276d490542834511a2f11d393, type: 3}
-  m_PrefabInstance: {fileID: 3952256011664039278}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1716423742738938498 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2380378541056534508, guid: 6083458276d490542834511a2f11d393, type: 3}
+  m_PrefabInstance: {fileID: 3952256011664039278}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2061002524410798136 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3045309690009582934, guid: 6083458276d490542834511a2f11d393, type: 3}
   m_PrefabInstance: {fileID: 3952256011664039278}
   m_PrefabAsset: {fileID: 0}
 --- !u!64 &3206427913563281829

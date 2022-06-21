@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+[RequireComponent(typeof(PhotonView))]
 public class BasicWeapon : WeaponBase
 {
     public event Cur_MaxEvent OnValueChange;
