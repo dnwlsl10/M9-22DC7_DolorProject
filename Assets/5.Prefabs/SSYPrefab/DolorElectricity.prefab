@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1079830524614824027}
   - component: {fileID: 1079830524614824026}
   - component: {fileID: 1079830524614824029}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: DolorElectricity
   m_TagString: Untagged
   m_Icon: {fileID: 0}

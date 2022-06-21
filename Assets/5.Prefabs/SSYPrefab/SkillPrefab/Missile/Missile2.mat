@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ShieldMat
-  m_Shader: {fileID: -6465566751694194690, guid: fb2fcc00732c9324c883b91168cfe228, type: 3}
+  m_Name: Missile2
+  m_Shader: {fileID: -6465566751694194690, guid: 529bbd0d1e78b5345b3db83c98be439e, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,8 +19,8 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_691444fb02c4419c836293475c192302:
-        m_Texture: {fileID: 2800000, guid: 5fa971704eeff1c4a8511daf53183713, type: 3}
+    - MainTex_:
+        m_Texture: {fileID: 2800000, guid: d5d77f5367bcfd8419e85d25b89efdd0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -67,18 +67,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Texture2DAsset_4d29565da201458aa3abec51fe5a20b7_Out_0:
-        m_Texture: {fileID: 2800000, guid: 16732740244b8f7449114553b2386a7b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Texture2DAsset_7d8d9fdef7774e1183ba1a8dde7d5d88_Out_0:
-        m_Texture: {fileID: 2800000, guid: 6fd1c2ca047566a47bd57ae6b585287d, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Texture2DAsset_e00af966fb574b539ff8b955e6f30396_Out_0:
-        m_Texture: {fileID: 2800000, guid: 16732740244b8f7449114553b2386a7b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -92,8 +80,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_3fb41552e3324c7bb67c01d31609622c: 0
-    - Vector1_85c96f1a69c24974ab0235870541877d: 0
+    - AlphaClip_: 0.05
+    - DissolveScale_: 35
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -121,13 +109,16 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_3e8b77eb996a422fa0e07fb0a0eb89a5: {r: 0.2313725, g: 0.6093288, b: 1, a: 1}
+    - Color_01: {r: 0.41, g: 0.07997888, b: 0.04100001, a: 1}
+    - Color_02: {r: 0.15, g: 0.023913039, b: 0.019565213, a: 1}
+    - MainTexSpeed_: {r: -0.5, g: 0, b: 0, a: 0}
+    - Vector2_f52c1dc4398c4f1e921925e323328a89: {r: -1, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &2277465173001880251
+--- !u!114 &8524090689352145174
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
