@@ -24848,6 +24848,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HP: {fileID: 6164559922593844918}
   HP_text: {fileID: 6164559924160177371}
+  bullet: {fileID: 0}
+  Ultimate_Skill: {fileID: 6164559922775992797}
+  Shield_Skill: {fileID: 6164559923974462212}
+  Tesla_Skill: {fileID: 6164559922327063548}
 --- !u!1 &6164559922736238364
 GameObject:
   m_ObjectHideFlags: 0
@@ -25011,7 +25015,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

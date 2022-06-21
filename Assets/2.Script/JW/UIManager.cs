@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
     [Header("HP_STATUS")]
         [SerializeField] private Slider HP;
         [SerializeField] private Text HP_text;
+        [SerializeField] private Text bullet;
     [Header("SKILL_STATUS")]
         //[SerializeField] private Slider Sheild;
         //[SerializeField] private Slider TeslaCanon;
@@ -42,33 +43,44 @@ public class UIManager : MonoBehaviour
         HP.value = per;
         HP_text.text = "" + (per * 100);
     }
-    public void UpdateUltimateSkillGauge()
+
+    void BulletUpdate(float cur_val, float max_val)
     {
-        if(Ultimate_Skill.value >= 1) return;
-        else Ultimate_Skill.value += ultimateChargingTime; 
-    }
-    public void UpdateTeslaSkillGauge()
-    {
-        if(Tesla_Skill.value >= 1) return;
-        else Tesla_Skill.value += normalChargeingTime; 
+        bullet.text = "" + cur_val;
     }
 
-    public void UpdateSheildSkillGauge()
-    {
-        if(Shield_Skill.value >= 1) return;
-        else Shield_Skill.value += normalChargeingTime; 
-    }
+    // void GaugeUpdate()
+    // public void UpdateUltimateSkillGauge()
+    // {
+    //     if(Ultimate_Skill.value >= 1) return;
+    //     else Ultimate_Skill.value += ultimateChargingTime; 
+    // }
 
-    private void FixedUpdate() 
-    {
-           UpdateUltimateSkillGauge();
-           UpdateTeslaSkillGauge();
-           UpdateSheildSkillGauge();
-    }
+    // public void UpdateTeslaSkillGauge()
+    // {
+    //     if(Tesla_Skill.value >= 1) return;
+    //     else Tesla_Skill.value += normalChargeingTime; 
+    // }
+
+    // public void UpdateSheildSkillGauge()
+    // {
+    //     if(Shield_Skill.value >= 1) return;
+    //     else Shield_Skill.value += normalChargeingTime; 
+    // }
+
+    // private void FixedUpdate() 
+    // {
+    //        UpdateUltimateSkillGauge();
+    //        UpdateTeslaSkillGauge();
+    //        UpdateSheildSkillGauge();
+    // }
 
     // private void OnEnable()
     // {
     //     BasicWeapon bw = null;
+    //     ShieldWeapon sw = null;
+    //     TeslaWeapon tw = null;
     //     bw.OnValueChange += HPUpdate;
+    //     bw.OnValueChange += BulletUpdate;
     // }
 }
