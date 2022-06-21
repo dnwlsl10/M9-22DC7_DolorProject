@@ -193,6 +193,17 @@ namespace Photon.Pun
             }
         }
 
+        public static bool SingleMode
+        {
+            get 
+            {
+                if (PhotonNetwork.InRoom)
+                    return PhotonNetwork.CountOfPlayersInRooms <= 1;
+                else
+                    return true;
+            }
+        }
+
         /// <summary>
         /// A refined version of connected which is true only if your connection to the server is ready to accept operations like join, leave, etc.
         /// </summary>
@@ -447,11 +458,11 @@ namespace Photon.Pun
                     return;
                 }
 
-                if (value && IsConnected)
-                {
-                    Debug.LogError("Can't start OFFLINE mode while connected!");
-                    return;
-                }
+                // if (value && IsConnected)
+                // {
+                //     Debug.LogError("Can't start OFFLINE mode while connected!");
+                //     return;
+                // }
 
                 if (NetworkingClient.IsConnected)
                 {

@@ -1,4 +1,4 @@
-//#define test
+#define test
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,22 +49,35 @@ public class CrossHair : MonoBehaviour
         {
             yield return eof;
             Ray ray = new Ray(transform.position, transform.forward);
-            imageRenderer.enabled = false;
+            imageRenderer.enabled = true;
 #if test
             lr.SetPosition(0, ray.origin);
             lr.SetPosition(1, ray.origin + ray.direction * 100);
 #endif
-            if (Physics.Raycast(ray, out RaycastHit targetHit, float.MaxValue))
-            {
-                Vector3 targetToEye = centerEye.position - targetHit.point;
-                if (Physics.Raycast(targetHit.point, targetToEye, out RaycastHit screenHit, float.MaxValue, screenLayer))
+            // if (Physics.Raycast(ray, out RaycastHit targetHit, float.MaxValue))
+            // {
+            //     Vector3 targetToEye = centerEye.position - targetHit.point;
+            //     if (Physics.Raycast(targetHit.point, targetToEye, out RaycastHit screenHit, float.MaxValue, screenLayer))
+            //     {
+            //         imageRenderer.enabled = true;
+            //         crossHairImage.position = screenHit.point;
+            //         crossHairImage.forward = -targetToEye.normalized;
+            //         // crossHairImage.up = screenHit.normal;
+            //     }
+            // }
+            // else
+            
+                var newRay = ray.GetPoint(3f);
+                Vector3 targetToEye = centerEye.position - newRay;
+                if (Physics.Raycast(newRay, targetToEye, out RaycastHit screenHit, float.MaxValue, screenLayer))
                 {
                     imageRenderer.enabled = true;
                     crossHairImage.position = screenHit.point;
                     crossHairImage.forward = -targetToEye.normalized;
                     // crossHairImage.up = screenHit.normal;
                 }
-            }
+            
+
         }
     }
 }

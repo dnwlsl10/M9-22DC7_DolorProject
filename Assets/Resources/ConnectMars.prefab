@@ -2097,6 +2097,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
+  hp: 0
 --- !u!114 &4648644447348106271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2178,6 +2179,7 @@ MonoBehaviour:
   - {fileID: 4459559608933429362}
   - {fileID: 4459559608289312484}
   - {fileID: 4459559608660079020}
+  LayerToChangeRemote: []
 --- !u!114 &2123871844090526430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3403,6 +3405,7 @@ GameObject:
   - component: {fileID: 6942154102108409654}
   - component: {fileID: 1036998421245300313}
   - component: {fileID: 7738274147880453022}
+  - component: {fileID: 4256021295820770044}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -3506,10 +3509,11 @@ MonoBehaviour:
     maxAmmo: 11
     attackRate: 1
     attackDistance: 11
+  pv: {fileID: 4256021295820770044}
   gripButton: {fileID: 0}
   shootButton: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   bulletSpawnPoint: {fileID: 7829384563449680341}
-  muzzleFlashEffect: {fileID: 0}
+  muzzleFlashEffect: {fileID: 2955729808178141138}
   bullet: {fileID: 6864447179757187153, guid: ff1d1749d8ae69f4aa346dd8b3735714, type: 3}
   onFireSFX: {fileID: 0}
   onReloadSFX: {fileID: 0}
@@ -3629,6 +3633,28 @@ MonoBehaviour:
   screenLayer:
     serializedVersion: 2
     m_Bits: 2147483648
+--- !u!114 &4256021295820770044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2955729808178141138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &2983048229012854041
 GameObject:
   m_ObjectHideFlags: 0
@@ -32455,7 +32481,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6459667911176899727
 Transform:
   m_ObjectHideFlags: 0
