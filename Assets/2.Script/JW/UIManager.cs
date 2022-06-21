@@ -37,14 +37,20 @@ public class UIManager : MonoBehaviour
     //     HP.value -= damageAmount / 100f;
     //     //HP_text.text = "" + ;
     // }
-    void HPUpdate(float cur_val, float max_val)
+    public void HPUpdate(float cur_val, float max_val)
     {
         float per = cur_val / max_val;
         HP.value = per;
-        HP_text.text = "" + (per * 100);
+        if(HP.value == 0) 
+        {
+            HP_text.text = "0";
+            return;
+        }
+        else HP_text.text = "" + cur_val;
+            
     }
 
-    void BulletUpdate(float cur_val, float max_val)
+    public void BulletUpdate(float cur_val, float max_val)
     {
         bullet.text = "" + cur_val;
     }
@@ -75,12 +81,13 @@ public class UIManager : MonoBehaviour
     //        UpdateSheildSkillGauge();
     // }
 
-    // private void OnEnable()
-    // {
-    //     BasicWeapon bw = null;
-    //     ShieldWeapon sw = null;
-    //     TeslaWeapon tw = null;
-    //     bw.OnValueChange += HPUpdate;
-    //     bw.OnValueChange += BulletUpdate;
-    // }
+    private void OnEnable()
+    {
+        // BasicWeapon bw = null;
+        // ShieldWeapon sw = null;
+        // TeslaWeapon tw = null;
+        // bw.OnValueChange += HPUpdate;
+        // bw.OnValueChange += BulletUpdate;
+        Status_JAWON.OnHPChange += HPUpdate;
+    }
 }
