@@ -1,4 +1,4 @@
-#define SimulateMode
+//#define SimulateMode
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +10,53 @@ public class HandIK : MonoBehaviour
 {
     [ContextMenu("Switch Movement Method")]
     void ChangeMethod() => vrController.UseTransformToMove = !vrController.UseTransformToMove;
+
+    [ContextMenu("Find Ref")]
+    public void AutoDetectReferences()
+    {
+        VRIK vrik = transform.root.GetComponentInChildren<VRIK>();
+
+        vrController = new VRMap();
+        vrController.vrOrigin = transform.root.GetComponentInChildren<Unity.XR.CoreUtils.XROrigin>().GetComponentInChildren<Camera>().transform;
+        vrController.rigOrigin = vrik.references.head;
+        
+        if (gameObject.name.Contains("Left") || gameObject.name.Contains("left"))
+        {
+            Transform xrOrigin = vrController.vrOrigin.parent;
+            for (int i = 0; i < xrOrigin.childCount; i++)
+            {
+                if (xrOrigin.GetChild(i).name.Contains("Left") || gameObject.name.Contains("left"))
+                {
+                    vrController.vrTarget = xrOrigin.GetChild(i);
+                    break;
+                }
+            }
+            vrController.rigTarget = transform.root.Find("LeftHandTarget");
+            if (vrController.rigTarget == null)
+                vrController.rigTarget = transform.root.Find("IKTarget").Find("LeftHandTarget");
+            vrController.controller = XRNode.LeftHand;
+        }
+        else if (gameObject.name.Contains("Right") || gameObject.name.Contains("right"))
+        {
+            Transform xrOrigin = vrController.vrOrigin.parent;
+            for (int i = 0; i < xrOrigin.childCount; i++)
+            {
+                if (xrOrigin.GetChild(i).name.Contains("Right") || gameObject.name.Contains("right"))
+                {
+                    vrController.vrTarget = xrOrigin.GetChild(i);
+                    break;
+                }
+            }
+
+            vrController.rigTarget = transform.root.Find("RightHandTarget");
+            if (vrController.rigTarget == null)
+                vrController.rigTarget = transform.root.Find("IKTarget").Find("RightHandTarget");
+            vrController.controller = XRNode.RightHand;
+            vrController.scale = 4;
+        }
+
+        vrController.rb = vrController.rigTarget.GetComponent<Rigidbody>();
+    }
 
 
     [System.Serializable]
@@ -87,49 +134,15 @@ public class HandIK : MonoBehaviour
     public VRMap vrController;
     [Tooltip("hand mesh of pilot in cockpit")]
     public Renderer characterHandMesh;
-    
-    [Tooltip("Button to set IK weight")]
-    public InputActionReference grip;
-
-    MechIKNetworkManager ikManager;
     bool isLeft;
 
     private void Awake()
     {
-        ikManager = GetComponentInParent<MechIKNetworkManager>();
         isLeft = vrController.controller == XRNode.LeftHand;
     }
-#if SimulateMode
-    private void OnEnable()
-    {
-        Debug.LogWarning("HandIK is in Simulate Mode");
-        grip.action.started += OnEventTrigger;
-        grip.action.canceled += OnEventTrigger;
-    }
-
-    private void OnEventTrigger(InputAction.CallbackContext ctx)
-    {
-        ikManager.SetWeightUsingRPC(isLeft, ctx.ReadValueAsButton() ? 1 : 0);
-
-        if (characterHandMesh != null)
-            characterHandMesh.enabled = !ctx.ReadValueAsButton();
-    }
-    private void OnDisable() 
-    {
-        grip.action.started -= OnEventTrigger;
-        grip.action.canceled -= OnEventTrigger;
-    }
-#endif
 
     private void FixedUpdate() 
     {
         vrController.MapLocal();
     }
-    
-
-    public void OnGrabController(int weight)
-    {
-        ikManager.SetWeightUsingRPC(isLeft, weight);
-    }
-    
 }

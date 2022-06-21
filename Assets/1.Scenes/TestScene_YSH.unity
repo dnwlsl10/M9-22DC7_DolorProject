@@ -196,7 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e9c0d132e943ad418c2d5374e6c3d26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 6099336514148944822, guid: d727d86a1fec1e041a3b8e5c2e84aa28, type: 3}
+  playerPrefab: {fileID: 3213614331723133088, guid: 3cbf609e7b9dc32478c69abc6aa9c091, type: 3}
   simulator: {fileID: 3410773279070289068, guid: b9c485564d9038b48baec1c7f8884352, type: 3}
   testMode: 1
   objPool: {fileID: 6502242962511973355, guid: 6076051c4ed2b5f4bad6a576903babac, type: 3}

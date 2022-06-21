@@ -1,3 +1,4 @@
+// #define test
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,9 +9,15 @@ public class MechMovementController : MonoBehaviour
 {
     [Header("Move")]
     public float moveSpeed = 1f;
-    public InputActionProperty rightHandJoystick;
+#if test
     public InputActionProperty leftHandJoystick;
-
+    private void OnEnable() {
+        Debug.LogWarning("MechMoveController is in TestMode");
+    }
+    
+#else
+    public Axis2DHandler leftHandJoystick;
+#endif
     [Header("Rotation")]
     [SerializeField]
     Transform centerEye;
@@ -32,6 +39,10 @@ public class MechMovementController : MonoBehaviour
     Vector3 moveDir = Vector3.zero;
     private float deltaTime;
 
+    private void Reset() {
+        centerEye = GetComponentInChildren<Camera>().transform;
+    }
+
     void Awake()
     {
         tr = GetComponent<Transform>();
@@ -52,15 +63,18 @@ public class MechMovementController : MonoBehaviour
     void Update()
     {
         deltaTime = Time.deltaTime;
-
         UpdateMove();
     }
 
     private void UpdateMove()
     {
         moveDir = Vector3.zero;
+#if test
         Vector2 inputDir = leftHandJoystick.action.ReadValue<Vector2>();
-
+#else
+        if (leftHandJoystick.GetValue(out Vector2 inputDir) == false)
+            return;
+#endif
         anim.SetFloat("moveX", inputDir.x);
         anim.SetFloat("moveY", inputDir.y);
 

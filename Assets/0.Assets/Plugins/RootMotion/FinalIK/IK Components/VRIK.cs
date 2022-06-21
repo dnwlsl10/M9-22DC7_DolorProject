@@ -10,6 +10,38 @@ namespace RootMotion.FinalIK {
 	//[HelpURL("http://www.root-motion.com/finalikdox/html/page16.html")]
 	[AddComponentMenu("Scripts/RootMotion.FinalIK/IK/VR IK")]
 	public class VRIK : IK {
+		[ContextMenu("Initialize")]
+		void Init()
+		{
+			AutoDetectReferences();
+
+			solver = new IKSolverVR();
+			solver.plantFeet = false;
+			solver.spine.positionWeight = solver.spine.rotationWeight = solver.spine.useAnimatedHeadHeightWeight = 0;
+
+			solver.leftArm.target = transform.root.Find("LeftHandTarget");
+			solver.rightArm.target = transform.root.Find("RightHandTarget");
+
+			if (solver.leftArm.target == null || solver.rightArm.target == null)
+			{
+				solver.leftArm.target = transform.root.Find("IKTarget").Find("LeftHandTarget");
+				solver.rightArm.target = transform.root.Find("IKTarget").Find("RightHandTarget");
+			}
+
+			solver.leftArm.positionWeight = solver.leftArm.rotationWeight = solver.rightArm.positionWeight = solver.rightArm.rotationWeight = 0;
+
+			solver.locomotion.mode = IKSolverVR.Locomotion.Mode.Animated;
+			solver.locomotion.weight = 0;
+
+			var pun = transform.root.GetComponent<RootMotion.Demos.VRIK_PUN_Player>();
+			if (pun == null)
+				return;
+			
+			pun.vrRig = transform.root.Find("Cockpit").gameObject;
+			pun.ik = this;
+			pun.leftHandAnchor = solver.leftArm.target;
+			pun.rightHandAnchor = solver.rightArm.target;
+		}
 
 		/// <summary>
 		/// VRIK-specific definition of a humanoid biped.

@@ -5,7 +5,16 @@ using Photon.Pun;
 
 public class MechScriptManager : MonoBehaviour
 {
-    public Behaviour[] scriptsForOnlyLocal;
+    [ContextMenu("Initialize")]
+    void Init()
+    {
+        scriptsForOnlyLocal = new List<Behaviour>();
+        scriptsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<HandIK>());
+        scriptsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<MechMovementController>());
+        scriptsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<CrossHair>());
+    }
+    
+    public List<Behaviour> scriptsForOnlyLocal;
     PhotonView pv;
 
     private void Awake() 
