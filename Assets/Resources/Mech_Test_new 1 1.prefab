@@ -4575,7 +4575,6 @@ MonoBehaviour:
     scale: 5
     speedMultiplier: 1
   characterHandMesh: {fileID: 0}
-  grip: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!1 &2427873920009422336
 GameObject:
   m_ObjectHideFlags: 0
@@ -8600,6 +8599,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   centerEye: {fileID: 1859948340502294886}
   crossHairImage: {fileID: 1587512747865813065}
+  laserPoint: {fileID: 9105482625447975380}
   screenLayer:
     serializedVersion: 2
     m_Bits: 2147483648
@@ -9916,7 +9916,6 @@ MonoBehaviour:
     scale: 5
     speedMultiplier: 1
   characterHandMesh: {fileID: 0}
-  grip: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!1 &4753069797600710080
 GameObject:
   m_ObjectHideFlags: 0
@@ -15495,30 +15494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
-  rightHandJoystick:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Right Hand Joystick
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 8b2fbe37-03f6-4246-85fa-c9f5a5c522f3
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -8270564778575511633, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  leftHandJoystick:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Left Hand Joystick
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 754fc34f-7f69-4a4d-9077-4deef0ac5758
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -4084014799535200556, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  leftHandJoystick: {fileID: 0}
   centerEye: {fileID: 1859948340502294886}
   rotateStartThreshold: 30
   rotateFinishThreshold: 20

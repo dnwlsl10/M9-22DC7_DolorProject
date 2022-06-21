@@ -23,14 +23,14 @@ public class IKWeight : MonoBehaviourPun
 
     public void OnLeftGripEvent(int targetWeight)
     {
-        if (PhotonNetwork.InRoom == false)
+        if (PhotonNetwork.SingleMode)
             RPCSetWeight(true, targetWeight);
         else
             photonView.RPC("RPCSetWeight", RpcTarget.All, true, targetWeight);
     }
     public void OnRightGripEvent(int targetWeight)
     {
-        if (PhotonNetwork.InRoom == false)
+        if (PhotonNetwork.SingleMode)
             RPCSetWeight(false, targetWeight);
         else
             photonView.RPC("RPCSetWeight", RpcTarget.All, false, targetWeight);

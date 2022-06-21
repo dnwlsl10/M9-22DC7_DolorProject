@@ -198,7 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 3213614331723133088, guid: 3cbf609e7b9dc32478c69abc6aa9c091, type: 3}
   simulator: {fileID: 3410773279070289068, guid: b9c485564d9038b48baec1c7f8884352, type: 3}
-  testMode: 1
+  testMode: 0
   objPool: {fileID: 6502242962511973355, guid: 6076051c4ed2b5f4bad6a576903babac, type: 3}
 --- !u!4 &770568859
 Transform:

@@ -42,7 +42,8 @@ public class MechNetworkManager : MonoBehaviour
 
     private void Start() 
     {
-        if (pv.IsMine || PhotonNetwork.InRoom == false)
+        this.pv = this.GetComponent<PhotonView>();
+        if (pv.Mine)
             SetLocal();
         else
             SetRemote();

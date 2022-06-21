@@ -49,7 +49,8 @@ public class BasicWeapon : WeaponBase
 
     private void OnEnable()
     {
-        if (pv.IsMine == false) return;
+        print("SingleMode :" + PhotonNetwork.SingleMode);
+        if (pv.Mine == false) return;
 
 #if test
         Debug.LogWarning("BasicWeapon is in TestMode");
@@ -62,7 +63,7 @@ public class BasicWeapon : WeaponBase
     }
     private void OnDisable()
     {
-        if (pv.IsMine == false) return;
+        if (pv.Mine == false) return;
         
 #if test
         shootButton.action.started -= StartWeaponAction;
@@ -128,7 +129,7 @@ public class BasicWeapon : WeaponBase
         lastAttackTime = Time.time;
         CurrentAmmo--;
 
-        if (PhotonNetwork.IsConnected)
+        if (PhotonNetwork.SingleMode == false)
         {
             print("RPCATTACK");
             pv.RPC("RPCAttack", RpcTarget.AllViaServer, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
@@ -143,6 +144,7 @@ public class BasicWeapon : WeaponBase
     [PunRPC]
     private void RPCAttack(Vector3 bulletPosition, Quaternion bulletRotation)
     {
+        print("AAAAA");
         if (pv.IsMine)
             NetworkObjectPool.SpawnFromPool(bullet.name, bulletPosition, bulletRotation);
         StartCoroutine(OnMuzzleFlashEffect());
