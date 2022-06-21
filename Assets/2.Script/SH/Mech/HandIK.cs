@@ -14,9 +14,11 @@ public class HandIK : MonoBehaviour
     [ContextMenu("Find Ref")]
     public void AutoDetectReferences()
     {
+        VRIK vrik = transform.root.GetComponentInChildren<VRIK>();
+
         vrController = new VRMap();
         vrController.vrOrigin = transform.root.GetComponentInChildren<Unity.XR.CoreUtils.XROrigin>().GetComponentInChildren<Camera>().transform;
-        vrController.rigOrigin = transform.root.Find("root").Find("pelvis").Find("spine.001").Find("spine.002").Find("neck").Find("head");
+        vrController.rigOrigin = vrik.references.head;
         
         if (gameObject.name.Contains("Left") || gameObject.name.Contains("left"))
         {
@@ -132,16 +134,10 @@ public class HandIK : MonoBehaviour
     public VRMap vrController;
     [Tooltip("hand mesh of pilot in cockpit")]
     public Renderer characterHandMesh;
-    
-    [Tooltip("Button to set IK weight")]
-    public InputActionReference grip;
-
-    MechIKNetworkManager ikManager;
     bool isLeft;
 
     private void Awake()
     {
-        ikManager = GetComponentInParent<MechIKNetworkManager>();
         isLeft = vrController.controller == XRNode.LeftHand;
     }
 
@@ -149,31 +145,4 @@ public class HandIK : MonoBehaviour
     {
         vrController.MapLocal();
     }
-    
-    public void OnGrabController(int weight)
-    {
-        ikManager.SetWeightUsingRPC(isLeft, weight);
-    }
-    
-#if SimulateMode
-    private void OnEnable()
-    {
-        Debug.LogWarning("HandIK is in Simulate Mode");
-        grip.action.started += OnEventTrigger;
-        grip.action.canceled += OnEventTrigger;
-    }
-
-    private void OnEventTrigger(InputAction.CallbackContext ctx)
-    {
-        ikManager.SetWeightUsingRPC(isLeft, ctx.ReadValueAsButton() ? 1 : 0);
-
-        if (characterHandMesh != null)
-            characterHandMesh.enabled = !ctx.ReadValueAsButton();
-    }
-    private void OnDisable() 
-    {
-        grip.action.started -= OnEventTrigger;
-        grip.action.canceled -= OnEventTrigger;
-    }
-#endif
 }

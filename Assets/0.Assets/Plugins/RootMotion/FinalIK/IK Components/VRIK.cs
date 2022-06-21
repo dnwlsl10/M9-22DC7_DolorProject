@@ -35,7 +35,7 @@ namespace RootMotion.FinalIK {
 
 			var pun = transform.root.GetComponent<RootMotion.Demos.VRIK_PUN_Player>();
 			if (pun == null)
-				pun = gameObject.AddComponent<RootMotion.Demos.VRIK_PUN_Player>();
+				return;
 			
 			pun.vrRig = transform.root.Find("Cockpit").gameObject;
 			pun.ik = this;
