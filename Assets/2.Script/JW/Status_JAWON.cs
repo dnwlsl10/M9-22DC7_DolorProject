@@ -29,13 +29,17 @@ public class Status_JAWON : MonoBehaviour, IDamageable
         {
             TakeDamage(4);
         }
+        // if (Input.GetKeyDown(KeyCode.A))
+        // {
+        //     UIManager.Instance.UpdateUltimateSkillGauge();
+        // }
     }
 
     public void TakeDamage(float damage)
     {
         Debug.Log("Damage" + damage);
         HP -= damage;
-        UIManager.Instance.UpdateHPGauge(damage);
+        // UIManager.Instance.UpdateHPGauge(damage);
     }
 
     private void OnDeath()
