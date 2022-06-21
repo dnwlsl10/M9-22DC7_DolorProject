@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &301878655 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6164559922775992797, guid: 19d792212953a454f9e85e33f3d4f8ac, type: 3}
+  m_PrefabInstance: {fileID: 6164559923423103843}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &669611107
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,6 +178,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1104225509 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6164559923974462212, guid: 19d792212953a454f9e85e33f3d4f8ac, type: 3}
+  m_PrefabInstance: {fileID: 6164559923423103843}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1524040264
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,6 +348,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1973034713 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6164559922327063548, guid: 19d792212953a454f9e85e33f3d4f8ac, type: 3}
+  m_PrefabInstance: {fileID: 6164559923423103843}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6164559923423103843
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -395,6 +428,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6164559922690090623, guid: 19d792212953a454f9e85e33f3d4f8ac, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6164559922724033886, guid: 19d792212953a454f9e85e33f3d4f8ac, type: 3}
+      propertyPath: Tesla_Skill
+      value: 
+      objectReference: {fileID: 1973034713}
+    - target: {fileID: 6164559922724033886, guid: 19d792212953a454f9e85e33f3d4f8ac, type: 3}
+      propertyPath: Shield_Skill
+      value: 
+      objectReference: {fileID: 1104225509}
+    - target: {fileID: 6164559922724033886, guid: 19d792212953a454f9e85e33f3d4f8ac, type: 3}
+      propertyPath: Ultimate_Skill
+      value: 
+      objectReference: {fileID: 301878655}
+    - target: {fileID: 6164559922775992797, guid: 19d792212953a454f9e85e33f3d4f8ac, type: 3}
+      propertyPath: m_Value
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6164559923138562747, guid: 19d792212953a454f9e85e33f3d4f8ac, type: 3}
