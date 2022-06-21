@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2945751377469090546}
   - component: {fileID: 2945751377469090549}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: DolorOrbLink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7057005164352495657}
   - component: {fileID: 7057005163771738604}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
