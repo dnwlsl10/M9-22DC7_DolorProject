@@ -7,7 +7,7 @@ using DG.Tweening;
 public class UIManager : MonoBehaviour
 {
     private static UIManager instance;
-
+    private Status_JAWON;
     public static UIManager Instance
     {
         get
@@ -83,11 +83,7 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        // BasicWeapon bw = null;
-        // ShieldWeapon sw = null;
-        // TeslaWeapon tw = null;
-        // bw.OnValueChange += HPUpdate;
-        // bw.OnValueChange += BulletUpdate;
-        Status_JAWON.OnHPChange += HPUpdate;
+        Status_JAWON
+        Status_JAWON.OnHpValueChange += HPUpdate;
     }
 }
