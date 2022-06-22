@@ -113,8 +113,11 @@ public class BasicWeapon : WeaponBase
         CurrentAmmo--;
 
         if (PhotonNetwork.SingleMode == false)
+        {
+            print("RPCATTACK");
             photonView.RPC("RPCAttack", RpcTarget.AllViaServer, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-        else
+        }
+        else if(PhotonNetwork.SingleMode == true && PhotonNetwork.InRoom)
             RPCAttack(bulletSpawnPoint.position, bulletSpawnPoint.rotation);
 
         if (CurrentAmmo <= 0)
@@ -126,8 +129,9 @@ public class BasicWeapon : WeaponBase
     {
         if (photonView.IsMine)
             NetworkObjectPool.SpawnFromPool(bullet.name, bulletPosition, bulletRotation);
-        else if(photonView.Mine)
-            ObjectPooler.SpawnFromPool(bullet.name, bulletPosition, bulletRotation);
+        else if(photonView.Mine){
+            ObjectPooler.SpawnFromPool(bullet.name,bulletPosition,bulletRotation);
+        }
         StartCoroutine(OnMuzzleFlashEffect());
         PlaySound(onFireSFX);
     }
