@@ -10,11 +10,13 @@ public class UIEarth : MonoBehaviour
     private Transform target;
     private Vector3 dir;
     private RaycastHit hitInfo;
+    private LocalRotator localRotator; 
     
     [Header("Effect")]
     public GameObject effect;
     public void OnEnable(){
         this.target = GameObject.FindGameObjectWithTag("Screen").transform;
+        this.localRotator = this.GetComponent<LocalRotator>();
         this.dir = this.target.position - origin.position;
     }
 
@@ -24,23 +26,20 @@ public class UIEarth : MonoBehaviour
 
             if(Physics.Raycast(this.target.position ,dir , out hitInfo))
             {
+                this.localRotator.enabled = false;
                 if(hitInfo.collider.CompareTag("Earth")){
                     
                     this.effect.transform.position = hitInfo.point;
                     this.effect.SetActive(true);
-                  
                 }
                 if(hitInfo.collider.CompareTag("Screen")){
-                    pv.RPC("MessageRPC", RpcTarget.All);
+                    SendMessage();
                 }
             }
         }
     }
 
-    [PunRPC]
-    void MessageRPC(){
+    void SendMessage(){
 
     }
-
-    
 }
