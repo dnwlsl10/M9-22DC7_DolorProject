@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+
 // === 방패의 기능 ===
 // 적의 투사체 모든 것을 막는다.
 // 방패의 체력
@@ -24,7 +26,10 @@ public class SkillShield : WeaponBase, IDamageable
 
     public GameObject shieldCreatePos;
     public GameObject shield;
+    public float gaugeUpSpeed;
+    public float gaugeDownSpeed;
     Animator anim;
+    public UnityEngine.InputSystem.InputActionReference alpha1;
 
     public float CurrentAmmo
     {
@@ -34,24 +39,7 @@ public class SkillShield : WeaponBase, IDamageable
             // curammo 1, value 1.1, maxammo 1
             float prevAmmo = weaponSetting.currentAmmo;
 
-            if (value <= 0)
-            {
-                value = 0;
-                weaponSetting.currentAmmo = value;
-
-                weaponSetting.currentAmmo = 0;
-            }
-            else if (value > weaponSetting.maxAmmo)
-            {
-                value = weaponSetting.maxAmmo;
-                weaponSetting.currentAmmo = value;
-
-                weaponSetting.currentAmmo = weaponSetting.maxAmmo;
-            }
-            else
-            {
-                weaponSetting.currentAmmo = value;
-            }
+            weaponSetting.currentAmmo = Mathf.Clamp(value, 0f, weaponSetting.maxAmmo);
 
             if (prevAmmo != weaponSetting.currentAmmo)
             {
@@ -64,37 +52,85 @@ public class SkillShield : WeaponBase, IDamageable
         }
     }
 
-    // void SetAmmo(float value)
-    // {
-    //     weaponSetting.currentAmmo = value;
-    // }
+    private void OnEnable()
+    {
+        if (photonView.Mine == false) return;
+
+        alpha1.action.started += StartEvent;
+        alpha1.action.canceled += StopEvent;
+    }
+    private void OnDisable()
+    {
+        if (photonView.Mine == false) return;
+
+        alpha1.action.started -= StartEvent;
+        alpha1.action.canceled -= StopEvent;
+    }
 
     void Start()
     {
         anim = GetComponent<Animator>();
-        shield.SetActive(false);
+    }
+
+    void StartEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    {
+        StartWeaponAction();
+    }
+    void StopEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    {
+        StopWeaponAction();
     }
 
     public override void StartWeaponAction() //GetKeyDown
     {
-
-        anim.Play("ShieldOn");
+        if (isReloading)
+            return;
+        if (PhotonNetwork.SingleMode == false)
+        {
+            photonView.RPC("animPlay", RpcTarget.All, true);
+        }
+        else
+        {
+            animPlay(true);
+        }
         StartCoroutine("OnShieldSkillUse");
         StopCoroutine("GaugeIdle");
-
     }
 
     public override void StopWeaponAction() //GetKeyUp
     {
-        anim.Play("ShieldOff");
+        if(PhotonNetwork.SingleMode == false)
+        {
+        photonView.RPC("animPlay", RpcTarget.All, false);
+        }
+        else
+        {
+        animPlay(false);
+        }
+        
         StopCoroutine("OnShieldSkillUse");
         StartCoroutine("GaugeIdle");
+    }
+
+    [PunRPC]
+    public void animPlay(bool isStart)
+    {
+        //어떤상황에서 어떤애니메이션
+        if (isStart)
+        {
+            anim.Play("ShieldOn");
+        }
+        if (isStart == false)
+        {
+            anim.Play("ShieldOff");
+        }
     }
 
     public override void StartReload() // 연료를 0까지 사용했을 때
     {
         if (isReloading)
             return;
+        print("LLL");
 
         StopWeaponAction();
         StartCoroutine(GaugeOver());
@@ -102,14 +138,20 @@ public class SkillShield : WeaponBase, IDamageable
 
     IEnumerator OnShieldSkillUse() // 쉴드스킬을 사용했을 때
     {
-        CurrentAmmo -= Time.deltaTime;
-        yield return null;
+        while (true)
+        {
+            CurrentAmmo -= Time.deltaTime * gaugeDownSpeed;
+            yield return null;
+        }
     }
 
     IEnumerator GaugeIdle() // 쉴드스킬을 누르지 않은 상태일 때
     {
-        CurrentAmmo += Time.deltaTime;
-        yield return null;
+        while (true)
+        {
+            CurrentAmmo += Time.deltaTime * gaugeUpSpeed;
+            yield return null;
+        }
     }
 
     IEnumerator GaugeOver() // 과부하
@@ -123,11 +165,8 @@ public class SkillShield : WeaponBase, IDamageable
 
     public void TakeDamage(float damage)
     {
+        CurrentAmmo -= damage;
 
     }
 
-    public void TakeDamage(float damage, GameObject hitObject = null)
-    {
-        throw new System.NotImplementedException();
-    }
 }
