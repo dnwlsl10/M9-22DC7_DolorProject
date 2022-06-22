@@ -4459,6 +4459,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 79010882856472835}
+        m_TargetAssemblyTypeName: GrabEvent, Assembly-CSharp
+        m_MethodName: OnGrabeRight
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   onRelease:
     m_PersistentCalls:
       m_Calls:
@@ -4478,6 +4490,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: GrabControllerHighlight, Assembly-CSharp
         m_MethodName: OnRelease
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 79010882856472835}
+        m_TargetAssemblyTypeName: GrabEvent, Assembly-CSharp
+        m_MethodName: OnGrabeRight
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -10675,7 +10699,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2073403937780089522
 Transform:
   m_ObjectHideFlags: 0
@@ -10861,6 +10885,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 79010882856472835}
+        m_TargetAssemblyTypeName: GrabEvent, Assembly-CSharp
+        m_MethodName: OnGrabeLeft
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   onRelease:
     m_PersistentCalls:
       m_Calls:
@@ -10880,6 +10916,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: GrabControllerHighlight, Assembly-CSharp
         m_MethodName: OnRelease
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 79010882856472835}
+        m_TargetAssemblyTypeName: GrabEvent, Assembly-CSharp
+        m_MethodName: OnGrabeLeft
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -24287,7 +24335,7 @@ MonoBehaviour:
     maxAmmo: 11
     attackRate: 0.2
     attackDistance: 11
-  pv: {fileID: 0}
+  grapEvent: {fileID: 79010882856472835}
   gripButton: {fileID: 0}
   shootButton: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   bulletSpawnPoint: {fileID: 7515741459379736403}
@@ -24841,6 +24889,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7515741461290488004}
+  - component: {fileID: 79010882856472835}
   m_Layer: 0
   m_Name: WeaponScript
   m_TagString: Untagged
@@ -24863,6 +24912,20 @@ Transform:
   m_Father: {fileID: 8054686236786513060}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &79010882856472835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7515741461290488005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c09a2c3a4864b438772e4eb91b0ce6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isRightGrab: 0
+  isLeftGrab: 0
 --- !u!1 &7525421269354630392
 GameObject:
   m_ObjectHideFlags: 0

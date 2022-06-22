@@ -5,15 +5,20 @@ using UnityEngine;
 
 public class QuickMatchSystem : DoorSystem
 {
-    bool bQuickMatch;
+    [Header("UI")]
+    public UIEarth earth;
 
     private void Start(){
+
+        this.earth.gameObject.SetActive(false);
         UIGame.OnPracticeMode += Init;
         UIGame.OnLobby += Exit;
     }
 
     public override void Init(eRoomMode roomMode)
     {
+        this.earth.gameObject.SetActive(true);
+
         base.Open(() =>
         {
             //퀵매치로직 
@@ -25,6 +30,7 @@ public class QuickMatchSystem : DoorSystem
         base.Close(() =>
         {
             //퀵매치 종료 
+            earth.gameObject.SetActive(false);
         });
     }
 

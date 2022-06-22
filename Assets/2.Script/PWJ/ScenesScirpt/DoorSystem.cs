@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class DoorSystem : MonoBehaviour
+public  class DoorSystem : MonoBehaviour
 {
-
     public Animator leftDoor;
     public Animator rigthDoor;
     public DoorValue doorValue;
 
  
-    public abstract void Init(eRoomMode eRoom);
-    public abstract void Exit();
+    public virtual void Init(eRoomMode eRoom){}
+    public virtual void Exit(){}
 
     public virtual void Open(System.Action OnOpen)
     {

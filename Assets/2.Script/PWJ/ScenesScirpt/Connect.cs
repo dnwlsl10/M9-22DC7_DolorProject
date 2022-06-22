@@ -13,6 +13,7 @@ public class Connect : MonoBehaviourPunCallbacks
     [SerializeField]
     private UserInfo userInfo;
     private RobotData robotData;
+    private GameObject robot;
 
     [Header("Assigned")]
     public GameObject playerPrefab;
@@ -55,11 +56,15 @@ public class Connect : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         this.roomMode = eRoomMode.Lobby;
-        if (isTest) Instantiate(playerPrefab, target.transform.position, Quaternion.identity);
+        if (isTest)
+        {
+            robot = Instantiate(playerPrefab, target.transform.position, Quaternion.identity);
+        }
         else{
             var prefab = Resources.Load<GameObject>("Prefab/" + robotData.connect_name);
-            var obj = Instantiate<GameObject>(prefab, target.transform.position, Quaternion.identity);
+            robot = Instantiate<GameObject>(prefab, target.transform.position, Quaternion.identity);
         }
+
         uIGame.Init();
         EventHandler();
     }
