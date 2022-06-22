@@ -1,42 +1,31 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PracticeSystem : MonoBehaviour
+public class PracticeSystem : DoorSystem
 {
-
-    public Animator leftDoor;
-    public Animator rigthDoor;
-    public DoorValue doorValue;
-    public bool isPracticeMode { get; private set; }
-    public bool isWorking { get; private set; }
-
-    public void Init(System.Action<bool> OnComplete)
+    private void Start() 
     {
-        isWorking = true;
-        leftDoor.SetTrigger("open");
-        rigthDoor.SetTrigger("open");
-        StartCoroutine(OnCheckDoors(() =>
-        {
-            OnComplete(isPracticeMode = true);
-            isWorking = false;
-        }));
+        UIGame.OnPracticeMode += Init;
+        UIGame.OnLobby += Exit;
+    }
+    public override void Init(eRoomMode eRoom)
+    {
+        base.Open(() =>{
+        //연습모드 로직 
+      });
     }
 
-    public void Exit(System.Action<bool> OnComplete)
+    public override void Exit()
     {
-        isWorking = true;
-        leftDoor.SetTrigger("close");
-        rigthDoor.SetTrigger("close");
-        StartCoroutine(OnCheckDoors(() =>
-        {
-            OnComplete(isPracticeMode = false);
-            isWorking = false;
-        }));
+        base.Close(()=>{
+        //연습모드 종료 
+       });
     }
-    IEnumerator OnCheckDoors(System.Action OnCompelet)
-    {
-        yield return new WaitForSeconds(3f);
-        OnCompelet();
+
+    private void OnDisable(){
+        UIGame.OnPracticeMode -= Init;
+        UIGame.OnLobby -= Exit;
     }
 }
