@@ -63,4 +63,9 @@ public class Status_JAWON : MonoBehaviourPun, IDamageable
             renderer.material.color = origin;
         }
     }
+
+    public void TakeDamage(float damage)
+    {
+        throw new System.NotImplementedException();
+    }
 }
