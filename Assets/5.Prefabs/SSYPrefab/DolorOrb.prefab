@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1230832180310254397}
   - component: {fileID: 6619821961358353631}
   - component: {fileID: 1266708979469780885}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: DolorOrb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 1344611293429857103}
   - component: {fileID: 1344611293429857102}
   - component: {fileID: 2707147885952024167}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: Detector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 1344611293779859683}
   - component: {fileID: 1344611293779859693}
   - component: {fileID: 1344611293779859682}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: MagicOrb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
