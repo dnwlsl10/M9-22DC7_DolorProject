@@ -5,66 +5,25 @@ using UnityEngine;
 public class UIGame : MonoBehaviour
 {
     [SerializeField]
-    private PracticeSystem practiceSystem;
-    private Connect connect;
     public GameObject test;
-    public static event System.Action OnPracticeMode;
-    public static event System.Action OnLobby;
-    public static event System.Action OnQucikMatch;
-    public bool isPractice;
-    public bool isQuickmach;
+    public static event System.Action<eRoomMode> OnPracticeMode =(e)=>{};
+    public static event System.Action OnLobby =()=>{};
+    public static event System.Action<eRoomMode> OnQucikMatch =(e)=>{};
+    public bool bPracticeMode;
+    public bool bQuickMatch;
 
-    public void Init(Connect connect){
-        this.practiceSystem = this.GetComponent<PracticeSystem>();
-        this.connect = connect;
-    }
-
-
-    void OnClickParticelMode(){
-
-        if (Input.GetKeyDown(KeyCode.T) && !isPractice && !practiceSystem.isWorking)
-        {
-            practiceSystem.Init((obj) =>
-            {
-                isPractice = obj;
-                OnPracticeMode();
-            });
-
-            Off();
-        }
-
-        if (Input.GetKeyDown(KeyCode.C) && practiceSystem.isPracticeMode && !practiceSystem.isWorking)
-        {
-            practiceSystem.Exit((obj) =>
-            {
-                isPractice = obj;
-                OnLobby();
-                On();
-            });
-
-        }
-    }
-
-    void OnClickQuickMatchMode(){
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            connect.OnQuickStart();
-        }
-    }
-
-    // Update is called once per frame
+    public void Init()  => test.SetActive(true);
+    
+    void EnterPracticeMode() => OnPracticeMode(eRoomMode.PracticeRoom);
+    
+    void EnterQuickMatch() => OnQucikMatch(eRoomMode.QuickMatchRoom);
+      
+    void EnterLobby() => OnLobby();
+    
     void Update()
     {
-        OnClickParticelMode();
-        OnClickQuickMatchMode();
-    }
-
-    void Off(){
-        test.SetActive(false);
-    }
-
-    void On(){
-        test.SetActive(true);
+        if(Input.GetKeyDown(KeyCode.A)) EnterPracticeMode();
+        if(Input.GetKeyDown(KeyCode.B)) EnterQuickMatch();
+        if(Input.GetKeyDown(KeyCode.C)) EnterLobby();
     }
 }

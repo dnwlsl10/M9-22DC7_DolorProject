@@ -3,19 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.Reflection;
 
 [RequireComponent(typeof(PhotonView))]
 public class BasicWeapon : WeaponBase
 {
     public event Cur_MaxEvent OnValueChange;
-    [Header("ButtonHandler")]
-#if test
+    [Header("Button")]
     public UnityEngine.InputSystem.InputActionReference gripButton;
     public UnityEngine.InputSystem.InputActionReference shootButton;
-#else
-    public ButtonHandler gripButton;
-    public ButtonHandler shootButton;
-#endif
 
     [Header("SpawnPoint")]
     public Transform bulletSpawnPoint;
@@ -31,16 +27,19 @@ public class BasicWeapon : WeaponBase
     private AudioClip onFireSFX;
     [SerializeField]
     private AudioClip onReloadSFX;
-
     private WaitForEndOfFrame eof = new WaitForEndOfFrame();
-
     public float CurrentAmmo
     {
         get { return weaponSetting.currentAmmo;}
         set
         {
-            weaponSetting.currentAmmo = value;
-            OnValueChange?.Invoke(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
+            float prevAmmo = weaponSetting.currentAmmo;
+            weaponSetting.currentAmmo = Mathf.Clamp(value, 0, weaponSetting.maxAmmo);
+
+            if (prevAmmo != weaponSetting.currentAmmo)
+            {
+                OnValueChange?.Invoke(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
+            }
         }
     }
     
@@ -50,37 +49,32 @@ public class BasicWeapon : WeaponBase
     private void OnEnable()
     {
         print("SingleMode :" + PhotonNetwork.SingleMode);
-        if (pv.Mine == false) return;
+        if (photonView.Mine == false) return;
 
-#if test
-        Debug.LogWarning("BasicWeapon is in TestMode");
-        shootButton.action.started += StartWeaponAction;
-        shootButton.action.canceled += StopWeaponAction;
-#else
-        shootButton.OnButtonDown += StartWeaponAction;
-        shootButton.OnButtonUp += StopWeaponAction;
-#endif
+        shootButton.action.started += StartWeaponEvent;
+        shootButton.action.canceled += StopWeaponEvent;
+        gripButton.action.canceled += StopWeaponEvent;
     }
     private void OnDisable()
     {
-        if (pv.Mine == false) return;
+        if (photonView.Mine == false) return;
         
-#if test
-        shootButton.action.started -= StartWeaponAction;
-        shootButton.action.canceled -= StopWeaponAction;
-#else
-        shootButton.OnButtonDown -= StartWeaponAction;
-        shootButton.OnButtonUp -= StopWeaponAction;
-#endif
+        shootButton.action.started -= StartWeaponEvent;
+        shootButton.action.canceled -= StopWeaponEvent;
+        gripButton.action.canceled -= StopWeaponEvent;
+    }
+    public void StartWeaponEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    {
+        StartWeaponAction();
+    }
+    public void StopWeaponEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    {
+        StopWeaponAction();
     }
 
-#if test
-    public void StartWeaponAction(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
-#else
     public override void StartWeaponAction()
-#endif
     {
-        if (isReloading)
+        if (isReloading && !grapEvent.isRightGrab)
             return;
 
         if (isAutomatic)
@@ -92,11 +86,7 @@ public class BasicWeapon : WeaponBase
             OnAttack();
     }
 
-#if test
-    public void StopWeaponAction(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
-#else
     public override void StopWeaponAction()
-#endif
     {
         if (coroutineHolder != null)
             StopCoroutine(coroutineHolder);
@@ -129,13 +119,7 @@ public class BasicWeapon : WeaponBase
         lastAttackTime = Time.time;
         CurrentAmmo--;
 
-        if (PhotonNetwork.SingleMode == false)
-        {
-            print("RPCATTACK");
-            pv.RPC("RPCAttack", RpcTarget.AllViaServer, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-        }
-        else
-            RPCAttack(bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        photonView.CustomRPC(this, "RPCAttack", RpcTarget.AllViaServer, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
 
         if (CurrentAmmo <= 0)
             StartReload();
@@ -144,9 +128,9 @@ public class BasicWeapon : WeaponBase
     [PunRPC]
     private void RPCAttack(Vector3 bulletPosition, Quaternion bulletRotation)
     {
-        print("AAAAA");
-        if (pv.IsMine)
+        if (photonView.Mine)
             NetworkObjectPool.SpawnFromPool(bullet.name, bulletPosition, bulletRotation);
+        
         StartCoroutine(OnMuzzleFlashEffect());
         PlaySound(onFireSFX);
     }
@@ -170,8 +154,6 @@ public class BasicWeapon : WeaponBase
 
         isReloading = false;
 
-
-        
         CurrentAmmo = weaponSetting.maxAmmo;
     }
 }

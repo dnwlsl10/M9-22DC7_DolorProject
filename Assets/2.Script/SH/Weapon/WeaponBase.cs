@@ -16,7 +16,7 @@ public struct WeaponSetting
 }
 public delegate void Cur_MaxEvent(float curValue, float maxValue);
 
-public class WeaponBase : MonoBehaviour
+public class WeaponBase : MonoBehaviourPun
 {
     [SerializeField]
     protected AudioSource audioSource;
@@ -24,7 +24,7 @@ public class WeaponBase : MonoBehaviour
     protected float lastAttackTime = 0;
     protected bool isReloading;
     protected bool isAttacking;
-    public PhotonView pv;
+    public GrabEvent grapEvent;
 
     public virtual void StartWeaponAction(){}
     public virtual void StopWeaponAction(){}
@@ -48,7 +48,6 @@ public class WeaponBase : MonoBehaviour
 
     protected void Awake()
     {
-        pv = GetComponent<PhotonView>();
         Initialize();
     }
 }

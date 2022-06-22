@@ -198,7 +198,10 @@ namespace Photon.Pun
             get 
             {
                 if (PhotonNetwork.InRoom)
-                    return PhotonNetwork.CountOfPlayersInRooms <= 1;
+                {
+                    Debug.Log(CountOfPlayersInRooms);
+                    return PhotonNetwork.CountOfPlayersInRooms <= 0;
+                }
                 else
                     return true;
             }
@@ -458,11 +461,11 @@ namespace Photon.Pun
                     return;
                 }
 
-                // if (value && IsConnected)
-                // {
-                //     Debug.LogError("Can't start OFFLINE mode while connected!");
-                //     return;
-                // }
+                if (value && IsConnected)
+                {
+                    Debug.LogError("Can't start OFFLINE mode while connected!");
+                    return;
+                }
 
                 if (NetworkingClient.IsConnected)
                 {
@@ -2483,6 +2486,10 @@ namespace Photon.Pun
 
         public static GameObject Instantiate(string prefabName, Vector3 position, Quaternion rotation, byte group = 0, object[] data = null)
         {
+            if (SingleMode)
+            {
+                return UnityEngine.Object.Instantiate((GameObject)Resources.Load(prefabName), position, rotation);
+            }
             if (CurrentRoom == null)
             {
                 Debug.LogError("Can not Instantiate before the client joined/created a room. State: "+PhotonNetwork.NetworkClientState);

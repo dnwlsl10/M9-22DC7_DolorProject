@@ -19,7 +19,7 @@ public class OrbFire : MonoBehaviour
     }
     void OrbShoot()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             GameObject orb = Instantiate(orbFactory);
             orb.transform.position = firePosition.transform.position;

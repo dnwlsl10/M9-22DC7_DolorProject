@@ -9,10 +9,9 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Hologram Earth
   m_Shader: {fileID: 4800000, guid: e99f8b80b1693284587af0c131f61f3d, type: 3}
-  m_ShaderKeywords: _ALPHAMASKFEATURE_ON _COLORGLITCHFEATURE_ON _FRESNELFEATURE_ON
-    _GRAINFEATURE_ON _LINE1FEATURE_ON _LINE2FEATURE_ON _LINEBOTHFEATURE_ON _LINEGLITCHFEATURE_ON
-    _NORMALMAPFEATURE_ON _POSITIONFEATURE_Y _POSITIONSPACEFEATURE_WORLD _RANDOMGLITCHFEATURE_ON
-    _SOFTINTERSECTIONFEATURE_COLOR _ZWRITE_ON
+  m_ShaderKeywords: _ALPHAMASKFEATURE_ON _FRESNELFEATURE_ON _LINE2FEATURE_ON _NORMALMAPFEATURE_ON
+    _POSITIONFEATURE_Y _POSITIONSPACEFEATURE_WORLD _SOFTINTERSECTION1FEATURE_OFF
+    _SOFTINTERSECTION2FEATURE_OFF _SOFTINTERSECTIONFEATURE_COLOR _ZWRITE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -88,18 +87,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Alpha: 1
-    - _AlphaMaskAffect: 0.887
+    - _AlphaMaskAffect: 1
     - _AlphaMaskFeature: 1
     - _BumpScale: 1
-    - _ColorGlitchAffect: 0.247
-    - _ColorGlitchFeature: 1
+    - _ColorGlitchAffect: 0.02
+    - _ColorGlitchFeature: 0
     - _CullMode: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DisplacementAmount: 0
     - _DisplacementFeature: 0
     - _DissolveFeature: 0
-    - _DissolveHide: -1
+    - _DissolveHide: -0.51
     - _DstBlend: 0
     - _FresnelAlphaPower: 4
     - _FresnelAlphaScale: 1
@@ -109,10 +108,10 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GrainAffect: 1
-    - _GrainFeature: 1
+    - _GrainAffect: 0
+    - _GrainFeature: 0
     - _Line1Alpha: 0.15
-    - _Line1Feature: 1
+    - _Line1Feature: 0
     - _Line1Frequency: 23.43
     - _Line1Hardness: 1.45
     - _Line1InvertedThickness: 0
@@ -123,8 +122,8 @@ Material:
     - _Line2Hardness: 2
     - _Line2InvertedThickness: 0.255
     - _Line2Speed: -1
-    - _LineBothFeature: 1
-    - _LineGlitchFeature: 1
+    - _LineBothFeature: 0
+    - _LineGlitchFeature: 0
     - _LineGlitchFrequency: 0.08
     - _LineGlitchHardness: 100
     - _LineGlitchInvertedThickness: 0.14
@@ -140,14 +139,14 @@ Material:
     - _NormalScale: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _PositionDirection: 1
+    - _PositionDirection: 0
     - _PositionFeature: 1
     - _PositionSpaceFeature: 0
     - _RandomGlitchAmount: 1
     - _RandomGlitchConstant: 0
-    - _RandomGlitchFeature: 1
+    - _RandomGlitchFeature: 0
     - _RandomGlitchTiling: 0.87
-    - _RandomOffset: 36883
+    - _RandomOffset: 4181.0396
     - _SmoothnessTextureChannel: 0
     - _SoftIntersection1Affect: 1
     - _SoftIntersection1Distance: 0
@@ -173,10 +172,11 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DissolveScale: {r: 0.1, g: 1.01, b: 5, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GrainScale: {r: 25, g: 25, b: 25, a: 0}
-    - _GrainValues: {r: 0, g: 2, b: 0, a: 0}
+    - _GrainScale: {r: 58.69, g: 25, b: 25, a: 0}
+    - _GrainValues: {r: 371.8, g: 2, b: 0, a: 0}
     - _LineGlitchOffset: {r: 0.08, g: 0, b: 0, a: 0}
-    - _MainColor: {r: 3.9533494, g: 1.3102682, b: 0.6416429, a: 0.050980393}
+    - _MainColor: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 0.050980393}
     - _MaskCenter: {r: 0, g: 0, b: 0, a: 0}
     - _MaskSize: {r: 0, g: 0, b: 0, a: 0}
     - _RandomGlitchOffset: {r: -0.1, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []

@@ -126,7 +126,8 @@ public class NetworkObjectPool : MonoBehaviour
     GameObject CreateNewObject(string name, GameObject prefab)
     {
         // var obj = Instantiate(prefab, transform);
-        var obj = PhotonNetwork.Instantiate(name, Vector3.zero, Quaternion.identity);
+        GameObject obj = null;
+        obj = PhotonNetwork.Instantiate(name, Vector3.zero, Quaternion.identity);
         obj.name = name;
         obj.SetActive(false); // call OnDisable() --> ReturnToPool
 
