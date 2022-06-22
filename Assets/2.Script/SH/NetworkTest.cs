@@ -14,7 +14,7 @@ public class NetworkTest : MonoBehaviourPunCallbacks
 
     private void Start() 
     {
-        // PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.GameVersion = "1.0";
         Connect();
     }
@@ -49,14 +49,12 @@ public class NetworkTest : MonoBehaviourPunCallbacks
     public void LeaveRoom() => PhotonNetwork.LeaveRoom();
 
     public GameObject objPool;
-    public override void OnJoinedRoom()
+    public override void OnCreatedRoom()
     {
         print("Joined Room" + PhotonNetwork.CurrentRoom.PlayerCount);
-        // PhotonNetwork.Instantiate(testMode ? "Prefab/Mech_Test" : "Prefab/Mech_ForUse", Vector3.zero, Quaternion.identity);
-        // PhotonNetwork.Instantiate("Prefab/Mech_Test", Vector3.zero, Quaternion.identity);
         PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
-        // Instantiate(objPool);
         if (testMode) Invoke("SpawnSimulator", 1);
+        
     }
     private void SpawnSimulator()
     {
@@ -74,10 +72,16 @@ public class NetworkTest : MonoBehaviourPunCallbacks
         CreateRoom();
     }
 
-    //public override void OnPlayerEnteredRoom(Player newPlayer)
-    //{
-        
-    //}
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && PhotonNetwork.IsMasterClient)
+        {
+            print("Game Start");
+            PhotonNetwork.LoadLevel(1);
+        }
+    }
+
+    
 
 
     //public override void OnPlayerLeftRoom(Player otherPlayer)

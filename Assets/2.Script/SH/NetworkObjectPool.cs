@@ -10,6 +10,10 @@ public class NetworkObjectPool : MonoBehaviour
     public static NetworkObjectPool instance;
     void Awake()
     {
+        if (NetworkObjectPool.instance != null)
+        {
+            NetworkObjectPool.instance.DestroyPool();
+        }
         instance = this;
         InitPool();
     }

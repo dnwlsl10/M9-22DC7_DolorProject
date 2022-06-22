@@ -10,7 +10,7 @@ public class BasicWeapon : WeaponBase
 {
     public event Cur_MaxEvent OnValueChange;
     [Header("Button")]
-    public UnityEngine.InputSystem.InputActionReference gripButton;
+    // public UnityEngine.InputSystem.InputActionReference grabButton;
     public UnityEngine.InputSystem.InputActionReference shootButton;
 
     [Header("SpawnPoint")]
@@ -53,7 +53,7 @@ public class BasicWeapon : WeaponBase
 
         shootButton.action.started += StartWeaponEvent;
         shootButton.action.canceled += StopWeaponEvent;
-        gripButton.action.canceled += StopWeaponEvent;
+        grabButton.action.canceled += StopWeaponEvent;
     }
     private void OnDisable()
     {
@@ -61,7 +61,7 @@ public class BasicWeapon : WeaponBase
         
         shootButton.action.started -= StartWeaponEvent;
         shootButton.action.canceled -= StopWeaponEvent;
-        gripButton.action.canceled -= StopWeaponEvent;
+        grabButton.action.canceled -= StopWeaponEvent;
     }
     public void StartWeaponEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
     {
@@ -74,7 +74,7 @@ public class BasicWeapon : WeaponBase
 
     public override void StartWeaponAction()
     {
-        if (isReloading && !grapEvent.isRightGrab)
+        if (isReloading && !grabEvent.isRightGrab)
             return;
 
         if (isAutomatic)

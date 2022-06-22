@@ -199,8 +199,7 @@ namespace Photon.Pun
             {
                 if (PhotonNetwork.InRoom)
                 {
-                    Debug.Log(CountOfPlayersInRooms);
-                    return PhotonNetwork.CountOfPlayersInRooms <= 0;
+                    return PhotonNetwork.CurrentRoom.PlayerCount <= 1;
                 }
                 else
                     return true;

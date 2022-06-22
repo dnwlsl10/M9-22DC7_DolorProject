@@ -24,7 +24,8 @@ public class WeaponBase : MonoBehaviourPun
     protected float lastAttackTime = 0;
     protected bool isReloading;
     protected bool isAttacking;
-    public GrabEvent grapEvent;
+    public GrabEvent grabEvent;
+    public UnityEngine.InputSystem.InputActionReference grabButton;
 
     public virtual void StartWeaponAction(){}
     public virtual void StopWeaponAction(){}

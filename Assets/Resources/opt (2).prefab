@@ -5495,7 +5495,8 @@ MonoBehaviour:
     maxAmmo: 11
     attackRate: 0.2
     attackDistance: 11
-  gripButton: {fileID: 0}
+  grabEvent: {fileID: 0}
+  grabButton: {fileID: 0}
   shootButton: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   bulletSpawnPoint: {fileID: 2330723740316627437}
   muzzleFlashEffect: {fileID: 0}
@@ -5521,6 +5522,7 @@ MonoBehaviour:
   screenLayer:
     serializedVersion: 2
     m_Bits: 2147483648
+  interpolationSpeed: 25
 --- !u!1 &2330723739735247545
 GameObject:
   m_ObjectHideFlags: 0
@@ -8157,10 +8159,10 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 0
+  observableSearch: 1
   ObservedComponents:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 3213614331723133095}
+  - {fileID: 3213614331723133091}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -8566,7 +8568,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 938cf060174e03246a98f394d4b5c999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scriptsForOnlyLocal: []
+  scriptsForOnlyLocal:
+  - {fileID: 2330723740647031443}
+  - {fileID: 2330723739735247549}
+  - {fileID: 3213614331723133082}
+  - {fileID: 5892507698415874916}
 --- !u!114 &3213614331723133082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8581,7 +8587,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 1
   leftHandJoystick:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
       m_Name: Left Hand Joystick
       m_Type: 0
@@ -8591,7 +8597,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: -4084014799535200556, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   centerEye: {fileID: 2330723740103372101}
   rotateStartThreshold: 30
   rotateFinishThreshold: 20
@@ -8704,7 +8710,6 @@ MonoBehaviour:
   - {fileID: 3213614331723133088}
   - {fileID: 4047204340004630340}
   - {fileID: 443973926705929473}
-  - {fileID: 0}
   - {fileID: 2330723739762855198}
   - {fileID: 2412379148257255336}
   - {fileID: 2330723740899400365}

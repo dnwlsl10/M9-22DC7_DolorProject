@@ -9,10 +9,23 @@ public class NetworkObjectPoolManager : MonoBehaviourPunCallbacks
 {
     public GameObject networkObjectPool;
     private GameObject spawnedPool;
-    public override void OnJoinedRoom()
+
+    IEnumerator Start() {
+        yield return new WaitForSeconds(3);
+        if (PhotonNetwork.SingleMode == false)
+            OnCreatedRoom();
+    }
+
+    // public override void OnJoinedRoom()
+    // {
+    //     spawnedPool = Instantiate(networkObjectPool);
+    //     DontDestroyOnLoad(spawnedPool);
+    // }
+
+    public override void OnCreatedRoom()
     {
         spawnedPool = Instantiate(networkObjectPool);
-        DontDestroyOnLoad(spawnedPool);
+        // DontDestroyOnLoad(spawnedPool);
     }
 
     public override void OnLeftRoom()
