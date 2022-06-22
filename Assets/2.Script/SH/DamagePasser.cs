@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Photon.Pun.PhotonView))]
+// [RequireComponent(typeof(Photon.Pun.PhotonView))]
 public class DamagePasser : MonoBehaviour, IDamageable
 {
     public IDamageable target;

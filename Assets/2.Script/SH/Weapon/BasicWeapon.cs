@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.Reflection;
 
 [RequireComponent(typeof(PhotonView))]
 public class BasicWeapon : WeaponBase
@@ -50,21 +51,28 @@ public class BasicWeapon : WeaponBase
         print("SingleMode :" + PhotonNetwork.SingleMode);
         if (photonView.Mine == false) return;
 
-        shootButton.action.started += StartWeaponAction;
-        shootButton.action.canceled += StopWeaponAction;
-        gripButton.action.canceled += StopWeaponAction;
+        shootButton.action.started += StartWeaponEvent;
+        shootButton.action.canceled += StopWeaponEvent;
+        gripButton.action.canceled += StopWeaponEvent;
     }
     private void OnDisable()
     {
         if (photonView.Mine == false) return;
         
-        shootButton.action.started -= StartWeaponAction;
-        shootButton.action.canceled -= StopWeaponAction;
-        gripButton.action.canceled -= StopWeaponAction;
+        shootButton.action.started -= StartWeaponEvent;
+        shootButton.action.canceled -= StopWeaponEvent;
+        gripButton.action.canceled -= StopWeaponEvent;
+    }
+    public void StartWeaponEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    {
+        StartWeaponAction();
+    }
+    public void StopWeaponEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    {
+        StopWeaponAction();
     }
 
-
-    public void StartWeaponAction(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    public override void StartWeaponAction()
     {
         if (isReloading && !grapEvent.isRightGrab)
             return;
@@ -78,7 +86,7 @@ public class BasicWeapon : WeaponBase
             OnAttack();
     }
 
-    public void StopWeaponAction(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    public override void StopWeaponAction()
     {
         if (coroutineHolder != null)
             StopCoroutine(coroutineHolder);
@@ -111,13 +119,7 @@ public class BasicWeapon : WeaponBase
         lastAttackTime = Time.time;
         CurrentAmmo--;
 
-        if (PhotonNetwork.SingleMode == false)
-        {
-            print("RPCATTACK");
-            photonView.RPC("RPCAttack", RpcTarget.AllViaServer, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-        }
-        else if(PhotonNetwork.SingleMode == true && PhotonNetwork.InRoom)
-            RPCAttack(bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        photonView.CustomRPC(this, "RPCAttack", RpcTarget.AllViaServer, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
 
         if (CurrentAmmo <= 0)
             StartReload();
@@ -126,11 +128,9 @@ public class BasicWeapon : WeaponBase
     [PunRPC]
     private void RPCAttack(Vector3 bulletPosition, Quaternion bulletRotation)
     {
-        if (photonView.IsMine)
+        if (photonView.Mine)
             NetworkObjectPool.SpawnFromPool(bullet.name, bulletPosition, bulletRotation);
-        else if(photonView.Mine){
-            ObjectPooler.SpawnFromPool(bullet.name,bulletPosition,bulletRotation);
-        }
+        
         StartCoroutine(OnMuzzleFlashEffect());
         PlaySound(onFireSFX);
     }
