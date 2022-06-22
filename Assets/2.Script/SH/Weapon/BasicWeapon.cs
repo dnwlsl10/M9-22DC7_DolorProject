@@ -12,7 +12,6 @@ public class BasicWeapon : WeaponBase
     public UnityEngine.InputSystem.InputActionReference gripButton;
     public UnityEngine.InputSystem.InputActionReference shootButton;
 
-
     [Header("SpawnPoint")]
     public Transform bulletSpawnPoint;
 
@@ -27,9 +26,7 @@ public class BasicWeapon : WeaponBase
     private AudioClip onFireSFX;
     [SerializeField]
     private AudioClip onReloadSFX;
-
     private WaitForEndOfFrame eof = new WaitForEndOfFrame();
-
     public float CurrentAmmo
     {
         get { return weaponSetting.currentAmmo;}
@@ -41,7 +38,6 @@ public class BasicWeapon : WeaponBase
             if (prevAmmo != weaponSetting.currentAmmo)
             {
                 OnValueChange?.Invoke(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
-
             }
         }
     }
@@ -56,6 +52,7 @@ public class BasicWeapon : WeaponBase
 
         shootButton.action.started += StartWeaponAction;
         shootButton.action.canceled += StopWeaponAction;
+        gripButton.action.canceled += StopWeaponAction;
     }
     private void OnDisable()
     {
@@ -63,11 +60,13 @@ public class BasicWeapon : WeaponBase
         
         shootButton.action.started -= StartWeaponAction;
         shootButton.action.canceled -= StopWeaponAction;
+        gripButton.action.canceled -= StopWeaponAction;
     }
+
 
     public void StartWeaponAction(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
     {
-        if (isReloading)
+        if (isReloading && !grapEvent.isRightGrab)
             return;
 
         if (isAutomatic)
