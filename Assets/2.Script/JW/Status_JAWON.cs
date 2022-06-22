@@ -32,7 +32,7 @@ public class Status_JAWON : MonoBehaviourPun, IDamageable
         HP = maxHP;
     }
 
-    public void TakeDamage(float damage, GameObject hitObject=null)
+    public void TakeDamage(float damage)
     {
         Debug.Log("Damage" + damage);
         HP -= damage;
