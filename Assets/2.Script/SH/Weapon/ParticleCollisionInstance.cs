@@ -23,7 +23,7 @@ public class ParticleCollisionInstance : MonoBehaviourPun
     {
         part = GetComponent<ParticleSystem>();
 
-        if (photonView.IsMine == false)
+        if (photonView.Mine == false)
         {
             var col = part.collision;
             col.enabled = false;
@@ -31,17 +31,17 @@ public class ParticleCollisionInstance : MonoBehaviourPun
     }
     void OnParticleCollision(GameObject other)
     {
-        if (photonView.IsMine == false) return;
+        if (photonView.Mine == false) return;
    
         if (part.GetCollisionEvents(other, collisionEvents) > 0)
         {
-           if (collisionEvents[0].colliderComponent.TryGetComponent<PhotonView>(out PhotonView pv))
+           if (collisionEvents[0].colliderComponent.TryGetComponent<PhotonView>(out PhotonView pv) && pv.ViewID > 0)
             {
                 photonView.RPC("RPCCollision", RpcTarget.AllViaServer, pv.ViewID, collisionEvents[0].intersection, collisionEvents[0].normal);
             }
            else
             {
-                photonView.RPC("RPCCollision", RpcTarget.AllViaServer, -1, collisionEvents[0].intersection, collisionEvents[0].normal);
+                photonView.RPC("RPCCollision", RpcTarget.AllViaServer, 0, collisionEvents[0].intersection, collisionEvents[0].normal);
 
                 if (collisionEvents[0].colliderComponent.TryGetComponent<IDamageable>(out IDamageable damageable))
                     damageable.TakeDamage(damage);
@@ -52,7 +52,7 @@ public class ParticleCollisionInstance : MonoBehaviourPun
     [PunRPC]
     private void RPCCollision(int viewID, Vector3 intersection, Vector3 normal)
     {
-        if (viewID != -1 && PhotonNetwork.GetPhotonView(viewID).TryGetComponent<IDamageable>(out IDamageable damageable))
+        if (viewID != 0 && PhotonNetwork.GetPhotonView(viewID).TryGetComponent<IDamageable>(out IDamageable damageable))
             damageable.TakeDamage(damage);
 
         foreach (var effect in EffectsOnCollision)

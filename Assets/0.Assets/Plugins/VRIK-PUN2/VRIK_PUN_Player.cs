@@ -19,7 +19,7 @@ namespace RootMotion.Demos
 
         // NetworkTransforms are network snapshots of Transform position, rotation, velocity and angular velocity
         private NetworkTransform rootNetworkT = new NetworkTransform();
-        private NetworkTransform headNetworkT = new NetworkTransform();
+        // private NetworkTransform headNetworkT = new NetworkTransform();
         private NetworkTransform leftHandNetworkT = new NetworkTransform();
         private NetworkTransform rightHandNetworkT = new NetworkTransform();
 
@@ -27,7 +27,7 @@ namespace RootMotion.Demos
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
             // Initiation
-            if (photonView.IsMine)
+            if (photonView.Mine)
             {
                 InitiateLocal();
             }
@@ -36,12 +36,12 @@ namespace RootMotion.Demos
                 InitiateRemote();
             }
 
-            name = "VRIK_PUN_Player " + (photonView.IsMine ? "(Local)" : "(Remote)");
+            name = "VRIK_PUN_Player " + (photonView.Mine ? "(Local)" : "(Remote)");
         }
 
         void Update()
         {
-            if (photonView.IsMine)
+            if (photonView.Mine)
             {
                 UpdateLocal();
             }
@@ -58,7 +58,7 @@ namespace RootMotion.Demos
             {
                 // Send NetworkTransform data
                 rootNetworkT.Send(stream);
-                headNetworkT.Send(stream);
+                //headNetworkT.Send(stream);
                 leftHandNetworkT.Send(stream);
                 rightHandNetworkT.Send(stream);
             }
@@ -66,7 +66,7 @@ namespace RootMotion.Demos
             {
                 // Receive NetworkTransform data
                 rootNetworkT.Receive(stream);
-                headNetworkT.Receive(stream);
+                //headNetworkT.Receive(stream);
                 leftHandNetworkT.Receive(stream);
                 rightHandNetworkT.Receive(stream);
             }
@@ -115,13 +115,13 @@ namespace RootMotion.Demos
         {
             // Update IK target velocities (for interpolation)
             rootNetworkT.ReadVelocitiesLocal(ik.references.root);
-            headNetworkT.ReadVelocitiesLocal(ik.solver.spine.headTarget);
+            //headNetworkT.ReadVelocitiesLocal(ik.solver.spine.headTarget);
             leftHandNetworkT.ReadVelocitiesLocal(ik.solver.leftArm.target);
             rightHandNetworkT.ReadVelocitiesLocal(ik.solver.rightArm.target);
 
             // Update IK target positions/rotations
             rootNetworkT.ReadTransformLocal(ik.references.root);
-            headNetworkT.ReadTransformLocal(ik.solver.spine.headTarget);
+            //headNetworkT.ReadTransformLocal(ik.solver.spine.headTarget);
             leftHandNetworkT.ReadTransformLocal(ik.solver.leftArm.target);
             rightHandNetworkT.ReadTransformLocal(ik.solver.rightArm.target);
         }
@@ -151,9 +151,9 @@ namespace RootMotion.Demos
             proxyRoot.localPosition = Vector3.zero;
             proxyRoot.localRotation = Quaternion.identity;
 
-            headIKProxy = new GameObject("Head IK Proxy").transform;
-            headIKProxy.position = ik.references.head.position;
-            headIKProxy.rotation = ik.references.head.rotation;
+            // headIKProxy = new GameObject("Head IK Proxy").transform;
+            // headIKProxy.position = ik.references.head.position;
+            // headIKProxy.rotation = ik.references.head.rotation;
 
             leftHandIKProxy = new GameObject("Left Hand IK Proxy").transform;
             leftHandIKProxy.position = ik.references.leftHand.position;
@@ -164,7 +164,7 @@ namespace RootMotion.Demos
             rightHandIKProxy.rotation = ik.references.rightHand.rotation;
 
             // Assign proxies as IK targets for the remote instance
-            ik.solver.spine.headTarget = headIKProxy;
+            //ik.solver.spine.headTarget = headIKProxy;
             ik.solver.leftArm.target = leftHandIKProxy;
             ik.solver.rightArm.target = rightHandIKProxy;
 
@@ -179,7 +179,7 @@ namespace RootMotion.Demos
         {
             // Apply synced position/rotations to proxies
             if (ik.solver.locomotion.weight <= 0) rootNetworkT.ApplyRemoteInterpolated(ik.references.root, proxyInterpolationSpeed, proxyMaxErrorSqrMag); // Only sync root when using animated locomotion. Procedural locomotion follows head IK proxy anyway
-            headNetworkT.ApplyRemoteInterpolated(headIKProxy, proxyInterpolationSpeed, proxyMaxErrorSqrMag);
+            //headNetworkT.ApplyRemoteInterpolated(headIKProxy, proxyInterpolationSpeed, proxyMaxErrorSqrMag);
             leftHandNetworkT.ApplyRemoteInterpolated(leftHandIKProxy, proxyInterpolationSpeed, proxyMaxErrorSqrMag);
             rightHandNetworkT.ApplyRemoteInterpolated(rightHandIKProxy, proxyInterpolationSpeed, proxyMaxErrorSqrMag);
         }

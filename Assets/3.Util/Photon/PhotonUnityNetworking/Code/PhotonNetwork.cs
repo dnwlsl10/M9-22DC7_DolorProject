@@ -458,11 +458,11 @@ namespace Photon.Pun
                     return;
                 }
 
-                // if (value && IsConnected)
-                // {
-                //     Debug.LogError("Can't start OFFLINE mode while connected!");
-                //     return;
-                // }
+                if (value && IsConnected)
+                {
+                    Debug.LogError("Can't start OFFLINE mode while connected!");
+                    return;
+                }
 
                 if (NetworkingClient.IsConnected)
                 {

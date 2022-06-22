@@ -21,7 +21,7 @@ public class MechScriptManager : MonoBehaviour
     {
         pv = GetComponent<PhotonView>();
 
-        if (pv.IsMine == false)
+        if (pv.Mine == false)
             foreach (var script in scriptsForOnlyLocal)
                 Destroy(script);
     }
