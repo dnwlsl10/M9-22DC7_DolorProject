@@ -68,7 +68,7 @@ public class CrossHair : MonoBehaviour
             // }
             // else
             
-                var newRay = ray.GetPoint(3f);
+                var newRay = ray.GetPoint(13f);
                 Vector3 targetToEye = centerEye.position - newRay;
                 if (Physics.Raycast(newRay, targetToEye, out RaycastHit screenHit, float.MaxValue, screenLayer))
                 {

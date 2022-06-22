@@ -8,10 +8,11 @@ public class QuickMatchSystem : DoorSystem
     [Header("UI")]
     public UIEarth earth;
 
-    private void Start(){
-
+    void Awake(){
         this.earth.gameObject.SetActive(false);
-        UIGame.OnPracticeMode += Init;
+    }
+    private void Start(){
+        UIGame.OnQucikMatch += Init;
         UIGame.OnLobby += Exit;
     }
 

@@ -96,8 +96,10 @@ public class Connect : MonoBehaviourPunCallbacks
     }
     public void OnLeftCustomRoom() => OnLeftRoom();
 
-    public override void OnLeftRoom() => Debug.Log(roomMode);
-
+    public override void OnLeftRoom(){
+        NetworkObjectPool.instance.DestroyPool();
+        Debug.Log(roomMode);
+    }
     private void Update() => GameStart();
 
     public void StartQuickMatch(){
@@ -130,5 +132,6 @@ public class Connect : MonoBehaviourPunCallbacks
         UIGame.OnPracticeMode -= CustomCreatedRoom;
         UIGame.OnQucikMatch -= CustomCreatedRoom;
         UIGame.OnLobby -= OnJoinedLobby;
+        NetworkObjectPool.instance.DestroyPool();
     }
 }
