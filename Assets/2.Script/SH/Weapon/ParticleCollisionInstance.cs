@@ -37,11 +37,11 @@ public class ParticleCollisionInstance : MonoBehaviourPun
         {
            if (collisionEvents[0].colliderComponent.TryGetComponent<PhotonView>(out PhotonView pv) && pv.ViewID > 0)
             {
-                photonView.RPC("RPCCollision", RpcTarget.AllViaServer, pv.ViewID, collisionEvents[0].intersection, collisionEvents[0].normal);
+                photonView.CustomRPC(this, "RPCCollision", RpcTarget.AllViaServer, pv.ViewID, collisionEvents[0].intersection, collisionEvents[0].normal);
             }
            else
             {
-                photonView.RPC("RPCCollision", RpcTarget.AllViaServer, 0, collisionEvents[0].intersection, collisionEvents[0].normal);
+                photonView.CustomRPC(this, "RPCCollision", RpcTarget.AllViaServer, 0, collisionEvents[0].intersection, collisionEvents[0].normal);
 
                 if (collisionEvents[0].colliderComponent.TryGetComponent<IDamageable>(out IDamageable damageable))
                     damageable.TakeDamage(damage);
