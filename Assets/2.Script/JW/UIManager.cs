@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
     private static UIManager instance;
 
+    private Status status; 
+    private BasicWeapon bw;
+    private SkillShield sw;
     public static UIManager Instance
     {
         get
@@ -20,23 +24,17 @@ public class UIManager : MonoBehaviour
 
     [Header("HP_STATUS")]
         [SerializeField] private Slider HP;
-        [SerializeField] private Text HP_text;
-        [SerializeField] private Text bullet;
+        [SerializeField] private TextMeshProUGUI HP_text;
+    [Header("CURRENT_BULLET")]
+        [SerializeField] private TextMeshProUGUI bullet_text;
     [Header("SKILL_STATUS")]
         //[SerializeField] private Slider Sheild;
         //[SerializeField] private Slider TeslaCanon;
         [SerializeField] private Slider Ultimate_Skill;
         [SerializeField] private Slider Shield_Skill;
         [SerializeField] private Slider Tesla_Skill;
-
-    float ultimateChargingTime = 0.0001f;
-    float normalChargeingTime = 0.001f;
-
-    // public void UpdateHPGauge(float damageAmount)
-    // {
-    //     HP.value -= damageAmount / 100f;
-    //     //HP_text.text = "" + ;
-    // }
+    
+    /*------------------start Event Method-----------------*/
     public void HPUpdate(float cur_val, float max_val)
     {
         float per = cur_val / max_val;
@@ -50,44 +48,46 @@ public class UIManager : MonoBehaviour
             
     }
 
-    public void BulletUpdate(float cur_val, float max_val)
+    public void ShieldUpdate(float cur_val, float max_val)
     {
-        bullet.text = "" + cur_val;
+        float per = cur_val / max_val;
+        Shield_Skill.value = per;
     }
 
-    // void GaugeUpdate()
-    // public void UpdateUltimateSkillGauge()
-    // {
-    //     if(Ultimate_Skill.value >= 1) return;
-    //     else Ultimate_Skill.value += ultimateChargingTime; 
-    // }
+    public void TeslaHPUpdate(float cur_val, float max_val)
+    {
+        float per = cur_val / max_val;
+        Tesla_Skill.value = per;
+    }
 
-    // public void UpdateTeslaSkillGauge()
-    // {
-    //     if(Tesla_Skill.value >= 1) return;
-    //     else Tesla_Skill.value += normalChargeingTime; 
-    // }
+    public void BulletUpdate(float cur_val, float max_val)
+    {
+        bullet_text.text = "" + cur_val;
+    }
+    /*------------------end Event Method-----------------*/
 
-    // public void UpdateSheildSkillGauge()
+    /*------------------start Tweening Method-----------------*/
+    // public void UlitimateGaugeFilled()
     // {
-    //     if(Shield_Skill.value >= 1) return;
-    //     else Shield_Skill.value += normalChargeingTime; 
+    //     if(Ultimate_Skill.value != 1) return;
+    //     else
+    //     {
+            
+    //     }
     // }
-
-    // private void FixedUpdate() 
-    // {
-    //        UpdateUltimateSkillGauge();
-    //        UpdateTeslaSkillGauge();
-    //        UpdateSheildSkillGauge();
-    // }
+    /*------------------end Tweening Method-----------------*/
 
     private void OnEnable()
     {
-        // BasicWeapon bw = null;
-        // ShieldWeapon sw = null;
-        // TeslaWeapon tw = null;
-        // bw.OnValueChange += HPUpdate;
-        // bw.OnValueChange += BulletUpdate;
-        Status_JAWON.OnHPChange += HPUpdate;
+        status.OnHpValueChange += HPUpdate;
+        bw.OnValueChange += BulletUpdate;
+        sw.OnValueChange += ShieldUpdate;
+    }
+
+    private void OnDisable() 
+    {
+        status.OnHpValueChange -= HPUpdate;
+        bw.OnValueChange -= BulletUpdate;
+        sw.OnValueChange -= ShieldUpdate;
     }
 }

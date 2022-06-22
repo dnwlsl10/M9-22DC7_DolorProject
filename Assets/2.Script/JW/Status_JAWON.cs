@@ -1,49 +1,66 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Status_JAWON : MonoBehaviour, IDamageable
+public class Status_JAWON : MonoBehaviourPun, IDamageable
 {
-    public delegate void HPEvent(float curHP, float MaxHP);
-    public static event HPEvent OnHPChange;
+    public event Cur_MaxEvent OnHpValueChange;
     public int maxHP = 100;
-    private float hp = 100;
-    // public float HP
-    // {
-    //     get{return hp;}
-    //     private set
-    //     {
-    //         if (value > maxHP)
-    //             hp = maxHP;
-    //         else if (value <= 0)
-    //         {
-    //             hp = 0;
-    //             OnDeath();
-    //         }
-    //         else
-    //             hp = value;
-    //     }
-    // }
+    [SerializeField]
+    private float hp;
+    bool hpValueFixed;
+    public float HP
+    {
+        get{return hp;}
+        private set
+        {
+            if (hpValueFixed) return;
 
-    public void TakeDamage(float damage)
+            float prevHp = hp;
+            hp = (value <= 0 ? 0 : (value > maxHP ? maxHP : value));
+
+            if (prevHp != hp)
+            {
+                OnHpValueChange?.Invoke(hp, maxHP);
+                if (hp == 0) OnDeath();
+            }
+        }
+    }
+
+    private void Awake() {
+        HP = maxHP;
+    }
+
+    public void TakeDamage(float damage, GameObject hitObject=null)
     {
         Debug.Log("Damage" + damage);
-        hp -= damage;
-        OnHPChange(hp,maxHP);
+        HP -= damage;
+
+        StartCoroutine(test());
     }
 
     private void OnDeath()
     {
-
+        hpValueFixed = true;
     }
 
-    private void Update() {
-        if(Input.GetMouseButtonDown(0))
-        {
-            TakeDamage(5);
-        }
-    }
-
-    public void TakeDamage(float damage, GameObject hitObject = null)
+    IEnumerator test()
     {
-        throw new System.NotImplementedException();
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+
+        Color origin = renderers[0].material.color;
+
+        foreach(var renderer in renderers)
+        {
+            renderer.material.color = Color.red;
+        }
+
+        yield return new WaitForSeconds(0.01f);
+
+        foreach(var renderer in renderers)
+        {
+            renderer.material.color = origin;
+        }
     }
 }
