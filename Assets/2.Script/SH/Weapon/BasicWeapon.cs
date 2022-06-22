@@ -8,14 +8,10 @@ using Photon.Pun;
 public class BasicWeapon : WeaponBase
 {
     public event Cur_MaxEvent OnValueChange;
-    [Header("ButtonHandler")]
-#if test
+    [Header("Button")]
     public UnityEngine.InputSystem.InputActionReference gripButton;
     public UnityEngine.InputSystem.InputActionReference shootButton;
-#else
-    public ButtonHandler gripButton;
-    public ButtonHandler shootButton;
-#endif
+
 
     [Header("SpawnPoint")]
     public Transform bulletSpawnPoint;
@@ -39,8 +35,14 @@ public class BasicWeapon : WeaponBase
         get { return weaponSetting.currentAmmo;}
         set
         {
-            weaponSetting.currentAmmo = value;
-            OnValueChange?.Invoke(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
+            float prevAmmo = weaponSetting.currentAmmo;
+            weaponSetting.currentAmmo = Mathf.Clamp(value, 0, weaponSetting.maxAmmo);
+
+            if (prevAmmo != weaponSetting.currentAmmo)
+            {
+                OnValueChange?.Invoke(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
+
+            }
         }
     }
     
@@ -50,35 +52,20 @@ public class BasicWeapon : WeaponBase
     private void OnEnable()
     {
         print("SingleMode :" + PhotonNetwork.SingleMode);
-        if (pv.Mine == false) return;
+        if (photonView.Mine == false) return;
 
-#if test
-        Debug.LogWarning("BasicWeapon is in TestMode");
         shootButton.action.started += StartWeaponAction;
         shootButton.action.canceled += StopWeaponAction;
-#else
-        shootButton.OnButtonDown += StartWeaponAction;
-        shootButton.OnButtonUp += StopWeaponAction;
-#endif
     }
     private void OnDisable()
     {
-        if (pv.Mine == false) return;
+        if (photonView.Mine == false) return;
         
-#if test
         shootButton.action.started -= StartWeaponAction;
         shootButton.action.canceled -= StopWeaponAction;
-#else
-        shootButton.OnButtonDown -= StartWeaponAction;
-        shootButton.OnButtonUp -= StopWeaponAction;
-#endif
     }
 
-#if test
     public void StartWeaponAction(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
-#else
-    public override void StartWeaponAction()
-#endif
     {
         if (isReloading)
             return;
@@ -92,11 +79,7 @@ public class BasicWeapon : WeaponBase
             OnAttack();
     }
 
-#if test
     public void StopWeaponAction(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
-#else
-    public override void StopWeaponAction()
-#endif
     {
         if (coroutineHolder != null)
             StopCoroutine(coroutineHolder);
@@ -132,9 +115,9 @@ public class BasicWeapon : WeaponBase
         if (PhotonNetwork.SingleMode == false)
         {
             print("RPCATTACK");
-            pv.RPC("RPCAttack", RpcTarget.AllViaServer, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+            photonView.RPC("RPCAttack", RpcTarget.AllViaServer, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         }
-        else
+        else if(PhotonNetwork.SingleMode == true && PhotonNetwork.InRoom)
             RPCAttack(bulletSpawnPoint.position, bulletSpawnPoint.rotation);
 
         if (CurrentAmmo <= 0)
@@ -144,9 +127,11 @@ public class BasicWeapon : WeaponBase
     [PunRPC]
     private void RPCAttack(Vector3 bulletPosition, Quaternion bulletRotation)
     {
-        print("AAAAA");
-        if (pv.IsMine)
+        if (photonView.IsMine)
             NetworkObjectPool.SpawnFromPool(bullet.name, bulletPosition, bulletRotation);
+        else if(photonView.Mine){
+            ObjectPooler.SpawnFromPool(bullet.name,bulletPosition,bulletRotation);
+        }
         StartCoroutine(OnMuzzleFlashEffect());
         PlaySound(onFireSFX);
     }
@@ -170,8 +155,6 @@ public class BasicWeapon : WeaponBase
 
         isReloading = false;
 
-
-        
         CurrentAmmo = weaponSetting.maxAmmo;
     }
 }

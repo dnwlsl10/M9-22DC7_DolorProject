@@ -6,40 +6,34 @@ using Photon.Realtime;
 using UnityEngine.UI;
 using  UnityEngine.SceneManagement;
 
+public enum eRoomMode { Lobby, PracticeRoom, QuickMatchRoom }
 public class Connect : MonoBehaviourPunCallbacks
 {
-    public System.Action OnCompelet;
-
     [Header("Data")]
     [SerializeField]
     private UserInfo userInfo;
     private RobotData robotData;
 
-    [Header("")]
+    [Header("Assigned")]
     public GameObject playerPrefab;
     public Transform target;
-
-    [Header("")]
-    public bool isTest;
     public UIGame uIGame;
+    [Header("Test")]
+    public bool isTest;
 
+    public System.Action OnCompelet;
     private string roomName;
     private readonly string gameVersion = "v1.0";
+    private eRoomMode roomMode;
 
-
-
-    public void Start(){
-        
-        if (isTest)
-        {
-            Init();
-        }
-
-        UIGame.OnPracticeMode += OnCreateParcticeRoom;
-        UIGame.OnLobby += OnLeftPracticeRoom;
-        UIGame.OnQucikMatch += OnCreateQuickMatchRomm;
+    private void EventHandler()
+    {
+        UIGame.OnPracticeMode += CustomCreatedRoom;
+        UIGame.OnQucikMatch += CustomCreatedRoom;
+        UIGame.OnLobby += OnJoinedLobby;
     }
-
+    public void Start() {if(isTest) Init();}
+   
     public void Init(UserInfo userInfoData = null)
     {
         this.userInfo = userInfoData;
@@ -57,100 +51,79 @@ public class Connect : MonoBehaviourPunCallbacks
         PhotonNetwork.GameVersion = gameVersion;
         PhotonNetwork.ConnectUsingSettings();
     }
-
-    public override void OnDisable()
+    public override void OnConnectedToMaster() => PhotonNetwork.JoinLobby(TypedLobby.Default);
+    public override void OnJoinedLobby()
     {
-        UIGame.OnPracticeMode -= OnCreateParcticeRoom;
-        UIGame.OnLobby -= OnLeftPracticeRoom;
-        UIGame.OnQucikMatch -= OnCreateQuickMatchRomm;
+        this.roomMode = eRoomMode.Lobby;
+        if (isTest) Instantiate(playerPrefab, target.transform.position, Quaternion.identity);
+        else{
+            var prefab = Resources.Load<GameObject>("Prefab/" + robotData.connect_name);
+            var obj = Instantiate<GameObject>(prefab, target.transform.position, Quaternion.identity);
+        }
+        uIGame.Init();
+        EventHandler();
     }
-
-    public void OnCreateQuickMatchRomm(){
-
-    }
-    public void OnCreateParcticeRoom(){
-      
-        if (uIGame.isPractice)
-        { 
-            RoomOptions roomOpt = new RoomOptions();
-            roomOpt.MaxPlayers = 2;
-            roomOpt.IsVisible = false;
-            roomOpt.IsOpen = false;
-            this.roomName = "PracticeRoom_" + Random.Range(1, 100);
-            Debug.Log(roomName);
-            PhotonNetwork.CreateRoom(this.roomName, null);
+    public void CustomCreatedRoom(eRoomMode room)
+    {
+        switch(room){
+            case eRoomMode.Lobby: return;
+            case eRoomMode.PracticeRoom: {
+                    this.roomMode = room;
+                    RoomOptions roomOpt = new RoomOptions();
+                    roomOpt.MaxPlayers = 2;
+                    roomOpt.IsVisible = false;
+                    roomOpt.IsOpen = false;
+                    this.roomName = roomMode.ToString();
+                    PhotonNetwork.CreateRoom(this.roomName, null);
+            }
+            break;
+            case eRoomMode.QuickMatchRoom:{
+                    this.roomMode = room;
+                    RoomOptions roomOpt = new RoomOptions();
+                    roomOpt.MaxPlayers = 2;
+                    roomOpt.IsVisible = true;
+                    roomOpt.IsOpen = true;
+                    this.roomName = roomMode.ToString();
+                    PhotonNetwork.CreateRoom(this.roomName, null);
+            }
+            break;
         }
     }
+    public void OnLeftCustomRoom() => OnLeftRoom();
 
-    public void OnLeftPracticeRoom() => OnLeftRoom();
-    public void OnLeftQuickMatchRoom() => OnLeftRoom();
-
-    public override void OnLeftRoom(){
-        
-        if(!uIGame.isPractice) Debug.Log("PracticeRoom => Lobby");
-    }
+    public override void OnLeftRoom() => Debug.Log(roomMode);
 
     private void Update() => GameStart();
 
-    public override void OnConnectedToMaster(){
-
-        Debug.Log("Conneect");
-        PhotonNetwork.JoinLobby(TypedLobby.Default);
+    public void StartQuickMatch(){
+        if(this.roomMode != eRoomMode.QuickMatchRoom) PhotonNetwork.JoinRandomRoom();
     }
 
-    public override void OnJoinedLobby(){
-
-        Debug.Log("Lobby");
-        if(isTest) Instantiate(playerPrefab, target.transform.position, Quaternion.identity);
-
-        else
-        {
-            var prefab = Resources.Load<GameObject>("Prefab/" + robotData.connect_name);
-            var obj = Instantiate<GameObject>(prefab, target.transform.position, Quaternion.identity);
-         
-        }
-        uIGame.Init(this);
-    }
-
-    public void OnQuickStart(){
-        if(!PhotonNetwork.InRoom) PhotonNetwork.JoinRandomRoom();
-    }
-
-    public override void OnCreatedRoom() => Debug.Log("방생성");
+    public override void OnCreatedRoom() => Debug.Log(roomMode);
       
     public override void OnJoinedRoom(){
-        
-        Debug.Log("4.방 접속");
-        if(!uIGame.isPractice) Debug.Log("Lobby => PraticeRoom");
-        if(!PhotonNetwork.IsMasterClient) GameStart();
+         Debug.Log(roomMode);
+        if(!PhotonNetwork.IsMasterClient && roomMode == eRoomMode.QuickMatchRoom) GameStart();
     }
 
     public void GameStart(){
 
-        if (isTest && PhotonNetwork.InRoom)
+        if(isTest&& PhotonNetwork.InRoom)
         {
             if (PhotonNetwork.CurrentRoom.PlayerCount == 2) SceneManager.LoadScene("InGame");
         }
-        if(!isTest && PhotonNetwork.InRoom ) 
+        if(!isTest&& PhotonNetwork.InRoom) 
         {
             if(PhotonNetwork.CurrentRoom.PlayerCount == 2) OnChangeScene();
         }
     }
 
-
-
-    public override void OnJoinRandomFailed(short returnCode, string message){
-        
-        Debug.Log("방 없음");
-
-        RoomOptions roomOpt = new RoomOptions();
-        roomOpt.MaxPlayers = 2;
-        roomOpt.IsVisible = true;
-        roomOpt.IsOpen = true;
-
-        this.roomName = "Room_" + Random.Range(1, 100);
-        PhotonNetwork.JoinOrCreateRoom(this.roomName, roomOpt  ,null);
-    }
-
+    public override void OnJoinRandomFailed(short returnCode, string message) => CustomCreatedRoom(eRoomMode.QuickMatchRoom);
     private void OnChangeScene() => OnCompelet();
+
+    public override void OnDisable() {
+        UIGame.OnPracticeMode -= CustomCreatedRoom;
+        UIGame.OnQucikMatch -= CustomCreatedRoom;
+        UIGame.OnLobby -= OnJoinedLobby;
+    }
 }
