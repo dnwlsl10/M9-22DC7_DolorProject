@@ -1,35 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class InGame : MonoBehaviour
+using Photon.Pun;
+public class InGame : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     public QuickMatchSystem quickMatchSystem;
     public PracticeSystem practiceSystem;
-    public static event System.Action<eRoomMode> OnPracticeMode = (e) => { };
-    public static event System.Action OnLobby = () => { };
-    public static event System.Action<eRoomMode> OnQucikMatch = (e) => { };
+    public Connect connect;
+    private PhotonView pv;
 
-    public void Init(GameObject obj)
+    public void Init(GameObject obj, PhotonView pv)
     {
+        this.pv = pv;
+        this.connect = GameObject.FindObjectOfType<Connect>();
         var cokpit = obj.GetComponentInChildren<CockPit>();
         quickMatchSystem.Init(cokpit);
     }
 
-    void EnterPracticeMode() => OnPracticeMode(eRoomMode.PracticeRoom);
+    void EnterQuickMatch()
+    {
+        connect.CustomCreatedRoom(eRoomMode.QuickMatchRoom);
 
-    void EnterQuickMatch() => OnQucikMatch(eRoomMode.QuickMatchRoom);
+        connect.IsMasterClient = (isMasterClinet) =>
+        {
+            if (!isMasterClinet) return;
+            quickMatchSystem.Enter();
+        };
+    }
 
-    public void FindOtherPlayer(System.Action OnComplete) => quickMatchSystem.OnAction();
+    public void DetectRemotePlayerJoin(){
+        quickMatchSystem.OnFindOtherPlayer();
+        quickMatchSystem.Exit();
+    }
 
-    void EnterLobby() => OnLobby();
+
+    void EnterPracticeMode()
+    {
+        connect.CustomCreatedRoom(eRoomMode.PracticeRoom);
+        practiceSystem.Enter();
+    }
+    void ExitPracticeMode(){
+        practiceSystem.Exit();
+        connect.OnJoinedLobby();
+    }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.A)) EnterPracticeMode();
         if (Input.GetKeyDown(KeyCode.B)) EnterQuickMatch();
-        if (Input.GetKeyDown(KeyCode.C)) EnterLobby();
-        if(Input.GetKeyDown(KeyCode.V)) quickMatchSystem.OnAction();
+        if(Input.GetKeyDown(KeyCode.D)) ExitPracticeMode();
     }
 }
