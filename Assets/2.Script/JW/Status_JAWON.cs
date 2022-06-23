@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
@@ -62,5 +61,10 @@ public class Status_JAWON : MonoBehaviourPun, IDamageable
         {
             renderer.material.color = origin;
         }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        throw new System.NotImplementedException();
     }
 }
