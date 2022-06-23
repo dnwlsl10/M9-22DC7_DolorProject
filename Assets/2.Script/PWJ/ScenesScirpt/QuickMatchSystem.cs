@@ -27,7 +27,7 @@ public class QuickMatchSystem : DoorSystem
     }
 
     public void OnAction(){
-        this.uIEarth.FindOtherPlayer();
+        this.uIEarth.FindOtherPlayer(()=>{Exit();});
     }
 
     public override void Exit()

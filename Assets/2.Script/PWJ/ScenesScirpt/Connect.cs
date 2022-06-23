@@ -117,13 +117,10 @@ public class Connect : MonoBehaviourPunCallbacks
 
         if(isTest&& PhotonNetwork.InRoom)
         {
-            if (PhotonNetwork.CurrentRoom.PlayerCount == 2) 
-            {
-                inGame.FindOtherPlayer(() =>{
-                    if(isTest) SceneManager.LoadScene("InGame");
-                    else OnChangeScene();
-                });
-            }
+            inGame.FindOtherPlayer(() =>{
+                if(isTest) SceneManager.LoadScene("InGame");
+                else OnChangeScene();
+            });
         }
     }
 
