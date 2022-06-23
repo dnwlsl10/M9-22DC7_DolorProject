@@ -8273,7 +8273,7 @@ GameObject:
   - component: {fileID: 2754906925155934505}
   m_Layer: 31
   m_Name: Screen
-  m_TagString: Untagged
+  m_TagString: Screen
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19917,6 +19917,7 @@ MonoBehaviour:
     maxAmmo: 11
     attackRate: 0.2
     attackDistance: 11
+  grapEvent: {fileID: 0}
   gripButton: {fileID: 0}
   shootButton: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   bulletSpawnPoint: {fileID: 7995175276933791009}

@@ -5,41 +5,50 @@ using Photon.Pun;
 public class UIEarth : MonoBehaviour
 {
     PhotonView pv;
-    [Header("Raycast")]
+    [Header("Raycast Point")]
     private Transform origin;
-    private Transform target;
+    public Transform screenTarget;
+
+    [Header("Dir")]
     private Vector3 dir;
+    private Vector3 screenDir;
     private RaycastHit hitInfo;
-    private LocalRotator localRotator; 
-    
+
+    [Header("Rotator")]
+    public LocalRotator rotator;
+    private Camera cm;
+
+    [Header("Prefab")]
+    public GameObject prefab;    
+   
     [Header("Effect")]
     public GameObject effect;
-    public void OnEnable(){
-        this.target = GameObject.FindGameObjectWithTag("Screen").transform;
-        this.localRotator = this.GetComponent<LocalRotator>();
-        this.dir = this.target.position - origin.position;
+    public void Init(){
+        this.gameObject.SetActive(true);
+        this.cm  = Camera.main;
+        this.origin = this.transform.GetChild(0).transform;
+        this.dir = this.origin.position - this.cm.gameObject.transform.position;
+        this.screenDir = this.screenTarget.position = this.origin.position;
     }
 
-    public void Update(){
-        
-        if(PhotonNetwork.CurrentRoom.PlayerCount ==2){
-
-            if(Physics.Raycast(this.target.position ,dir , out hitInfo))
+    public void FindOtherPlayer()
+    {
+        if (Physics.Raycast(this.cm.gameObject.transform.position, dir, out hitInfo))
+        {
+            if (hitInfo.collider.CompareTag("Earth"))
             {
-                this.localRotator.enabled = false;
-                if(hitInfo.collider.CompareTag("Earth")){
-                    
-                    this.effect.transform.position = hitInfo.point;
-                    this.effect.SetActive(true);
-                }
-                if(hitInfo.collider.CompareTag("Screen")){
-                    SendMessage();
-                }
+                rotator.enabled = false;
+                Debug.Log("HIt");
+                this.effect.transform.position = hitInfo.point;
+                this.effect.SetActive(true);
             }
         }
+       
     }
 
-    void SendMessage(){
 
+    public void Exit() {
+        this.gameObject.SetActive(false);
     }
+
 }

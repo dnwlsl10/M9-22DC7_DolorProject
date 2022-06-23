@@ -9,8 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Hologram Earth Dots
   m_Shader: {fileID: 4800000, guid: e99f8b80b1693284587af0c131f61f3d, type: 3}
-  m_ShaderKeywords: _ALPHAMASKFEATURE_ON _LINE2FEATURE_ON _LINEGLITCHFEATURE_ON _POSITIONFEATURE_Y
-    _POSITIONSPACEFEATURE_WORLD _SOFTINTERSECTIONFEATURE_OFF
+  m_ShaderKeywords: _ALPHAMASKFEATURE_ON _LINE1FEATURE_ON _LINE2FEATURE_ON _LINEBOTHFEATURE_ON
+    _LINEGLITCHFEATURE_ON _POSITIONFEATURE_Y _POSITIONSPACEFEATURE_WORLD _SOFTINTERSECTIONFEATURE_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -61,7 +61,7 @@ Material:
     - _GrainAffect: 1
     - _GrainFeature: 0
     - _Line1Alpha: 0.15
-    - _Line1Feature: 0
+    - _Line1Feature: 1
     - _Line1Frequency: 100
     - _Line1Hardness: 1.45
     - _Line1InvertedThickness: 0
@@ -72,7 +72,7 @@ Material:
     - _Line2Hardness: 2
     - _Line2InvertedThickness: 0.255
     - _Line2Speed: -0.5
-    - _LineBothFeature: 0
+    - _LineBothFeature: 1
     - _LineGlitchFeature: 1
     - _LineGlitchFrequency: 0.08
     - _LineGlitchHardness: 100
@@ -113,7 +113,7 @@ Material:
     - _GrainScale: {r: 50, g: 50, b: 50, a: 0}
     - _GrainValues: {r: 0, g: 1, b: 0, a: 0}
     - _LineGlitchOffset: {r: 0.08, g: 0, b: 0, a: 0}
-    - _MainColor: {r: 6.588772, g: 6.069376, b: 5.9361105, a: 0}
+    - _MainColor: {r: 5.311112, g: 1.6158806, b: 0.8768344, a: 0}
     - _MaskCenter: {r: 0, g: 0, b: 0, a: 0}
     - _MaskSize: {r: 5, g: 5, b: 3.68, a: 0}
     - _RandomGlitchOffset: {r: -0.5, g: 0, b: 0, a: 0}
