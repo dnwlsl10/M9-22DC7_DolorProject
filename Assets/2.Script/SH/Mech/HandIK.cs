@@ -136,6 +136,10 @@ public class HandIK : MonoBehaviour
     public Renderer characterHandMesh;
     bool isLeft;
 
+    private void Reset()
+    {
+        AutoDetectReferences();
+    }
     private void Awake()
     {
         isLeft = vrController.controller == XRNode.LeftHand;

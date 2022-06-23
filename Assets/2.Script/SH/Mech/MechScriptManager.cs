@@ -5,6 +5,10 @@ using Photon.Pun;
 
 public class MechScriptManager : MonoBehaviour
 {
+    void Reset()
+    {
+        Init();
+    }
     [ContextMenu("Initialize")]
     void Init()
     {
@@ -25,7 +29,7 @@ public class MechScriptManager : MonoBehaviour
             foreach (var script in scriptsForOnlyLocal)
                 Destroy(script);
     }
-    public void EnableScripts(ref Behaviour[] components)
+    public void EnableScripts(ref List<Behaviour> components)
     {
         foreach (var component in components)
         {
@@ -33,7 +37,7 @@ public class MechScriptManager : MonoBehaviour
                 component.enabled = true;
         }
     }
-    public void DisableScripts(ref Behaviour[] components)
+    public void DisableScripts(ref List<Behaviour> components)
     {
         foreach (var component in components)
         {

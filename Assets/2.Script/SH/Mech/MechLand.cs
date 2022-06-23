@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class MechLand : MonoBehaviour
 {
+    void Reset()
+    {
+        groundLayer = LayerMask.GetMask("Ground");
+
+        if (componentsAfterStartScene.Count == 0)
+        {
+            componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<HandIK>(true));
+            componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<MechMovementController>(true));
+            componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<WeaponBase>(true));
+            componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<CrossHair>(true));
+            componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<IKWeight>(true));
+        }
+
+        groundDetectDistance = 0.6f;
+    }
 
     [ContextMenu("land")]
     void land()
@@ -13,7 +28,7 @@ public class MechLand : MonoBehaviour
 
     private Animator anim;
     public LayerMask groundLayer;
-    public Behaviour[] componentsAfterStartScene;
+    public List<Behaviour> componentsAfterStartScene;
     public float groundDetectDistance = 1;
     MechScriptManager scriptManager;
     private void Awake() 

@@ -6,6 +6,9 @@ using Photon.Pun;
 
 public class CrossHair : MonoBehaviourPun
 {
+#if test
+    LineRenderer lr;
+#endif
     public Transform centerEye;
     public Transform crossHairImage;
     public Transform laserPoint;
@@ -17,9 +20,16 @@ public class CrossHair : MonoBehaviourPun
     private IEnumerator coroutineHolder;
     private WaitForEndOfFrame eof = new WaitForEndOfFrame();
 
-#if test
-    LineRenderer lr;
-#endif
+    void Reset()
+    {
+        if (centerEye == null)
+            centerEye = Camera.main.transform;
+        if (crossHairImage == null)
+            crossHairImage = transform.GetChild(0);
+        
+        if (screenLayer == 0)
+            screenLayer = LayerMask.GetMask("Grabbing");
+    }
 
     private void Awake() {
 #if test

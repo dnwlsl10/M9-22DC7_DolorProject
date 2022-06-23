@@ -10,6 +10,10 @@ namespace RootMotion.FinalIK {
 	//[HelpURL("http://www.root-motion.com/finalikdox/html/page16.html")]
 	[AddComponentMenu("Scripts/RootMotion.FinalIK/IK/VR IK")]
 	public class VRIK : IK {
+		void Reset()
+		{
+			Init();
+		}
 		[ContextMenu("Initialize")]
 		void Init()
 		{
@@ -37,10 +41,7 @@ namespace RootMotion.FinalIK {
 			if (pun == null)
 				return;
 			
-			pun.vrRig = transform.root.Find("Cockpit").gameObject;
-			pun.ik = this;
-			pun.leftHandAnchor = solver.leftArm.target;
-			pun.rightHandAnchor = solver.rightArm.target;
+			
 		}
 
 		/// <summary>

@@ -5,10 +5,17 @@ using RootMotion.FinalIK;
 using Photon.Pun;
 public class MechNetworkManager : MonoBehaviour
 {
+    void Reset()
+    {
+        FindAll();
+    }
     [ContextMenu("Find All")]
     void FindAll()
     {
-        Transform meshRoot = transform.root.Find("root").Find("mesh");
+        Transform root = GetComponent<VRIK>().references.pelvis.parent;
+        Transform meshRoot = root.Find("mesh");
+        if (meshRoot == null)
+            meshRoot = root.Find("Mesh");
         localDisableMesh = new List<Renderer>();
         for (int i = 0; i < meshRoot.childCount; i++)
         {
@@ -20,7 +27,7 @@ public class MechNetworkManager : MonoBehaviour
         }
 
         LayerToChangeRemote = new List<GameObject>();
-        Collider[] cols = transform.root.GetComponentsInChildren<Collider>();
+        Collider[] cols = root.GetComponentsInChildren<Collider>();
         foreach (Collider col in cols)
             LayerToChangeRemote.Add(col.gameObject);
     }

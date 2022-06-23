@@ -63,23 +63,34 @@ public class MechMovementController : MonoBehaviour
         moveDir = Vector3.zero;
         Vector2 inputDir = leftHandJoystick.action.ReadValue<Vector2>();
 
-        anim.SetFloat("moveX", inputDir.x);
-        anim.SetFloat("moveY", inputDir.y);
-
         float absX = Mathf.Abs(inputDir.x);
         float absY = Mathf.Abs(inputDir.y);
 
         if (absX > 0.5f || absY > 0.5f)
         {
             if (absX > absY)
-                moveDir = tr.right * (inputDir.x > 0 ? 1 : -1);
+            {
+                int round = Mathf.RoundToInt(inputDir.x);
+                moveDir = tr.right * round;
+                anim.SetInteger("MoveX", round);
+                anim.SetInteger("MoveY", 0);
+            }
             else
-                moveDir = tr.forward * (inputDir.y > 0 ? 1 : -1);
+            {
+                int round = Mathf.RoundToInt(inputDir.y);
+                moveDir = tr.forward * round;
+                anim.SetInteger("MoveX", 0);
+                anim.SetInteger("MoveY", round);
+            }
 
             anim.SetBool("Walk", true);
         }
         else
+        {
             anim.SetBool("Walk", false);
+            anim.SetInteger("MoveX", 0);
+            anim.SetInteger("MoveY", 0);
+        }
     }
 
     IEnumerator IEStartRotate()

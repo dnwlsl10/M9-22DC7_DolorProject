@@ -11,7 +11,13 @@ namespace RootMotion.Demos
     /// </summary>
     public class VRIK_PUN_Player : MonoBehaviourPun, IPunObservable, IPunInstantiateMagicCallback
     {
-
+        void Reset()
+        {
+            vrRig = transform.root.Find("Cockpit").gameObject;
+			ik = GetComponent<VRIK>();
+			leftHandAnchor = ik.solver.leftArm.target;
+			rightHandAnchor = ik.solver.rightArm.target;
+        }
         #region All
 
         [Tooltip("Root of the VR camera rig")] public GameObject vrRig;
