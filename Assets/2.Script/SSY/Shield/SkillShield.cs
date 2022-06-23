@@ -3,23 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-// === 방패의 기능 ===
-// 적의 투사체 모든 것을 막는다.
-// 방패의 체력
-// 투사체 별 - 데미지
-
-// 게임 시작 시 게이지 100
-// Down
-// LeftIndexTrigger 버튼을 누르면 방패 오브젝트가 켜지고
-// 
-
-// 애니메이션의 상태를 ShieldOn = Play
-// 누르고 있으면 게이지가 초당 -1씩 깎이고
-//
-
-//떼면 게이지가 초당 1씩 회복되고
-//애니메이션의 상태를 초기화
-
 public class SkillShield : WeaponBase, IDamageable
 {
     public event Cur_MaxEvent OnValueChange;
@@ -85,28 +68,15 @@ public class SkillShield : WeaponBase, IDamageable
     {
         if (isReloading)
             return;
-        if (PhotonNetwork.SingleMode == false)
-        {
-            photonView.RPC("animPlay", RpcTarget.All, true);
-        }
-        else
-        {
-            animPlay(true);
-        }
+        photonView.CustomRPC(this, "animPlay", RpcTarget.All, true);
         StartCoroutine("OnShieldSkillUse");
         StopCoroutine("GaugeIdle");
     }
 
     public override void StopWeaponAction() //GetKeyUp
     {
-        if(PhotonNetwork.SingleMode == false)
-        {
-        photonView.RPC("animPlay", RpcTarget.All, false);
-        }
-        else
-        {
-        animPlay(false);
-        }
+
+        photonView.CustomRPC(this, "animPlay", RpcTarget.All, false);
         
         StopCoroutine("OnShieldSkillUse");
         StartCoroutine("GaugeIdle");
@@ -118,11 +88,11 @@ public class SkillShield : WeaponBase, IDamageable
         //어떤상황에서 어떤애니메이션
         if (isStart)
         {
-            anim.Play("ShieldOn");
+            anim.CrossFade("ShieldOn", 0.1f);
         }
         if (isStart == false)
         {
-            anim.Play("ShieldOff");
+            anim.CrossFade("ShieldOff", 0.1f);
         }
     }
 
@@ -130,7 +100,6 @@ public class SkillShield : WeaponBase, IDamageable
     {
         if (isReloading)
             return;
-        print("LLL");
 
         StopWeaponAction();
         StartCoroutine(GaugeOver());

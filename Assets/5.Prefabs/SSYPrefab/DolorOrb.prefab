@@ -76,7 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc2f50213e14b9240bf9b88f089e4f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbSpeed: 0.5
+  shootSpeed: 2
+  visualEffect: {fileID: 1344611293779859693}
 --- !u!1 &1344611293429857100
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,7 +163,7 @@ Transform:
   m_GameObject: {fileID: 1344611293779859680}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.3777, y: 1.3777, z: 1.3777}
   m_Children: []
   m_Father: {fileID: 1344611291918086946}
   m_RootOrder: 0
@@ -179,12 +180,12 @@ VisualEffect:
   m_InitialEventName: OnPlay
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
-  m_ResetSeedOnPlay: 1
+  m_ResetSeedOnPlay: 0
   m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
       m_Array:
-      - m_Value: 0.4
+      - m_Value: 0.1
         m_Name: Size
         m_Overridden: 1
     m_Vector2f:

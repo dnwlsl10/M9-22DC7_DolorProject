@@ -633,18 +633,17 @@ namespace Photon.Pun
                         Debug.LogWarning(methodName + " Not Found... Is this Static Method?");
                         return;
                     }
-                    else
-                    {
-                        ParameterInfo[] parameters = mi.GetParameters();
-                        if (parameters.Length == arguments.Length)
-                            mi.Invoke(mb, arguments);
-                        else
-                        {
-                            Debug.LogWarning("Parameter Count Doesn't Match");
-                            return;
-                        }
-                    }
                 }
+                
+                ParameterInfo[] parameters = mi.GetParameters();
+                if (parameters.Length == arguments.Length)
+                    mi.Invoke(mb, arguments);
+                else
+                {
+                    Debug.LogWarning("Parameter Count Doesn't Match");
+                    return;
+                }
+                
             }
             else
             {
