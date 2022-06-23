@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 public class UIEarth : MonoBehaviour
 {
-    PhotonView pv;
+
+    public Text text;
+    private WaitForSeconds eof = new WaitForSeconds(1f);
+
     [Header("Raycast Point")]
     private Transform origin;
     public Transform screenTarget;
@@ -17,9 +21,6 @@ public class UIEarth : MonoBehaviour
     [Header("Rotator")]
     public LocalRotator rotator;
     private Camera cm;
-
-    [Header("Prefab")]
-    public GameObject prefab;    
    
     [Header("Effect")]
     public GameObject effect;
@@ -28,10 +29,10 @@ public class UIEarth : MonoBehaviour
         this.cm  = Camera.main;
         this.origin = this.transform.GetChild(0).transform;
         this.dir = this.origin.position - this.cm.gameObject.transform.position;
-        this.screenDir = this.screenTarget.position = this.origin.position;
+        this.screenDir =  this.origin.position - this.screenTarget.position;
     }
 
-    public void FindOtherPlayer()
+    public void FindOtherPlayer(System.Action OnComplete)
     {
         if (Physics.Raycast(this.cm.gameObject.transform.position, dir, out hitInfo))
         {
@@ -41,10 +42,20 @@ public class UIEarth : MonoBehaviour
                 Debug.Log("HIt");
                 this.effect.transform.position = hitInfo.point;
                 this.effect.SetActive(true);
+                StartCoroutine(Test());
+                OnComplete();
             }
         }
-       
     }
+
+    IEnumerator Test(){
+        text.text = "3";
+        yield  return eof;
+        text.text = "2";
+        yield return eof;
+        text.text = "1";
+    }
+
 
 
     public void Exit() {
