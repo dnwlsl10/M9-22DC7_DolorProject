@@ -64,8 +64,4 @@ public class Status_JAWON : MonoBehaviourPun, IDamageable
         }
     }
 
-    public void TakeDamage(float damage)
-    {
-        throw new System.NotImplementedException();
-    }
 }
