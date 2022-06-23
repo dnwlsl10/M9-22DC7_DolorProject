@@ -120,7 +120,6 @@ public class BasicWeapon : WeaponBase
         CurrentAmmo--;
 
         photonView.CustomRPC(this, "RPCAttack", RpcTarget.AllViaServer, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-
         if (CurrentAmmo <= 0)
             StartReload();
     }

@@ -115,9 +115,6 @@
             "m_Id": "ec4e2c9eb0a94fda99834387ee44c343"
         },
         {
-            "m_Id": "2cb2d9a03f514d01b4040bb5a8849f08"
-        },
-        {
             "m_Id": "719989e587264b5296c0c66a311254a7"
         },
         {
@@ -537,20 +534,6 @@
             "m_InputSlot": {
                 "m_Node": {
                     "m_Id": "0ad5dd928de34b589a715d1d67239e37"
-                },
-                "m_SlotId": 0
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "2cb2d9a03f514d01b4040bb5a8849f08"
-                },
-                "m_SlotId": 0
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "ec4e2c9eb0a94fda99834387ee44c343"
                 },
                 "m_SlotId": 0
             }
@@ -3828,47 +3811,6 @@
 }
 
 {
-    "m_SGVersion": 1,
-    "m_Type": "UnityEditor.ShaderGraph.ColorNode",
-    "m_ObjectId": "2cb2d9a03f514d01b4040bb5a8849f08",
-    "m_Group": {
-        "m_Id": "71acc93c03824f9389aab2f94542874e"
-    },
-    "m_Name": "Color",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": -1965.0,
-            "y": 863.0,
-            "width": 208.0,
-            "height": 127.0
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "e0aec7ad1a1b42fe86bc012dce147a95"
-        }
-    ],
-    "synonyms": [],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_PreviewMode": 0,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_Color": {
-        "color": {
-            "r": 0.34434476494789126,
-            "g": 1.9325802326202393,
-            "b": 3.173959732055664,
-            "a": 1.0
-        },
-        "mode": 1
-    }
-}
-
-{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicValueMaterialSlot",
     "m_ObjectId": "2d222ac81769461f9dac007fa476def0",
@@ -6964,7 +6906,7 @@
     "m_Title": "INTERSECTION",
     "m_Position": {
         "x": -3113.0,
-        "y": 804.0000610351563
+        "y": 797.0
     }
 }
 
@@ -12694,31 +12636,6 @@
         "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"16732740244b8f7449114553b2386a7b\",\"type\":3}}",
         "m_Guid": ""
     }
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
-    "m_ObjectId": "e0aec7ad1a1b42fe86bc012dce147a95",
-    "m_Id": 0,
-    "m_DisplayName": "Out",
-    "m_SlotType": 1,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Out",
-    "m_StageCapability": 3,
-    "m_Value": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_Labels": []
 }
 
 {

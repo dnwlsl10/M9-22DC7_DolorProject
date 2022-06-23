@@ -63,4 +63,5 @@ public class Status_JAWON : MonoBehaviourPun, IDamageable
             renderer.material.color = origin;
         }
     }
+
 }
