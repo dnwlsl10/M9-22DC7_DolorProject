@@ -8148,7 +8148,7 @@ Animator:
   m_GameObject: {fileID: 3213614331723133088}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 1f34697e172c2234f8f2623420c0b1f7, type: 3}
-  m_Controller: {fileID: 9100000, guid: c05b40cb7df62864299de5a5e2194e45, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3f3c9baafe4004641bf48dd7a5b4c423, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -8197,15 +8197,6 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 2
-    Name: Walk
-  - Type: 1
-    SynchronizeType: 2
-    Name: moveX
-  - Type: 1
-    SynchronizeType: 2
-    Name: moveY
-  - Type: 4
     SynchronizeType: 1
     Name: Rotating
   - Type: 1
@@ -8215,7 +8206,7 @@ MonoBehaviour:
     SynchronizeType: 2
     Name: RotateMirror
   - Type: 9
-    SynchronizeType: 2
+    SynchronizeType: 0
     Name: Land
   m_SynchronizeLayers:
   - SynchronizeType: 0
@@ -8586,7 +8577,6 @@ MonoBehaviour:
   scriptsForOnlyLocal:
   - {fileID: 2330723740647031443}
   - {fileID: 2330723739735247549}
-  - {fileID: 3213614331723133082}
   - {fileID: 5892507698415874916}
 --- !u!114 &3213614331723133082
 MonoBehaviour:

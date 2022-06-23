@@ -14,6 +14,7 @@ public class NetworkTest : MonoBehaviourPunCallbacks
 
     private void Start() 
     {
+        PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.GameVersion = "1.0";
         Connect();
@@ -52,7 +53,7 @@ public class NetworkTest : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         print("Joined Room" + PhotonNetwork.CurrentRoom.PlayerCount);
-        PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
+        
         if (testMode) Invoke("SpawnSimulator", 1);
         
     }
@@ -76,9 +77,26 @@ public class NetworkTest : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && PhotonNetwork.IsMasterClient)
         {
-            print("Game Start");
-            PhotonNetwork.LoadLevel(1);
+            photonView.RPC("GameStart", RpcTarget.AllViaServer);
         }
+    }
+
+    [PunRPC]
+    void GameStart()
+    {
+        StartCoroutine(IEGameStart());
+    }
+
+    IEnumerator IEGameStart()
+    {
+        for (float f = 0; f < 10; f += Time.deltaTime)
+        {
+            print(f);
+            yield return null;
+        }
+
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.LoadLevel(1);
     }
 
     

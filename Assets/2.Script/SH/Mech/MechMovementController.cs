@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR;
+using Photon.Pun;
 
-public class MechMovementController : MonoBehaviour
+public class MechMovementController : MonoBehaviourPun
 {
+    enum WalkState{Idle, Forward, Back, Left, Right}
+
     [Header("Move")]
     public float moveSpeed = 1f;
     public InputActionProperty leftHandJoystick;
@@ -30,6 +33,27 @@ public class MechMovementController : MonoBehaviour
     private Rigidbody rb;
     Vector3 moveDir = Vector3.zero;
     private float deltaTime;
+    WalkState walkState;
+    WalkState walkStateProperty
+    {
+        get { return walkState; }
+        set 
+        {
+            if (walkState == value) return;
+
+            walkState = value;
+            photonView.CustomRPC(this, "CrossFade", RpcTarget.All, walkState, anim.GetBool("Rotating"));
+        }
+    }
+
+    [PunRPC]
+    private void CrossFade(WalkState state, bool rotating)
+    {
+        if (state == WalkState.Idle)
+            anim.CrossFade(rotating ? "Rotate" : "Idle", 0.2f);
+        else
+            anim.CrossFade(state.ToString(), 0.2f);
+    }
 
     private void Reset() {
         centerEye = GetComponentInChildren<Camera>().transform;
@@ -44,16 +68,23 @@ public class MechMovementController : MonoBehaviour
 
     void Start()
     {
+        if (photonView.Mine)
         // StartCoroutine(IEStartRotate());
         StartCoroutine(IERotateVer2());
     }
 
-    private void FixedUpdate() => rb.AddForce(moveDir, ForceMode.VelocityChange);
+    private void FixedUpdate() {
+        if (photonView.Mine)
+        rb.AddForce(moveDir, ForceMode.VelocityChange);
+
+    } 
 
 
     // Update is called once per frame
     void Update()
     {
+        if (photonView.Mine == false)
+            return;
         deltaTime = Time.deltaTime;
         UpdateMove();
     }
@@ -72,24 +103,20 @@ public class MechMovementController : MonoBehaviour
             {
                 int round = Mathf.RoundToInt(inputDir.x);
                 moveDir = tr.right * round;
-                anim.SetInteger("MoveX", round);
-                anim.SetInteger("MoveY", 0);
+
+                walkStateProperty = round == 1 ? WalkState.Right : WalkState.Left;
             }
             else
             {
                 int round = Mathf.RoundToInt(inputDir.y);
                 moveDir = tr.forward * round;
-                anim.SetInteger("MoveX", 0);
-                anim.SetInteger("MoveY", round);
-            }
 
-            anim.SetBool("Walk", true);
+                walkStateProperty = round == 1 ? WalkState.Forward : WalkState.Back;
+            }
         }
         else
         {
-            anim.SetBool("Walk", false);
-            anim.SetInteger("MoveX", 0);
-            anim.SetInteger("MoveY", 0);
+            walkStateProperty = WalkState.Idle;
         }
     }
 

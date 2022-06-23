@@ -14,7 +14,7 @@ public class MechScriptManager : MonoBehaviour
     {
         scriptsForOnlyLocal = new List<Behaviour>();
         scriptsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<HandIK>());
-        scriptsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<MechMovementController>());
+        // scriptsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<MechMovementController>());
         scriptsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<CrossHair>());
     }
     
