@@ -7,10 +7,10 @@ public class PracticeSystem : DoorSystem
 {
     private void Start() 
     {
-        UIGame.OnPracticeMode += Init;
-        UIGame.OnLobby += Exit;
+        InGame.OnPracticeMode += Enter;
+        InGame.OnLobby += Exit;
     }
-    public override void Init(eRoomMode eRoom)
+    public override void Enter(eRoomMode eRoom)
     {
         base.Open(() =>{
         //연습모드 로직 
@@ -25,7 +25,7 @@ public class PracticeSystem : DoorSystem
     }
 
     private void OnDisable(){
-        UIGame.OnPracticeMode -= Init;
-        UIGame.OnLobby -= Exit;
+        InGame.OnPracticeMode -= Enter;
+        InGame.OnLobby -= Exit;
     }
 }

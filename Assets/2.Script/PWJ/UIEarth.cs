@@ -5,42 +5,50 @@ using Photon.Pun;
 public class UIEarth : MonoBehaviour
 {
     PhotonView pv;
-    [Header("Raycast")]
+    [Header("Raycast Point")]
     private Transform origin;
-    private Transform screen;
+    public Transform screenTarget;
+
+    [Header("Dir")]
     private Vector3 dir;
+    private Vector3 screenDir;
     private RaycastHit hitInfo;
 
+    [Header("Rotator")]
+    public LocalRotator rotator;
     private Camera cm;
-    
+
+    [Header("Prefab")]
+    public GameObject prefab;    
+   
     [Header("Effect")]
     public GameObject effect;
-    public void OnEnable(){
+    public void Init(){
+        this.gameObject.SetActive(true);
         this.cm  = Camera.main;
         this.origin = this.transform.GetChild(0).transform;
-        this.screen = GameObject.FindGameObjectWithTag("Screen").transform;
         this.dir = this.origin.position - this.cm.gameObject.transform.position;
+        this.screenDir = this.screenTarget.position = this.origin.position;
     }
 
-    public void Update(){
-        
-        if(Input.GetKeyDown(KeyCode.J)){
-
-            if(Physics.Raycast(this.cm.gameObject.transform.position , dir , out hitInfo))
+    public void FindOtherPlayer()
+    {
+        if (Physics.Raycast(this.cm.gameObject.transform.position, dir, out hitInfo))
+        {
+            if (hitInfo.collider.CompareTag("Earth"))
             {
-                if(hitInfo.collider.CompareTag("Earth")){
-                    Debug.Log("HIt");
-                    this.effect.transform.position = hitInfo.point;
-                    this.effect.SetActive(true);
-                }
-                if(hitInfo.collider.CompareTag("Screen")){
-                    SendMessage();
-                }
+                rotator.enabled = false;
+                Debug.Log("HIt");
+                this.effect.transform.position = hitInfo.point;
+                this.effect.SetActive(true);
             }
         }
+       
     }
 
-    void SendMessage(){
-        Debug.Log("HIts");
+
+    public void Exit() {
+        this.gameObject.SetActive(false);
     }
+
 }

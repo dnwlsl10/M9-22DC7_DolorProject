@@ -18,7 +18,7 @@ public class Connect : MonoBehaviourPunCallbacks
     [Header("Assigned")]
     public GameObject playerPrefab;
     public Transform target;
-    public UIGame uIGame;
+    public InGame inGame;
     [Header("Test")]
     public bool isTest;
 
@@ -29,9 +29,9 @@ public class Connect : MonoBehaviourPunCallbacks
 
     private void EventHandler()
     {
-        UIGame.OnPracticeMode += CustomCreatedRoom;
-        UIGame.OnQucikMatch += CustomCreatedRoom;
-        UIGame.OnLobby += OnJoinedLobby;
+        InGame.OnPracticeMode += CustomCreatedRoom;
+        InGame.OnQucikMatch += CustomCreatedRoom;
+        InGame.OnLobby += OnJoinedLobby;
     }
     public void Start() {if(isTest) Init();}
    
@@ -65,7 +65,7 @@ public class Connect : MonoBehaviourPunCallbacks
             robot = Instantiate<GameObject>(prefab, target.transform.position, Quaternion.identity);
         }
 
-        uIGame.Init();
+        inGame.Init(robot);
         EventHandler();
     }
     public void CustomCreatedRoom(eRoomMode room)
@@ -117,11 +117,13 @@ public class Connect : MonoBehaviourPunCallbacks
 
         if(isTest&& PhotonNetwork.InRoom)
         {
-            if (PhotonNetwork.CurrentRoom.PlayerCount == 2) SceneManager.LoadScene("InGame");
-        }
-        if(!isTest&& PhotonNetwork.InRoom) 
-        {
-            if(PhotonNetwork.CurrentRoom.PlayerCount == 2) OnChangeScene();
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 2) 
+            {
+                inGame.FindOtherPlayer(() =>{
+                    if(isTest) SceneManager.LoadScene("InGame");
+                    else OnChangeScene();
+                });
+            }
         }
     }
 
@@ -129,9 +131,9 @@ public class Connect : MonoBehaviourPunCallbacks
     private void OnChangeScene() => OnCompelet();
 
     public override void OnDisable() {
-        UIGame.OnPracticeMode -= CustomCreatedRoom;
-        UIGame.OnQucikMatch -= CustomCreatedRoom;
-        UIGame.OnLobby -= OnJoinedLobby;
+        InGame.OnPracticeMode -= CustomCreatedRoom;
+        InGame.OnQucikMatch -= CustomCreatedRoom;
+        InGame.OnLobby -= OnJoinedLobby;
         NetworkObjectPool.instance.DestroyPool();
     }
 }
