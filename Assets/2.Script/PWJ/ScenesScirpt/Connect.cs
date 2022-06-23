@@ -119,9 +119,21 @@ public class Connect : MonoBehaviourPunCallbacks
         count.text = "1";
         yield return eof;
         if (PhotonNetwork.IsMasterClient) {
-            var a = PhotonNetwork.LoadLevel("InGame");
-            a.allowSceneActivation = false;
+
+            StartCoroutine(LoadingScreenProcess("InGame"));
+     
         };
+    }
+
+
+    float timer = 0;
+    IEnumerator LoadingScreenProcess(string sceneName){
+
+        AsyncOperation ao = PhotonNetwork.LoadLevel("InGame");
+        ao.allowSceneActivation = false;
+        yield return null;
+
+        
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message){
