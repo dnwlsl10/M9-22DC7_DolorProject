@@ -9,8 +9,6 @@ public class CockPit : MonoBehaviour
 
     private void OnEnable() {
         this.uIEarth.gameObject.SetActive(false);
-        this.uIScreen.gameObject.SetActive(false);    
+        this.uIScreen.gameObject.SetActive(true);    
     }
-
-
 }

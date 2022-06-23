@@ -23,16 +23,14 @@ public class Connect : MonoBehaviourPunCallbacks
     public bool isTest;
 
     public System.Action OnCompelet;
+    public System.Action<bool> IsMasterClient;
+    private WaitForSeconds eof = new WaitForSeconds(2f);
+    public Text count;
+
     private string roomName;
     private readonly string gameVersion = "v1.0";
     private eRoomMode roomMode;
 
-    private void EventHandler()
-    {
-        InGame.OnPracticeMode += CustomCreatedRoom;
-        InGame.OnQucikMatch += CustomCreatedRoom;
-        InGame.OnLobby += OnJoinedLobby;
-    }
     public void Start() {if(isTest) Init();}
    
     public void Init(UserInfo userInfoData = null)
@@ -64,9 +62,7 @@ public class Connect : MonoBehaviourPunCallbacks
             var prefab = Resources.Load<GameObject>("Prefab/" + robotData.connect_name);
             robot = Instantiate<GameObject>(prefab, target.transform.position, Quaternion.identity);
         }
-
-        inGame.Init(robot);
-        EventHandler();
+        inGame.Init(robot, photonView);
     }
     public void CustomCreatedRoom(eRoomMode room)
     {
@@ -84,12 +80,7 @@ public class Connect : MonoBehaviourPunCallbacks
             break;
             case eRoomMode.QuickMatchRoom:{
                     this.roomMode = room;
-                    RoomOptions roomOpt = new RoomOptions();
-                    roomOpt.MaxPlayers = 2;
-                    roomOpt.IsVisible = true;
-                    roomOpt.IsOpen = true;
-                    this.roomName = roomMode.ToString();
-                    PhotonNetwork.CreateRoom(this.roomName, null);
+                    PhotonNetwork.JoinRandomRoom();
             }
             break;
         }
@@ -100,37 +91,62 @@ public class Connect : MonoBehaviourPunCallbacks
         NetworkObjectPool.instance.DestroyPool();
         Debug.Log(roomMode);
     }
-    private void Update() => GameStart();
-
-    public void StartQuickMatch(){
-        if(this.roomMode != eRoomMode.QuickMatchRoom) PhotonNetwork.JoinRandomRoom();
-    }
 
     public override void OnCreatedRoom() => Debug.Log(roomMode);
       
     public override void OnJoinedRoom(){
-         Debug.Log(roomMode);
-        if(!PhotonNetwork.IsMasterClient && roomMode == eRoomMode.QuickMatchRoom) GameStart();
+        IsMasterClient(PhotonNetwork.IsMasterClient);
     }
 
-    public void GameStart(){
-
-        if(isTest&& PhotonNetwork.InRoom)
-        {
-            inGame.FindOtherPlayer(() =>{
-                if(isTest) SceneManager.LoadScene("InGame");
-                else OnChangeScene();
-            });
-        }
+    private void Update() {
+        Debug.Log(PhotonNetwork.LevelLoadingProgress);
     }
 
-    public override void OnJoinRandomFailed(short returnCode, string message) => CustomCreatedRoom(eRoomMode.QuickMatchRoom);
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        if(PhotonNetwork.IsMasterClient) inGame.DetectRemotePlayerJoin();
+        photonView.RPC("GameStartRPC", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    void GameStartRPC() => StartCoroutine(OnStartCount());
+    IEnumerator OnStartCount()
+    {
+        count.text = "3";
+        yield return eof;
+        count.text = "2";
+        yield return eof;
+        count.text = "1";
+        yield return eof;
+        if (PhotonNetwork.IsMasterClient) {
+
+            StartCoroutine(LoadingScreenProcess("InGame"));
+     
+        };
+    }
+
+
+    float timer = 0;
+    IEnumerator LoadingScreenProcess(string sceneName){
+
+        AsyncOperation ao = PhotonNetwork.LoadLevel("InGame");
+        ao.allowSceneActivation = false;
+        yield return null;
+
+        
+    }
+
+    public override void OnJoinRandomFailed(short returnCode, string message){
+        RoomOptions roomOpt = new RoomOptions();
+        roomOpt.MaxPlayers = 2;
+        roomOpt.IsVisible = true;
+        roomOpt.IsOpen = true;
+        this.roomName = roomMode + "_" + Random.Range(0,10);
+        PhotonNetwork.CreateRoom(this.roomName, null);
+    }
     private void OnChangeScene() => OnCompelet();
 
     public override void OnDisable() {
-        InGame.OnPracticeMode -= CustomCreatedRoom;
-        InGame.OnQucikMatch -= CustomCreatedRoom;
-        InGame.OnLobby -= OnJoinedLobby;
         NetworkObjectPool.instance.DestroyPool();
     }
 }

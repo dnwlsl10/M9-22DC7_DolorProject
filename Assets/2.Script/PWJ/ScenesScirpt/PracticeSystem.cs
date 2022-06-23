@@ -5,12 +5,7 @@ using UnityEngine;
 
 public class PracticeSystem : DoorSystem
 {
-    private void Start() 
-    {
-        InGame.OnPracticeMode += Enter;
-        InGame.OnLobby += Exit;
-    }
-    public override void Enter(eRoomMode eRoom)
+    public override void Enter()
     {
         base.Open(() =>{
         //연습모드 로직 
@@ -24,8 +19,4 @@ public class PracticeSystem : DoorSystem
        });
     }
 
-    private void OnDisable(){
-        InGame.OnPracticeMode -= Enter;
-        InGame.OnLobby -= Exit;
-    }
 }
