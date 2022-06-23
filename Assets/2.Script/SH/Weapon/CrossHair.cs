@@ -2,14 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class CrossHair : MonoBehaviour
+public class CrossHair : MonoBehaviourPun
 {
     public Transform centerEye;
     public Transform crossHairImage;
     public Transform laserPoint;
     private Renderer imageRenderer;
     public LayerMask screenLayer;
+    private float attackDistance;
+    public float interpolationSpeed = 25;
 
     private IEnumerator coroutineHolder;
     private WaitForEndOfFrame eof = new WaitForEndOfFrame();
@@ -19,7 +22,6 @@ public class CrossHair : MonoBehaviour
 #endif
 
     private void Awake() {
-        imageRenderer = crossHairImage.GetComponent<Renderer>();
 #if test
         if (TryGetComponent<LineRenderer>(out lr) == false)
             lr = gameObject.AddComponent<LineRenderer>();
@@ -29,11 +31,17 @@ public class CrossHair : MonoBehaviour
         Debug.LogWarning("CrossHair is in Test mode");
 #endif
 
-        OnUseCrosshair();
+        imageRenderer = crossHairImage.GetComponent<Renderer>();
+        attackDistance = GetComponent<WeaponBase>().weaponSetting.attackDistance;
+
+        if (photonView.Mine)
+            OnUseCrosshair();
     }
 
     public void OnUseCrosshair()
     {
+        imageRenderer.enabled = true;
+
         coroutineHolder = UseCrosshair();
         StartCoroutine(coroutineHolder);
     }
@@ -42,6 +50,13 @@ public class CrossHair : MonoBehaviour
     {
         if (coroutineHolder != null)
             StopCoroutine(coroutineHolder);
+
+        imageRenderer.enabled = false;
+    }
+
+    private Vector3 SmoothMove(Vector3 a, Vector3 b, float interpolationSpeed)
+    {
+        return Vector3.Lerp(a, b, Time.deltaTime * interpolationSpeed);
     }
 
     IEnumerator UseCrosshair()
@@ -50,35 +65,27 @@ public class CrossHair : MonoBehaviour
         {
             yield return eof;
             Ray ray = new Ray(laserPoint.position, laserPoint.forward);
-            imageRenderer.enabled = false;
+            
 #if test
             lr.SetPosition(0, ray.origin);
-            lr.SetPosition(1, ray.origin + ray.direction * 100);
+            lr.SetPosition(1, ray.origin + ray.direction * attackDistance);
 #endif
-            // if (Physics.Raycast(ray, out RaycastHit targetHit, float.MaxValue))
-            // {
-            //     Vector3 targetToEye = centerEye.position - targetHit.point;
-            //     if (Physics.Raycast(targetHit.point, targetToEye, out RaycastHit screenHit, float.MaxValue, screenLayer))
-            //     {
-            //         imageRenderer.enabled = true;
-            //         crossHairImage.position = screenHit.point;
-            //         crossHairImage.forward = -targetToEye.normalized;
-            //         // crossHairImage.up = screenHit.normal;
-            //     }
-            // }
-            // else
-            
-                var newRay = ray.GetPoint(3f);
-                Vector3 targetToEye = centerEye.position - newRay;
-                if (Physics.Raycast(newRay, targetToEye, out RaycastHit screenHit, float.MaxValue, screenLayer))
-                {
-                    imageRenderer.enabled = true;
-                    crossHairImage.position = screenHit.point;
-                    crossHairImage.forward = -targetToEye.normalized;
-                    // crossHairImage.up = screenHit.normal;
-                }
-            
 
+            Vector3 aimPosition = Physics.Raycast(ray, out RaycastHit targetHit, attackDistance) ? targetHit.point : ray.GetPoint(attackDistance);
+            Vector3 targetToEye =centerEye.position - aimPosition;
+
+            if (Physics.Raycast(aimPosition, targetToEye, out RaycastHit screenHit, float.MaxValue, screenLayer))
+            {
+                imageRenderer.enabled = true;
+                crossHairImage.position = SmoothMove(crossHairImage.position, screenHit.point, interpolationSpeed);
+                crossHairImage.forward = -targetToEye.normalized;
+                // crossHairImage.up = screenHit.normal;
+            }
+            else
+            {
+                imageRenderer.enabled = false;
+            }
         }
+        
     }
 }
