@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MechLand : MonoBehaviour
+public class MechLand : MonoBehaviour, IInitialize
 {
-    void Reset()
+    public void Reset()
     {
         groundLayer = LayerMask.GetMask("Ground");
 
         if (componentsAfterStartScene.Count == 0)
         {
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<HandIK>(true));
-            componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<MechMovementController>(true));
+            // componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<MechMovementController>(true));
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<WeaponBase>(true));
+            componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<WeaponSystem>(true));
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<CrossHair>(true));
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<IKWeight>(true));
         }
@@ -65,5 +66,7 @@ public class MechLand : MonoBehaviour
             yield return null;
         }
         anim.SetLayerWeight(1, 1);
+
+        Destroy(this);
     }
 }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using RootMotion.FinalIK;
 using Photon.Pun;
-public class MechNetworkManager : MonoBehaviour
+public class MechNetworkManager : MonoBehaviour, IInitialize
 {
-    void Reset()
+    public void Reset()
     {
         FindAll();
     }
@@ -13,9 +13,8 @@ public class MechNetworkManager : MonoBehaviour
     void FindAll()
     {
         Transform root = GetComponent<VRIK>().references.pelvis.parent;
-        Transform meshRoot = root.Find("mesh");
-        if (meshRoot == null)
-            meshRoot = root.Find("Mesh");
+        Transform meshRoot = Utility.FindChildMatchName(root, new string[]{"Mesh", "mesh"});
+        
         localDisableMesh = new List<Renderer>();
         for (int i = 0; i < meshRoot.childCount; i++)
         {

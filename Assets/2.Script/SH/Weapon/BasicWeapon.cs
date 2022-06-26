@@ -6,12 +6,35 @@ using Photon.Pun;
 using System.Reflection;
 
 [RequireComponent(typeof(PhotonView))]
-public class BasicWeapon : WeaponBase
+public class BasicWeapon : WeaponBase, IInitialize
 {
+    public void Reset()
+    {
+        weaponSetting.weaponName = WeaponName.Basic;
+        weaponSetting.maxAmmo = 10;
+        weaponSetting.attackDistance = 10;
+        weaponSetting.attackRate = 0.2f;
+        weaponSetting.damage = 1;
+        handSide = HandSide.Right;
+        isAutomatic = true;
+
+        if (bullet == null)
+            bullet = Resources.Load("Projectile 10") as GameObject;
+
+        if (bulletSpawnPoint == null)
+        {
+            Utility.GetBoneTransform(transform.root, HumanBodyBones.RightLowerArm, out Transform forearm);
+            bulletSpawnPoint = Utility.FindChildContainsName(forearm, new string[]{"Basic", "basic"});
+            if (bulletSpawnPoint == null)
+            {
+                bulletSpawnPoint = new GameObject("BasicWeapon").transform;
+                bulletSpawnPoint.parent = forearm;
+                bulletSpawnPoint.localPosition = new Vector3(0.00133327337f,0.0120280581f,0.00210149423f);
+                bulletSpawnPoint.localEulerAngles = new Vector3(272.714539f,170.087479f,64.0593033f);
+            }
+        }
+    }
     public event Cur_MaxEvent OnValueChange;
-    [Header("Button")]
-    // public UnityEngine.InputSystem.InputActionReference grabButton;
-    public UnityEngine.InputSystem.InputActionReference shootButton;
 
     [Header("SpawnPoint")]
     public Transform bulletSpawnPoint;
@@ -46,35 +69,9 @@ public class BasicWeapon : WeaponBase
     public bool isAutomatic;
     IEnumerator coroutineHolder;
 
-    private void OnEnable()
-    {
-        print("SingleMode :" + PhotonNetwork.SingleMode);
-        if (photonView.Mine == false) return;
-
-        shootButton.action.started += StartWeaponEvent;
-        shootButton.action.canceled += StopWeaponEvent;
-        grabButton.action.canceled += StopWeaponEvent;
-    }
-    private void OnDisable()
-    {
-        if (photonView.Mine == false) return;
-        
-        shootButton.action.started -= StartWeaponEvent;
-        shootButton.action.canceled -= StopWeaponEvent;
-        grabButton.action.canceled -= StopWeaponEvent;
-    }
-    public void StartWeaponEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
-    {
-        StartWeaponAction();
-    }
-    public void StopWeaponEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
-    {
-        StopWeaponAction();
-    }
-
     public override void StartWeaponAction()
     {
-        if (isReloading && !grabEvent.isRightGrab)
+        if (isReloading)
             return;
 
         if (isAutomatic)

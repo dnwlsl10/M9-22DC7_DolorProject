@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 
 public enum WeaponName {Basic, Shield, Missile, Grenade, Laser}
+public enum HandSide {Left, Right}
 [System.Serializable]
 public struct WeaponSetting
 {
@@ -21,11 +22,10 @@ public class WeaponBase : MonoBehaviourPun
     [SerializeField]
     protected AudioSource audioSource;
     public WeaponSetting weaponSetting;
+    public HandSide handSide;
     protected float lastAttackTime = 0;
     protected bool isReloading;
     protected bool isAttacking;
-    public GrabEvent grabEvent;
-    public UnityEngine.InputSystem.InputActionReference grabButton;
 
     public virtual void StartWeaponAction(){}
     public virtual void StopWeaponAction(){}

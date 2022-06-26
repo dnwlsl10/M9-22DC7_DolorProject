@@ -13,10 +13,13 @@ namespace RootMotion.Demos
     {
         void Reset()
         {
-            vrRig = transform.root.Find("Cockpit").gameObject;
+            vrRig = Utility.FindChildMatchName(transform.root, "Cockpit")?.gameObject;
 			ik = GetComponent<VRIK>();
 			leftHandAnchor = ik.solver.leftArm.target;
 			rightHandAnchor = ik.solver.rightArm.target;
+
+            foreach (var a in GetComponentsInChildren<IInitialize>())
+                a.Reset();
         }
         #region All
 

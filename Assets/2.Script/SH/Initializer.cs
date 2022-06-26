@@ -10,67 +10,68 @@ public class Initializer : MonoBehaviour
     [ContextMenu("AttachScript")]
     void Init()
     {
+        StartCoroutine(A());
+    }
+
+    IEnumerator A()
+    {
         Transform root = transform.root;
-
-        CheckComponentExist(root, typeof(Status));
-        CheckComponentExist(root, typeof(Animator));
-        CheckComponentExist(root, typeof(PhotonView));
-        CheckComponentExist(root, typeof(PhotonAnimatorView));
-        CheckComponentExist(root, typeof(Rigidbody));
-        CheckComponentExist(root, typeof(CapsuleCollider));
-        CheckComponentExist(root, typeof(VRIK));
-        CheckComponentExist(root, typeof(VRIK_PUN_Player));
-        CheckComponentExist(root, typeof(MechScriptManager));
-        CheckComponentExist(root, typeof(MechMovementController));
-        CheckComponentExist(root, typeof(MechLand));
-        CheckComponentExist(root, typeof(MechNetworkManager));
-        CheckComponentExist(root, typeof(IKWeight));
-
         Transform child = root.Find("IKTarget");
-        Transform leftTarget = null;
-        Transform rightTarget = null;
         if (child == null)
         {
-            child = new GameObject("IKTarget").transform;
-            child.parent = root;
-
-            leftTarget = new GameObject("LeftHandTarget").transform;
-            leftTarget.parent = child;
-
-            rightTarget = new GameObject("RightHandTarget").transform;
-            rightTarget.parent = child;
-        }
-        else
-        {
-            leftTarget = child.Find("LeftHandTarget");
-            rightTarget = child.Find("RightHandTarget");
+            (UnityEditor.PrefabUtility.InstantiatePrefab(Utility.Load<GameObject>("Assets/5.Prefabs/SHPrefab/IKTarget.prefab")) as GameObject).transform.parent = root;
         }
 
-        CheckComponentExist(leftTarget, typeof(Rigidbody));
-        CheckComponentExist(leftTarget, typeof(HandIK));
-        CheckComponentExist(leftTarget, typeof(SphereCollider));
-
-        CheckComponentExist(rightTarget, typeof(Rigidbody));
-        CheckComponentExist(rightTarget, typeof(HandIK));
-        CheckComponentExist(rightTarget, typeof(SphereCollider));
-        
+        yield return new WaitForSecondsRealtime(0.01f);
         child = root.Find("WeaponScript");
-        Transform weapon = null;
         if (child == null)
         {
-            child = new GameObject("WeaponScript").transform;
-            child.parent = root;
-
-            weapon = new GameObject("BasicWeapon").transform;
-            weapon.parent = child;
+            (UnityEditor.PrefabUtility.InstantiatePrefab(Utility.Load<GameObject>("Assets/5.Prefabs/SHPrefab/WeaponScript.prefab")) as GameObject).transform.parent = root;
         }
-        else
-            weapon = child.Find("BasicWeapon");
-        CheckComponentExist(child, typeof(GrabEvent));
+        yield return new WaitForSecondsRealtime(0.01f);
 
-        CheckComponentExist(weapon, typeof(PhotonView));
-        CheckComponentExist(weapon, typeof(BasicWeapon));
-        CheckComponentExist(weapon, typeof(CrossHair));
+        CheckComponentExist(root, typeof(ColliderGenerator));
+        yield return new WaitForSecondsRealtime(0.01f);
+        
+        CheckComponentExist(root, typeof(Status));
+        yield return new WaitForSecondsRealtime(0.01f);
+        CheckComponentExist(root, typeof(Animator));
+        yield return new WaitForSecondsRealtime(0.01f);
+        CheckComponentExist(root, typeof(PhotonView));
+        yield return new WaitForSecondsRealtime(0.01f);
+        CheckComponentExist(root, typeof(PhotonAnimatorView));
+        yield return new WaitForSecondsRealtime(0.01f);
+        Rigidbody rb = CheckComponentExist(root, typeof(Rigidbody)) as Rigidbody;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+        rb.mass = 378;
+        yield return new WaitForSecondsRealtime(0.01f);
+        CheckComponentExist(root, typeof(CapsuleCollider));
+        yield return new WaitForSecondsRealtime(0.01f);
+        CheckComponentExist(root, typeof(VRIK));
+        yield return new WaitForSecondsRealtime(0.01f);
+        CheckComponentExist(root, typeof(VRIK_PUN_Player));
+        yield return new WaitForSecondsRealtime(0.01f);
+        CheckComponentExist(root, typeof(MechScriptManager));
+        yield return new WaitForSecondsRealtime(0.01f);
+        CheckComponentExist(root, typeof(MechMovementController));
+        yield return new WaitForSecondsRealtime(0.01f);
+        CheckComponentExist(root, typeof(MechLand));
+        yield return new WaitForSecondsRealtime(0.01f);
+        CheckComponentExist(root, typeof(MechNetworkManager));
+        yield return new WaitForSecondsRealtime(0.01f);
+        CheckComponentExist(root, typeof(IKWeight));
+        yield return new WaitForSecondsRealtime(0.01f);
+
+        foreach(var init in transform.root.GetComponentsInChildren<IInitialize>())
+        {
+            init.Reset();
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
+        foreach(var init in transform.root.GetComponentsInChildren<IInitialize>())
+        {
+            init.Reset();
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
     }
 
     Component CheckComponentExist(Transform target, System.Type type)

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColliderGenerator : MonoBehaviour
+public class ColliderGenerator : MonoBehaviour, IInitialize
 {
     [ContextMenu("Attach Scripts")]
     void AddScripts()
@@ -22,11 +22,14 @@ public class ColliderGenerator : MonoBehaviour
         AttachScript(vrik.references.leftCalf.gameObject);
         AttachScript(vrik.references.rightCalf.gameObject);
 
+        AttachScript(Utility.FindChildContainsName(vrik.references.leftUpperArm, new string[] {"Col", "col"}).gameObject);
+        AttachScript(Utility.FindChildContainsName(vrik.references.rightUpperArm, new string[] {"Col", "col"}).gameObject);
+
         AttachScript(vrik.references.leftForearm.gameObject);
         AttachScript(vrik.references.rightForearm.gameObject);
     }
-    public List<Behaviour> attchScriptList;
-    private void Reset() {
+    public List<Object> attchScriptList;
+    public void Reset() {
         RootMotion.FinalIK.VRIK vrik = GetComponent<RootMotion.FinalIK.VRIK>();
         if (vrik == null)
         {
@@ -41,6 +44,9 @@ public class ColliderGenerator : MonoBehaviour
         AttachCollider(vrik.references.leftCalf, new Vector3(7.57556691e-12f,0.0163353719f,4.82889978e-11f), 0.005f, 0.03552755f);
         AttachCollider(vrik.references.rightCalf, new Vector3(7.57556691e-12f,0.0163353719f,4.82889978e-11f), 0.005f, 0.03552755f);
 
+        AttachCollider(Utility.FindChildContainsName(vrik.references.leftUpperArm, new string[] {"Col", "col"}), Vector3.right * -0.001f, 0.003f, 0.02f);
+        AttachCollider(Utility.FindChildContainsName(vrik.references.rightUpperArm, new string[] {"Col", "col"}), Vector3.right * 0.001f, 0.003f, 0.02f);
+
         AttachCollider(vrik.references.leftForearm, new Vector3(0.000537198328f,0.00722201215f,-0.000389008783f), 0.004073791f, 0.01676754f);
         AttachCollider(vrik.references.rightForearm, new Vector3(0.000537198328f,0.00722201215f,-0.000389008783f), 0.004073791f, 0.01676754f);
     }
@@ -49,7 +55,7 @@ public class ColliderGenerator : MonoBehaviour
     {
         // foreach(Collider prevCol in target.GetComponents<Collider>())
         if (target.TryGetComponent<Collider>(out Collider prevCol))
-            DestroyImmediate(prevCol);
+            return;
 
         SphereCollider col = target.gameObject.AddComponent<SphereCollider>();
         col.center = xyzOffset;
@@ -62,7 +68,7 @@ public class ColliderGenerator : MonoBehaviour
     {
         // foreach(Collider prevCol in target.GetComponents<Collider>())
         if (target.TryGetComponent<Collider>(out Collider prevCol))
-            DestroyImmediate(prevCol);
+            return;
 
         CapsuleCollider col = target.gameObject.AddComponent<CapsuleCollider>();
         col.center = xyzOffset;
@@ -75,15 +81,28 @@ public class ColliderGenerator : MonoBehaviour
 
     void AttachScript(GameObject target)
     {
-        foreach (Behaviour script in attchScriptList)
+        foreach (Object script in attchScriptList)
         {
-            if (target.TryGetComponent(script.GetType(), out var exist) == false)
-                target.AddComponent(script.GetType());
-
-            if (target.TryGetComponent<Photon.Pun.PhotonView>(out var pv))
+            print(script.GetType());
+            System.Type type = null;
+            if (script.GetType() == typeof(UnityEditor.MonoScript))
             {
-                pv.Synchronization = Photon.Pun.ViewSynchronization.Off;
-                pv.observableSearch = Photon.Pun.PhotonView.ObservableSearch.Manual;
+                type = (script as UnityEditor.MonoScript).GetClass();
+            }
+            else
+            {
+                type = script.GetType();
+            }
+
+            Component _component = null;
+            if (target.TryGetComponent(type, out _component) == false)
+            {
+                _component = target.AddComponent(type);
+            }
+
+            if (_component is Photon.Pun.PhotonView)
+            {
+                (_component as Photon.Pun.PhotonView).Synchronization = Photon.Pun.ViewSynchronization.Off;
             }
         }
     }

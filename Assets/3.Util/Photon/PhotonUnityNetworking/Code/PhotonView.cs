@@ -179,13 +179,15 @@ namespace Photon.Pun
         /// True if this is a scene photonview (null owner and ownerId == 0) on the Master client.
         /// </remarks>
         public bool IsMine { get; private set; }
+        bool initialized;
+        bool cachedMine;
         public bool Mine {
             get
             {
-                if (PhotonNetwork.SingleMode == true)
-                    return true;
-                else
-                    return IsMine;
+                if (initialized == false)
+                    cachedMine = PhotonNetwork.SingleMode ? true : IsMine;
+
+                return cachedMine;
             }
         }
         public bool AmController

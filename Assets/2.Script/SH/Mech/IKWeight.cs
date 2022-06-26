@@ -7,6 +7,38 @@ using RootMotion.FinalIK;
 using Photon.Pun;
 public class IKWeight : MonoBehaviourPun
 {
+    #if test
+    public InputActionReference gripL;
+    public InputActionReference gripR;
+    public bool test;
+
+    void Reset()
+    {
+        gripL = Utility.FindInputReference(ActionMap.XRI_LeftHand_Interaction, "Select");
+        gripR = Utility.FindInputReference(ActionMap.XRI_RightHand_Interaction, "Select");
+    }
+
+    void OnLeftGripEvent(InputAction.CallbackContext ctx) => OnLeftGripEvent(ctx.ReadValueAsButton() ? 1 : 0);
+    void OnRightGripEvent(InputAction.CallbackContext ctx) => OnRightGripEvent(ctx.ReadValueAsButton() ? 1 : 0);
+
+    private void OnEnable() {
+        if (test == false) return;
+
+        gripL.action.started += OnLeftGripEvent;
+        gripL.action.canceled += OnLeftGripEvent;
+        gripR.action.started += OnRightGripEvent;
+        gripR.action.canceled += OnRightGripEvent;
+    }
+    private void OnDisable() {
+        if (test == false) return;
+
+        gripL.action.started -= OnLeftGripEvent;
+        gripL.action.canceled -= OnLeftGripEvent;
+        gripR.action.started -= OnRightGripEvent;
+        gripR.action.canceled -= OnRightGripEvent;
+    }
+
+    #endif
     IKSolverVR.Arm rightArmIK;
     IKSolverVR.Arm leftArmIK;
 
@@ -26,14 +58,14 @@ public class IKWeight : MonoBehaviourPun
         if (PhotonNetwork.SingleMode)
             RPCSetWeight(true, targetWeight);
         else
-            photonView.RPC("RPCSetWeight", RpcTarget.All, true, targetWeight);
+            photonView.CustomRPC(this, "RPCSetWeight", RpcTarget.All, true, targetWeight);
     }
     public void OnRightGripEvent(int targetWeight)
     {
         if (PhotonNetwork.SingleMode)
             RPCSetWeight(false, targetWeight);
         else
-            photonView.RPC("RPCSetWeight", RpcTarget.All, false, targetWeight);
+            photonView.CustomRPC(this, "RPCSetWeight", RpcTarget.All, false, targetWeight);
     }
     
     [PunRPC]
