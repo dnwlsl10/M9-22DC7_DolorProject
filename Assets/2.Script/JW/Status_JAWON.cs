@@ -63,6 +63,7 @@ public class Status_JAWON : MonoBehaviourPun/*,  IDamageable */
         }
     }
 
+<<<<<<< HEAD
     // public void TakeDamage(float damage)
     //  {
     //     Debug.Log("Damage" + damage);
@@ -70,4 +71,6 @@ public class Status_JAWON : MonoBehaviourPun/*,  IDamageable */
 
     //     StartCoroutine(test());
     // }
+=======
+>>>>>>> 15418faef9bc50e0d1cbe8ade793dea251fe7a83
 }

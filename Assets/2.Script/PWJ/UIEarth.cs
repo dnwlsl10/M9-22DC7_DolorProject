@@ -2,44 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 public class UIEarth : MonoBehaviour
 {
-    PhotonView pv;
-    [Header("Raycast")]
-    private Transform origin;
-    private Transform target;
+
+    [Header("Raycast Point")]
+    private Transform earthCenter;
+    public Transform startPos;
+
+    [Header("Dir")]
     private Vector3 dir;
+    private Vector3 screenDir;
     private RaycastHit hitInfo;
-    private LocalRotator localRotator; 
-    
+
+    [Header("Rotator")]
+    public LocalRotator rotator;
+   
     [Header("Effect")]
     public GameObject effect;
-    public void OnEnable(){
-        this.target = GameObject.FindGameObjectWithTag("Screen").transform;
-        this.localRotator = this.GetComponent<LocalRotator>();
-        this.dir = this.target.position - origin.position;
+    public void Init(){
+        this.gameObject.SetActive(true);
+        this.earthCenter = this.transform.GetChild(0).transform;
+        this.dir = this.earthCenter.position - this.startPos.transform.position;
     }
 
-    public void Update(){
-        
-        if(PhotonNetwork.CurrentRoom.PlayerCount ==2){
-
-            if(Physics.Raycast(this.target.position ,dir , out hitInfo))
+    public void OnRaycast()
+    {
+        if (Physics.Raycast(this.startPos.transform.position, dir, out hitInfo))
+        {
+            if (hitInfo.collider.CompareTag("Earth"))
             {
-                this.localRotator.enabled = false;
-                if(hitInfo.collider.CompareTag("Earth")){
-                    
-                    this.effect.transform.position = hitInfo.point;
-                    this.effect.SetActive(true);
-                }
-                if(hitInfo.collider.CompareTag("Screen")){
-                    SendMessage();
-                }
+                rotator.enabled = false;
+                this.effect.transform.position = hitInfo.point;
+                this.effect.SetActive(true);
             }
         }
     }
 
-    void SendMessage(){
-
+    public void Exit() {
+        this.gameObject.SetActive(false);
     }
+
 }

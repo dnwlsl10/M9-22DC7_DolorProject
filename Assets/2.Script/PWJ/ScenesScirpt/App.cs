@@ -108,7 +108,6 @@ public class App : MonoBehaviour
                         Debug.Log(obj.isDone);
 
                         var inGame = GameObject.FindObjectOfType<InGame>();
-
                     };
                 }
                 break;

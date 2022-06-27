@@ -126,7 +126,7 @@ namespace Photon.Pun
 
         private void Update()
         {
-            if (this.m_Animator.applyRootMotion && this.photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            if (this.m_Animator.applyRootMotion && this.photonView.Mine == false && PhotonNetwork.IsConnected == true)
             {
                 this.m_Animator.applyRootMotion = false;
             }

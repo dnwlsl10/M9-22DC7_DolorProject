@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ShieldMat
-  m_Shader: {fileID: -6465566751694194690, guid: afd1d2715876e9c48b1a229cf6bfc663, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: fee077e564d16f345b8f54dd73b6797f, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0

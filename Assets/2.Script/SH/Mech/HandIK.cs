@@ -6,56 +6,37 @@ using UnityEngine.XR;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 using RootMotion.FinalIK;
-public class HandIK : MonoBehaviour
+public class HandIK : MonoBehaviour, IInitialize
 {
     [ContextMenu("Switch Movement Method")]
     void ChangeMethod() => vrController.UseTransformToMove = !vrController.UseTransformToMove;
 
     [ContextMenu("Find Ref")]
-    public void AutoDetectReferences()
+    public void Reset()
     {
-        VRIK vrik = transform.root.GetComponentInChildren<VRIK>();
-
-        vrController = new VRMap();
-        vrController.vrOrigin = transform.root.GetComponentInChildren<Unity.XR.CoreUtils.XROrigin>().GetComponentInChildren<Camera>().transform;
-        vrController.rigOrigin = vrik.references.head;
+#if UNITY_EDITOR
+        if (vrController == null) vrController = new VRMap();
+        
+        vrController.vrOrigin = transform.root.GetComponentInChildren<Camera>(true)?.transform;
+        Utility.GetBoneTransform(transform.root, HumanBodyBones.Head, out vrController.rigOrigin);
+        Transform xrOrigin = vrController.vrOrigin?.parent;
         
         if (gameObject.name.Contains("Left") || gameObject.name.Contains("left"))
         {
-            Transform xrOrigin = vrController.vrOrigin.parent;
-            for (int i = 0; i < xrOrigin.childCount; i++)
-            {
-                if (xrOrigin.GetChild(i).name.Contains("Left") || gameObject.name.Contains("left"))
-                {
-                    vrController.vrTarget = xrOrigin.GetChild(i);
-                    break;
-                }
-            }
-            vrController.rigTarget = transform.root.Find("LeftHandTarget");
-            if (vrController.rigTarget == null)
-                vrController.rigTarget = transform.root.Find("IKTarget").Find("LeftHandTarget");
+            vrController.vrTarget = Utility.FindChildContainsName(xrOrigin, new string[]{"Left", "left"});
+            vrController.rigTarget = Utility.FindChildMatchName(transform.root, "LeftHandTarget");
             vrController.controller = XRNode.LeftHand;
         }
         else if (gameObject.name.Contains("Right") || gameObject.name.Contains("right"))
         {
-            Transform xrOrigin = vrController.vrOrigin.parent;
-            for (int i = 0; i < xrOrigin.childCount; i++)
-            {
-                if (xrOrigin.GetChild(i).name.Contains("Right") || gameObject.name.Contains("right"))
-                {
-                    vrController.vrTarget = xrOrigin.GetChild(i);
-                    break;
-                }
-            }
-
-            vrController.rigTarget = transform.root.Find("RightHandTarget");
-            if (vrController.rigTarget == null)
-                vrController.rigTarget = transform.root.Find("IKTarget").Find("RightHandTarget");
+            vrController.vrTarget = Utility.FindChildContainsName(xrOrigin, new string[]{"Right", "right"});
+            vrController.rigTarget = Utility.FindChildMatchName(transform.root, "RightHandTarget");
             vrController.controller = XRNode.RightHand;
-            vrController.scale = 4;
         }
 
+        vrController.scale = 4;
         vrController.rb = vrController.rigTarget.GetComponent<Rigidbody>();
+#endif
     }
 
 
@@ -135,7 +116,6 @@ public class HandIK : MonoBehaviour
     [Tooltip("hand mesh of pilot in cockpit")]
     public Renderer characterHandMesh;
     bool isLeft;
-
     private void Awake()
     {
         isLeft = vrController.controller == XRNode.LeftHand;

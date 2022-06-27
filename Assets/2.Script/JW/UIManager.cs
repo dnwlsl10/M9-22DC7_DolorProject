@@ -9,8 +9,11 @@ public class UIManager : MonoBehaviour
 {
     private static UIManager instance;
 
-    private Status status; 
+    [SerializeField]
+    private Status status;
+    [SerializeField] 
     private BasicWeapon bw;
+    [SerializeField]
     private SkillShield sw;
     public static UIManager Instance
     {
