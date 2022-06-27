@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
 public class ColliderGenerator : MonoBehaviour, IInitialize
 {
     [ContextMenu("Attach Scripts")]
@@ -103,7 +104,9 @@ public class ColliderGenerator : MonoBehaviour, IInitialize
             if (_component is Photon.Pun.PhotonView)
             {
                 (_component as Photon.Pun.PhotonView).Synchronization = Photon.Pun.ViewSynchronization.Off;
+                (_component as Photon.Pun.PhotonView).observableSearch = Photon.Pun.PhotonView.ObservableSearch.Manual;
             }
         }
     }
 }
+#endif

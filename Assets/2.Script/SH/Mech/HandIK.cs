@@ -14,6 +14,7 @@ public class HandIK : MonoBehaviour, IInitialize
     [ContextMenu("Find Ref")]
     public void Reset()
     {
+#if UNITY_EDITOR
         if (vrController == null) vrController = new VRMap();
         
         vrController.vrOrigin = transform.root.GetComponentInChildren<Camera>(true)?.transform;
@@ -35,6 +36,7 @@ public class HandIK : MonoBehaviour, IInitialize
 
         vrController.scale = 4;
         vrController.rb = vrController.rigTarget.GetComponent<Rigidbody>();
+#endif
     }
 
 

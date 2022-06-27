@@ -17,7 +17,8 @@ public class NetworkTest : MonoBehaviourPunCallbacks
         PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.GameVersion = "1.0";
-        Connect();
+        
+        if (testMode) Invoke("SpawnSimulator", 1);
     }
 
 #region NetworkConnect
@@ -54,8 +55,6 @@ public class NetworkTest : MonoBehaviourPunCallbacks
     {
         print("Joined Room" + PhotonNetwork.CurrentRoom.PlayerCount);
         
-        if (testMode) Invoke("SpawnSimulator", 1);
-        
     }
     private void SpawnSimulator()
     {
@@ -89,9 +88,9 @@ public class NetworkTest : MonoBehaviourPunCallbacks
 
     IEnumerator IEGameStart()
     {
-        for (float f = 0; f < 10; f += Time.deltaTime)
+        for (float f = 0; f < 3; f += Time.deltaTime)
         {
-            print(f);
+            print(Mathf.RoundToInt(f));
             yield return null;
         }
 

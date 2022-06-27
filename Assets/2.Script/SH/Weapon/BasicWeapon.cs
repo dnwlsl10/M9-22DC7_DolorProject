@@ -10,6 +10,7 @@ public class BasicWeapon : WeaponBase, IInitialize
 {
     public void Reset()
     {
+#if UNITY_EDITOR
         weaponSetting.weaponName = WeaponName.Basic;
         weaponSetting.maxAmmo = 10;
         weaponSetting.attackDistance = 10;
@@ -33,6 +34,7 @@ public class BasicWeapon : WeaponBase, IInitialize
                 bulletSpawnPoint.localEulerAngles = new Vector3(272.714539f,170.087479f,64.0593033f);
             }
         }
+#endif
     }
     public event Cur_MaxEvent OnValueChange;
 

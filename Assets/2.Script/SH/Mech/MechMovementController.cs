@@ -8,8 +8,10 @@ using Photon.Pun;
 public class MechMovementController : MonoBehaviourPun, IInitialize
 {
     public void Reset() {
+#if UNITY_EDITOR
         centerEye = GetComponentInChildren<Camera>(true)?.transform;
         leftHandJoystick = Utility.FindInputReference(ActionMap.XRI_LeftHand_Locomotion, "Move");
+#endif
     }
     enum WalkState{Idle, Forward, Back, Left, Right}
 

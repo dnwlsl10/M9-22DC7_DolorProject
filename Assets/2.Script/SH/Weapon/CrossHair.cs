@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class CrossHair : MonoBehaviourPun
+public class CrossHair : MonoBehaviourPun, IInitialize
 {
 #if test
     LineRenderer lr;
@@ -23,7 +23,7 @@ public class CrossHair : MonoBehaviourPun
     private IEnumerator coroutineHolder;
     private WaitForEndOfFrame eof = new WaitForEndOfFrame();
 
-    void Reset()
+    public void Reset()
     {
         if (centerEye == null)
             centerEye = transform.root.GetComponentInChildren<Camera>(true)?.transform;

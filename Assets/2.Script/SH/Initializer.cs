@@ -5,6 +5,7 @@ using Photon.Pun;
 using RootMotion.FinalIK;
 using RootMotion.Demos;
 
+#if UNITY_EDITOR
 public class Initializer : MonoBehaviour
 {
     [ContextMenu("AttachScript")]
@@ -19,14 +20,14 @@ public class Initializer : MonoBehaviour
         Transform child = root.Find("IKTarget");
         if (child == null)
         {
-            (UnityEditor.PrefabUtility.InstantiatePrefab(Utility.Load<GameObject>("Assets/5.Prefabs/SHPrefab/IKTarget.prefab")) as GameObject).transform.parent = root;
+            UnityEditor.PrefabUtility.InstantiatePrefab(Utility.Load<GameObject>("Assets/5.Prefabs/SHPrefab/IKTarget.prefab"), root);
         }
 
         yield return new WaitForSecondsRealtime(0.01f);
         child = root.Find("WeaponScript");
         if (child == null)
         {
-            (UnityEditor.PrefabUtility.InstantiatePrefab(Utility.Load<GameObject>("Assets/5.Prefabs/SHPrefab/WeaponScript.prefab")) as GameObject).transform.parent = root;
+            UnityEditor.PrefabUtility.InstantiatePrefab(Utility.Load<GameObject>("Assets/5.Prefabs/SHPrefab/WeaponScript.prefab"), root);
         }
         yield return new WaitForSecondsRealtime(0.01f);
 
@@ -84,3 +85,4 @@ public class Initializer : MonoBehaviour
         return _component;
     }
 }
+#endif

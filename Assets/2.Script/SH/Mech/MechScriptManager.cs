@@ -5,18 +5,16 @@ using Photon.Pun;
 
 public class MechScriptManager : MonoBehaviour
 {
+    [ContextMenu("Initialize")]
     void Reset()
     {
-        Init();
-    }
-    [ContextMenu("Initialize")]
-    void Init()
-    {
+#if UNITY_EDITOR
         componentsForOnlyLocal = new List<Component>();
         componentsForOnlyLocal.Add(transform.root.GetComponent<Rigidbody>());
         componentsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<HandIK>());
         componentsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<CrossHair>());
         componentsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<WeaponSystem>());
+#endif
     }
     
     public List<Component> componentsForOnlyLocal;

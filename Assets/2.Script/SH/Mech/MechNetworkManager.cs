@@ -5,13 +5,10 @@ using RootMotion.FinalIK;
 using Photon.Pun;
 public class MechNetworkManager : MonoBehaviour, IInitialize
 {
+    [ContextMenu("Find All")]
     public void Reset()
     {
-        FindAll();
-    }
-    [ContextMenu("Find All")]
-    void FindAll()
-    {
+#if UNITY_EDITOR
         Transform root = GetComponent<VRIK>().references.pelvis.parent;
         Transform meshRoot = Utility.FindChildMatchName(root, new string[]{"Mesh", "mesh"});
         
@@ -29,6 +26,7 @@ public class MechNetworkManager : MonoBehaviour, IInitialize
         Collider[] cols = root.GetComponentsInChildren<Collider>();
         foreach (Collider col in cols)
             LayerToChangeRemote.Add(col.gameObject);
+#endif
     }
 
     [ContextMenu("Toggle Mesh")]

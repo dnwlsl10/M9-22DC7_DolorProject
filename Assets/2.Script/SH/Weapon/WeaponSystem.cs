@@ -16,40 +16,42 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
         IKWeight weight = transform.root.GetComponentInChildren<IKWeight>();
         DestroyImmediate(transform.root.GetComponentInChildren<GrabEvent>());
 
-        foreach (var grababble in Utility.FindChildMatchName(transform.root, "Cockpit").GetComponentsInChildren<Autohand.Grabbable>())
-        {
-            if (grababble.handType == Autohand.HandType.left)
+        Transform tr = Utility.FindChildMatchName(transform.root, "Cockpit");
+        if (tr != null)
+            foreach (var grababble in tr.GetComponentsInChildren<Autohand.Grabbable>())
             {
-                grababble.onGrab = new Autohand.UnityHandGrabEvent();
-                grababble.onRelease = new Autohand.UnityHandGrabEvent();
-                
-                var hilight = grababble.GetComponentInChildren<GrabControllerHighlight>();
+                if (grababble.handType == Autohand.HandType.left)
+                {
+                    grababble.onGrab = new Autohand.UnityHandGrabEvent();
+                    grababble.onRelease = new Autohand.UnityHandGrabEvent();
+                    
+                    var hilight = grababble.GetComponentInChildren<GrabControllerHighlight>();
 
-                UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onGrab, OnGrabLeft, true);
-                UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onGrab, weight.OnLeftGripEvent, 1);
-                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onGrab, hilight.OnGrabHightlight);
+                    UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onGrab, OnGrabLeft, true);
+                    UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onGrab, weight.OnLeftGripEvent, 1);
+                    UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onGrab, hilight.OnGrabHightlight);
 
-                UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onRelease, OnGrabLeft, false);
-                UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onRelease, weight.OnLeftGripEvent, 0);
-                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, hilight.OnRelease);
+                    UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onRelease, OnGrabLeft, false);
+                    UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onRelease, weight.OnLeftGripEvent, 0);
+                    UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, hilight.OnRelease);
 
+                }
+                else if (grababble.handType == Autohand.HandType.right)
+                {
+                    grababble.onGrab = new Autohand.UnityHandGrabEvent();
+                    grababble.onRelease = new Autohand.UnityHandGrabEvent();
+
+                    var hilight = grababble.GetComponentInChildren<GrabControllerHighlight>();
+
+                    UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onGrab, weight.OnRightGripEvent, 1);
+                    UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onGrab, OnGrabRight, true);
+                    UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onGrab, hilight.OnGrabHightlight);
+
+                    UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onRelease, weight.OnRightGripEvent, 0);
+                    UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onRelease, OnGrabRight, false);
+                    UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, hilight.OnRelease);
+                }
             }
-            else if (grababble.handType == Autohand.HandType.right)
-            {
-                grababble.onGrab = new Autohand.UnityHandGrabEvent();
-                grababble.onRelease = new Autohand.UnityHandGrabEvent();
-
-                var hilight = grababble.GetComponentInChildren<GrabControllerHighlight>();
-
-                UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onGrab, weight.OnRightGripEvent, 1);
-                UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onGrab, OnGrabRight, true);
-                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onGrab, hilight.OnGrabHightlight);
-
-                UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onRelease, weight.OnRightGripEvent, 0);
-                UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onRelease, OnGrabRight, false);
-                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, hilight.OnRelease);
-            }
-        }
 
         ButtonMap basic;
         basic.weaponName = WeaponName.Basic;
@@ -150,7 +152,7 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
     private void OnGrabRight(InputAction.CallbackContext ctx) => OnGrabRight(ctx.ReadValueAsButton());
 #endif
     private void OnEnable() {
-        if (photonView.Mine == false) return;
+        if (photonView.cachedMine == false) return;
 
 #if test
         Debug.LogWarning("WeaponSystem is in testMode");
@@ -170,7 +172,7 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
         }
     }
     private void OnDisable() {
-        if (photonView.Mine == false) return;
+        if (photonView.cachedMine == false) return;
 
 #if test
         if (testMode == true)

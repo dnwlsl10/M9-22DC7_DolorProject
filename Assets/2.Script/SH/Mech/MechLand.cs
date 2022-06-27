@@ -6,6 +6,7 @@ public class MechLand : MonoBehaviour, IInitialize
 {
     public void Reset()
     {
+#if UNITY_EDITOR
         groundLayer = LayerMask.GetMask("Ground");
 
         if (componentsAfterStartScene.Count == 0)
@@ -19,6 +20,7 @@ public class MechLand : MonoBehaviour, IInitialize
         }
 
         groundDetectDistance = 0.6f;
+#endif
     }
 
     [ContextMenu("land")]

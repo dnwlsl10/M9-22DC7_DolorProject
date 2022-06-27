@@ -13,6 +13,7 @@ namespace RootMotion.Demos
     {
         void Reset()
         {
+#if UNITY_EDITOR
             vrRig = Utility.FindChildMatchName(transform.root, "Cockpit")?.gameObject;
 			ik = GetComponent<VRIK>();
 			leftHandAnchor = ik.solver.leftArm.target;
@@ -20,6 +21,7 @@ namespace RootMotion.Demos
 
             foreach (var a in GetComponentsInChildren<IInitialize>())
                 a.Reset();
+#endif
         }
         #region All
 
@@ -31,6 +33,11 @@ namespace RootMotion.Demos
         // private NetworkTransform headNetworkT = new NetworkTransform();
         private NetworkTransform leftHandNetworkT = new NetworkTransform();
         private NetworkTransform rightHandNetworkT = new NetworkTransform();
+
+        private void Awake() {
+            if (PhotonNetwork.SingleMode)
+                vrRig.SetActive(true);
+        }
 
         // Called by Photon when the player is instantiated
         public void OnPhotonInstantiate(PhotonMessageInfo info)

@@ -5,14 +5,22 @@ using Photon.Pun;
 
 public class SkillShield : WeaponBase, IDamageable
 {
+    public void Reset()
+    {
+        weaponSetting.weaponName = WeaponName.Shield;
+        weaponSetting.maxAmmo = 100;
+        handSide = HandSide.Left;
+        gaugeUpSpeed = 10;
+        gaugeDownSpeed = 20;
+    }
     public event Cur_MaxEvent OnValueChange;
 
-    public GameObject shieldCreatePos;
-    public GameObject shield;
+    // public GameObject shieldCreatePos;
+    // public GameObject shield;
     public float gaugeUpSpeed;
     public float gaugeDownSpeed;
     Animator anim;
-    public UnityEngine.InputSystem.InputActionReference alpha1;
+    // public UnityEngine.InputSystem.InputActionReference alpha1;
 
     public float CurrentAmmo
     {
@@ -35,34 +43,41 @@ public class SkillShield : WeaponBase, IDamageable
         }
     }
 
-    private void OnEnable()
-    {
-        if (photonView.Mine == false) return;
+    // private void OnEnable()
+    // {
+    //     if (photonView.Mine == false) return;
 
-        alpha1.action.started += StartEvent;
-        alpha1.action.canceled += StopEvent;
-    }
-    private void OnDisable()
-    {
-        if (photonView.Mine == false) return;
+    //     alpha1.action.started += StartEvent;
+    //     alpha1.action.canceled += StopEvent;
+    // }
+    // private void OnDisable()
+    // {
+    //     if (photonView.Mine == false) return;
 
-        alpha1.action.started -= StartEvent;
-        alpha1.action.canceled -= StopEvent;
-    }
+    //     alpha1.action.started -= StartEvent;
+    //     alpha1.action.canceled -= StopEvent;
+    // }
 
-    void Start()
-    {
+    // void Start()
+    // {
+    //     anim = GetComponent<Animator>();
+    // }
+
+    private void Awake() {
+        base.Awake();
+
         anim = GetComponent<Animator>();
+        anim.Play("ShieldOff", 0, 1);
     }
 
-    void StartEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
-    {
-        StartWeaponAction();
-    }
-    void StopEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
-    {
-        StopWeaponAction();
-    }
+    // void StartEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    // {
+    //     StartWeaponAction();
+    // }
+    // void StopEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    // {
+    //     StopWeaponAction();
+    // }
 
     public override void StartWeaponAction() //GetKeyDown
     {
