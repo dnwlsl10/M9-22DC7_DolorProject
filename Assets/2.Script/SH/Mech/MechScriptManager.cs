@@ -9,11 +9,14 @@ public class MechScriptManager : MonoBehaviour
     void Reset()
     {
 #if UNITY_EDITOR
-        componentsForOnlyLocal = new List<Component>();
-        componentsForOnlyLocal.Add(transform.root.GetComponent<Rigidbody>());
-        componentsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<HandIK>());
-        componentsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<CrossHair>());
-        componentsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<WeaponSystem>());
+        if (componentsForOnlyLocal.Count == 0)
+        {
+            componentsForOnlyLocal = new List<Component>();
+            componentsForOnlyLocal.Add(transform.root.GetComponent<Rigidbody>());
+            componentsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<HandIK>());
+            componentsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<CrossHair>());
+            componentsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<WeaponSystem>());
+        }
 #endif
     }
     

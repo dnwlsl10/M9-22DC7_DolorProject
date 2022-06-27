@@ -26,15 +26,22 @@ public class HandIK : MonoBehaviour, IInitialize
             vrController.vrTarget = Utility.FindChildContainsName(xrOrigin, new string[]{"Left", "left"});
             vrController.rigTarget = Utility.FindChildMatchName(transform.root, "LeftHandTarget");
             vrController.controller = XRNode.LeftHand;
+
+            if (vrController.trackingRotationOffset == Vector3.zero)
+                vrController.trackingRotationOffset = new Vector3(88.3f, 21.1f, -0.82f);
         }
         else if (gameObject.name.Contains("Right") || gameObject.name.Contains("right"))
         {
             vrController.vrTarget = Utility.FindChildContainsName(xrOrigin, new string[]{"Right", "right"});
             vrController.rigTarget = Utility.FindChildMatchName(transform.root, "RightHandTarget");
             vrController.controller = XRNode.RightHand;
-        }
 
-        vrController.scale = 4;
+            if (vrController.trackingRotationOffset == Vector3.zero)
+                vrController.trackingRotationOffset = new Vector3(88.3f, 21.1f, -0.82f);
+        }
+        
+        // swivel : -40, WTP : 0, 1, 0, PTT : 0, 0, -1
+        vrController.scale = 5.5f;
         vrController.rb = vrController.rigTarget.GetComponent<Rigidbody>();
 #endif
     }
