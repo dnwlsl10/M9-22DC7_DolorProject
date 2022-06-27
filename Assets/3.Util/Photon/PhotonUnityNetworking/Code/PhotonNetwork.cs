@@ -3113,11 +3113,11 @@ namespace Photon.Pun
         /// <param name='levelName'>
         /// Name of the level to load. Make sure it's available to all clients in the same room.
         /// </param>
-        public static AsyncOperation LoadLevel(string levelName)
+        public static void LoadLevel(string levelName)
         {
             if (PhotonHandler.AppQuits)
             {
-                return null;
+                return;
             }
 
             if (PhotonNetwork.AutomaticallySyncScene)
@@ -3128,7 +3128,8 @@ namespace Photon.Pun
             PhotonNetwork.IsMessageQueueRunning = false;
             loadingLevelAndPausedNetwork = true;
             _AsyncLevelLoadingOperation = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Single);
-            return _AsyncLevelLoadingOperation;
+            _AsyncLevelLoadingOperation.allowSceneActivation = false;
+            
         }
 
         /// <summary>
