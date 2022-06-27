@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Photon.Pun;
 
-public class Status_JAWON : MonoBehaviourPun, IDamageable
+public class Status_JAWON : MonoBehaviourPun/*,  IDamageable */
 {
     public event Cur_MaxEvent OnHpValueChange;
     public int maxHP = 100;
@@ -63,8 +63,11 @@ public class Status_JAWON : MonoBehaviourPun, IDamageable
         }
     }
 
-    public void TakeDamage(float damage)
-    {
-        throw new System.NotImplementedException();
-    }
+    // public void TakeDamage(float damage)
+    //  {
+    //     Debug.Log("Damage" + damage);
+    //     HP -= damage;
+
+    //     StartCoroutine(test());
+    // }
 }
