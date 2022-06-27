@@ -3130,6 +3130,7 @@ namespace Photon.Pun
             loadingLevelAndPausedNetwork = true;
             _AsyncLevelLoadingOperation = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Single);
             return _AsyncLevelLoadingOperation;
+            
         }
 
         /// <summary>

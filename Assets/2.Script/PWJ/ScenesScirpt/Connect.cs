@@ -4,7 +4,6 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
-using  UnityEngine.SceneManagement;
 
 public enum eRoomMode { Lobby, PracticeRoom, QuickMatchRoom }
 public class Connect : MonoBehaviourPunCallbacks
@@ -26,6 +25,9 @@ public class Connect : MonoBehaviourPunCallbacks
     public System.Action<bool> IsMasterClient;
     private WaitForSeconds eof = new WaitForSeconds(2f);
     public Text count;
+
+
+    public LoadingScreenProcess loadingScreenProcess;
 
     private string roomName;
     private readonly string gameVersion = "v1.0";
@@ -94,19 +96,18 @@ public class Connect : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom() => Debug.Log(roomMode);
       
-    public override void OnJoinedRoom(){
-        IsMasterClient(PhotonNetwork.IsMasterClient);
-    }
-
-    private void Update() {
-        Debug.Log(PhotonNetwork.LevelLoadingProgress);
-    }
-
+    public override void OnJoinedRoom() => IsMasterClient(PhotonNetwork.IsMasterClient);
+     
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if(PhotonNetwork.IsMasterClient) inGame.DetectRemotePlayerJoin();
         photonView.RPC("GameStartRPC", RpcTarget.AllBuffered);
     }
+
+
+    public GameObject bg;
+    public Image progressBar;
+    private float progress;
 
     [PunRPC]
     void GameStartRPC() => StartCoroutine(OnStartCount());
@@ -118,22 +119,57 @@ public class Connect : MonoBehaviourPunCallbacks
         yield return eof;
         count.text = "1";
         yield return eof;
-        if (PhotonNetwork.IsMasterClient) {
-
-            StartCoroutine(LoadingScreenProcess("InGame"));
-     
-        };
-    }
 
 
-    float timer = 0;
-    IEnumerator LoadingScreenProcess(string sceneName){
+        if (PhotonNetwork.IsMasterClient)
+        {
+            var ao = PhotonNetwork.LoadLevel("InGame");
+            ao.allowSceneActivation = false;
+            progress = ao.progress;
 
-        AsyncOperation ao = PhotonNetwork.LoadLevel("InGame");
-        ao.allowSceneActivation = false;
-        yield return null;
+            bg.SetActive(true);
 
-        
+            while (!ao.isDone)
+            {
+
+                yield return null;
+                if (progress < 0.9f)
+                {
+                    Debug.Log(progress);
+                    progressBar.fillAmount = progress;
+                }
+                else
+                {
+                    progressBar.fillAmount += 0.01f;
+                    if (progressBar.fillAmount >= 1f)
+                    {
+                        Debug.Log(progress);
+
+                        PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
+                        OnCompelet();
+
+                        yield break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            while(progress <1)
+            {
+                yield return null;
+                if (progress < 0.9f)
+                {
+                    Debug.Log(progress);
+                    progressBar.fillAmount = progress;
+                }
+                else
+                {
+                    OnCompelet();
+                    yield break;
+                }
+            }
+        }
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message){
@@ -145,7 +181,6 @@ public class Connect : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom(this.roomName, null);
     }
     private void OnChangeScene() => OnCompelet();
-
     public override void OnDisable() {
         NetworkObjectPool.instance.DestroyPool();
     }
