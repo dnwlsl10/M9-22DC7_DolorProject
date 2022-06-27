@@ -102,7 +102,7 @@ public class App : MonoBehaviour
                 break;
             case eSceneType.InGame:
                 {
-                    
+                    Debug.Log("InGame");
                 }
                 break;
         }

@@ -104,11 +104,6 @@ public class Connect : MonoBehaviourPunCallbacks
         photonView.RPC("GameStartRPC", RpcTarget.AllBuffered);
     }
 
-
-    public GameObject bg;
-    public Image progressBar;
-    private float progress;
-
     [PunRPC]
     void GameStartRPC() => StartCoroutine(OnStartCount());
     IEnumerator OnStartCount()
@@ -120,56 +115,9 @@ public class Connect : MonoBehaviourPunCallbacks
         count.text = "1";
         yield return eof;
 
+        yield return StartCoroutine(loadingScreenProcess.LoadingPhotonScreenProcess("InGame"));
+        OnCompelet();
 
-        if (PhotonNetwork.IsMasterClient)
-        {
-            var ao = PhotonNetwork.LoadLevel("InGame");
-            ao.allowSceneActivation = false;
-            progress = ao.progress;
-
-            bg.SetActive(true);
-
-            while (!ao.isDone)
-            {
-
-                yield return null;
-                if (progress < 0.9f)
-                {
-                    Debug.Log(progress);
-                    progressBar.fillAmount = progress;
-                }
-                else
-                {
-                    progressBar.fillAmount += 0.01f;
-                    if (progressBar.fillAmount >= 1f)
-                    {
-                        Debug.Log(progress);
-
-                        PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
-                        OnCompelet();
-
-                        yield break;
-                    }
-                }
-            }
-        }
-        else
-        {
-            while(progress <1)
-            {
-                yield return null;
-                if (progress < 0.9f)
-                {
-                    Debug.Log(progress);
-                    progressBar.fillAmount = progress;
-                }
-                else
-                {
-                    OnCompelet();
-                    yield break;
-                }
-            }
-        }
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message){
