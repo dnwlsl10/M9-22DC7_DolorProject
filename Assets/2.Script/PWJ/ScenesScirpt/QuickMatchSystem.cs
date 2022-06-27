@@ -6,36 +6,27 @@ using UnityEngine;
 public class QuickMatchSystem : DoorSystem
 {
     [Header("UI")]
-    public UIEarth earth;
+    private UIEarth uIEarth;
 
-    private void Start(){
-
-        this.earth.gameObject.SetActive(false);
-        UIGame.OnPracticeMode += Init;
-        UIGame.OnLobby += Exit;
+    public void Init(CockPit cockPit){
+        this.uIEarth = cockPit.uIEarth;
     }
 
-    public override void Init(eRoomMode roomMode)
+    public override void Enter()
     {
-        this.earth.gameObject.SetActive(true);
-
+        this.uIEarth.Init();
         base.Open(() =>
         {
-            //퀵매치로직 
         });
     }
+
+    public void OnFindOtherPlayer() => this.uIEarth.OnRaycast();
 
     public override void Exit()
     {
+        this.uIEarth.Exit();
         base.Close(() =>
         {
-            //퀵매치 종료 
-            earth.gameObject.SetActive(false);
         });
-    }
-
-    private void OnEnable(){
-        UIGame.OnPracticeMode -= Init;
-        UIGame.OnLobby -= Exit;
     }
 }

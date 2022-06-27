@@ -6,15 +6,18 @@ using Photon.Pun;
 public class MechScriptManager : MonoBehaviour
 {
     [ContextMenu("Initialize")]
-    void Init()
+    void Reset()
     {
-        scriptsForOnlyLocal = new List<Behaviour>();
-        scriptsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<HandIK>());
-        scriptsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<MechMovementController>());
-        scriptsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<CrossHair>());
+#if UNITY_EDITOR
+        componentsForOnlyLocal = new List<Component>();
+        componentsForOnlyLocal.Add(transform.root.GetComponent<Rigidbody>());
+        componentsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<HandIK>());
+        componentsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<CrossHair>());
+        componentsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<WeaponSystem>());
+#endif
     }
     
-    public List<Behaviour> scriptsForOnlyLocal;
+    public List<Component> componentsForOnlyLocal;
     PhotonView pv;
 
     private void Awake() 
@@ -22,10 +25,12 @@ public class MechScriptManager : MonoBehaviour
         pv = GetComponent<PhotonView>();
 
         if (pv.Mine == false)
-            foreach (var script in scriptsForOnlyLocal)
-                Destroy(script);
+            foreach (var component in componentsForOnlyLocal)
+                Destroy(component);
+
+        componentsForOnlyLocal = null;
     }
-    public void EnableScripts(ref Behaviour[] components)
+    public void EnableScripts(ref List<Behaviour> components)
     {
         foreach (var component in components)
         {
@@ -33,7 +38,7 @@ public class MechScriptManager : MonoBehaviour
                 component.enabled = true;
         }
     }
-    public void DisableScripts(ref Behaviour[] components)
+    public void DisableScripts(ref List<Behaviour> components)
     {
         foreach (var component in components)
         {

@@ -9,7 +9,7 @@ public  class DoorSystem : MonoBehaviour
     public DoorValue doorValue;
 
  
-    public virtual void Init(eRoomMode eRoom){}
+    public virtual void Enter(){}
     public virtual void Exit(){}
 
     public virtual void Open(System.Action OnOpen)

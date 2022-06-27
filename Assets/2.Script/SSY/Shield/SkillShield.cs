@@ -3,33 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-// === 방패의 기능 ===
-// 적의 투사체 모든 것을 막는다.
-// 방패의 체력
-// 투사체 별 - 데미지
-
-// 게임 시작 시 게이지 100
-// Down
-// LeftIndexTrigger 버튼을 누르면 방패 오브젝트가 켜지고
-// 
-
-// 애니메이션의 상태를 ShieldOn = Play
-// 누르고 있으면 게이지가 초당 -1씩 깎이고
-//
-
-//떼면 게이지가 초당 1씩 회복되고
-//애니메이션의 상태를 초기화
-
 public class SkillShield : WeaponBase, IDamageable
 {
+    public void Reset()
+    {
+        weaponSetting.weaponName = WeaponName.Shield;
+        weaponSetting.maxAmmo = 100;
+        handSide = HandSide.Left;
+        gaugeUpSpeed = 10;
+        gaugeDownSpeed = 20;
+    }
     public event Cur_MaxEvent OnValueChange;
 
-    public GameObject shieldCreatePos;
-    public GameObject shield;
+    // public GameObject shieldCreatePos;
+    // public GameObject shield;
     public float gaugeUpSpeed;
     public float gaugeDownSpeed;
     Animator anim;
-    public UnityEngine.InputSystem.InputActionReference alpha1;
+    // public UnityEngine.InputSystem.InputActionReference alpha1;
 
     public float CurrentAmmo
     {
@@ -52,61 +43,55 @@ public class SkillShield : WeaponBase, IDamageable
         }
     }
 
-    private void OnEnable()
-    {
-        if (photonView.Mine == false) return;
+    // private void OnEnable()
+    // {
+    //     if (photonView.Mine == false) return;
 
-        alpha1.action.started += StartEvent;
-        alpha1.action.canceled += StopEvent;
-    }
-    private void OnDisable()
-    {
-        if (photonView.Mine == false) return;
+    //     alpha1.action.started += StartEvent;
+    //     alpha1.action.canceled += StopEvent;
+    // }
+    // private void OnDisable()
+    // {
+    //     if (photonView.Mine == false) return;
 
-        alpha1.action.started -= StartEvent;
-        alpha1.action.canceled -= StopEvent;
-    }
+    //     alpha1.action.started -= StartEvent;
+    //     alpha1.action.canceled -= StopEvent;
+    // }
 
-    void Start()
-    {
+    // void Start()
+    // {
+    //     anim = GetComponent<Animator>();
+    // }
+
+    private void Awake() {
+        base.Awake();
+
         anim = GetComponent<Animator>();
+        anim.Play("ShieldOff", 0, 1);
     }
 
-    void StartEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
-    {
-        StartWeaponAction();
-    }
-    void StopEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
-    {
-        StopWeaponAction();
-    }
+    // void StartEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    // {
+    //     StartWeaponAction();
+    // }
+    // void StopEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    // {
+    //     StopWeaponAction();
+    // }
 
     public override void StartWeaponAction() //GetKeyDown
     {
         if (isReloading)
             return;
-        if (PhotonNetwork.SingleMode == false)
-        {
-            photonView.RPC("animPlay", RpcTarget.All, true);
-        }
-        else
-        {
-            animPlay(true);
-        }
+        photonView.CustomRPC(this, "animPlay", RpcTarget.All, true);
         StartCoroutine("OnShieldSkillUse");
         StopCoroutine("GaugeIdle");
     }
 
     public override void StopWeaponAction() //GetKeyUp
     {
-        if(PhotonNetwork.SingleMode == false)
-        {
-        photonView.RPC("animPlay", RpcTarget.All, false);
-        }
-        else
-        {
-        animPlay(false);
-        }
+
+        photonView.CustomRPC(this, "animPlay", RpcTarget.All, false);
         
         StopCoroutine("OnShieldSkillUse");
         StartCoroutine("GaugeIdle");
@@ -118,11 +103,11 @@ public class SkillShield : WeaponBase, IDamageable
         //어떤상황에서 어떤애니메이션
         if (isStart)
         {
-            anim.Play("ShieldOn");
+            anim.CrossFade("ShieldOn", 0.1f);
         }
         if (isStart == false)
         {
-            anim.Play("ShieldOff");
+            anim.CrossFade("ShieldOff", 0.1f);
         }
     }
 
@@ -130,7 +115,6 @@ public class SkillShield : WeaponBase, IDamageable
     {
         if (isReloading)
             return;
-        print("LLL");
 
         StopWeaponAction();
         StartCoroutine(GaugeOver());
