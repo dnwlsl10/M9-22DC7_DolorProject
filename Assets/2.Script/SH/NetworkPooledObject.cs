@@ -4,58 +4,57 @@ using Photon.Pun;
 public class NetworkPooledObject : MonoBehaviourPun
 {
     private void Awake() 
-    {
-        if (photonView.Mine == false)
-            gameObject.SetActive(false);
-        
+    {        
         // Particle Collision Setting
         var particle = GetComponentInChildren<ParticleSystem>();
-        if (particle != null)
-        {
-            var main = particle.main;
-            main.loop = false;
-            main.stopAction = ParticleSystemStopAction.Disable;
-
-            var col = particle.collision;
-            if (photonView.cachedMine)
-            {
-                if (col.enabled == true)
-                {
-                    col.quality = ParticleSystemCollisionQuality.High;
-                    col.collidesWith = LayerMask.GetMask("RemotePlayer", "Ground");
-                    col.enableDynamicColliders = true;
-                    col.sendCollisionMessages = true;
-                    col.type = ParticleSystemCollisionType.World;
-                    col.mode = ParticleSystemCollisionMode.Collision3D;
-                }
-            }
-            else
-            {
-                col.enabled = false;
-            }
-        }
+        if (particle != null) InitParticle(ref particle);
 
         // Collider Collision Setting
         var collider = GetComponentInChildren<Collider>();
         if (collider != null && photonView.cachedMine == false)
             collider.enabled = false;
+
+        if (photonView.cachedMine == false)
+            gameObject.SetActive(false);
     }
-    public void Spawn(Vector3 position, Quaternion rotation)
+    void InitParticle(ref ParticleSystem particle)
     {
-        photonView.CustomRPC(this, "RPCSpawn", RpcTarget.AllViaServer, position, rotation);
+        var main = particle.main;
+        main.loop = false;
+        main.stopAction = ParticleSystemStopAction.Disable;
+
+        var col = particle.collision;
+        if (photonView.cachedMine)
+        {
+            if (col.enabled == true)
+            {
+                col.sendCollisionMessages = true;
+                col.enableDynamicColliders = true;
+                col.type = ParticleSystemCollisionType.World;
+                col.quality = ParticleSystemCollisionQuality.High;
+                col.mode = ParticleSystemCollisionMode.Collision3D;
+                col.collidesWith = LayerMask.GetMask("RemotePlayer", "Ground");
+            }
+        }
+        else col.enabled = false;
+        
+    }
+    public void Spawn(Vector3 position, Quaternion rotation, bool setActive=true)
+    {
+        photonView.CustomRPC(this, "RPCSpawn", RpcTarget.AllViaServer, position, rotation, setActive);
     }
 
     [PunRPC]
-    private void RPCSpawn(Vector3 position, Quaternion rotation)
+    private void RPCSpawn(Vector3 position, Quaternion rotation, bool setActive)
     {
         transform.position = position;
         transform.rotation = rotation;
-        gameObject.SetActive(true);
+        gameObject.SetActive(setActive);
     }
 
     private void OnDisable()
     {
-        if (photonView.Mine)
+        if (photonView.cachedMine)
             NetworkObjectPool.ReturnToPool(gameObject);
     }
 }

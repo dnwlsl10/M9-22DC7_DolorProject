@@ -13,7 +13,7 @@ public class ProjectileBase : MonoBehaviourPun
 
     protected void OnCollisionEnter(Collision other) 
     {
-        if (photonView.Mine == false) return;
+        if (photonView.cachedMine == false) return;
    
         var contact = other.GetContact(0);     
         if (other.collider.TryGetComponent<PhotonView>(out PhotonView pv) && pv.ViewID > 0)

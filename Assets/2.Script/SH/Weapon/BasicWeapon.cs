@@ -126,7 +126,7 @@ public class BasicWeapon : WeaponBase, IInitialize
     [PunRPC]
     private void RPCAttack(Vector3 bulletPosition, Quaternion bulletRotation)
     {
-        if (photonView.Mine)
+        if (photonView.cachedMine)
             NetworkObjectPool.SpawnFromPool(bullet.name, bulletPosition, bulletRotation);
         
         StartCoroutine(OnMuzzleFlashEffect());

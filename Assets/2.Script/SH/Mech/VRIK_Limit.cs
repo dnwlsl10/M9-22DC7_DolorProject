@@ -8,9 +8,8 @@ public class VRIK_Limit : MonoBehaviour
     VRIK ik;
     public RotationLimit[] rotationLimits;
     public bool useLimit;
-    private void Awake() {
-        // if (useLimit == false) return;
-
+    private void Awake() 
+    {
         ik = transform.root.GetComponent<VRIK>();
         rotationLimits = transform.root.GetComponentsInChildren<RotationLimit>(true);
     }
@@ -23,7 +22,9 @@ public class VRIK_Limit : MonoBehaviour
     }
 
     private void OnDisable() {
-        foreach (var a in ik.solver.OnPostUpdate.GetInvocationList())
+        var eventList = ik.solver.OnPostUpdate?.GetInvocationList();
+        if (eventList == null) return;
+        foreach (var a in eventList)
             if (a.Method.Name.Equals("AfterVRIK"))
                 ik.solver.OnPostUpdate -= AfterVRIK;
     }

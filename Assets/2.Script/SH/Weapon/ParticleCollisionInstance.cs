@@ -25,7 +25,7 @@ public class ParticleCollisionInstance : MonoBehaviourPun
     }
     void OnParticleCollision(GameObject other)
     {
-        if (photonView.Mine == false) return;
+        if (photonView.cachedMine == false) return;
    
         if (part.GetCollisionEvents(other, collisionEvents) > 0)
         {
