@@ -150,7 +150,6 @@ public class SkillShield : WeaponBase, IDamageable
     public void TakeDamage(float damage)
     {
         CurrentAmmo -= damage;
-
     }
 
 }

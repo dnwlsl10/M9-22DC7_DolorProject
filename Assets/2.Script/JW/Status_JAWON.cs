@@ -1,9 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Status_JAWON : MonoBehaviourPun, IDamageable
+public class Status_JAWON : MonoBehaviourPun/*,  IDamageable */
 {
     public event Cur_MaxEvent OnHpValueChange;
     public int maxHP = 100;

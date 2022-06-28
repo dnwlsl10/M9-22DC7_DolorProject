@@ -30,6 +30,11 @@ public class Initializer : MonoBehaviour
             UnityEditor.PrefabUtility.InstantiatePrefab(Utility.Load<GameObject>("Assets/5.Prefabs/SHPrefab/WeaponScript.prefab"), root);
         }
         yield return new WaitForSecondsRealtime(0.01f);
+        child = root.Find("Cockpit");
+        if (child == null)
+        {
+            UnityEditor.PrefabUtility.InstantiatePrefab(Utility.Load<GameObject>("Assets/5.Prefabs/SHPrefab/Cockpit.prefab"), root);
+        }
 
         CheckComponentExist(root, typeof(ColliderGenerator));
         yield return new WaitForSecondsRealtime(0.01f);
@@ -42,11 +47,14 @@ public class Initializer : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.01f);
         CheckComponentExist(root, typeof(PhotonAnimatorView));
         yield return new WaitForSecondsRealtime(0.01f);
+
         Rigidbody rb = CheckComponentExist(root, typeof(Rigidbody)) as Rigidbody;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
         rb.mass = 378;
         yield return new WaitForSecondsRealtime(0.01f);
-        CheckComponentExist(root, typeof(CapsuleCollider));
+        var col = CheckComponentExist(root, typeof(CapsuleCollider)) as CapsuleCollider;
+        col.center = Vector3.up * col.height/2;
+
         yield return new WaitForSecondsRealtime(0.01f);
         CheckComponentExist(root, typeof(VRIK));
         yield return new WaitForSecondsRealtime(0.01f);

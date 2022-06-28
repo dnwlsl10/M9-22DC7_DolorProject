@@ -12,20 +12,26 @@ public class MechNetworkManager : MonoBehaviour, IInitialize
         Transform root = GetComponent<VRIK>().references.pelvis.parent;
         Transform meshRoot = Utility.FindChildMatchName(root, new string[]{"Mesh", "mesh"});
         
-        localDisableMesh = new List<Renderer>();
-        for (int i = 0; i < meshRoot.childCount; i++)
+        if (localDisableMesh.Count == 0)
         {
-            Transform child = meshRoot.GetChild(i);
-            if (child.name.Equals("Arm")) continue;
+            localDisableMesh = new List<Renderer>();
+            for (int i = 0; i < meshRoot.childCount; i++)
+            {
+                Transform child = meshRoot.GetChild(i);
+                if (child.name.Equals("Arm")) continue;
 
-            Renderer[] tmp = child.GetComponentsInChildren<Renderer>();
-            localDisableMesh.AddRange(tmp);
+                Renderer[] tmp = child.GetComponentsInChildren<Renderer>();
+                localDisableMesh.AddRange(tmp);
+            }
         }
 
-        LayerToChangeRemote = new List<GameObject>();
-        Collider[] cols = root.GetComponentsInChildren<Collider>();
-        foreach (Collider col in cols)
-            LayerToChangeRemote.Add(col.gameObject);
+        if (LayerToChangeRemote.Count == 0)
+        {
+            LayerToChangeRemote = new List<GameObject>();
+            Collider[] cols = root.GetComponentsInChildren<Collider>();
+            foreach (Collider col in cols)
+                LayerToChangeRemote.Add(col.gameObject);
+        }
 #endif
     }
 

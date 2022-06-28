@@ -33,6 +33,12 @@ namespace RootMotion.FinalIK {
 			}
 
 			solver.leftArm.positionWeight = solver.leftArm.rotationWeight = solver.rightArm.positionWeight = solver.rightArm.rotationWeight = 0;
+			if (solver.leftArm.swivelOffset == 0)
+				solver.leftArm.swivelOffset = 40;
+			if (solver.rightArm.swivelOffset == 0)
+				solver.rightArm.swivelOffset = -40;
+			if (solver.leftArm.wristToPalmAxis == Vector3.zero || solver.rightArm.wristToPalmAxis == Vector3.zero)
+				GuessHandOrientations();
 
 			solver.locomotion.mode = IKSolverVR.Locomotion.Mode.Animated;
 			solver.locomotion.weight = 0;
