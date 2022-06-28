@@ -9,37 +9,24 @@ public class QuickMatchSystem : DoorSystem
     private UIEarth uIEarth;
 
     public void Init(CockPit cockPit){
-        
         this.uIEarth = cockPit.uIEarth;
-
-    }
-    private void Start(){
-        InGame.OnQucikMatch += Enter;
-        InGame.OnLobby += Exit;
     }
 
-    public override void Enter(eRoomMode roomMode)
+    public override void Enter()
     {
+        this.uIEarth.Init();
         base.Open(() =>
         {
-            this.uIEarth.Init();
         });
     }
 
-    public void OnAction(){
-        this.uIEarth.FindOtherPlayer();
-    }
+    public void OnFindOtherPlayer() => this.uIEarth.OnRaycast();
 
     public override void Exit()
     {
+        this.uIEarth.Exit();
         base.Close(() =>
         {
-            this.uIEarth.Exit();
         });
-    }
-
-    private void OnDisable(){
-        InGame.OnQucikMatch -= Enter;
-        InGame.OnLobby -= Exit;
     }
 }

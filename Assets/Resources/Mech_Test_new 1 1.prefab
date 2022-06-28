@@ -8576,7 +8576,7 @@ MonoBehaviour:
     maxAmmo: 11
     attackRate: 0.2
     attackDistance: 11
-  pv: {fileID: 76272672721291042}
+  grapEvent: {fileID: 0}
   gripButton: {fileID: 0}
   shootButton: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   bulletSpawnPoint: {fileID: 9105482625447975380}
@@ -8603,6 +8603,7 @@ MonoBehaviour:
   screenLayer:
     serializedVersion: 2
     m_Bits: 2147483648
+  interpolationSpeed: 25
 --- !u!114 &76272672721291042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15494,7 +15495,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
-  leftHandJoystick: {fileID: 0}
+  leftHandJoystick:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Left Hand Joystick
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 886855c7-813d-40d6-9aea-693c5fcbc21d
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
   centerEye: {fileID: 1859948340502294886}
   rotateStartThreshold: 30
   rotateFinishThreshold: 20

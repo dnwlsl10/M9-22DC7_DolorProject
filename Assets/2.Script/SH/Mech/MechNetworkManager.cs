@@ -3,26 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using RootMotion.FinalIK;
 using Photon.Pun;
-public class MechNetworkManager : MonoBehaviour
+public class MechNetworkManager : MonoBehaviour, IInitialize
 {
     [ContextMenu("Find All")]
-    void FindAll()
+    public void Reset()
     {
-        Transform meshRoot = transform.root.Find("root").Find("mesh");
-        localDisableMesh = new List<Renderer>();
-        for (int i = 0; i < meshRoot.childCount; i++)
+#if UNITY_EDITOR
+        Transform root = GetComponent<VRIK>().references.pelvis.parent;
+        Transform meshRoot = Utility.FindChildMatchName(root, new string[]{"Mesh", "mesh"});
+        
+        if (localDisableMesh.Count == 0)
         {
-            Transform child = meshRoot.GetChild(i);
-            if (child.name.Equals("Arm")) continue;
+            localDisableMesh = new List<Renderer>();
+            for (int i = 0; i < meshRoot.childCount; i++)
+            {
+                Transform child = meshRoot.GetChild(i);
+                if (child.name.Equals("Arm")) continue;
 
-            Renderer[] tmp = child.GetComponentsInChildren<Renderer>();
-            localDisableMesh.AddRange(tmp);
+                Renderer[] tmp = child.GetComponentsInChildren<Renderer>();
+                localDisableMesh.AddRange(tmp);
+            }
         }
 
-        LayerToChangeRemote = new List<GameObject>();
-        Collider[] cols = transform.root.GetComponentsInChildren<Collider>();
-        foreach (Collider col in cols)
-            LayerToChangeRemote.Add(col.gameObject);
+        if (LayerToChangeRemote.Count == 0)
+        {
+            LayerToChangeRemote = new List<GameObject>();
+            Collider[] cols = root.GetComponentsInChildren<Collider>();
+            foreach (Collider col in cols)
+                LayerToChangeRemote.Add(col.gameObject);
+        }
+#endif
     }
 
     [ContextMenu("Toggle Mesh")]

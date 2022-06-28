@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 public class UIEarth : MonoBehaviour
 {
-    PhotonView pv;
+
     [Header("Raycast Point")]
-    private Transform origin;
-    public Transform screenTarget;
+    private Transform earthCenter;
+    public Transform startPos;
 
     [Header("Dir")]
     private Vector3 dir;
@@ -16,36 +17,27 @@ public class UIEarth : MonoBehaviour
 
     [Header("Rotator")]
     public LocalRotator rotator;
-    private Camera cm;
-
-    [Header("Prefab")]
-    public GameObject prefab;    
    
     [Header("Effect")]
     public GameObject effect;
     public void Init(){
         this.gameObject.SetActive(true);
-        this.cm  = Camera.main;
-        this.origin = this.transform.GetChild(0).transform;
-        this.dir = this.origin.position - this.cm.gameObject.transform.position;
-        this.screenDir = this.screenTarget.position = this.origin.position;
+        this.earthCenter = this.transform.GetChild(0).transform;
+        this.dir = this.earthCenter.position - this.startPos.transform.position;
     }
 
-    public void FindOtherPlayer()
+    public void OnRaycast()
     {
-        if (Physics.Raycast(this.cm.gameObject.transform.position, dir, out hitInfo))
+        if (Physics.Raycast(this.startPos.transform.position, dir, out hitInfo))
         {
             if (hitInfo.collider.CompareTag("Earth"))
             {
                 rotator.enabled = false;
-                Debug.Log("HIt");
                 this.effect.transform.position = hitInfo.point;
                 this.effect.SetActive(true);
             }
         }
-       
     }
-
 
     public void Exit() {
         this.gameObject.SetActive(false);

@@ -25,6 +25,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
+
+    
+    /*------------------start Event Method-----------------*/
     [Header("HP_STATUS")]
         [SerializeField] private Slider HP;
         [SerializeField] private TextMeshProUGUI HP_text;
@@ -36,8 +39,7 @@ public class UIManager : MonoBehaviour
         [SerializeField] private Slider Ultimate_Skill;
         [SerializeField] private Slider Shield_Skill;
         [SerializeField] private Slider Tesla_Skill;
-    
-    /*------------------start Event Method-----------------*/
+
     public void HPUpdate(float cur_val, float max_val)
     {
         float per = cur_val / max_val;
@@ -70,27 +72,32 @@ public class UIManager : MonoBehaviour
     /*------------------end Event Method-----------------*/
 
     /*------------------start Tweening Method-----------------*/
+    [Header("EVENT_ALERT")]
+    [SerializeField] private RectTransform UltimateAlert;
     // public void UlitimateGaugeFilled()
-    // {
+    // {   
     //     if(Ultimate_Skill.value != 1) return;
     //     else
     //     {
-            
+    //         UltimateAlert.DOScale(new Vector3(1,3,1),1).onComplete(() =>
+    //         {
+    //             Ultimate_Skill.
+    //         });
     //     }
     // }
     /*------------------end Tweening Method-----------------*/
 
-    private void OnEnable()
-    {
-        status.OnHpValueChange += HPUpdate;
-        bw.OnValueChange += BulletUpdate;
-        sw.OnValueChange += ShieldUpdate;
-    }
+    // private void OnEnable()
+    // {
+    //     status.OnHpValueChange += HPUpdate;
+    //     bw.OnValueChange += BulletUpdate;
+    //     sw.OnValueChange += ShieldUpdate;
+    // }
 
-    private void OnDisable() 
-    {
-        status.OnHpValueChange -= HPUpdate;
-        bw.OnValueChange -= BulletUpdate;
-        sw.OnValueChange -= ShieldUpdate;
-    }
+    // private void OnDisable() 
+    // {
+    //     status.OnHpValueChange -= HPUpdate;
+    //     bw.OnValueChange -= BulletUpdate;
+    //     sw.OnValueChange -= ShieldUpdate;
+    // }
 }

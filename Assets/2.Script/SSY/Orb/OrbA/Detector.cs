@@ -34,7 +34,7 @@ public class Detector : MonoBehaviour
                 {
                     print("적 발견(속도저하, 위치발각)");
                     newLink.connector.MakeConnection(transform.position, other.transform.position); //오브에서 적을 연결!
-                    skillShield.isLinked = true;
+                    //skillShield.isLinked = true;
                     skillShield.StopWeaponAction();
                 }
             }
@@ -68,7 +68,7 @@ public class Detector : MonoBehaviour
                 {
                     print("Exited");
                     skillShield = GetComponent<SkillShield>();
-                    skillShield.isLinked = false;
+                    // skillShield.isLinked = false;
                     Destroy(linksList[i].link);
                 }
             }
