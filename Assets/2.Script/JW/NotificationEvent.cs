@@ -7,30 +7,20 @@ public class NotificationEvent : MonoBehaviour
 {
     [SerializeField] AnimationCurve curve;
     Tweener floatTweener;
-    Sequence showSequence, hideSequence;
+    static Sequence showSequence;
 
     void Start()
     {
-        // floatTweener = transform.DOLocalMoveY(0f, 1.5f)
-        // .SetRelative().SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutQuad);
+        showSequence = DOTween.Sequence().SetAutoKill(false).Pause()
+        .Join(transform.DOLocalRotate(new Vector3(0, 180, 0), 0.5f).From().SetEase(curve))
+        .Join(transform.DOScale(0, 0.5f).From().SetEase(curve))
+        .AppendInterval(1.5f)
+        .Append(transform.DOScale(0, 1f).SetEase(Ease.InBack, 1.6f));
+    }
 
-        showSequence = DOTween.Sequence().SetAutoKill(false)
-        .Join(transform.DOLocalRotate(new Vector3(0, 180, 0), 0.2f).From().SetEase(curve))
-        .Join(transform.DOScale(0, 0.5f).From().SetEase(curve));
-
-        // showSequence = DOTween.Sequence().SetAutoKill(false).Pause()
-        // .AppendCallback(() => floatTweener.Play())
-        // .Join(transform.DOLocalRotate(new Vector3(0, 180, 0), 0.2f).From().SetEase(curve))
-        // .Join(transform.DOScale(0, 0.1f).From().SetEase(curve));
-
-        // hideSequence = DOTween.Sequence().SetAutoKill(false)
-        // .Join(transform.DOLocalRotate(new Vector3(0, 180, 0), 1f).SetEase(Ease.InBack, 1.6f))
-        // .Join(transform.DOScale(0, 1.5f).SetEase(Ease.InBack, 1.6f));
-
-        // hideSequence = DOTween.Sequence().SetAutoKill(false).Pause()
-        // .Join(transform.DOLocalRotate(new Vector3(0, 180, 0), 1f).SetEase(Ease.InBack, 1.6f))
-        // .Join(transform.DOScale(0, 1.5f).SetEase(Ease.InBack, 1.6f))
-        // .AppendCallback(() => floatTweener.Pause());
+    public static void PlayNotification()
+    {
+        showSequence.Restart();
     }
     private void Update()
     {
@@ -41,7 +31,7 @@ public class NotificationEvent : MonoBehaviour
         }
         // if (Input.GetKeyDown(KeyCode.Escape))
         // {
-        //     showSequence.Pause();
+        //     // showSequence.Pause();
         //     hideSequence.Restart();
         // }
     }
