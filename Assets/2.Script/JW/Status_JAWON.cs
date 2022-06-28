@@ -62,15 +62,4 @@ public class Status_JAWON : MonoBehaviourPun/*,  IDamageable */
             renderer.material.color = origin;
         }
     }
-
-<<<<<<< HEAD
-    // public void TakeDamage(float damage)
-    //  {
-    //     Debug.Log("Damage" + damage);
-    //     HP -= damage;
-
-    //     StartCoroutine(test());
-    // }
-=======
->>>>>>> 15418faef9bc50e0d1cbe8ade793dea251fe7a83
 }
