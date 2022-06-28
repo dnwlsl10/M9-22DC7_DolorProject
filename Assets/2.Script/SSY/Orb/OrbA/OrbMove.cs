@@ -21,6 +21,7 @@ public class OrbMove : MonoBehaviour
     IEnumerator OrbSize()
     {
         yield return new WaitForSeconds(3f);
+        
         visualEffect.SetFloat("Size", 2f);
         yield return new WaitForSeconds(6f);
         visualEffect.SetFloat("Size", 0f);
@@ -29,6 +30,7 @@ public class OrbMove : MonoBehaviour
     }
     public void OrbSpeedChange()
     {
+        this.transform.SetParent(null);
         orbSpeed = shootSpeed;
         StartCoroutine("OrbSize");
     }

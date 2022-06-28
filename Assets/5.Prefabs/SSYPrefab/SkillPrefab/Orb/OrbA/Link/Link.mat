@@ -113,10 +113,10 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_: {r: 2.70369, g: 15.990396, b: 13.7501955, a: 0.81960785}
+    - Color_: {r: 0.2685014, g: 3.6823049, b: 2.0329392, a: 1}
     - NoiseSpeed_: {r: -1, g: 1.29, b: 0, a: 0}
-    - Offset_: {r: -0.7, g: -1.5, b: 0, a: 0}
-    - OutLineColor_: {r: 1.081476, g: 14.754423, b: 8.188318, a: 1}
+    - Offset_: {r: 0, g: -0.56, b: 0, a: 0}
+    - OutLineColor_: {r: 0.14117648, g: 0.8117647, b: 0.69803923, a: 0.81960785}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

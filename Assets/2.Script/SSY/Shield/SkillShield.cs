@@ -12,6 +12,8 @@ public class SkillShield : WeaponBase, IDamageable
     public float gaugeUpSpeed;
     public float gaugeDownSpeed;
     Animator anim;
+    public bool isLinked = false;
+    public bool isOnSkillUse = false;
     public UnityEngine.InputSystem.InputActionReference alpha1;
 
     public float CurrentAmmo
@@ -66,7 +68,7 @@ public class SkillShield : WeaponBase, IDamageable
 
     public override void StartWeaponAction() //GetKeyDown
     {
-        if (isReloading)
+        if (isReloading || isLinked == true)
             return;
         photonView.CustomRPC(this, "animPlay", RpcTarget.All, true);
         StartCoroutine("OnShieldSkillUse");
@@ -135,7 +137,6 @@ public class SkillShield : WeaponBase, IDamageable
     public void TakeDamage(float damage)
     {
         CurrentAmmo -= damage;
-
     }
 
 }

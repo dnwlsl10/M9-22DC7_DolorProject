@@ -51,6 +51,7 @@ public class OrbFire : WeaponBase
         if (Time.time - lastAttackTime < weaponSetting.attackRate) //만약 스킬 쿨타임 중이면 스킬 사용할 수 없다는 소리가 나면서 사용불가
             return;
         orb = Instantiate(orbFactory);
+        orb.transform.SetParent(firePosition.transform);
         orb.transform.position = firePosition.transform.position;
         orb.transform.rotation = firePosition.transform.rotation;
     }
