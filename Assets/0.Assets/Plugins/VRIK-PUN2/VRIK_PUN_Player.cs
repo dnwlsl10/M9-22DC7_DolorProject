@@ -152,7 +152,7 @@ namespace RootMotion.Demos
         [Tooltip("Max interpolation error square magnitude. IK targets snap to latest synced position if current interpolated position is farther than that.")] public float proxyMaxErrorSqrMag = 4f;
         [Tooltip("If assigned, remote instances of this player will use this material.")] public Material remoteMaterialOverride;
 
-        private Transform headIKProxy;
+        // private Transform headIKProxy;
         private Transform leftHandIKProxy;
         private Transform rightHandIKProxy;
 

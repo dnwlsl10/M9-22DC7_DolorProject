@@ -5,12 +5,6 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/1.Scenes/Connect.unity
-    guid: d4fd26fa915d1fc48b1e414f6cbd78a3
-  - enabled: 0
-    path: Assets/1.Scenes/InGame.unity
-    guid: 0cc01a86c49842b499e116f3d2a9eb35
   - enabled: 1
     path: Assets/1.Scenes/TestScene_YSH.unity
     guid: 3fe31c7e63528f447b53a84e3ff30ca2

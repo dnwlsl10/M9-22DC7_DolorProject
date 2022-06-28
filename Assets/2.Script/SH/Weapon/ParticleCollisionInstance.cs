@@ -22,12 +22,6 @@ public class ParticleCollisionInstance : MonoBehaviourPun
     void Awake()
     {
         part = GetComponent<ParticleSystem>();
-
-        if (photonView.Mine == false)
-        {
-            var col = part.collision;
-            col.enabled = false;
-        }
     }
     void OnParticleCollision(GameObject other)
     {
