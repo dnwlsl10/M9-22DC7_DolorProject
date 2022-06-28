@@ -23,6 +23,12 @@ public class CrossHair : MonoBehaviourPun, IInitialize
     private IEnumerator coroutineHolder;
     private WaitForEndOfFrame eof = new WaitForEndOfFrame();
 
+    [ContextMenu("Initialize")]
+    public void Initialize(){
+        if(centerEye == null){
+            centerEye = transform.root.GetComponentInChildren<Camera>(true)?.transform;
+        }
+    }
     public void Reset()
     {
         if (centerEye == null)

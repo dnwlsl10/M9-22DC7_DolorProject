@@ -4541,13 +4541,61 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4493909192352591270, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
+      propertyPath: vrController.scale
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4493909192352591270, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
+      propertyPath: vrController.vrOrigin
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4493909192352591270, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
+      propertyPath: vrController.vrTarget
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4493909192352591270, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
       propertyPath: vrController.rigOrigin
       value: 
       objectReference: {fileID: 3789908232504471527}
+    - target: {fileID: 4493909192352591270, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
+      propertyPath: vrController.trackingRotationOffset.x
+      value: 140
+      objectReference: {fileID: 0}
+    - target: {fileID: 4493909192352591270, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
+      propertyPath: vrController.trackingRotationOffset.y
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4493909192352591270, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
+      propertyPath: vrController.trackingRotationOffset.z
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4493909193067242888, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
+      propertyPath: vrController.scale
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4493909193067242888, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
+      propertyPath: vrController.vrOrigin
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4493909193067242888, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
+      propertyPath: vrController.vrTarget
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4493909193067242888, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
       propertyPath: vrController.rigOrigin
       value: 
       objectReference: {fileID: 3789908232504471527}
+    - target: {fileID: 4493909193067242888, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
+      propertyPath: vrController.trackingRotationOffset.x
+      value: 44.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4493909193067242888, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
+      propertyPath: vrController.trackingRotationOffset.y
+      value: 106.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 4493909193067242888, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
+      propertyPath: vrController.trackingRotationOffset.z
+      value: 117.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
 --- !u!4 &4641190051067208294 stripped
