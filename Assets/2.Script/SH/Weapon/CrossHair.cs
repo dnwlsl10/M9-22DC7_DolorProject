@@ -90,7 +90,7 @@ public class CrossHair : MonoBehaviourPun, IInitialize
             Ray ray = new Ray(laserPoint.position, laserPoint.forward);
             
             Vector3 aimPosition = Physics.Raycast(ray, out RaycastHit targetHit, attackDistance) ? targetHit.point : ray.GetPoint(attackDistance);
-            Vector3 targetToEye =centerEye.position - aimPosition;
+            Vector3 targetToEye = centerEye.position - aimPosition;
 #if UNITY_EDITOR
 #if test
             lr.SetPosition(0, ray.origin);
