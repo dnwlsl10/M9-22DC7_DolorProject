@@ -102,6 +102,7 @@ public class App : MonoBehaviour
                 break;
             case eSceneType.InGame:
                 {
+                    AsyncOperation ao = SceneManager.LoadSceneAsync("InGame");
                     Debug.Log("InGame");
                 }
                 break;

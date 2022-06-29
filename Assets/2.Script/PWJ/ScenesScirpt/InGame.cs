@@ -13,7 +13,6 @@ public class InGame : MonoBehaviourPunCallbacks
     public void Init(GameObject obj, PhotonView pv)
     {
         this.pv = pv;
-        this.connect = GameObject.FindObjectOfType<Connect>();
         var cokpit = obj.GetComponentInChildren<CockPit>();
         quickMatchSystem.Init(cokpit);
     }

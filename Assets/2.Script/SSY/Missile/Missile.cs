@@ -5,9 +5,13 @@ using Photon.Pun;
 using Photon.Realtime;
 public class Missile : MonoBehaviourPun
 {
-    [SerializeField]
     private Vector3[] path;
     private int maxPosition = 20;
+    private bool isHit;
+    private float t;
+    private int index = 0;
+    private float speed = 5;
+    public float timeSpeed = 5;
 
     [PunRPC]
     void RPCPath(Vector3 p1, Vector3 p2, Vector3 p3)
@@ -40,11 +44,7 @@ public class Missile : MonoBehaviourPun
     }
 
 #region  MissilePoint
-    float t;
-    public float speed = 5;
-    int index = 0;
-    public float timeSpeed = 5;
-    private Vector3 enemyTarget;
+
     void MissilePoint()
     {
         if (index >= path.Length - 1 || this.path ==null)
@@ -71,7 +71,6 @@ public class Missile : MonoBehaviourPun
     }
 #endregion
 
-    bool isHit;
     private void OnCollisionEnter(Collision other)
     {
         Debug.Log("Hit");
