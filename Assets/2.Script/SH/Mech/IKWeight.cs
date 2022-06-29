@@ -55,20 +55,8 @@ public class IKWeight : MonoBehaviourPun
         leftArmIK = vrIK.solver.leftArm;
     }
 
-    public void OnLeftGripEvent(int targetWeight)
-    {
-        if (PhotonNetwork.SingleMode)
-            RPCSetWeight(true, targetWeight);
-        else
-            photonView.CustomRPC(this, "RPCSetWeight", RpcTarget.All, true, targetWeight);
-    }
-    public void OnRightGripEvent(int targetWeight)
-    {
-        if (PhotonNetwork.SingleMode)
-            RPCSetWeight(false, targetWeight);
-        else
-            photonView.CustomRPC(this, "RPCSetWeight", RpcTarget.All, false, targetWeight);
-    }
+    public void OnLeftGripEvent(int targetWeight) => photonView.CustomRPC(this, "RPCSetWeight", RpcTarget.All, true, targetWeight);
+    public void OnRightGripEvent(int targetWeight) => photonView.CustomRPC(this, "RPCSetWeight", RpcTarget.All, false, targetWeight);
     
     [PunRPC]
     private void RPCSetWeight(bool isLeft, int targetWeight)

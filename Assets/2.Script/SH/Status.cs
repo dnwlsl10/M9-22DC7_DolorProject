@@ -29,7 +29,7 @@ public class Status : MonoBehaviourPun, IDamageable
     }
 
     private void Awake() {
-        HP = maxHP;
+        hp = maxHP;
     }
 
     public void TakeDamage(float damage)

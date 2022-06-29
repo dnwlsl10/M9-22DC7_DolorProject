@@ -110,5 +110,9 @@ public class UIManagerV2 : MonoBehaviour
         {
             Ultimate_Skill.fillAmount += 0.3f;
         }
+        if(Input.GetMouseButtonDown(2))
+        {
+            Ultimate_Skill.fillAmount -= 0.3f;
+        }
     }
 }

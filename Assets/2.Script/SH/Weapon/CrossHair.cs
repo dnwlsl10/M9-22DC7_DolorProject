@@ -42,8 +42,11 @@ public class CrossHair : MonoBehaviourPun, IInitialize
     }
 
     private void Awake() {
-#if UNITY_EDITOR
-#if test
+        if (photonView.Mine == false)
+            Destroy(this);
+            
+#if UNITY_EDITOR && test
+
         if (TryGetComponent<LineRenderer>(out lr) == false)
             lr = gameObject.AddComponent<LineRenderer>();
         lr.startWidth = lr.endWidth = 0.1f;
@@ -51,13 +54,14 @@ public class CrossHair : MonoBehaviourPun, IInitialize
         lr.material.color = Color.red;
         Debug.LogWarning("CrossHair is in Test mode");
 #endif
-#endif
+
 
         imageRenderer = crossHairImage.GetComponent<Renderer>();
         attackDistance = GetComponent<WeaponBase>().weaponSetting.attackDistance;
+    }
 
-        if (photonView.Mine)
-            OnUseCrosshair();
+    private void OnEnable() {
+        OnUseCrosshair();
     }
 
     public void OnUseCrosshair()
@@ -91,11 +95,9 @@ public class CrossHair : MonoBehaviourPun, IInitialize
             
             Vector3 aimPosition = Physics.Raycast(ray, out RaycastHit targetHit, attackDistance) ? targetHit.point : ray.GetPoint(attackDistance);
             Vector3 targetToEye = centerEye.position - aimPosition;
-#if UNITY_EDITOR
-#if test
+#if UNITY_EDITOR && test
             lr.SetPosition(0, ray.origin);
             lr.SetPosition(1, aimPosition);
-#endif
 #endif
             if (Physics.Raycast(aimPosition, targetToEye, out RaycastHit screenHit, float.MaxValue, screenLayer))
             {

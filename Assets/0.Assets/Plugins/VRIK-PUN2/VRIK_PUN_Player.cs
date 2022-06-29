@@ -57,7 +57,7 @@ namespace RootMotion.Demos
 
         void Update()
         {
-            if (photonView.Mine)
+            if (photonView.cachedMine)
             {
                 UpdateLocal();
             }
@@ -74,7 +74,6 @@ namespace RootMotion.Demos
             {
                 // Send NetworkTransform data
                 rootNetworkT.Send(stream);
-                //headNetworkT.Send(stream);
                 leftHandNetworkT.Send(stream);
                 rightHandNetworkT.Send(stream);
             }
@@ -82,7 +81,6 @@ namespace RootMotion.Demos
             {
                 // Receive NetworkTransform data
                 rootNetworkT.Receive(stream);
-                //headNetworkT.Receive(stream);
                 leftHandNetworkT.Receive(stream);
                 rightHandNetworkT.Receive(stream);
             }
@@ -131,13 +129,11 @@ namespace RootMotion.Demos
         {
             // Update IK target velocities (for interpolation)
             rootNetworkT.ReadVelocitiesLocal(ik.references.root);
-            //headNetworkT.ReadVelocitiesLocal(ik.solver.spine.headTarget);
             leftHandNetworkT.ReadVelocitiesLocal(ik.solver.leftArm.target);
             rightHandNetworkT.ReadVelocitiesLocal(ik.solver.rightArm.target);
 
             // Update IK target positions/rotations
             rootNetworkT.ReadTransformLocal(ik.references.root);
-            //headNetworkT.ReadTransformLocal(ik.solver.spine.headTarget);
             leftHandNetworkT.ReadTransformLocal(ik.solver.leftArm.target);
             rightHandNetworkT.ReadTransformLocal(ik.solver.rightArm.target);
         }
@@ -152,7 +148,7 @@ namespace RootMotion.Demos
         [Tooltip("Max interpolation error square magnitude. IK targets snap to latest synced position if current interpolated position is farther than that.")] public float proxyMaxErrorSqrMag = 4f;
         [Tooltip("If assigned, remote instances of this player will use this material.")] public Material remoteMaterialOverride;
 
-        private Transform headIKProxy;
+        // private Transform headIKProxy;
         private Transform leftHandIKProxy;
         private Transform rightHandIKProxy;
 
@@ -167,10 +163,6 @@ namespace RootMotion.Demos
             proxyRoot.localPosition = Vector3.zero;
             proxyRoot.localRotation = Quaternion.identity;
 
-            // headIKProxy = new GameObject("Head IK Proxy").transform;
-            // headIKProxy.position = ik.references.head.position;
-            // headIKProxy.rotation = ik.references.head.rotation;
-
             leftHandIKProxy = new GameObject("Left Hand IK Proxy").transform;
             leftHandIKProxy.position = ik.references.leftHand.position;
             leftHandIKProxy.rotation = ik.references.leftHand.rotation;
@@ -180,7 +172,6 @@ namespace RootMotion.Demos
             rightHandIKProxy.rotation = ik.references.rightHand.rotation;
 
             // Assign proxies as IK targets for the remote instance
-            //ik.solver.spine.headTarget = headIKProxy;
             ik.solver.leftArm.target = leftHandIKProxy;
             ik.solver.rightArm.target = rightHandIKProxy;
 
@@ -195,7 +186,6 @@ namespace RootMotion.Demos
         {
             // Apply synced position/rotations to proxies
             if (ik.solver.locomotion.weight <= 0) rootNetworkT.ApplyRemoteInterpolated(ik.references.root, proxyInterpolationSpeed, proxyMaxErrorSqrMag); // Only sync root when using animated locomotion. Procedural locomotion follows head IK proxy anyway
-            //headNetworkT.ApplyRemoteInterpolated(headIKProxy, proxyInterpolationSpeed, proxyMaxErrorSqrMag);
             leftHandNetworkT.ApplyRemoteInterpolated(leftHandIKProxy, proxyInterpolationSpeed, proxyMaxErrorSqrMag);
             rightHandNetworkT.ApplyRemoteInterpolated(rightHandIKProxy, proxyInterpolationSpeed, proxyMaxErrorSqrMag);
         }

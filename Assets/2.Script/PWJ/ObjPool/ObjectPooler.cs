@@ -215,6 +215,12 @@ public class ObjectPooler : MonoBehaviour
     IEnumerator IESetParent(GameObject obj)
     {
         yield return null;
+        if (obj == null)
+        {
+            Debug.LogWarning("Object is Destroyed. Instead of using Destory(obj), use obj.SetActive(false)");
+            yield break;
+        }
+        
         obj.transform.parent = transform;
         ArrangePool(obj);
     }

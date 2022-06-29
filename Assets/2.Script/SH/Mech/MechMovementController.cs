@@ -43,6 +43,11 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
     Vector3 moveDir = Vector3.zero;
     private float deltaTime;
     WalkState walkState;
+
+    
+    float angle, absAngle;
+    float rotSpeed, startRotSpeed;
+
     WalkState walkStateProperty
     {
         get { return walkState; }
@@ -73,13 +78,13 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
 
     void Start()
     {
-        if (photonView.Mine)
+        if (photonView.cachedMine)
         // StartCoroutine(IEStartRotate());
         StartCoroutine(IERotateVer2());
     }
 
     private void FixedUpdate() {
-        if (photonView.Mine)
+        if (photonView.cachedMine)
         rb.AddForce(moveDir, ForceMode.VelocityChange);
     } 
 
@@ -87,7 +92,7 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
     // Update is called once per frame
     void Update()
     {
-        if (photonView.Mine == false)
+        if (photonView.cachedMine == false)
             return;
         deltaTime = Time.deltaTime;
         UpdateMove();
@@ -101,8 +106,10 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
         float absX = Mathf.Abs(inputDir.x);
         float absY = Mathf.Abs(inputDir.y);
 
+        // walk
         if (absX > 0.5f || absY > 0.5f)
         {
+            // move left or right
             if (absX > absY)
             {
                 int round = Mathf.RoundToInt(inputDir.x);
@@ -110,6 +117,7 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
 
                 walkStateProperty = round == 1 ? WalkState.Right : WalkState.Left;
             }
+            //move forward or backward
             else
             {
                 int round = Mathf.RoundToInt(inputDir.y);
@@ -118,64 +126,59 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
                 walkStateProperty = round == 1 ? WalkState.Forward : WalkState.Back;
             }
         }
+        // not walk
         else
-        {
             walkStateProperty = WalkState.Idle;
-        }
     }
 
-    IEnumerator IEStartRotate()
-    {
-        float angle = 0;
+    // IEnumerator IEStartRotate()
+    // {
+    //     float angle = 0;
 
-        while(true)
-        {
-            Vector3 projectedCenterEyeFwdDir = Vector3.ProjectOnPlane(centerEye.forward, tr.up);
-            angle = Vector3.SignedAngle(projectedCenterEyeFwdDir, tr.forward, tr.up);
-            if (Mathf.Abs(angle) > rotateStartThreshold)
-            {
-                // Increase Rotation Speed
-                for (float t = 0; t < 1; t += deltaTime / timeToReachMaxRotSpeed)
-                {
-                    projectedCenterEyeFwdDir = Vector3.ProjectOnPlane(centerEye.forward, tr.up);
-                    angle = Vector3.SignedAngle(projectedCenterEyeFwdDir, tr.forward, tr.up);
-                    targetRot = Quaternion.Euler(tr.eulerAngles - tr.up * angle);
+    //     while(true)
+    //     {
+    //         Vector3 projectedCenterEyeFwdDir = ;
+    //         angle = Vector3.SignedAngle(Vector3.ProjectOnPlane(centerEye.forward, tr.up), tr.forward, tr.up);
+    //         if (Mathf.Abs(angle) > rotateStartThreshold)
+    //         {
+    //             // Increase Rotation Speed
+    //             for (float t = 0; t < 1; t += deltaTime / timeToReachMaxRotSpeed)
+    //             {
+    //                 projectedCenterEyeFwdDir = Vector3.ProjectOnPlane(centerEye.forward, tr.up);
+    //                 angle = Vector3.SignedAngle(projectedCenterEyeFwdDir, tr.forward, tr.up);
+    //                 targetRot = Quaternion.Euler(tr.eulerAngles - tr.up * angle);
 
-                    tr.rotation = Quaternion.RotateTowards(tr.rotation, targetRot, deltaTime * maxRotationSpeed * t);
-                    yield return null;
-                }
+    //                 tr.rotation = Quaternion.RotateTowards(tr.rotation, targetRot, deltaTime * maxRotationSpeed * t);
+    //                 yield return null;
+    //             }
 
-                // Rotate with fixed speed
-                while (Mathf.Abs(angle) > rotateFinishThreshold)
-                {
-                    projectedCenterEyeFwdDir = Vector3.ProjectOnPlane(centerEye.forward, tr.up);
-                    angle = Vector3.SignedAngle(projectedCenterEyeFwdDir, tr.forward, tr.up);
+    //             // Rotate with fixed speed
+    //             while (Mathf.Abs(angle) > rotateFinishThreshold)
+    //             {
+    //                 projectedCenterEyeFwdDir = Vector3.ProjectOnPlane(centerEye.forward, tr.up);
+    //                 angle = Vector3.SignedAngle(projectedCenterEyeFwdDir, tr.forward, tr.up);
 
-                    targetRot = Quaternion.Euler(tr.eulerAngles - tr.up * angle);
-                    tr.rotation = Quaternion.RotateTowards(tr.rotation, targetRot, deltaTime * maxRotationSpeed);
-                    yield return null;
-                }
+    //                 targetRot = Quaternion.Euler(tr.eulerAngles - tr.up * angle);
+    //                 tr.rotation = Quaternion.RotateTowards(tr.rotation, targetRot, deltaTime * maxRotationSpeed);
+    //                 yield return null;
+    //             }
 
-                // Decrease Rotation Speed
-                for (float t = 1; t > 0; t -= deltaTime / timeToReachMaxRotSpeed)
-                {
-                    projectedCenterEyeFwdDir = Vector3.ProjectOnPlane(centerEye.forward, tr.up);
-                    angle = Vector3.SignedAngle(projectedCenterEyeFwdDir, tr.forward, tr.up);
+    //             // Decrease Rotation Speed
+    //             for (float t = 1; t > 0; t -= deltaTime / timeToReachMaxRotSpeed)
+    //             {
+    //                 projectedCenterEyeFwdDir = Vector3.ProjectOnPlane(centerEye.forward, tr.up);
+    //                 angle = Vector3.SignedAngle(projectedCenterEyeFwdDir, tr.forward, tr.up);
 
-                    targetRot = Quaternion.Euler(tr.eulerAngles - tr.up * angle);
+    //                 targetRot = Quaternion.Euler(tr.eulerAngles - tr.up * angle);
 
-                    tr.rotation = Quaternion.RotateTowards(tr.rotation, targetRot, deltaTime * maxRotationSpeed * t);
-                    yield return null;
-                }
-            }
+    //                 tr.rotation = Quaternion.RotateTowards(tr.rotation, targetRot, deltaTime * maxRotationSpeed * t);
+    //                 yield return null;
+    //             }
+    //         }
 
-            yield return null;
-        }
-    }
-    float angle = 0;
-    float absAngle = 0;
-    float rotSpeed = 0;
-    float startRotSpeed;
+    //         yield return null;
+    //     }
+    // }
     // 각도에 따른 회전 속도
     IEnumerator IERotateVer2()
     {
@@ -220,7 +223,7 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
     }
     void Rotate()
     {
-        if (anim.GetBool("Walk") == true)
+        if (walkState != WalkState.Idle)
         {
             targetRot = Quaternion.Euler(tr.eulerAngles - tr.up * angle);
             tr.rotation = Quaternion.RotateTowards(tr.rotation, targetRot, deltaTime * rotSpeed);

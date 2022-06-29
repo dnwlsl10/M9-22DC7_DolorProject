@@ -245,7 +245,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &770568858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,9 +258,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e9c0d132e943ad418c2d5374e6c3d26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 394866504340549569, guid: 3922c521f7ed2c642b9fcf5d28be6594, type: 3}
+  playerPrefab: {fileID: 6009891118967858795, guid: d0120701d5f9a5f4ba5928cc6f8b39ea, type: 3}
   simulator: {fileID: 3410773279070289068, guid: b9c485564d9038b48baec1c7f8884352, type: 3}
-  testMode: 1
+  testMode: 0
   objPool: {fileID: 6502242962511973355, guid: 6076051c4ed2b5f4bad6a576903babac, type: 3}
 --- !u!4 &770568859
 Transform:
@@ -516,7 +516,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1212561205
 MonoBehaviour:
   m_ObjectHideFlags: 0
