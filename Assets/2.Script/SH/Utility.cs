@@ -16,6 +16,24 @@ public class Utility : MonoBehaviour
         return null;
     }
 
+    public static InputAction CloneAction(ActionMap actionMap, string action)
+    {
+        var asset = UnityEditor.AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets/3.Util/XR/Samples/XR Interaction Toolkit/2.0.2/Starter Assets/XRI Default Input Actions.inputactions");
+        var map = asset.actionMaps[(int)actionMap];
+        InputAction tmp=null;
+        foreach (var a in map.actions)
+            if (a.name == action)
+                tmp = a;
+
+        print(tmp);
+        
+        InputAction result = new InputAction(actionMap.ToString().Replace('_', ' ')+"/"+action, tmp.type, null, tmp.interactions, tmp.processors, tmp.expectedControlType);
+        foreach (var v in tmp.bindings)
+            result.AddBinding(v);
+
+        return result;
+    }
+
     public static T Load<T>(string path) where T : Object
     {
          return UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);
