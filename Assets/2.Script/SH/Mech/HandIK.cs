@@ -1,4 +1,4 @@
-//#define SimulateMode
+#define test
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -132,4 +132,44 @@ public class HandIK : MonoBehaviour, IInitialize
     {
         vrController.MapLocal();
     }
+
+#if test
+    public bool testMode;
+    IEnumerator Start() {
+        Debug.LogWarning("Hand IK is in testMode");
+        if (testMode == true)
+        {
+            if (vrController.vrTarget.TryGetComponent<ActionBasedController>(out var abc) == false)
+            {
+                abc = vrController.vrTarget.gameObject.AddComponent<ActionBasedController>();
+                abc.updateTrackingType = XRBaseController.UpdateType.UpdateAndBeforeRender;
+                abc.enableInputTracking = true;
+                
+                var asset = vrController.vrTarget.GetComponentInParent<UnityEngine.XR.Interaction.Toolkit.Inputs.InputActionManager>().actionAssets[0];
+                var map = asset.actionMaps[(int)(isLeft ? ActionMap.XRI_LeftHand : ActionMap.XRI_RightHand)];
+
+                abc.positionAction = new InputActionProperty(map.FindAction("Position"));
+                abc.rotationAction = new InputActionProperty(map.FindAction("Rotation"));
+                abc.trackingStateAction = new InputActionProperty(map.FindAction("Tracking State"));
+
+                var v = GameObject.FindObjectOfType<UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation.XRDeviceSimulator>();
+                GameObject simulator = null;
+                if (v != null)
+                    simulator = v.gameObject;
+                else
+                    simulator = Photon.Pun.PhotonNetwork.Instantiate("XR Device Simulator", Vector3.zero, Quaternion.identity);
+
+                abc.enabled = false;
+                if (!isLeft) simulator.SetActive(false);
+                yield return null;
+                abc.enabled = true;
+                if (!isLeft) simulator.SetActive(true);
+            }
+        }
+        else
+        {
+            yield break;
+        }
+    }
+#endif
 }

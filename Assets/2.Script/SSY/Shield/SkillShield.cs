@@ -147,9 +147,10 @@ public class SkillShield : WeaponBase, IDamageable
         isReloading = false;
     }
 
-    public void TakeDamage(float damage)
+    public bool TakeDamage(float damage)
     {
         CurrentAmmo -= damage;
+        return true;
     }
 
 }

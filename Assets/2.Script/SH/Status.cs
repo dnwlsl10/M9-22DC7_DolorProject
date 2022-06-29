@@ -32,12 +32,13 @@ public class Status : MonoBehaviourPun, IDamageable
         hp = maxHP;
     }
 
-    public void TakeDamage(float damage)
+    public bool TakeDamage(float damage)
     {
         Debug.Log("Damage" + damage);
         HP -= damage;
 
         StartCoroutine(test());
+        return true;
     }
 
     private void OnDeath()

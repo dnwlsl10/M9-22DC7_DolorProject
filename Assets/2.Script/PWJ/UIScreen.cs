@@ -63,7 +63,7 @@ public class UIScreen : MonoBehaviour
 
     public void BulletUpdate(float cur_val, float max_val)
     {
-        bullet_text.text = "" + cur_val;
+        bullet_text.text = cur_val.ToString();
     }
     /*------------------end Event Method-----------------*/
 
