@@ -5,10 +5,22 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: Assets/1.Scenes/TestScene_Woojin.unity
+    guid: 9eeb7fe972437aa4c8591f42a826447c
+  - enabled: 0
+    path: Assets/1.Scenes/TestScene_Woojin 1.unity
+    guid: 531a3d57591847e48b90fc76ab6a5f1e
   - enabled: 1
+    path: Assets/1.Scenes/Connect.unity
+    guid: d4fd26fa915d1fc48b1e414f6cbd78a3
+  - enabled: 1
+    path: Assets/1.Scenes/InGame.unity
+    guid: 0cc01a86c49842b499e116f3d2a9eb35
+  - enabled: 0
     path: Assets/1.Scenes/TestScene_YSH.unity
     guid: 3fe31c7e63528f447b53a84e3ff30ca2
-  - enabled: 1
+  - enabled: 0
     path: Assets/1.Scenes/TestScene_YSH 1.unity
     guid: 77ca5351dbc7491439f58af7fd4e25b5
   m_configObjects:

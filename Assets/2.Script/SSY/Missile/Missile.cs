@@ -1,47 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Missile : MonoBehaviour
+using Photon.Pun;
+using Photon.Realtime;
+public class Missile : MonoBehaviourPun
 {
-    [SerializeField]
     private Vector3[] path;
+    private int maxPosition = 20;
+    private bool isHit;
+    private float t;
+    private int index = 0;
+    private float speed = 5;
+    public float timeSpeed = 5;
 
-    [SerializeField]
-    private GameObject target;
+    [PunRPC]
+    void RPCPath(Vector3 p1, Vector3 p2, Vector3 p3)
+    {
+        Debug.Log(p1);
+        Vector3[] path = new Vector3[maxPosition];
+        for (int i = 0; i < maxPosition; i++)
+        {
+            float t = (float)i / (maxPosition - 1); //강제타이캐스트
+            path[i] = GetCurvePosition(p1, p2, p3, t);
+        }
+        SetPath(path);
+    }
 
-    bool missilePointOn;
+    public Vector3 GetCurvePosition(Vector3 a, Vector3 b, Vector3 c, float t)
+    {
+        Vector3 ab = Vector3.Lerp(a, b, t);
+        Vector3 bc = Vector3.Lerp(b, c, t);
+
+        return Vector3.Lerp(ab, bc, t);
+    }
 
     public void SetPath(Vector3[] path)
     {
         this.path = path;
     }
 
-    void Start()
-    {
-        if (missilePointOn)
-        {
-            Vector3 p1 = path[0];
-            Vector3 p2 = path[1];
-            Vector3 dir = p2 - p1;
-            transform.forward = dir;
-        }
-    }
-
-    void Update()
-    {
+    public void Update(){
         MissilePoint();
     }
 
-    float t;
-    public float speed = 5;
-    int index = 0;
-    public float timeSpeed = 5;
+#region  MissilePoint
 
     void MissilePoint()
     {
-        missilePointOn = true;
-        if (index >= path.Length - 1)
+        if (index >= path.Length - 1 || this.path ==null)
         {
             return;
         }
@@ -55,18 +61,28 @@ public class Missile : MonoBehaviour
         if (index < path.Length - 1)
         {
             t += Time.deltaTime * timeSpeed;
-            timeSpeed+=Time.deltaTime;
+            timeSpeed += Time.deltaTime;
             if (t > 1)
             {
                 index++;
                 t = 0;
-
             }
         }
     }
-    //부딪혔을 때
+#endregion
+
     private void OnCollisionEnter(Collision other)
     {
-        Destroy(gameObject);
+        Debug.Log("Hit");
+        if(!photonView.Mine && other.collider.tag == "Player" && other.collider.TryGetComponent<PhotonView>(out PhotonView pv) && pv.Mine){
+            //other.gameObject.GetComponent<IDamageable>().TakeDamage(5f);
+            Debug.Log("Hit2");
+            this.gameObject.SetActive(false);
+            isHit = true;
+        }
+
+        if(isHit){
+            this.gameObject.SetActive(false);
+        }
     }
 }

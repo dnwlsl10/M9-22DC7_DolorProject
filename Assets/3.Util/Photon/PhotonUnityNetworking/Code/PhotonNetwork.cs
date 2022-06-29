@@ -2487,6 +2487,7 @@ namespace Photon.Pun
         {
             if (SingleMode)
             {
+                Debug.Log("Unity Instantiate");
                 return UnityEngine.Object.Instantiate((GameObject)Resources.Load(prefabName), position, rotation);
             }
             if (CurrentRoom == null)
@@ -2494,7 +2495,7 @@ namespace Photon.Pun
                 Debug.LogError("Can not Instantiate before the client joined/created a room. State: "+PhotonNetwork.NetworkClientState);
                 return null;
             }
-
+            Debug.Log("Photon Instantiate");
             Pun.InstantiateParameters netParams = new InstantiateParameters(prefabName, position, rotation, group, data, currentLevelPrefix, null, LocalPlayer, ServerTimestamp);
             return NetworkInstantiate(netParams, false);
         }
@@ -3113,11 +3114,11 @@ namespace Photon.Pun
         /// <param name='levelName'>
         /// Name of the level to load. Make sure it's available to all clients in the same room.
         /// </param>
-        public static AsyncOperation LoadLevel(string levelName)
+        public static void LoadLevel(string levelName)
         {
             if (PhotonHandler.AppQuits)
             {
-                return null;
+                return;
             }
 
             if (PhotonNetwork.AutomaticallySyncScene)
@@ -3128,7 +3129,8 @@ namespace Photon.Pun
             PhotonNetwork.IsMessageQueueRunning = false;
             loadingLevelAndPausedNetwork = true;
             _AsyncLevelLoadingOperation = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Single);
-            return _AsyncLevelLoadingOperation;
+            //_AsyncLevelLoadingOperation.allowSceneActivation = false;
+            
         }
 
         /// <summary>

@@ -64,6 +64,12 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
         shield.button = Utility.FindInputReference(ActionMap.XRI_LeftHand_Interaction, "Activate");
         if (buttonMaps.Contains(shield) == false)
             buttonMaps.Add(shield);
+
+        ButtonMap missile;
+        missile.weaponName = WeaponName.Missile;
+        missile.button = Utility.FindInputReference(ActionMap.XRI_LeftHand_Interaction, "GuidedMissile");
+        if (buttonMaps.Contains(missile) == false)
+            buttonMaps.Add(missile);
 #if test
         grabL = Utility.FindInputReference(ActionMap.XRI_LeftHand_Interaction, "Select");
         grabR = Utility.FindInputReference(ActionMap.XRI_RightHand_Interaction, "Select");
