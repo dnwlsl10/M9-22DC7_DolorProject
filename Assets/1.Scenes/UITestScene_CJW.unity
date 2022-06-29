@@ -361,6 +361,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1546040588456421, guid: 12f66288aaa4b2f498dc2f2163a89d06, type: 3}
+      propertyPath: sceneViewId
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 374249600997526008, guid: 12f66288aaa4b2f498dc2f2163a89d06, type: 3}
+      propertyPath: sceneViewId
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 399555385259887059, guid: 12f66288aaa4b2f498dc2f2163a89d06, type: 3}
+      propertyPath: sceneViewId
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1669156147098632950, guid: 12f66288aaa4b2f498dc2f2163a89d06, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2219563773349865380, guid: 12f66288aaa4b2f498dc2f2163a89d06, type: 3}
+      propertyPath: sceneViewId
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2510950732769512314, guid: 12f66288aaa4b2f498dc2f2163a89d06, type: 3}
+      propertyPath: sceneViewId
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2625620535636360906, guid: 12f66288aaa4b2f498dc2f2163a89d06, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -405,9 +429,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3256213331341235798, guid: 12f66288aaa4b2f498dc2f2163a89d06, type: 3}
+      propertyPath: sceneViewId
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3403528742627386480, guid: 12f66288aaa4b2f498dc2f2163a89d06, type: 3}
       propertyPath: m_Name
       value: Connect_Mars_With_UI0.0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3403528742627386486, guid: 12f66288aaa4b2f498dc2f2163a89d06, type: 3}
+      propertyPath: sceneViewId
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4289749606036683670, guid: 12f66288aaa4b2f498dc2f2163a89d06, type: 3}
+      propertyPath: sceneViewId
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7612407151864819221, guid: 12f66288aaa4b2f498dc2f2163a89d06, type: 3}
       propertyPath: m_AnchorMax.x
@@ -416,6 +452,10 @@ PrefabInstance:
     - target: {fileID: 7612407151864819221, guid: 12f66288aaa4b2f498dc2f2163a89d06, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8410873235820201827, guid: 12f66288aaa4b2f498dc2f2163a89d06, type: 3}
+      propertyPath: sceneViewId
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12f66288aaa4b2f498dc2f2163a89d06, type: 3}
