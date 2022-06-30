@@ -24,5 +24,6 @@ EditorBuildSettings:
     path: Assets/1.Scenes/TestScene_YSH 1.unity
     guid: 77ca5351dbc7491439f58af7fd4e25b5
   m_configObjects:
+    com.unity.xr.magicleap.magic_leap_settings: {fileID: 11400000, guid: 671134c96a5340542bc4cf5343f8c0df, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 78b16c0f7251e904fb4ef4e7ba438e19, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 69aeb6ea691fb004da4e5ffacdcb7116, type: 2}
