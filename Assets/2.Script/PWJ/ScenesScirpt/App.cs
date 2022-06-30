@@ -102,12 +102,13 @@ public class App : MonoBehaviour
                 break;
             case eSceneType.InGame:
                 {
-                    AsyncOperation ao = SceneManager.LoadSceneAsync("InGame");
-                    ao.completed += (obj) =>
-                    {
-                        Debug.Log(obj.isDone);
+                    var inGame = GameObject.FindObjectOfType<InGameScene>();
 
-                        var inGame = GameObject.FindObjectOfType<InGame>();
+                    inGame.Init();
+
+                    inGame.OnComplete = () => 
+                    {
+                        this.ChangeScene(eSceneType.Lobby);
                     };
                 }
                 break;

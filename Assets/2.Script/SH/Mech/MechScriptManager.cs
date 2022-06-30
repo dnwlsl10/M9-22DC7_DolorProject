@@ -33,20 +33,4 @@ public class MechScriptManager : MonoBehaviour
 
         componentsForOnlyLocal = null;
     }
-    public void EnableScripts(ref List<Behaviour> components)
-    {
-        foreach (var component in components)
-        {
-            if (component!=null)
-                component.enabled = true;
-        }
-    }
-    public void DisableScripts(ref List<Behaviour> components)
-    {
-        foreach (var component in components)
-        {
-            if (component!=null)
-                component.enabled = false;
-        }
-    }
 }

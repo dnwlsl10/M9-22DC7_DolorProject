@@ -53,7 +53,7 @@ public class MechNetworkManager : MonoBehaviour, IInitialize
     private void Start() 
     {
         this.pv = this.GetComponent<PhotonView>();
-        if (pv.Mine)
+        if (pv.cachedMine)
             SetLocal();
         else
             SetRemote();

@@ -113,9 +113,9 @@ MonoBehaviour:
     rigTarget: {fileID: 4493909192352591267}
     controller: 5
     trackingPositionOffset: {x: 0, y: 0, z: 0}
-    trackingRotationOffset: {x: 0, y: 0, z: 0}
+    trackingRotationOffset: {x: 130, y: 21.1, z: -0.82}
     rb: {fileID: 4493909192352591265}
-    scale: 4
+    scale: 25
     speedMultiplier: 1
   characterHandMesh: {fileID: 0}
 --- !u!1 &4493909193067242884
@@ -199,8 +199,8 @@ MonoBehaviour:
     rigTarget: {fileID: 4493909193067242885}
     controller: 4
     trackingPositionOffset: {x: 0, y: 0, z: 0}
-    trackingRotationOffset: {x: 0, y: 0, z: 0}
+    trackingRotationOffset: {x: 130, y: 21.1, z: -0.82}
     rb: {fileID: 4493909193067242891}
-    scale: 4
+    scale: 25
     speedMultiplier: 1
   characterHandMesh: {fileID: 0}

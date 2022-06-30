@@ -614,7 +614,7 @@ namespace Photon.Pun
 
         public void CustomRPC(MonoBehaviour mb, string methodName, RpcTarget target, params object[] arguments)
         {
-            if (PhotonNetwork.SingleMode == true)
+            if (PhotonNetwork.SingleMode == true && cachedMine == true)
             {
                 if (mb == null)
                 {

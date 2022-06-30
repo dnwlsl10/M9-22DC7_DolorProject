@@ -23,34 +23,23 @@ public class MechLand : MonoBehaviour, IInitialize
 #endif
     }
 
-    [ContextMenu("land")]
-    void land()
-    {
-        StartFalling();
-    }
-
     private Animator anim;
     public LayerMask groundLayer;
     public List<Behaviour> componentsAfterStartScene;
     public float groundDetectDistance = 1;
-    MechScriptManager scriptManager;
     private void Awake() 
     {
         anim = GetComponent<Animator>();
-        scriptManager = GetComponent<MechScriptManager>();
-
         StartFalling();
     }
-    public void StartFalling()
-    {
-        StartCoroutine(CheckGroundDistance());
-    }
+    public void StartFalling() => StartCoroutine(CheckGroundDistance());
 
     IEnumerator CheckGroundDistance()
     {
-        scriptManager.DisableScripts(ref componentsAfterStartScene);
-        anim.SetLayerWeight(1, 0);
+        foreach (var component in componentsAfterStartScene)
+            component.enabled = false;
 
+        anim.SetLayerWeight(1, 0);
         anim.CrossFade("Falling", 0.2f, 0);
 
         // Wait until distance from ground less than threshold;
@@ -61,10 +50,12 @@ public class MechLand : MonoBehaviour, IInitialize
 
         yield return new WaitForSeconds(3f);
 
-        scriptManager.EnableScripts(ref componentsAfterStartScene);
+        foreach (var component in componentsAfterStartScene)
+            component.enabled = true;
+
         for (float f = 0; f < 1; f += Time.deltaTime)
         {
-            anim.SetLayerWeight(1, f/1);
+            anim.SetLayerWeight(1, f);
             yield return null;
         }
         anim.SetLayerWeight(1, 1);

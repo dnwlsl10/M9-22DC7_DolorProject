@@ -43,10 +43,10 @@ public class NetworkTest : MonoBehaviourPunCallbacks
 #region Room
     public void CreateRoom() 
     {
-        PhotonNetwork.CreateRoom("Room" + Random.Range(0, 100), new RoomOptions {MaxPlayers = 2});
+        PhotonNetwork.CreateRoom("Room" + 99, new RoomOptions {MaxPlayers = 2});
     }
     
-    public void JoinRandomRoom() => PhotonNetwork.JoinRandomRoom();
+    public void JoinRandomRoom() => PhotonNetwork.JoinOrCreateRoom("Room99", new RoomOptions {MaxPlayers = 2}, TypedLobby.Default);
 
     public void LeaveRoom() => PhotonNetwork.LeaveRoom();
 

@@ -18,52 +18,50 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
 
         Transform tr = Utility.FindChildMatchName(transform.root, "Cockpit");
         if (tr != null)
-            foreach (var grababble in tr.GetComponentsInChildren<Autohand.Grabbable>())
+        foreach (var grababble in tr.GetComponentsInChildren<Autohand.Grabbable>())
+        {
+            if (grababble.handType == Autohand.HandType.left)
             {
-                if (grababble.handType == Autohand.HandType.left)
-                {
-                    grababble.onGrab = new Autohand.UnityHandGrabEvent();
-                    grababble.onRelease = new Autohand.UnityHandGrabEvent();
-                    
-                    var hilight = grababble.GetComponentInChildren<GrabControllerHighlight>();
+                grababble.onGrab = new Autohand.UnityHandGrabEvent();
+                grababble.onRelease = new Autohand.UnityHandGrabEvent();
+                
+                var hilight = grababble.GetComponentInChildren<GrabControllerHighlight>();
 
-                    UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onGrab, OnGrabLeft, true);
-                    UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onGrab, weight.OnLeftGripEvent, 1);
-                    UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onGrab, hilight.OnGrabHightlight);
+                UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onGrab, OnGrabLeft, true);
+                UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onGrab, weight.OnLeftGripEvent, 1);
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onGrab, hilight.OnGrabHightlight);
 
-                    UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onRelease, OnGrabLeft, false);
-                    UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onRelease, weight.OnLeftGripEvent, 0);
-                    UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, hilight.OnRelease);
+                UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onRelease, OnGrabLeft, false);
+                UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onRelease, weight.OnLeftGripEvent, 0);
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, hilight.OnRelease);
 
-                }
-                else if (grababble.handType == Autohand.HandType.right)
-                {
-                    grababble.onGrab = new Autohand.UnityHandGrabEvent();
-                    grababble.onRelease = new Autohand.UnityHandGrabEvent();
-
-                    var hilight = grababble.GetComponentInChildren<GrabControllerHighlight>();
-
-                    UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onGrab, weight.OnRightGripEvent, 1);
-                    UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onGrab, OnGrabRight, true);
-                    UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onGrab, hilight.OnGrabHightlight);
-
-                    UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onRelease, weight.OnRightGripEvent, 0);
-                    UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onRelease, OnGrabRight, false);
-                    UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, hilight.OnRelease);
-                }
             }
+            else if (grababble.handType == Autohand.HandType.right)
+            {
+                grababble.onGrab = new Autohand.UnityHandGrabEvent();
+                grababble.onRelease = new Autohand.UnityHandGrabEvent();
 
-        ButtonMap basic;
-        basic.weaponName = WeaponName.Basic;
-        basic.button = Utility.FindInputReference(ActionMap.XRI_RightHand_Interaction, "Activate");
-        if (buttonMaps.Contains(basic) == false)
-            buttonMaps.Add(basic);
+                var hilight = grababble.GetComponentInChildren<GrabControllerHighlight>();
+
+                UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onGrab, weight.OnRightGripEvent, 1);
+                UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onGrab, OnGrabRight, true);
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onGrab, hilight.OnGrabHightlight);
+
+                UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onRelease, weight.OnRightGripEvent, 0);
+                UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onRelease, OnGrabRight, false);
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, hilight.OnRelease);
+            }
+        }
+
+        if (input_name_pair == null) input_name_pair = new SDictionaty();
+
+        if (input_name_pair.ContainsValue(WeaponName.Basic) == false)
+            input_name_pair.Add(Utility.CloneAction(ActionMap.XRI_RightHand_Interaction, "Activate"), WeaponName.Basic);
+        if (input_name_pair.ContainsValue(WeaponName.Shield) == false)
+            input_name_pair.Add(Utility.CloneAction(ActionMap.XRI_LeftHand_Interaction, "Activate"), WeaponName.Shield);
+        if(input_name_pair.ContainsValue(WeaponName.Missile) == false)
+            input_name_pair.Add(Utility.CloneAction(ActionMap.XRI_RightHand_Interaction, "GuidedMissile"), WeaponName.Missile);
         
-        ButtonMap shield;
-        shield.weaponName = WeaponName.Shield;
-        shield.button = Utility.FindInputReference(ActionMap.XRI_LeftHand_Interaction, "Activate");
-        if (buttonMaps.Contains(shield) == false)
-            buttonMaps.Add(shield);
 #if test
         grabL = Utility.FindInputReference(ActionMap.XRI_LeftHand_Interaction, "Select");
         grabR = Utility.FindInputReference(ActionMap.XRI_RightHand_Interaction, "Select");
@@ -71,78 +69,85 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
 #endif
     }
 
-
     [System.Serializable]
-    public struct ButtonMap
-    {
-        public WeaponName weaponName;
-        public InputActionReference button;
-    }
+    public class SDictionaty : RotaryHeart.Lib.SerializableDictionary.SerializableDictionaryBase<InputAction, WeaponName>{}
+    public SDictionaty input_name_pair;
 
-    List<WeaponBase> leftHandWeapon;
-    List<WeaponBase> rightHandWeapon;
-    public bool[] canUseSkill;
-    private bool isRightGrab;
-    private bool isLeftGrab;
-    private bool usingRight;
-    private bool usingLeft;
-    bool grabRight
+    WeaponBase[] weapons;
+    List<int> leftHandWeapon, rightHandWeapon;
+    private bool[] canUseSkill;
+    private bool[] isGrabbing = new bool[2];
+    private bool[] usingSkill = new bool[2];
+
+    void SetGrabState(bool isLeft, bool value)
     {
-        get { return isRightGrab; }
-        set
+        int index = isLeft ? 0 : 1;
+
+        if (isGrabbing[index] == value) return;
+
+        if (value == false)
         {
-            if (isRightGrab == value) return;
-            
-            if (value == false)
-                foreach (var weapon in rightHandWeapon)
-                    weapon.StopWeaponAction();
-            
-            isRightGrab = value;
+            foreach (int i in isLeft ? leftHandWeapon : rightHandWeapon)
+                weapons[i].StopWeaponAction();   
+            usingSkill[index] = false;
         }
-    }
-    bool grabLeft
-    {
-        get { return isLeftGrab; }
-        set
-        {
-            if (isLeftGrab == value) return;
-            
-            if (value == false)
-                foreach (var weapon in leftHandWeapon)
-                    weapon.StopWeaponAction();
 
-            isLeftGrab = value;
-        }
+        isGrabbing[index] = value;
     }
 
-    public void OnGrabRight(bool grabbing) => grabRight = grabbing;
-    public void OnGrabLeft(bool grabbing) => grabLeft = grabbing;
-    public List<ButtonMap> buttonMaps;
-    Dictionary<InputAction, WeaponBase> buttonWeaponPair;
+    public void OnGrabRight(bool grabbing) => SetGrabState(false, grabbing);
+    public void OnGrabLeft(bool grabbing) => SetGrabState(true, grabbing);
 
     private void Awake() 
     {
-        if (photonView.Mine == false) return;
+        if (photonView.Mine == false)
+        {
+            input_name_pair.Clear();
+            input_name_pair = null;
+        }
 
         int weaponNameCount = System.Enum.GetValues(typeof(WeaponName)).Length;
         canUseSkill = new bool[weaponNameCount];
         for(int i = 0; i < weaponNameCount; i++) canUseSkill[i] = true;
+        weapons = new WeaponBase[weaponNameCount];
         
-        leftHandWeapon = new List<WeaponBase>();
-        rightHandWeapon = new List<WeaponBase>();
-        buttonWeaponPair = new Dictionary<InputAction, WeaponBase>();
+        leftHandWeapon = new List<int>();
+        rightHandWeapon = new List<int>();
+
         foreach (var weapon in transform.root.GetComponentsInChildren<WeaponBase>())
         {
-            foreach(var map in buttonMaps)
-                if (map.weaponName == weapon.weaponSetting.weaponName)
-                {
-                    buttonWeaponPair.Add(map.button.action, weapon);
-                    break;
-                }
-
-            (weapon.handSide == HandSide.Left ? leftHandWeapon : rightHandWeapon).Add(weapon);
+            int index = (int)weapon.weaponSetting.weaponName;
+            weapons[index] = weapon;
+            (weapon.handSide == HandSide.Left ? leftHandWeapon : rightHandWeapon).Add(index);
         }
     }
+
+    void StartWeaponEvent(InputAction.CallbackContext ctx)
+    {
+        int index = (int)input_name_pair[ctx.action];
+        if (canUseSkill[index] == false) return;
+
+        WeaponBase weapon = weapons[index];
+        index = (int)weapon.handSide;
+        
+        if (isGrabbing[index] == true && usingSkill[index] == false)
+        {
+            usingSkill[index] = true;
+            weapon.StartWeaponAction();
+        }
+        else
+            print("Cannot use skill");
+    }
+
+    public void StopWeaponEvent(WeaponName weaponName) => StopWeaponEvent((int)weaponName);
+    private void StopWeaponEvent(InputAction.CallbackContext ctx) => StopWeaponEvent((int)input_name_pair[ctx.action]);
+    private void StopWeaponEvent(int index)
+    {
+        WeaponBase weapon = weapons[index];
+        weapon.StopWeaponAction();
+        usingSkill[(int)weapon.handSide] = false;
+    }
+
 #if test
     [Header("Test")]
     public InputActionReference grabL;
@@ -151,10 +156,18 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
     private void OnGrabLeft(InputAction.CallbackContext ctx) => OnGrabLeft(ctx.ReadValueAsButton());
     private void OnGrabRight(InputAction.CallbackContext ctx) => OnGrabRight(ctx.ReadValueAsButton());
 #endif
+
     private void OnEnable() {
         if (photonView.cachedMine == false) return;
 
-#if test
+        foreach(var key_val in input_name_pair)
+        {
+            key_val.Key.Enable();
+            key_val.Key.started += StartWeaponEvent;
+            key_val.Key.canceled += StopWeaponEvent;
+        }
+
+        #if test
         Debug.LogWarning("WeaponSystem is in testMode");
         if (testMode == true)
         {
@@ -162,19 +175,20 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
             grabR.action.started += OnGrabRight;
             grabL.action.canceled += OnGrabLeft;
             grabR.action.canceled += OnGrabRight;
-        }
-#endif
-
-        foreach(var weapon in buttonMaps)
-        {
-            weapon.button.action.started += StartWeaponEvent;
-            weapon.button.action.canceled += StopWeaponEvent;
-        }
+        } 
+        #endif
     }
     private void OnDisable() {
         if (photonView.cachedMine == false) return;
 
-#if test
+        foreach(var key_val in input_name_pair)
+        {
+            key_val.Key.started -= StartWeaponEvent;
+            key_val.Key.canceled -= StopWeaponEvent;
+            key_val.Key.Disable();
+        }
+
+        #if test
         if (testMode == true)
         {
             grabL.action.started -= OnGrabLeft;
@@ -182,75 +196,6 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
             grabL.action.canceled -= OnGrabLeft;
             grabR.action.canceled -= OnGrabRight;
         }
-#endif
-
-        foreach(var weapon in buttonMaps)
-        {
-            weapon.button.action.started -= StartWeaponEvent;
-            weapon.button.action.canceled -= StopWeaponEvent;
-        }
-    }
-
-    void StartWeaponEvent(InputAction.CallbackContext ctx)
-    {
-        if (buttonWeaponPair.TryGetValue(ctx.action, out WeaponBase weaponBase))
-        {
-            if (canUseSkill[(int)weaponBase.weaponSetting.weaponName] == false) return;
-
-            if (weaponBase.handSide == HandSide.Left)
-            {
-                if (grabLeft == true && usingLeft == false)
-                {
-                    usingLeft = true;
-                    weaponBase.StartWeaponAction();
-                }
-                else
-                    print("Not Grabbing");
-            }
-            else
-            {
-                if (grabRight == true && usingRight == false)
-                {
-                    usingRight = true;
-                    weaponBase.StartWeaponAction();
-                }
-                else
-                    print("Not Grabbing");
-            }
-        }
-    }
-    void StopWeaponEvent(InputAction.CallbackContext ctx)
-    {
-        if (buttonWeaponPair.TryGetValue(ctx.action, out WeaponBase weaponBase))
-        {
-            weaponBase.StopWeaponAction();
-            if (weaponBase.handSide == HandSide.Left)
-            {
-                usingLeft = false;
-            }
-            else
-            {
-                usingRight = false;
-            }
-        }
-    }
-
-    public void StopWeaponEvent(WeaponName weaponName)
-    {
-        foreach (var button in buttonMaps)
-            if (button.weaponName == weaponName)
-                if (buttonWeaponPair.TryGetValue(button.button.action, out WeaponBase weaponBase))
-                {
-                    weaponBase.StopWeaponAction();
-                    if (weaponBase.handSide == HandSide.Left)
-                    {
-                        usingLeft = false;
-                    }
-                    else
-                    {
-                        usingRight = false;
-                    }
-                }
-                    
+        #endif
     }
 }

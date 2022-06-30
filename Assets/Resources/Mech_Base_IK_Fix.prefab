@@ -1621,6 +1621,7 @@ GameObject:
   - component: {fileID: 2746147107335047415}
   - component: {fileID: 2746147107335047414}
   - component: {fileID: 2746147107335047412}
+  - component: {fileID: 4356020272425604467}
   m_Layer: 0
   m_Name: Mech_Base_IK_Fix
   m_TagString: Untagged
@@ -2171,6 +2172,27 @@ MonoBehaviour:
   - {fileID: 1747911944192515295}
   - {fileID: 3396413468815785772}
   - {fileID: 8414814680536979174}
+--- !u!114 &4356020272425604467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3088677623086497222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c4b25357ff66034599ea28f358247cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
+  leftHandJoystick: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  centerEye: {fileID: 0}
+  rotateStartThreshold: 30
+  rotateFinishThreshold: 20
+  timeToReachMaxRotSpeed: 1
+  maxRotationSpeed: 15
+  timeToReachMinRotationSpeed: 1
+  angleToReachMaxRotationSpeed: 90
 --- !u!1 &3266888980989379016
 GameObject:
   m_ObjectHideFlags: 0

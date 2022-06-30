@@ -34,6 +34,17 @@ namespace RootMotion.FinalIK {
 			Application.OpenURL("http://forum.unity3d.com/threads/final-ik-full-body-ik-aim-look-at-fabrik-ccd-ik-1-0-released.222685/");
 		}
 
+		[ContextMenu("Axis to transform Forward")]
+		void AxisToForward()
+		{
+			(axis) = Quaternion.Inverse(Quaternion.Euler(Vector3.forward)) * (defaultLocalRotation * transform.parent.eulerAngles);
+		}
+		[ContextMenu("Axis to transform Backward")]
+		void AxisToBackward()
+		{
+			(axis) = Quaternion.Inverse(Quaternion.Euler(Vector3.forward)) * -(defaultLocalRotation * transform.parent.eulerAngles);
+		}
+
 		#region Main Interface
 		
 		/// <summary>
@@ -77,6 +88,10 @@ namespace RootMotion.FinalIK {
 			
 			// Subtract the illegal rotation
 			return toLimits * rotation;
+		}
+
+		private void Awake() {
+			this.enabled = false;
 		}
 	}
 }

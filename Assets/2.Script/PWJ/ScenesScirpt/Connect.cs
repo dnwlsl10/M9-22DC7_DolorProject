@@ -4,7 +4,6 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
-using  UnityEngine.SceneManagement;
 
 public enum eRoomMode { Lobby, PracticeRoom, QuickMatchRoom }
 public class Connect : MonoBehaviourPunCallbacks
@@ -24,8 +23,13 @@ public class Connect : MonoBehaviourPunCallbacks
 
     public System.Action OnCompelet;
     public System.Action<bool> IsMasterClient;
-    private WaitForSeconds eof = new WaitForSeconds(2f);
-    public Text count;
+    private WaitForSeconds eof = new WaitForSeconds(3f);
+
+    [Header("Count Text")]
+    public GameObject[] count;
+
+
+    public LoadingScreenProcess loadingScreenProcess;
 
     private string roomName;
     private readonly string gameVersion = "v1.0";
@@ -94,46 +98,31 @@ public class Connect : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom() => Debug.Log(roomMode);
       
-    public override void OnJoinedRoom(){
-        IsMasterClient(PhotonNetwork.IsMasterClient);
-    }
-
-    private void Update() {
-        Debug.Log(PhotonNetwork.LevelLoadingProgress);
-    }
-
+    public override void OnJoinedRoom() => IsMasterClient(PhotonNetwork.IsMasterClient);
+     
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if(PhotonNetwork.IsMasterClient) inGame.DetectRemotePlayerJoin();
         photonView.RPC("GameStartRPC", RpcTarget.AllBuffered);
     }
 
+    void Update(){
+        if(Input.GetKeyDown(KeyCode.Space)){
+            StartCoroutine(OnStartCount());
+        }
+    }
+    
     [PunRPC]
     void GameStartRPC() => StartCoroutine(OnStartCount());
     IEnumerator OnStartCount()
     {
-        count.text = "3";
-        yield return eof;
-        count.text = "2";
-        yield return eof;
-        count.text = "1";
-        yield return eof;
-        if (PhotonNetwork.IsMasterClient) {
-
-            StartCoroutine(LoadingScreenProcess("InGame"));
-     
-        };
-    }
-
-
-    float timer = 0;
-    IEnumerator LoadingScreenProcess(string sceneName){
-
-        AsyncOperation ao = PhotonNetwork.LoadLevel("InGame");
-        ao.allowSceneActivation = false;
-        yield return null;
-
-        
+        for(int i =0 ; i< count.Length; i++){
+            this.count[i].SetActive(true);
+            yield return eof;
+            this.count[i].SetActive(false);
+        }
+        yield return StartCoroutine(loadingScreenProcess.LoadingPhotonScreenProcess("InGame"));
+        OnCompelet();
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message){
@@ -145,8 +134,7 @@ public class Connect : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom(this.roomName, null);
     }
     private void OnChangeScene() => OnCompelet();
-
     public override void OnDisable() {
         NetworkObjectPool.instance.DestroyPool();
     }
-}
+}   
