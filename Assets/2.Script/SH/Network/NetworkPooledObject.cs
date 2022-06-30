@@ -11,10 +11,10 @@ public class NetworkPooledObject : MonoBehaviourPun
 
         // Collider Collision Setting
         var collider = GetComponentInChildren<Collider>();
-        if (collider != null && photonView.cachedMine == false)
+        if (collider != null && photonView.Mine == false)
             collider.enabled = false;
 
-        if (photonView.cachedMine == false)
+        if (photonView.Mine == false)
             gameObject.SetActive(false);
     }
     void InitParticle(ref ParticleSystem particle)
@@ -24,7 +24,7 @@ public class NetworkPooledObject : MonoBehaviourPun
         main.stopAction = ParticleSystemStopAction.Disable;
 
         var col = particle.collision;
-        if (photonView.cachedMine)
+        if (photonView.Mine)
         {
             if (col.enabled == true)
             {
@@ -54,7 +54,7 @@ public class NetworkPooledObject : MonoBehaviourPun
 
     private void OnDisable()
     {
-        if (photonView.cachedMine)
+        if (photonView.Mine)
             NetworkObjectPool.ReturnToPool(gameObject);
     }
 }

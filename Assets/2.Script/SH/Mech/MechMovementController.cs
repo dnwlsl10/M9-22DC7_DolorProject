@@ -78,13 +78,13 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
 
     void Start()
     {
-        if (photonView.cachedMine)
+        if (photonView.Mine)
         // StartCoroutine(IEStartRotate());
         StartCoroutine(IERotateVer2());
     }
 
     private void FixedUpdate() {
-        if (photonView.cachedMine)
+        if (photonView.Mine)
         rb.AddForce(moveDir, ForceMode.VelocityChange);
     } 
 
@@ -92,7 +92,7 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
     // Update is called once per frame
     void Update()
     {
-        if (photonView.cachedMine == false)
+        if (photonView.Mine == false)
             return;
         deltaTime = Time.deltaTime;
         UpdateMove();

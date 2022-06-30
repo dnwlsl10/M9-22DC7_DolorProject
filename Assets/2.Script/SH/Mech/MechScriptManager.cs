@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class MechScriptManager : MonoBehaviour
+public class MechScriptManager : MonoBehaviourPun
 {
     [ContextMenu("Initialize")]
     void Reset()
@@ -21,15 +21,12 @@ public class MechScriptManager : MonoBehaviour
     }
     
     public List<Component> componentsForOnlyLocal;
-    PhotonView pv;
 
     private void Awake() 
     {
-        pv = GetComponent<PhotonView>();
-
-        if (pv.Mine == false)
+        if (photonView.Mine == false)
             foreach (var component in componentsForOnlyLocal)
-                Destroy(component);
+                if (component) Destroy(component);
 
         componentsForOnlyLocal = null;
     }

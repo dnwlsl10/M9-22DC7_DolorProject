@@ -9,13 +9,12 @@ public class ProjectileBase : MonoBehaviourPun
     public float instanceNormalPositionOffset;
     public bool setParentToParentObject;
     public GameObject[] EffectsOnCollision;
-    public virtual void GiveDamage(float damage){}
 
     protected void OnCollisionEnter(Collision other) 
     {
-        if (photonView.cachedMine == false) return;
+        if (photonView.Mine == false) return;
    
-        var contact = other.GetContact(0);     
+        var contact = other.GetContact(0);
         if (other.collider.TryGetComponent<PhotonView>(out PhotonView pv) && pv.ViewID > 0)
         {
             photonView.CustomRPC(this, "RPCCollision", RpcTarget.AllViaServer, pv.ViewID, contact.point, contact.normal);

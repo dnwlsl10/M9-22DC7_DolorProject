@@ -193,18 +193,7 @@ namespace Photon.Pun
             }
         }
 
-        public static bool SingleMode
-        {
-            get 
-            {
-                if (PhotonNetwork.InRoom)
-                {
-                    return PhotonNetwork.CurrentRoom.PlayerCount <= 1;
-                }
-                else
-                    return true;
-            }
-        }
+        public static bool SingleMode;
 
         /// <summary>
         /// A refined version of connected which is true only if your connection to the server is ready to accept operations like join, leave, etc.

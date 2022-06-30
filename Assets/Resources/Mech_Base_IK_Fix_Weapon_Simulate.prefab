@@ -365,15 +365,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6644898290049286676, guid: a92560c5c48aa2043b8cf56da7f5a28b, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6644898290049286676, guid: a92560c5c48aa2043b8cf56da7f5a28b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6644898290049286676, guid: a92560c5c48aa2043b8cf56da7f5a28b, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6649080322025750409, guid: a92560c5c48aa2043b8cf56da7f5a28b, type: 3}
       propertyPath: sceneViewId
@@ -401,7 +401,7 @@ PrefabInstance:
       objectReference: {fileID: 8964854377743128391}
     - target: {fileID: 7125257937524062917, guid: a92560c5c48aa2043b8cf56da7f5a28b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7125257937731177566, guid: a92560c5c48aa2043b8cf56da7f5a28b, type: 3}
       propertyPath: onGrab.m_PersistentCalls.m_Calls.Array.data[0].m_Target

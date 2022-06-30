@@ -3,16 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using RootMotion.FinalIK;
 using Photon.Pun;
-public class MechNetworkManager : MonoBehaviour, IInitialize, IPunInstantiateMagicCallback
+public class MechNetworkManager : MonoBehaviourPun, IInitialize, IPunInstantiateMagicCallback
 {
-    [ContextMenu("Print IsMivne")]
-    void t()
-    {
-        print("IsMine : " + pv.IsMine);
-        print("Mine : " + pv.Mine);
-        print("CachedMine : " + pv.cachedMine);
-        print("SingleMode : " + PhotonNetwork.SingleMode);
-    }
     [ContextMenu("Find All")]
     public void Reset()
     {
@@ -43,41 +35,29 @@ public class MechNetworkManager : MonoBehaviour, IInitialize, IPunInstantiateMag
 #endif
     }
 
-    [ContextMenu("Toggle Mesh")]
-    void ToggleMesh()
-    {
-        foreach (var renderer in localDisableMesh)
-            renderer.enabled = !renderer.enabled;
-    }
     public List<Renderer> localDisableMesh;
     public List<GameObject> LayerToChangeRemote;
-    IKSolverVR.Arm rightArmIK;
-    IKSolverVR.Arm leftArmIK;
-    PhotonView pv;
-
-    IEnumerator leftIKCoroutine;
-    IEnumerator rightIKCoroutine;
 
     private void Start() 
     {
-        this.pv = this.GetComponent<PhotonView>();
-        if (pv.cachedMine)
+        if (photonView.Mine)
             SetLocal();
         else
             SetRemote();
+        
+        LayerToChangeRemote = null;
+        localDisableMesh = null;
     }
 
-    private void DisableMesh(List<Renderer> meshList)
+    private void DisableMesh()
     {
-        foreach (var mesh in meshList)
+        foreach (var mesh in localDisableMesh)
             mesh.enabled = false;
-        meshList.Clear();
-        meshList = null;
     }
 
     void SetLocal()
     {
-        DisableMesh(localDisableMesh);
+        DisableMesh();
     }
     void SetRemote()
     {
@@ -86,14 +66,11 @@ public class MechNetworkManager : MonoBehaviour, IInitialize, IPunInstantiateMag
     }
     void ChangeRemoteLayer()
     {
+        int remoteLayer = LayerMask.NameToLayer("RemotePlayer");
         foreach (var obj in LayerToChangeRemote)
-            obj.layer = LayerMask.NameToLayer("RemotePlayer");
-        LayerToChangeRemote.Clear();
-        LayerToChangeRemote = null;
+            obj.layer = remoteLayer;
     }
 
-    public void OnPhotonInstantiate(PhotonMessageInfo info)
-    {
-        InGameManager.instance.RegisterMech(gameObject);
-    }
+    public void OnPhotonInstantiate(PhotonMessageInfo info) => photonView.RPC("RegistSelf", RpcTarget.AllViaServer);
+    [PunRPC] void RegistSelf() => InGameManager.instance.RegisterMech(gameObject);
 }

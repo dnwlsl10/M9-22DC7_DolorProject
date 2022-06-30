@@ -15,7 +15,6 @@ public class NetworkTest : MonoBehaviourPunCallbacks
         PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.GameVersion = "1.0";
-        
     }
 
     [ContextMenu("GameStart")]
@@ -31,7 +30,9 @@ public class NetworkTest : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
+        maxPlayer = GameObject.FindObjectOfType<Dropdown>().value == 0 ? (byte)1 : (byte)2;
         print(PhotonNetwork.CountOfPlayers);
+        print(maxPlayer);
         JoinRandomRoom();
     }
 
@@ -56,7 +57,7 @@ public class NetworkTest : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         print("Joined Room" + PhotonNetwork.CurrentRoom.PlayerCount);
-        
+        if (maxPlayer == 1) OnPlayerEnteredRoom(null);
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)

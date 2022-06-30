@@ -12,7 +12,7 @@ public class MechLand : MonoBehaviour, IInitialize
         if (componentsAfterStartScene.Count == 0)
         {
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<HandIK>(true));
-            // componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<MechMovementController>(true));
+            componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<MechMovementController>(true));
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<WeaponBase>(true));
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<WeaponSystem>(true));
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<CrossHair>(true));
@@ -37,7 +37,7 @@ public class MechLand : MonoBehaviour, IInitialize
     IEnumerator CheckGroundDistance()
     {
         foreach (var component in componentsAfterStartScene)
-            component.enabled = false;
+            if(component) component.enabled = false;
 
         anim.SetLayerWeight(1, 0);
         anim.CrossFade("Falling", 0.2f, 0);
@@ -51,7 +51,7 @@ public class MechLand : MonoBehaviour, IInitialize
         yield return new WaitForSeconds(3f);
 
         foreach (var component in componentsAfterStartScene)
-            component.enabled = true;
+            if(component) component.enabled = true;
 
         for (float f = 0; f < 1; f += Time.deltaTime)
         {
@@ -60,6 +60,8 @@ public class MechLand : MonoBehaviour, IInitialize
         }
         anim.SetLayerWeight(1, 1);
 
+        componentsAfterStartScene.Clear();
+        componentsAfterStartScene = null;
         Destroy(this);
     }
 }

@@ -74,20 +74,18 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
     public SDictionaty input_name_pair;
 
     WeaponBase[] weapons;
-    List<int> leftHandWeapon, rightHandWeapon;
+    List<int>[] weaponIndex_byHand;
     public bool[] canUseSkill;
-    private bool[] isGrabbing = new bool[2];
-    private bool[] usingSkill = new bool[2];
+    private bool[] isGrabbing;
+    private bool[] usingSkill;
 
-    void SetGrabState(bool isLeft, bool value)
+    void SetGrabState(int index, bool value)
     {
-        int index = isLeft ? 0 : 1;
-
         if (isGrabbing[index] == value) return;
 
         if (value == false)
         {
-            foreach (int i in isLeft ? leftHandWeapon : rightHandWeapon)
+            foreach (int i in weaponIndex_byHand[index])
                 weapons[i].StopWeaponAction();   
             usingSkill[index] = false;
         }
@@ -95,31 +93,37 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
         isGrabbing[index] = value;
     }
 
-    public void OnGrabRight(bool grabbing) => SetGrabState(false, grabbing);
-    public void OnGrabLeft(bool grabbing) => SetGrabState(true, grabbing);
+    public void OnGrabRight(bool grabbing) => SetGrabState((int)HandSide.Left, grabbing);
+    public void OnGrabLeft(bool grabbing) => SetGrabState((int)HandSide.Right, grabbing);
 
     private void Awake() 
     {
         if (photonView.Mine == false)
         {
-            input_name_pair.Clear();
             input_name_pair = null;
+            Destroy(this);
         }
+
+        weaponIndex_byHand = new List<int>[2];
+        weaponIndex_byHand[0] = new List<int>();
+        weaponIndex_byHand[1] = new List<int>();
+        isGrabbing = new bool[2];
+        usingSkill = new bool[2];
 
         int weaponNameCount = System.Enum.GetValues(typeof(WeaponName)).Length;
         canUseSkill = new bool[weaponNameCount];
         for(int i = 0; i < weaponNameCount; i++) canUseSkill[i] = true;
         weapons = new WeaponBase[weaponNameCount];
         
-        leftHandWeapon = new List<int>();
-        rightHandWeapon = new List<int>();
 
         foreach (var weapon in transform.root.GetComponentsInChildren<WeaponBase>())
         {
             int index = (int)weapon.weaponSetting.weaponName;
             weapons[index] = weapon;
-            (weapon.handSide == HandSide.Left ? leftHandWeapon : rightHandWeapon).Add(index);
+            weaponIndex_byHand[(int)weapon.handSide].Add(index);
         }
+        
+        input_name_pair = null;
     }
 
     void StartWeaponEvent(InputAction.CallbackContext ctx)
@@ -157,7 +161,7 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
 #endif
 
     private void OnEnable() {
-        if (photonView.cachedMine == false) return;
+        if (photonView.Mine == false) return;
 
         foreach(var key_val in input_name_pair)
         {
@@ -178,7 +182,7 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
         #endif
     }
     private void OnDisable() {
-        if (photonView.cachedMine == false) return;
+        if (photonView.Mine == false) return;
 
         foreach(var key_val in input_name_pair)
         {
