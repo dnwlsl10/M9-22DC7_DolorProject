@@ -27,7 +27,12 @@ public class ObjectPoolerEditor : Editor
 public class ObjectPooler : MonoBehaviour
 {
     public static ObjectPooler instance;
-    void Awake() => instance = this;
+    void Awake()
+    {
+        if (instance != null)
+            Destroy(this);
+        else instance = this;
+    }
 
     [Serializable]
     public class Pool

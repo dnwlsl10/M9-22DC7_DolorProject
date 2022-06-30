@@ -98,25 +98,6 @@ public class HandIK : MonoBehaviour, IInitialize
             }
             rigTarget.rotation = vrTarget.rotation * Quaternion.Euler(trackingRotationOffset);
         }
-
-        public Transform CreateLocalTarget()
-        {
-            GameObject go = new GameObject(controller.ToString() + "Target");
-            go.transform.position = vrOrigin.transform.position;
-
-            rb = go.AddComponent<Rigidbody>();
-            rb.constraints = RigidbodyConstraints.FreezeRotation;
-            rb.isKinematic = false;
-            rb.useGravity = false;
-
-            SphereCollider collider = go.AddComponent<SphereCollider>();
-            // collider.isTrigger = true;
-            collider.radius = 0.4f;
-            collider.center = Vector3.right * 0.5f * (controller == XRNode.RightHand ? 1 : -1);
-
-            rigTarget = go.transform;
-            return rigTarget;
-        }
     }
 
     public VRMap vrController;
@@ -134,41 +115,39 @@ public class HandIK : MonoBehaviour, IInitialize
     }
 
 #if test
-    public bool testMode;
     IEnumerator Start() {
-        Debug.LogWarning("Hand IK is in testMode");
-        if (testMode == true)
-        {
-            if (vrController.vrTarget.TryGetComponent<ActionBasedController>(out var abc) == false)
-            {
-                abc = vrController.vrTarget.gameObject.AddComponent<ActionBasedController>();
-                abc.updateTrackingType = XRBaseController.UpdateType.UpdateAndBeforeRender;
-                abc.enableInputTracking = true;
-                
-                var asset = vrController.vrTarget.GetComponentInParent<UnityEngine.XR.Interaction.Toolkit.Inputs.InputActionManager>().actionAssets[0];
-                var map = asset.actionMaps[(int)(isLeft ? ActionMap.XRI_LeftHand : ActionMap.XRI_RightHand)];
-
-                abc.positionAction = new InputActionProperty(map.FindAction("Position"));
-                abc.rotationAction = new InputActionProperty(map.FindAction("Rotation"));
-                abc.trackingStateAction = new InputActionProperty(map.FindAction("Tracking State"));
-
-                var v = GameObject.FindObjectOfType<UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation.XRDeviceSimulator>();
-                GameObject simulator = null;
-                if (v != null)
-                    simulator = v.gameObject;
-                else
-                    simulator = Photon.Pun.PhotonNetwork.Instantiate("XR Device Simulator", Vector3.zero, Quaternion.identity);
-
-                abc.enabled = false;
-                if (!isLeft) simulator.SetActive(false);
-                yield return null;
-                abc.enabled = true;
-                if (!isLeft) simulator.SetActive(true);
-            }
-        }
-        else
-        {
+        if (transform.root.GetComponent<Photon.Pun.PhotonView>().Mine == false)
             yield break;
+        Debug.LogWarning("Hand IK is in testMode");
+        
+        if (Utility.isVRConnected)
+            yield break;
+
+        if (vrController.vrTarget.TryGetComponent<ActionBasedController>(out var abc) == false)
+        {
+            abc = vrController.vrTarget.gameObject.AddComponent<ActionBasedController>();
+            abc.updateTrackingType = XRBaseController.UpdateType.UpdateAndBeforeRender;
+            abc.enableInputTracking = true;
+            
+            var asset = vrController.vrTarget.GetComponentInParent<UnityEngine.XR.Interaction.Toolkit.Inputs.InputActionManager>().actionAssets[0];
+            var map = asset.actionMaps[(int)(isLeft ? ActionMap.XRI_LeftHand : ActionMap.XRI_RightHand)];
+
+            abc.positionAction = new InputActionProperty(map.FindAction("Position"));
+            abc.rotationAction = new InputActionProperty(map.FindAction("Rotation"));
+            abc.trackingStateAction = new InputActionProperty(map.FindAction("Tracking State"));
+
+            var v = GameObject.FindObjectOfType<UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation.XRDeviceSimulator>();
+            GameObject simulator = null;
+            if (v != null)
+                simulator = v.gameObject;
+            else
+                simulator = Instantiate(Resources.Load<GameObject>("XR Device Simulator"));
+
+            abc.enabled = false;
+            if (!isLeft) simulator.SetActive(false);
+            yield return new WaitForSeconds(0.1f);
+            abc.enabled = true;
+            if (!isLeft) simulator.SetActive(true);
         }
     }
 #endif

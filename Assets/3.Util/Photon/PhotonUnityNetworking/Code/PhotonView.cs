@@ -180,7 +180,7 @@ namespace Photon.Pun
         /// </remarks>
         public bool IsMine { get; private set; }
         public bool cachedMine {get; private set; }
-        public bool Mine 
+        public bool Mine
         {
             get
             { return PhotonNetwork.SingleMode ? true : IsMine; }

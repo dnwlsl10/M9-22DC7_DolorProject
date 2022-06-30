@@ -27,11 +27,14 @@ public class ProjectileBase : MonoBehaviourPun
             if (other.collider.TryGetComponent<IDamageable>(out IDamageable damageable))
                 damageable.TakeDamage(damage);
         }
+        
     }
 
     [PunRPC]
     private void RPCCollision(int viewID, Vector3 intersection, Vector3 normal)
     {
+        if (viewID != 0 && PhotonNetwork.GetPhotonView(viewID).TryGetComponent<IDamageable>(out IDamageable damageable))
+            damageable.TakeDamage(damage);
 
         foreach (var effect in EffectsOnCollision)
         {
@@ -40,13 +43,6 @@ public class ProjectileBase : MonoBehaviourPun
             instance.transform.LookAt(intersection + normal);
         }
 
-        if (viewID != 0 && PhotonNetwork.GetPhotonView(viewID).TryGetComponent<IDamageable>(out IDamageable damageable))
-            if (damageable.TakeDamage(damage) == true) return;
-
         gameObject.SetActive(false);
     }
-
-    [PunRPC]
-    public void SelfDisable() => photonView.CustomRPC(this, "Disable", RpcTarget.All);
-    private void Disable() => gameObject.SetActive(false);
 }

@@ -3,45 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Reflection;
-#if UNITY_EDITOR
+using UnityEngine.XR;
 public enum ActionMap{XRI_Head, XRI_LeftHand, XRI_LeftHand_Interaction, XRI_LeftHand_Locomotion, XRI_RightHand, XRI_RightHand_Interaction, XRI_RightHand_Locomotion}
+
 public class Utility : MonoBehaviour
 {
-    public static InputActionReference FindInputReference(ActionMap actionMap, string action)
+    public static bool cache;
+    public static bool initialized;
+    public static bool isVRConnected
     {
-        var references = UnityEditor.AssetDatabase.LoadAllAssetRepresentationsAtPath("Assets/3.Util/XR/Samples/XR Interaction Toolkit/2.0.2/Starter Assets/XRI Default Input Actions.inputactions");
-        foreach (var reference in references)
-            if (reference.name == actionMap.ToString().Replace('_', ' ')+"/"+action)
-                return reference as InputActionReference;
-        return null;
+        get 
+        {
+            if (initialized == false)
+            {
+                List<XRDisplaySubsystem> lists = new List<XRDisplaySubsystem>();
+                SubsystemManager.GetInstances<XRDisplaySubsystem>(lists);
+                foreach (var display in lists)
+                    if (display.running)
+                    {
+                        cache = true;
+                        initialized = true;
+                        Debug.Log("VR Connected");
+                        return true;
+                    }
+                
+                cache = false;
+                initialized = true;
+                Debug.Log("VR Not Connected");
+                return false;
+            }
+            else
+                return cache;
+        }
     }
 
-    public static InputAction CloneAction(ActionMap actionMap, string action)
-    {
-        var asset = UnityEditor.AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets/3.Util/XR/Samples/XR Interaction Toolkit/2.0.2/Starter Assets/XRI Default Input Actions.inputactions");
-        var map = asset.actionMaps[(int)actionMap];
-        InputAction tmp=null;
-        foreach (var a in map.actions)
-            if (a.name == action)
-                tmp = a;
-
-        print(tmp);
-        
-        InputAction result = new InputAction(actionMap.ToString().Replace('_', ' ')+"/"+action, tmp.type, null, tmp.interactions, tmp.processors, tmp.expectedControlType);
-        foreach (var v in tmp.bindings)
-            result.AddBinding(v);
-
-        return result;
-    }
-
-    public static T Load<T>(string path) where T : Object
-    {
-         return UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);
-    }
     public static Transform FindChildMatchName(Transform tr, string name)
-    {
-        return FindChildMatchName(tr, new string[]{name});
-    }
+    { return FindChildMatchName(tr, new string[]{name}); }
     public static Transform FindChildMatchName(Transform tr, string[] names)
     {
         
@@ -60,9 +57,7 @@ public class Utility : MonoBehaviour
     }
 
     public static Transform FindChildContainsName(Transform tr, string name)
-    {
-        return FindChildContainsName(tr, new string[]{name});
-    }
+    { return FindChildContainsName(tr, new string[]{name}); }
     public static Transform FindChildContainsName(Transform tr, string[] names)
     {
         if (tr == null)
@@ -124,5 +119,37 @@ public class Utility : MonoBehaviour
         
         return;
     }
+    #if UNITY_EDITOR
+    public static InputActionReference FindInputReference(ActionMap actionMap, string action)
+    {
+        var references = UnityEditor.AssetDatabase.LoadAllAssetRepresentationsAtPath("Assets/3.Util/XR/Samples/XR Interaction Toolkit/2.0.2/Starter Assets/XRI Default Input Actions.inputactions");
+        foreach (var reference in references)
+            if (reference.name == actionMap.ToString().Replace('_', ' ')+"/"+action)
+                return reference as InputActionReference;
+        return null;
+    }
+
+    public static InputAction CloneAction(ActionMap actionMap, string action)
+    {
+        var asset = UnityEditor.AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets/3.Util/XR/Samples/XR Interaction Toolkit/2.0.2/Starter Assets/XRI Default Input Actions.inputactions");
+        var map = asset.actionMaps[(int)actionMap];
+        InputAction tmp=null;
+        foreach (var a in map.actions)
+            if (a.name == action)
+                tmp = a;
+
+        print(tmp);
+        
+        InputAction result = new InputAction(actionMap.ToString().Replace('_', ' ')+"/"+action, tmp.type, null, tmp.interactions, tmp.processors, tmp.expectedControlType);
+        foreach (var v in tmp.bindings)
+            result.AddBinding(v);
+
+        return result;
+    }
+
+    public static T Load<T>(string path) where T : Object
+    {
+         return UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);
+    }
+    #endif
 }
-#endif
