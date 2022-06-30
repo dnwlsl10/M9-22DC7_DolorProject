@@ -14,6 +14,8 @@ public class UIManagerV2 : MonoBehaviour
     private BasicWeapon bw;
     [SerializeField]
     private SkillShield sw;
+    [SerializeField]
+    private GuidedMissile gm;
     /*----------------------*/
 
     [Header("HP_STATUS")]
@@ -69,24 +71,24 @@ public class UIManagerV2 : MonoBehaviour
     /*------------------end Event Method-----------------*/
 
     /*------------------start Tweening Method-----------------*/
-    public void UlitimatFilledTween()
-    {
-        if(Ultimate_Skill.fillAmount >= 1 && b_Notification == false)
-        {
-            NotificationEvent.PlayNotification();
-            b_Notification = true;
-        }
-        else if(Ultimate_Skill.fillAmount != 1)
-        {
-            b_Notification = false;
-            return;
-        }
-    }
+    // public void UlitimatFilledTween()
+    // {
+    //     if(Ultimate_Skill.fillAmount >= 1 && b_Notification == false)
+    //     {
+    //         NotificationEvent.PlayNotification();
+    //         b_Notification = true;
+    //     }
+    //     else if(Ultimate_Skill.fillAmount != 1)
+    //     {
+    //         b_Notification = false;
+    //         return;
+    //     }
+    // }
 
-    public void HPWarningTween()
-    {
+    // public void HPWarningTween()
+    // {
 
-    }
+    // }
     /*------------------end Tweening Method-----------------*/
 
     private void OnEnable()
@@ -94,6 +96,7 @@ public class UIManagerV2 : MonoBehaviour
         status.OnHpValueChange += HPUpdate;
         bw.OnValueChange += BulletUpdate;
         sw.OnValueChange += ShieldUpdate;
+        gm.OnValueChange += UlitimateUpdate;
     }
 
     private void OnDisable()
@@ -101,18 +104,7 @@ public class UIManagerV2 : MonoBehaviour
         status.OnHpValueChange -= HPUpdate;
         bw.OnValueChange -= BulletUpdate;
         sw.OnValueChange -= ShieldUpdate;
-    }
+        gm.OnValueChange -= UlitimateUpdate;
 
-    void Update()
-    {
-        UlitimatFilledTween();
-        if(Input.GetMouseButtonDown(0))
-        {
-            Ultimate_Skill.fillAmount += 0.3f;
-        }
-        if(Input.GetMouseButtonDown(2))
-        {
-            Ultimate_Skill.fillAmount -= 0.3f;
-        }
     }
 }
