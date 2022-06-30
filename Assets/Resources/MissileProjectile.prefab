@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3249020327618228611}
   - component: {fileID: 1925584967316422182}
   - component: {fileID: 4421965401738103532}
-  m_Layer: 28
+  m_Layer: 3
   m_Name: Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3070451895120743349}
   - component: {fileID: 3070451895120743346}
-  m_Layer: 28
+  m_Layer: 3
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +221,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3070451895229637373}
   - component: {fileID: 3070451895229637372}
-  m_Layer: 28
+  m_Layer: 3
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 3070451896682296289}
   - component: {fileID: 3070451896682296288}
   - component: {fileID: 3070451896682296291}
-  m_Layer: 28
+  m_Layer: 3
   m_Name: Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -470,7 +470,7 @@ GameObject:
   - component: {fileID: -2140940927140737151}
   - component: {fileID: 1653157118604063610}
   - component: {fileID: 121379076166881444}
-  m_Layer: 28
+  m_Layer: 3
   m_Name: MissileProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -533,8 +533,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfe0e155ab42ccd4bb51b1970b464c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: []
-  speed: 10
   timeSpeed: 10
 --- !u!114 &1653157118604063610
 MonoBehaviour:

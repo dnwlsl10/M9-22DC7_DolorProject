@@ -8,6 +8,10 @@ public class GuidedMissile : WeaponBase , IInitialize
 {
     public event Cur_MaxEvent OnValueChange;
 
+    [Header("CrossHair")]
+    [SerializeField]
+    private GuidedMissileCrossHair gmSystem;
+
     [Header("SpawnPoint")]
     public Transform bulletSpawnPoint;
     [Header("CurvedRangePath")]
@@ -28,11 +32,11 @@ public class GuidedMissile : WeaponBase , IInitialize
     private WaitForSeconds ar = new WaitForSeconds(0.2f);
 
     public bool isAutomatic;
-    IEnumerator coroutineHolder;
+    Coroutine coroutineHolder;
 
     [Header("Remote Player")]
     [SerializeField]
-    private GameObject target;
+    private Transform target;
 
     [ContextMenu("Init")]
     public void Reset()
@@ -45,7 +49,8 @@ public class GuidedMissile : WeaponBase , IInitialize
         weaponSetting.damage = 1;
         handSide = HandSide.Right;
         isAutomatic = true;
-
+        if(gmSystem == null)
+            gmSystem = this.GetComponent<GuidedMissileCrossHair>();
         if (bullet == null)
             bullet = Resources.Load("MissileProjectile") as GameObject;
 
@@ -93,31 +98,48 @@ public class GuidedMissile : WeaponBase , IInitialize
 
         if (isAutomatic)
         {
-            //coroutineHolder = ContinuousFire();
-            StartCoroutine(ContinuousFire());
+            gmSystem.state = eState.Tracking;
+            gmSystem.ActivateGuidedMissile(); //키를 누르고 있는동안 
         }
-        else
-            OnAttack();
     }
 
-    public override void StopWeaponAction()
+
+    public override void StopWeaponAction() //키를 땠을때 
     {
-        if (coroutineHolder != null)
-            StopCoroutine(coroutineHolder);
+       
+        if (gmSystem.state == eState.Tracking)
+        {
+            Debug.Log("stop tracking");
+            gmSystem.CancleGuidedMissile();
+            gmSystem.state = eState.Normal;     
+        }
+        else if(gmSystem.state == eState.TrackingComplete)
+        {
+            Debug.Log("Fire");
+            coroutineHolder = StartCoroutine(ContinuousFire());
+        }
     }
 
     public override void StartReload()
     {
         if (isReloading)
             return;
+        
+        if(coroutineHolder !=null) 
+        {
+            StopCoroutine(coroutineHolder);
+            coroutineHolder = null;
+        }
 
-        StopWeaponAction();
+        //다 맞은 후 꺼지는 걸로 변경 예정 
+        gmSystem.CancleGuidedMissile();
+        gmSystem.state = eState.Normal;
         StartCoroutine(OnReload());
     }
 
     IEnumerator ContinuousFire()
     {
-        while (CurrentAmmo >=0)
+        while (true)
         {
             yield return ar;
             OnAttack();
@@ -127,10 +149,12 @@ public class GuidedMissile : WeaponBase , IInitialize
     private void OnAttack()
     {
         // if not ready-to-shoot, return
-        if (CurrentAmmo <= 0) return;
-        Debug.Log("test");
-            
-        this.target = GameObject.Find("Enemy");
+        if (CurrentAmmo <= 0){
+            Debug.LogFormat("CurrentAmmo : {0}", CurrentAmmo);
+            return;
+        }
+ 
+        this.target = gmSystem.enemyTarget;
         int randIndex = Random.Range(0, randomPath.Count - 1);
         Vector3 dir = new Vector3(Random.Range(-1f, 1f), Random.Range(0.1f, 1f),0);
 
@@ -139,7 +163,7 @@ public class GuidedMissile : WeaponBase , IInitialize
 
         Vector3 p1 = bulletSpawnPoint.transform.position;
         Vector3 p2 = new Vector3(randomPath[randIndex].position.x, randomPath[randIndex].position.y, 0) + dir;
-        Vector3 p3 = target.transform.position;
+        Vector3 p3 = target.position;
 
         var missile = NetworkObjectPool.SpawnFromPool<Missile>(bullet.name, bulletSpawnPoint.transform.position, Quaternion.identity);
         photonView.CustomRPC(missile, "RPCPath", RpcTarget.AllViaServer, p1, p2, p3);
@@ -166,9 +190,16 @@ public class GuidedMissile : WeaponBase , IInitialize
         isReloading = true;
 
         yield return new WaitForSeconds(2f);
-        while (false /* until reload procedure finish */)
+        while (CurrentAmmo != weaponSetting.maxAmmo)
+        {
             yield return null;
-
+            Debug.Log(weaponSetting.maxAmmo);
+            Debug.Log(CurrentAmmo);
+            CurrentAmmo += 0.1f;    //시간당 게이지 시스템
+            //히트 시 게이지 시스템
+            //UI 표시
+        }
+        
         isReloading = false;
 
         CurrentAmmo = weaponSetting.maxAmmo;

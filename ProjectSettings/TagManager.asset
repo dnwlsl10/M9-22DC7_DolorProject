@@ -13,7 +13,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - MissileProjectile
   - Water
   - UI
   - Ground
@@ -26,6 +26,8 @@ TagManager:
   - 
   - 
   - 
+  - Bullet
+  - Builder
   - 
   - 
   - 
@@ -33,9 +35,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - Enemy
   - AutoHand
   - Map
   - HandPlayer
