@@ -81,7 +81,7 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
 
     List<WeaponBase> leftHandWeapon;
     List<WeaponBase> rightHandWeapon;
-    private bool[] canUseSkill;
+    public bool[] canUseSkill;
     private bool isRightGrab;
     private bool isLeftGrab;
     private bool usingRight;
@@ -222,6 +222,7 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
     void StopWeaponEvent(InputAction.CallbackContext ctx)
     {
         if (buttonWeaponPair.TryGetValue(ctx.action, out WeaponBase weaponBase))
+        {
             weaponBase.StopWeaponAction();
             if (weaponBase.handSide == HandSide.Left)
             {
@@ -231,5 +232,25 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
             {
                 usingRight = false;
             }
+        }
+    }
+
+    public void StopWeaponEvent(WeaponName weaponName)
+    {
+        foreach (var button in buttonMaps)
+            if (button.weaponName == weaponName)
+                if (buttonWeaponPair.TryGetValue(button.button.action, out WeaponBase weaponBase))
+                {
+                    weaponBase.StopWeaponAction();
+                    if (weaponBase.handSide == HandSide.Left)
+                    {
+                        usingLeft = false;
+                    }
+                    else
+                    {
+                        usingRight = false;
+                    }
+                }
+                    
     }
 }

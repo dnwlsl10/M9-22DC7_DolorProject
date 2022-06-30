@@ -5,24 +5,18 @@ using UnityEngine;
 public class Connector : MonoBehaviour
 {
     public LineRenderer lineRenderer;
+    private Transform targetTransform;
 
-    private Vector3 startPosition;
-    private Vector3 endPosition;
-    private bool makeConnection;
-
-    public void MakeConnection(Vector3 startPos, Vector3 endPos)
+    public void SetTarget(Transform target)
     {
-        startPosition = startPos;
-        endPosition = endPos;
-
-        makeConnection = true;
+        targetTransform = target;
     }
     void Update()
     {
-        if (makeConnection)
+        if (targetTransform != null) // 이 반경안에 적이 들어왔다면
         {
-            lineRenderer.SetPosition(0, startPosition);
-            lineRenderer.SetPosition(1, endPosition);
+            lineRenderer.SetPosition(0, transform.position);
+            lineRenderer.SetPosition(1, targetTransform.position);
         }
     }
 }

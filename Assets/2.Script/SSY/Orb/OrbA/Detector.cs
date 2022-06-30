@@ -2,77 +2,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Link
-{
-    public GameObject link;
-    public Connector connector;
-    public string targetName;
-}
+
 public class Detector : MonoBehaviour
 {
+    struct study // 스트럭트 - 값을 저장하는 컨테이너와 같은 / 
+    {
+        public Connector connector;
+        public WeaponSystem weaponSystem;
+    }
+    // 딕셔너리 - 1대1 매칭 때 사용하기 용이, 키값은 유니크해야함!!!!!(단하나와 같은)
     public GameObject linkPrefab;
-    SkillShield skillShield;
-    private List<Link> linksList = new List<Link>();
+    Dictionary<Transform, study> dic = new Dictionary<Transform, study>();
 
-
-    // other가 skillshild스크립트를 가지고 있으면(if) skillshield의 isLink를 true로 한다.
-    // 그리고 skillshield의 stopweaponaction을 호출한다. //이미 상대방이 쉴드를 사용 중이었다면 강제로 끊어내준다.
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other) //OrbA에 맞았을 때 맞은 대상 == UI에 방패불가라는 텍스트를 띄어주는
     {
-        if (other.gameObject.tag == "Enemy") //내가 아닌 나 == 상대방
+        if (other.transform.root.tag.Equals("Enemy")) //내가 아닌 나 == 상대방
         {
-            if (linkPrefab != null) //링크프리팹이 들어있다면 그대로 진행
-            {
+            if (dic.ContainsKey(other.transform.root)) return;
 
-                Link newLink = new Link() { link = Instantiate(linkPrefab) as GameObject }; //게임 오브젝트 생성해서 
-                newLink.connector = newLink.link.GetComponent<Connector>(); 
-                newLink.targetName = other.name;
-                linksList.Add(newLink);
+            print("FIND ENEMY");
 
-                    skillShield = GetComponent<SkillShield>();
-                if (newLink.connector != null)
-                {
-                    print("적 발견(속도저하, 위치발각)");
-                    newLink.connector.MakeConnection(transform.position, other.transform.position); //오브에서 적을 연결!
-                    //skillShield.isLinked = true;
-                    skillShield.StopWeaponAction();
-                }
-            }
+            study s = new study();
 
+            GameObject link = Instantiate(linkPrefab);
+            link.transform.parent = this.transform;
+            link.transform.localPosition = Vector3.zero;
+            s.connector = link.GetComponent<Connector>();
+            s.connector.SetTarget(other.transform.root);
+
+
+            WeaponSystem weaponSystem = other.transform.root.GetComponentInChildren<WeaponSystem>();
+            weaponSystem.canUseSkill[(int)WeaponName.Shield] = false;
+            weaponSystem.StopWeaponEvent(WeaponName.Shield);
+
+            s.weaponSystem = weaponSystem;
+            dic.Add(other.transform.root, s);
         }
     }
 
-    void OnTriggerStay(Collider other)
+    void OnTriggerExit(Collider other) // 방패불가라는 텍스트가 꺼짐.
     {
-        if (linksList.Count > 0)
+        if (dic.TryGetValue(other.transform.root, out study s))
         {
-            for (int i = 0; i < linksList.Count; i++)
-            {
-                if (other.name == linksList[i].targetName)
-                {
-                    print("update link");
-                    linksList[i].connector.MakeConnection(transform.position, other.transform.position);
-                }
-            }
-        }
-    }
+            print("Exited");
+            s.weaponSystem.canUseSkill[(int)WeaponName.Shield] = true;
 
-    // isLinked를 다시 false로 바꾼다
-    void OnTriggerExit(Collider other)
-    {
-        if (linksList.Count > 0)
-        {
-            for (int i = 0; i < linksList.Count; i++)
-            {
-                if (other.name == linksList[i].targetName)
-                {
-                    print("Exited");
-                    skillShield = GetComponent<SkillShield>();
-                    // skillShield.isLinked = false;
-                    Destroy(linksList[i].link);
-                }
-            }
+            Destroy(s.connector.gameObject);
         }
-
     }
 }

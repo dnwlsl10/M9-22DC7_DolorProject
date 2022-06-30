@@ -105,7 +105,7 @@ public class SkillShield : WeaponBase, IDamageable
         {
             anim.CrossFade("ShieldOn", 0.1f);
         }
-        if (isStart == false)
+        if (isStart == false && anim.GetCurrentAnimatorStateInfo(0).IsName("ShieldOn") == true)
         {
             anim.CrossFade("ShieldOff", 0.1f);
         }
