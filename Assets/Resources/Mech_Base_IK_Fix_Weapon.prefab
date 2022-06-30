@@ -6575,6 +6575,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.217
       objectReference: {fileID: 0}
+    - target: {fileID: 5245856468580941172, guid: df700dbc90b28f844aad9a231c83b4b3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5970413424952093713, guid: df700dbc90b28f844aad9a231c83b4b3, type: 3}
       propertyPath: sceneViewId
       value: 0

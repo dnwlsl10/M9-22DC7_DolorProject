@@ -73,11 +73,10 @@ public class Missile : MonoBehaviourPun
 
     private void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Hit");
+        if(other.collider.tag == "Enemy") isHit = true;
+
         if(!photonView.Mine && other.collider.tag == "Player" && other.collider.TryGetComponent<PhotonView>(out PhotonView pv) && pv.Mine){
             //other.gameObject.GetComponent<IDamageable>().TakeDamage(5f);
-            Debug.Log("Hit2");
-            this.gameObject.SetActive(false);
             isHit = true;
         }
 

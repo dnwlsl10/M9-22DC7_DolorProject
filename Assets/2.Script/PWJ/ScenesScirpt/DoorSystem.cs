@@ -12,6 +12,12 @@ public  class DoorSystem : MonoBehaviour
     public virtual void Enter(){}
     public virtual void Exit(){}
 
+    public void Open()
+    {
+        leftDoor.SetTrigger("open");
+        rigthDoor.SetTrigger("open");
+    }
+
     public virtual void Open(System.Action OnOpen)
     {
         leftDoor.SetTrigger("open");

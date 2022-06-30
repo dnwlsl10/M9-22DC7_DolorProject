@@ -59,7 +59,8 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
             input_name_pair.Add(Utility.CloneAction(ActionMap.XRI_RightHand_Interaction, "Activate"), WeaponName.Basic);
         if (input_name_pair.ContainsValue(WeaponName.Shield) == false)
             input_name_pair.Add(Utility.CloneAction(ActionMap.XRI_LeftHand_Interaction, "Activate"), WeaponName.Shield);
-
+        if(input_name_pair.ContainsValue(WeaponName.Missile) == false)
+            input_name_pair.Add(Utility.CloneAction(ActionMap.XRI_RightHand_Interaction, "GuidedMissile"), WeaponName.Missile);
         
 #if test
         grabL = Utility.FindInputReference(ActionMap.XRI_LeftHand_Interaction, "Select");

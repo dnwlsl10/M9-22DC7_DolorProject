@@ -149,15 +149,130 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c686e3eb128904fbe68d54917bc979, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonMaps:
-  - weaponName: 0
-    button: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - weaponName: 1
-    button: {fileID: -5982496924579745919, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - weaponName: 2
-    button: {fileID: -2664691354614307530, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  grabL: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  grabR: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  input_name_pair:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues:
+    - m_Name: XRI RightHand Interaction/Activate
+      m_Type: 1
+      m_ExpectedControlType: Button
+      m_Id: 1db8a3a5-b4c3-494b-ac47-95c5cdfccc32
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: fa59aed1-ae0b-4074-a58c-294b85f46228
+        m_Path: <XRController>{RightHand}/triggerPressed
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: Generic XR Controller
+        m_Action: XRI RightHand Interaction/Activate
+        m_Flags: 0
+      m_Flags: 0
+    - m_Name: XRI LeftHand Interaction/Activate
+      m_Type: 1
+      m_ExpectedControlType: Button
+      m_Id: a3657d50-cd2f-4ad1-be06-7948680d8311
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: 487f4f2e-9e9b-49aa-b0f2-4037a24624f5
+        m_Path: <XRController>{LeftHand}/triggerPressed
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: Generic XR Controller
+        m_Action: XRI LeftHand Interaction/Activate
+        m_Flags: 0
+      m_Flags: 0
+    - m_Name: XRI RightHand Interaction/GuidedMissile
+      m_Type: 1
+      m_ExpectedControlType: Button
+      m_Id: 747c5029-cbd4-4156-a121-7369855df4f0
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: adebd903-fa5d-487c-8e74-dca509ce6c55
+        m_Path: <XRController>{RightHand}/secondaryButton
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: Generic XR Controller
+        m_Action: XRI RightHand Interaction/GuidedMissile
+        m_Flags: 0
+      m_Flags: 0
+    _keys:
+    - m_Name: XRI RightHand Interaction/Activate
+      m_Type: 1
+      m_ExpectedControlType: Button
+      m_Id: 1db8a3a5-b4c3-494b-ac47-95c5cdfccc32
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: fa59aed1-ae0b-4074-a58c-294b85f46228
+        m_Path: <XRController>{RightHand}/triggerPressed
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: Generic XR Controller
+        m_Action: XRI RightHand Interaction/Activate
+        m_Flags: 0
+      m_Flags: 0
+    - m_Name: XRI LeftHand Interaction/Activate
+      m_Type: 1
+      m_ExpectedControlType: Button
+      m_Id: a3657d50-cd2f-4ad1-be06-7948680d8311
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: 487f4f2e-9e9b-49aa-b0f2-4037a24624f5
+        m_Path: <XRController>{LeftHand}/triggerPressed
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: Generic XR Controller
+        m_Action: XRI LeftHand Interaction/Activate
+        m_Flags: 0
+      m_Flags: 0
+    - m_Name: XRI RightHand Interaction/GuidedMissile
+      m_Type: 1
+      m_ExpectedControlType: Button
+      m_Id: 747c5029-cbd4-4156-a121-7369855df4f0
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: adebd903-fa5d-487c-8e74-dca509ce6c55
+        m_Path: <XRController>{RightHand}/secondaryButton
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: Generic XR Controller
+        m_Action: XRI RightHand Interaction/GuidedMissile
+        m_Flags: 0
+      m_Flags: 0
+    _values: 000000000100000002000000
+  grabL: {fileID: -6131295136447488360, guid: b212627b2d7d7b547ba7c981ca0c6bec, type: 3}
+  grabR: {fileID: 187161793506945269, guid: b212627b2d7d7b547ba7c981ca0c6bec, type: 3}
   testMode: 0
 --- !u!1 &8692011449641214084
 GameObject:
@@ -232,7 +347,7 @@ MonoBehaviour:
   weaponSetting:
     weaponName: 0
     damage: 1
-    currentAmmo: 0
+    currentAmmo: 20
     maxAmmo: 10
     attackRate: 0.2
     attackDistance: 10
@@ -271,6 +386,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8692011448270903494}
     m_Modifications:
+    - target: {fileID: 514387706325356126, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.07801536
+      objectReference: {fileID: 0}
+    - target: {fileID: 514387706325356126, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.07801535
+      objectReference: {fileID: 0}
+    - target: {fileID: 514387706325356126, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.07801535
+      objectReference: {fileID: 0}
+    - target: {fileID: 514387706325356126, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 9.222
+      objectReference: {fileID: 0}
+    - target: {fileID: 514387706325356126, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0173
+      objectReference: {fileID: 0}
+    - target: {fileID: 514387706325356126, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 514387706325356126, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 514387706325356126, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 514387706325356126, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 514387706325356126, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1872111279011356157, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1872111279011356157, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2908577295761231464, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -315,9 +478,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2908577295761231465, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
+      propertyPath: gmSystem
+      value: 
+      objectReference: {fileID: 6363595007051247092}
     - target: {fileID: 2908577295761231467, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
       propertyPath: m_Name
       value: GuidedMissile
+      objectReference: {fileID: 0}
+    - target: {fileID: 6958150526070124646, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
@@ -326,3 +497,59 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2908577295761231464, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
   m_PrefabInstance: {fileID: 2908577295036370194}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6363595007051247092 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8074198023448944870, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
+  m_PrefabInstance: {fileID: 2908577295036370194}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f699d2bc6d9d5384486b1eba3f8e47d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &3577622724414116073 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1872111279011356155, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
+  m_PrefabInstance: {fileID: 2908577295036370194}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3066947936832714195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3577622724414116073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe32c61157b12fe44ae5f2feac1caf2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxAngle: 360
+  Curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  LoopLength: 0.8
+  Offset: 0
+  Axis: {x: 0, y: 0, z: 1}

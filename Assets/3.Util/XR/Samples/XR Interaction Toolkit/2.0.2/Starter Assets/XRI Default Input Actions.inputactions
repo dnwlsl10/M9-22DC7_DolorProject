@@ -987,10 +987,10 @@
                 {
                     "name": "",
                     "id": "adebd903-fa5d-487c-8e74-dca509ce6c55",
-                    "path": "<XRController>{RightHand}/primaryButton",
+                    "path": "<XRController>{RightHand}/secondaryButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Generic XR Controller",
                     "action": "GuidedMissile",
                     "isComposite": false,
                     "isPartOfComposite": false
