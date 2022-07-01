@@ -3981,7 +3981,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gripL: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   gripR: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  test: 1
 --- !u!114 &2690295033233248255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7114,7 +7113,6 @@ MonoBehaviour:
   canUseSkill: 
   grabL: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   grabR: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  testMode: 1
 --- !u!114 &6584432319862565407
 MonoBehaviour:
   m_ObjectHideFlags: 0
