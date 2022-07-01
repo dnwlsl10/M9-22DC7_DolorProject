@@ -55,6 +55,6 @@ public class NetworkPooledObject : MonoBehaviourPun
     private void OnDisable()
     {
         if (photonView.Mine)
-            NetworkObjectPool.ReturnToPool(gameObject);
+            NetworkObjectPool.instance.ReturnToPool(gameObject);
     }
 }

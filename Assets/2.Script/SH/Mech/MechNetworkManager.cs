@@ -71,6 +71,6 @@ public class MechNetworkManager : MonoBehaviourPun, IInitialize, IPunInstantiate
             obj.layer = remoteLayer;
     }
 
-    public void OnPhotonInstantiate(PhotonMessageInfo info) => photonView.RPC("RegistSelf", RpcTarget.AllViaServer);
+    public void OnPhotonInstantiate(PhotonMessageInfo info) {if (photonView.Mine) photonView.RPC("RegistSelf", RpcTarget.AllViaServer);}
     [PunRPC] void RegistSelf() => InGameManager.instance.RegisterMech(gameObject);
 }

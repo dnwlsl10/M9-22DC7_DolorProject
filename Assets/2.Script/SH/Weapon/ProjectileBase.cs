@@ -37,7 +37,7 @@ public class ProjectileBase : MonoBehaviourPun
 
         foreach (var effect in EffectsOnCollision)
         {
-            var instance = ObjectPooler.SpawnFromPool(effect, intersection + normal * instanceNormalPositionOffset, new Quaternion()) as GameObject;
+            var instance = ObjectPooler.instance.SpawnFromPool(effect, intersection + normal * instanceNormalPositionOffset, new Quaternion()) as GameObject;
             if (!setParentToParentObject) instance.transform.parent = transform;
             instance.transform.LookAt(intersection + normal);
         }

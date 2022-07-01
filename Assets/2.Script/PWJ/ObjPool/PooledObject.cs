@@ -8,7 +8,7 @@ public class PooledObject : MonoBehaviour
 {
     private void OnDisable() {
   
-            ObjectPooler.ReturnToPool(gameObject);
+        ObjectPooler.instance.ReturnToPool(gameObject);
     
     }
 }

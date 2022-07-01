@@ -49,7 +49,7 @@ public class MissileFire : MonoBehaviourPun
         
         count--;//인보크로 발사갯수를 차감하고 카운트가 0과 같아지면 리턴. 그전까지는 발사시간(0.2f)마다 생성해서 발사해준다.
         Debug.Log("Test");
-        GameObject missile = NetworkObjectPool.SpawnFromPool("DolorMissileKey2", firePosition.transform.position, Quaternion.identity);
+        GameObject missile = NetworkObjectPool.instance.SpawnFromPool("DolorMissileKey2", firePosition.transform.position, Quaternion.identity);
         missile.transform.position = firePosition.transform.position;
         // 로켓에게 커브에 관련된 점배열을 알려주고싶다.
         Missile m = missile.GetComponent<Missile>();

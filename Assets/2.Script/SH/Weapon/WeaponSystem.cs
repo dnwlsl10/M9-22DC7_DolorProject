@@ -76,8 +76,8 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
     WeaponBase[] weapons;
     List<int>[] weaponIndex_byHand;
     public bool[] canUseSkill;
-    private bool[] isGrabbing;
-    private bool[] usingSkill;
+    [SerializeField]private bool[] isGrabbing;
+    [SerializeField]private bool[] usingSkill;
 
     void SetGrabState(int index, bool value)
     {
@@ -86,15 +86,15 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
         if (value == false)
         {
             foreach (int i in weaponIndex_byHand[index])
-                weapons[i].StopWeaponAction();   
+                weapons[i].StopWeaponAction();
             usingSkill[index] = false;
         }
 
         isGrabbing[index] = value;
     }
 
-    public void OnGrabRight(bool grabbing) => SetGrabState((int)HandSide.Left, grabbing);
-    public void OnGrabLeft(bool grabbing) => SetGrabState((int)HandSide.Right, grabbing);
+    public void OnGrabLeft(bool grabbing) => SetGrabState((int)HandSide.Left, grabbing);
+    public void OnGrabRight(bool grabbing) => SetGrabState((int)HandSide.Right, grabbing);
 
     private void Awake() 
     {
@@ -122,8 +122,6 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
             weapons[index] = weapon;
             weaponIndex_byHand[(int)weapon.handSide].Add(index);
         }
-        
-        input_name_pair = null;
     }
 
     void StartWeaponEvent(InputAction.CallbackContext ctx)
@@ -132,11 +130,10 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
         if (canUseSkill[index] == false) return;
 
         WeaponBase weapon = weapons[index];
-        index = (int)weapon.handSide;
-        
-        if (isGrabbing[index] == true && usingSkill[index] == false)
+        int handIndex = (int)weapon.handSide;
+        if (isGrabbing[handIndex] == true && usingSkill[handIndex] == false)
         {
-            usingSkill[index] = true;
+            usingSkill[handIndex] = true;
             weapon.StartWeaponAction();
         }
         else
