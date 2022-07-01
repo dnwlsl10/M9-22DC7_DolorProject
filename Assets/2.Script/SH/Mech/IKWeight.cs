@@ -10,7 +10,6 @@ public class IKWeight : MonoBehaviourPun
     #if test
     public InputActionReference gripL;
     public InputActionReference gripR;
-    public bool test;
 
     void Reset()
     {
@@ -24,7 +23,7 @@ public class IKWeight : MonoBehaviourPun
     void OnRightGripEvent(InputAction.CallbackContext ctx) => OnRightGripEvent(ctx.ReadValueAsButton() ? 1 : 0);
 
     private void OnEnable() {
-        if (test == false || photonView.cachedMine == false) return;
+        if (Utility.isVRConnected || photonView.cachedMine == false) return;
 
         gripL.action.started += OnLeftGripEvent;
         gripL.action.canceled += OnLeftGripEvent;
@@ -32,7 +31,7 @@ public class IKWeight : MonoBehaviourPun
         gripR.action.canceled += OnRightGripEvent;
     }
     private void OnDisable() {
-        if (test == false || photonView.cachedMine == false) return;
+        if (Utility.isVRConnected || photonView.cachedMine == false) return;
 
         gripL.action.started -= OnLeftGripEvent;
         gripL.action.canceled -= OnLeftGripEvent;

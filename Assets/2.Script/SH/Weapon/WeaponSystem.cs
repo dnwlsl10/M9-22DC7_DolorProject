@@ -152,7 +152,6 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
     [Header("Test")]
     public InputActionReference grabL;
     public InputActionReference grabR;
-    public bool testMode;
     private void OnGrabLeft(InputAction.CallbackContext ctx) => OnGrabLeft(ctx.ReadValueAsButton());
     private void OnGrabRight(InputAction.CallbackContext ctx) => OnGrabRight(ctx.ReadValueAsButton());
 #endif
@@ -169,7 +168,7 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
 
         #if test
         Debug.LogWarning("WeaponSystem is in testMode");
-        if (testMode == true)
+        if (Utility.isVRConnected == false)
         {
             grabL.action.started += OnGrabLeft;
             grabR.action.started += OnGrabRight;
@@ -189,7 +188,7 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
         }
 
         #if test
-        if (testMode == true)
+        if (Utility.isVRConnected == false)
         {
             grabL.action.started -= OnGrabLeft;
             grabR.action.started -= OnGrabRight;

@@ -54,12 +54,17 @@ MonoBehaviour:
   - SetPath
   - ReturnToPoolRPC
   - RPCPath
+<<<<<<< HEAD
   - BulletHit
   - CallRpc
   - CDCHit
   - CreateOrb
   - LinkExit
   - LinkStart
+=======
+  - SelfDisable
+  - Ready
+>>>>>>> develop
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

@@ -2488,7 +2488,9 @@ namespace Photon.Pun
             if (SingleMode)
             {
                 Debug.Log("Unity Instantiate");
-                return UnityEngine.Object.Instantiate((GameObject)Resources.Load(prefabName), position, rotation);
+                GameObject obj = UnityEngine.Object.Instantiate((GameObject)Resources.Load(prefabName), position, rotation);
+                // if (obj.TryGetComponent<UnityE)
+                return obj;
             }
             if (CurrentRoom == null)
             {

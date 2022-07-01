@@ -15,9 +15,10 @@ public class DamagePasser : MonoBehaviour, IDamageable
         target = transform.root.GetComponent<IDamageable>();
     }
 
-    public void TakeDamage(float damage)
+    public bool TakeDamage(float damage)
     {
         PassDamage(damage);
+        return true;
     }
 
     public void PassDamage(float damage)

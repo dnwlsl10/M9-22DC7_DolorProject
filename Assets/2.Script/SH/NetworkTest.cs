@@ -9,16 +9,19 @@ using TMPro;
 public class NetworkTest : MonoBehaviourPunCallbacks
 {
     public GameObject playerPrefab;
-    public GameObject simulator;
-    public bool testMode;
-
+    [SerializeField] byte maxPlayer;
     private void Start() 
     {
         PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.GameVersion = "1.0";
         
-        if (testMode) Invoke("SpawnSimulator", 1);
+    }
+
+    [ContextMenu("GameStart")]
+    void ForceStart()
+    {
+        OnPlayerEnteredRoom(null);
     }
 
 #region NetworkConnect
@@ -43,22 +46,17 @@ public class NetworkTest : MonoBehaviourPunCallbacks
 #region Room
     public void CreateRoom() 
     {
-        PhotonNetwork.CreateRoom("Room" + 99, new RoomOptions {MaxPlayers = 2});
+        PhotonNetwork.CreateRoom("Room" + 99, new RoomOptions {MaxPlayers = maxPlayer});
     }
     
-    public void JoinRandomRoom() => PhotonNetwork.JoinOrCreateRoom("Room99", new RoomOptions {MaxPlayers = 2}, TypedLobby.Default);
+    public void JoinRandomRoom() => PhotonNetwork.JoinOrCreateRoom("Room99", new RoomOptions {MaxPlayers = maxPlayer}, TypedLobby.Default);
 
     public void LeaveRoom() => PhotonNetwork.LeaveRoom();
 
-    public GameObject objPool;
     public override void OnCreatedRoom()
     {
         print("Joined Room" + PhotonNetwork.CurrentRoom.PlayerCount);
         
-    }
-    private void SpawnSimulator()
-    {
-        Instantiate(simulator);
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -74,7 +72,7 @@ public class NetworkTest : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.CurrentRoom.PlayerCount == maxPlayer && PhotonNetwork.IsMasterClient)
         {
             photonView.RPC("GameStart", RpcTarget.AllViaServer);
         }
