@@ -75,7 +75,7 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
 
     WeaponBase[] weapons;
     List<int> leftHandWeapon, rightHandWeapon;
-    private bool[] canUseSkill;
+    public bool[] canUseSkill;
     private bool[] isGrabbing = new bool[2];
     private bool[] usingSkill = new bool[2];
 
