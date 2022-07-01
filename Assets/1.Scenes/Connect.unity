@@ -704,7 +704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1288883811d54fc4ea895a41e715d09a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 163883684602297451, guid: f3984247622b26d479501a41dfcfd2d9, type: 3}
+  playerPrefab: {fileID: 6328400932509123261, guid: 2e8951bea20b5814fac3de0c6ef26f63, type: 3}
   target: {fileID: 498380821}
   inGame: {fileID: 1973878719}
   isTest: 1

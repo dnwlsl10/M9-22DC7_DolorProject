@@ -83,5 +83,7 @@ public class Missile : MonoBehaviourPun
         if(isHit){
             this.gameObject.SetActive(false);
         }
+
+        this.gameObject.SetActive(false);
     }
 }

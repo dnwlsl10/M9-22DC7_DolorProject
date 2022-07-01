@@ -8,12 +8,10 @@ using UnityEngine.UI;
 public class UIManagerV2 : MonoBehaviour
 {
     /*-----Event Inject-----*/
-    [SerializeField]
-    private Status status;
-    [SerializeField]
-    private BasicWeapon bw;
-    [SerializeField]
-    private SkillShield sw;
+    [SerializeField] private Status status;
+    [SerializeField] private BasicWeapon bw;
+    [SerializeField] private SkillShield sw;
+    [SerializeField] private GuidedMissile gm;
     /*----------------------*/
 
     [Header("HP_STATUS")]
@@ -26,11 +24,25 @@ public class UIManagerV2 : MonoBehaviour
     [SerializeField] private Image Shield_Skill;
     [SerializeField] private Image Orb_Skill;
 
+
+
+
+   
+
     /*-----------------------Bool Check------------------- */
     private bool b_Notification = true;
 
 
     /*------------------start Event Method-----------------*/
+    [ContextMenu("Initialize")]
+    public void Reset()
+    {
+        if (this.status == null) status = this.transform.root.root.GetComponent<Status>();
+        if (this.bw == null) bw = this.transform.root.root.Find("WeaponScript").Find("BasicWeapon").GetComponent<BasicWeapon>();
+        if (this.sw == null) sw = this.transform.root.root.Find("root").GetComponentInChildren<SkillShield>();
+        if (this.gm == null) gm = this.transform.root.root.Find("WeaponScript").Find("GuidedMissile").GetComponent<GuidedMissile>();
+    }
+
     public void HPUpdate(float cur_val, float max_val)
     {
         float per = cur_val / max_val;
@@ -91,14 +103,14 @@ public class UIManagerV2 : MonoBehaviour
 
     private void OnEnable()
     {
-        status.OnHpValueChange += HPUpdate;
+        status.OnValueChange += HPUpdate;
         bw.OnValueChange += BulletUpdate;
         sw.OnValueChange += ShieldUpdate;
     }
 
     private void OnDisable()
     {
-        status.OnHpValueChange -= HPUpdate;
+        status.OnValueChange -= HPUpdate;
         bw.OnValueChange -= BulletUpdate;
         sw.OnValueChange -= ShieldUpdate;
     }

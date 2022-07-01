@@ -9,12 +9,14 @@ using Photon.Pun;
 [RequireComponent(typeof(PhotonView))]
 public class WeaponSystem : MonoBehaviourPun, IInitialize
 {
-
     [ContextMenu("Initialize")]
     public void Reset() {
 #if UNITY_EDITOR
         IKWeight weight = transform.root.GetComponentInChildren<IKWeight>();
         DestroyImmediate(transform.root.GetComponentInChildren<GrabEvent>());
+        UIShield uIShield = transform.root.GetComponentInChildren<UIShield>();
+        UIBasicWeapon uIBasicWeapon = transform.root.GetComponentInChildren<UIBasicWeapon>();
+        UIGuidedMissile uIGuidedMissile = transform.root.GetComponentInChildren<UIGuidedMissile>();
 
         Transform tr = Utility.FindChildMatchName(transform.root, "Cockpit");
         if (tr != null)
@@ -27,6 +29,7 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
                 
                 var hilight = grababble.GetComponentInChildren<GrabControllerHighlight>();
 
+                
                 UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onGrab, OnGrabLeft, true);
                 UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onGrab, weight.OnLeftGripEvent, 1);
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onGrab, hilight.OnGrabHightlight);
@@ -34,6 +37,9 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
                 UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onRelease, OnGrabLeft, false);
                 UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onRelease, weight.OnLeftGripEvent, 0);
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, hilight.OnRelease);
+
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onGrab, uIShield.OnFirstButton);
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, uIShield.OffFirstButton);
 
             }
             else if (grababble.handType == Autohand.HandType.right)
@@ -50,6 +56,12 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
                 UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onRelease, weight.OnRightGripEvent, 0);
                 UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onRelease, OnGrabRight, false);
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, hilight.OnRelease);
+
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onGrab, uIBasicWeapon.OnFirstButton);
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, uIBasicWeapon.OffFirstButton);
+
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onGrab, uIGuidedMissile.OnFirstButton);
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, uIGuidedMissile.OffFirstButton);
             }
         }
 

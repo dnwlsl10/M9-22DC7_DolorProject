@@ -62,10 +62,8 @@ public class SkillShield : WeaponBase, IDamageable
     // {
     //     anim = GetComponent<Animator>();
     // }
-
+    public override void Initialize() => CurrentAmmo = 100;
     private void Awake() {
-        base.Awake();
-
         anim = GetComponent<Animator>();
         anim.Play("ShieldOff", 0, 1);
     }

@@ -38,6 +38,9 @@ public class BasicWeapon : WeaponBase, IInitialize
     }
     public event Cur_MaxEvent OnValueChange;
 
+    public System.Action OnPress;
+    public System.Action OnCancle;
+
     [Header("SpawnPoint")]
     public Transform bulletSpawnPoint;
 
@@ -70,7 +73,8 @@ public class BasicWeapon : WeaponBase, IInitialize
     
     public bool isAutomatic;
     IEnumerator coroutineHolder;
-
+    public override void Initialize() => CurrentAmmo = 10;
+    
     public override void StartWeaponAction()
     {
         if (isReloading)
@@ -83,12 +87,16 @@ public class BasicWeapon : WeaponBase, IInitialize
         }
         else
             OnAttack();
+
+        OnPress();
     }
 
     public override void StopWeaponAction()
     {
         if (coroutineHolder != null)
             StopCoroutine(coroutineHolder);
+
+        OnCancle();
     }
 
     public override void StartReload()

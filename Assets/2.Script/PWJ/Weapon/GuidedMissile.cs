@@ -84,6 +84,7 @@ public class GuidedMissile : WeaponBase , IInitialize
             float prevAmmo = weaponSetting.currentAmmo;
             weaponSetting.currentAmmo = Mathf.Clamp(value, 0, weaponSetting.maxAmmo);
 
+
             if (prevAmmo != weaponSetting.currentAmmo)
             {
                 OnValueChange?.Invoke(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
@@ -91,6 +92,11 @@ public class GuidedMissile : WeaponBase , IInitialize
         }
     }
 
+    public override void Initialize(){
+        Debug.Log("init2");
+        CurrentAmmo = 20;
+        OnValueChange?.Invoke(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
+    }
     public override void StartWeaponAction()
     {
         if (isReloading)
@@ -195,7 +201,7 @@ public class GuidedMissile : WeaponBase , IInitialize
             yield return null;
             Debug.Log(weaponSetting.maxAmmo);
             Debug.Log(CurrentAmmo);
-            CurrentAmmo += 0.1f;    //시간당 게이지 시스템
+            CurrentAmmo += 1f;    //시간당 게이지 시스템
             //히트 시 게이지 시스템
             //UI 표시
         }

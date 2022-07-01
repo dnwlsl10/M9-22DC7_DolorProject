@@ -94,6 +94,7 @@ public class GuidedMissileCrossHair : MonoBehaviour
                         crossHairImage.LookAt(cameraEye.transform.position);
                         crossHairImage.position = Vector3.Lerp(this.crossHairImage.position, screenHit.point, Time.deltaTime * 5f);
                         crossHairImage.rotation = Quaternion.Euler(crossHairImage.rotation.eulerAngles + new Vector3(0f, 0f, -30f));
+                        Debug.Log("fireMissile");
                         state = eState.TrackingComplete;
                     }
                 }
