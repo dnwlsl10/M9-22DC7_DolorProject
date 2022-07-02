@@ -30,6 +30,8 @@ public class GuidedMissile : WeaponBase , IInitialize
     private AudioClip onReloadSFX;
     private WaitForEndOfFrame eof = new WaitForEndOfFrame();
     private WaitForSeconds ar = new WaitForSeconds(0.2f);
+    public System.Action OnPress;
+    public System.Action OnCancle;
 
     public bool isAutomatic;
     Coroutine coroutineHolder;
@@ -106,7 +108,9 @@ public class GuidedMissile : WeaponBase , IInitialize
         {
             gmSystem.state = eState.Tracking;
             gmSystem.ActivateGuidedMissile(); //키를 누르고 있는동안 
+            OnPress();
         }
+
     }
 
 
@@ -117,13 +121,14 @@ public class GuidedMissile : WeaponBase , IInitialize
         {
             Debug.Log("stop tracking");
             gmSystem.CancleGuidedMissile();
-            gmSystem.state = eState.Normal;     
+            gmSystem.state = eState.Normal; 
         }
         else if(gmSystem.state == eState.TrackingComplete)
         {
             Debug.Log("Fire");
             coroutineHolder = StartCoroutine(ContinuousFire());
         }
+        OnCancle();
     }
 
     public override void StartReload()

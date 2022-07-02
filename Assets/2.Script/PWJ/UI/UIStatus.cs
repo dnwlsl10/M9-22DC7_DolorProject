@@ -29,8 +29,10 @@ public class UIStatus : UIBase
             coroutineHolder =null;
         }
 
-        if (hp >= 0)
+        if (hp > 0)
             coroutineHolder = StartCoroutine(OnDelay());
+
+        if(hp ==0) OnComplete();
     }
 
    IEnumerator OnDelay()

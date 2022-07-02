@@ -95,7 +95,7 @@ public class BasicWeapon : WeaponBase, IInitialize
     {
         if (coroutineHolder != null)
             StopCoroutine(coroutineHolder);
-
+        
         OnCancle();
     }
 

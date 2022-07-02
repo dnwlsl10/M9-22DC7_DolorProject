@@ -24,19 +24,25 @@ public class UIScreen : MonoBehaviour
         bw.OnCancle =() => {uIBasicWeapon.OffSecondButton();};
 
         gm.OnValueChange += uIGuidedMissile.EventValue;
-        status.OnValueChange += uIStatus.EventValue;
+        gm.OnPress = () => {uIGuidedMissile.OnSecondButton();};
+        gm.OnCancle = () => {uIGuidedMissile.OffSecondButton();};
+
         sw.OnValueChange += uIShield.EventValue;
+        sw.OnPress = () =>{uIShield.OnSecondButton();};
+        sw.OnCancle = () =>{uIShield.OffSecondButton();};
+
+        status.OnValueChange += uIStatus.EventValue;
     }
 
     private void OnDisable() {
         bw.OnValueChange -= uIBasicWeapon.EventValue;
         gm.OnValueChange -= uIGuidedMissile.EventValue;
-        status.OnValueChange -= uIStatus.EventValue;
         sw.OnValueChange -= uIShield.EventValue;
+        status.OnValueChange -= uIStatus.EventValue;
     }
 
     private void Update(){
-        if(Input.GetKeyDown(KeyCode.Space)){
+        if(Input.GetKeyDown(KeyCode.M)){
             status.TakeDamage(5f);
         }
     }

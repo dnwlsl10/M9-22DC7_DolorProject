@@ -20,6 +20,9 @@ public class SkillShield : WeaponBase, IDamageable
     public float gaugeUpSpeed;
     public float gaugeDownSpeed;
     Animator anim;
+    public System.Action OnPress;
+    public System.Action OnCancle;
+
     // public UnityEngine.InputSystem.InputActionReference alpha1;
 
     public float CurrentAmmo
@@ -84,6 +87,7 @@ public class SkillShield : WeaponBase, IDamageable
         photonView.CustomRPC(this, "animPlay", RpcTarget.All, true);
         StartCoroutine("OnShieldSkillUse");
         StopCoroutine("GaugeIdle");
+        OnPress();
     }
 
     public override void StopWeaponAction() //GetKeyUp
@@ -93,6 +97,7 @@ public class SkillShield : WeaponBase, IDamageable
         
         StopCoroutine("OnShieldSkillUse");
         StartCoroutine("GaugeIdle");
+        OnCancle();
     }
 
     [PunRPC]

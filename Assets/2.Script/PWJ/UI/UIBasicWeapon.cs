@@ -24,13 +24,13 @@ public class UIBasicWeapon : UIBase ,IUIButton
 
     public override void StartUI()
     {
-        OnComplete();
+        OnComplete(); //장전 완료 
         OnButton();
     }
 
     public override void StopUI()
     {
-        OnDefult();
+        OnDefult(); // 장전 중 
         OffButton();
     }
 
@@ -39,9 +39,10 @@ public class UIBasicWeapon : UIBase ,IUIButton
     public override void OnDefult() => base.OnDefult();
 
     public void OnButton() //활성화
-    {
-        enableHelpUI.gameObject.SetActive(false);
-        disableHelpUI.gameObject.SetActive(true);
+    {   
+        
+        enableHelpUI.gameObject.SetActive(true);
+        disableHelpUI.gameObject.SetActive(false);
     }
 
     public void OffButton() //비활성화 
