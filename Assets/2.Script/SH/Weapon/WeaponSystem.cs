@@ -103,18 +103,23 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
             input_name_pair = null;
             Destroy(this);
         }
+        else InitLocal();
 
+        
+    }
+
+    void InitLocal()
+    {
         weaponIndex_byHand = new List<int>[2];
         weaponIndex_byHand[0] = new List<int>();
         weaponIndex_byHand[1] = new List<int>();
         isGrabbing = new bool[2];
         usingSkill = new bool[2];
-
-        int weaponNameCount = System.Enum.GetValues(typeof(WeaponName)).Length;
+        
+        int weaponNameCount = System.Enum.GetNames(typeof(WeaponName)).Length;
         canUseSkill = new bool[weaponNameCount];
         for(int i = 0; i < weaponNameCount; i++) canUseSkill[i] = true;
         weapons = new WeaponBase[weaponNameCount];
-        
 
         foreach (var weapon in transform.root.GetComponentsInChildren<WeaponBase>())
         {

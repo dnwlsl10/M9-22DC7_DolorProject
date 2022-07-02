@@ -30,14 +30,18 @@ public class MechLand : MonoBehaviour, IInitialize
     private void Awake() 
     {
         anim = GetComponent<Animator>();
+        foreach (var component in componentsAfterStartScene)
+            if(component) component.enabled = false;
+        
         StartFalling();
     }
     public void StartFalling() => StartCoroutine(CheckGroundDistance());
 
     IEnumerator CheckGroundDistance()
     {
-        foreach (var component in componentsAfterStartScene)
-            if(component) component.enabled = false;
+        var tmp = GetComponent<RootMotion.Demos.VRIK_PUN_Player>();
+        float storage = tmp.proxyMaxErrorSqrMag;
+        tmp.proxyMaxErrorSqrMag = 20;
 
         anim.SetLayerWeight(1, 0);
         anim.CrossFade("Falling", 0.2f, 0);
@@ -47,6 +51,7 @@ public class MechLand : MonoBehaviour, IInitialize
             yield return null;
 
         anim.SetTrigger("Land");
+        tmp.proxyMaxErrorSqrMag = storage;
 
         yield return new WaitForSeconds(3f);
 
@@ -60,8 +65,7 @@ public class MechLand : MonoBehaviour, IInitialize
         }
         anim.SetLayerWeight(1, 1);
 
-        componentsAfterStartScene.Clear();
         componentsAfterStartScene = null;
-        Destroy(this);
+        this.enabled = false;
     }
 }

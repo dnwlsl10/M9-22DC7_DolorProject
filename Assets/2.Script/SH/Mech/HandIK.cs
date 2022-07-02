@@ -155,18 +155,28 @@ public class HandIK : MonoBehaviour, IInitialize
             
 
             abc.enabled = false;
+            yield return null;
             iam.enabled = false;
+            yield return null;
+
             if (!isLeft) 
             {
                 tpd.enabled = false;
+                yield return null;
                 simulator.SetActive(false);
             }
+
             yield return new WaitForSeconds(0.1f);
+
             iam.enabled = true;
+            yield return null;
             abc.enabled = true;
+            yield return null;
+
             if (!isLeft) 
             {
                 tpd.enabled = true;
+                yield return null;
                 simulator.SetActive(true);
             }
         }

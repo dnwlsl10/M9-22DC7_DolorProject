@@ -93,7 +93,7 @@ public class BasicWeapon : WeaponBase, IInitialize
 
     public override void StartReload()
     {
-        if (isReloading) 
+        if (isReloading)
             return;
 
         StopWeaponAction();

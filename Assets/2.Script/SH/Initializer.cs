@@ -60,8 +60,6 @@ public class Initializer : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.01f);
         CheckComponentExist(root, typeof(VRIK_PUN_Player));
         yield return new WaitForSecondsRealtime(0.01f);
-        CheckComponentExist(root, typeof(MechScriptManager));
-        yield return new WaitForSecondsRealtime(0.01f);
         CheckComponentExist(root, typeof(MechMovementController));
         yield return new WaitForSecondsRealtime(0.01f);
         CheckComponentExist(root, typeof(MechLand));

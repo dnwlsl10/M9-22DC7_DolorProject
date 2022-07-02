@@ -9,6 +9,15 @@ public class MechNetworkManager : MonoBehaviourPun, IInitialize, IPunInstantiate
     public void Reset()
     {
 #if UNITY_EDITOR
+        if (componentsForOnlyLocal.Count == 0)
+        {
+            componentsForOnlyLocal = new List<Component>();
+            componentsForOnlyLocal.Add(transform.root.GetComponent<Rigidbody>());
+            componentsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<HandIK>());
+            componentsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<CrossHair>());
+            componentsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<WeaponSystem>());
+        }
+
         Transform root = GetComponent<VRIK>().references.pelvis.parent;
         Transform meshRoot = Utility.FindChildMatchName(root, new string[]{"Mesh", "mesh"});
         
@@ -37,40 +46,47 @@ public class MechNetworkManager : MonoBehaviourPun, IInitialize, IPunInstantiate
 
     public List<Renderer> localDisableMesh;
     public List<GameObject> LayerToChangeRemote;
+    public List<Component> componentsForOnlyLocal;
 
-    private void Start() 
+    private void Awake() 
     {
         if (photonView.Mine)
             SetLocal();
         else
             SetRemote();
-        
+
         LayerToChangeRemote = null;
         localDisableMesh = null;
+        componentsForOnlyLocal = null;
     }
 
-    private void DisableMesh()
+    void SetLocal()
     {
         foreach (var mesh in localDisableMesh)
             mesh.enabled = false;
     }
 
-    void SetLocal()
-    {
-        DisableMesh();
-    }
     void SetRemote()
     {
-        ChangeRemoteLayer();
         GetComponent<Animator>().applyRootMotion = false;
-    }
-    void ChangeRemoteLayer()
-    {
+
         int remoteLayer = LayerMask.NameToLayer("RemotePlayer");
         foreach (var obj in LayerToChangeRemote)
             obj.layer = remoteLayer;
+            
+        foreach (var component in componentsForOnlyLocal)
+            if (component) Destroy(component);
     }
 
-    public void OnPhotonInstantiate(PhotonMessageInfo info) {if (photonView.Mine) photonView.RPC("RegistSelf", RpcTarget.AllViaServer);}
-    [PunRPC] void RegistSelf() => InGameManager.instance.RegisterMech(gameObject);
+    public void OnPhotonInstantiate(PhotonMessageInfo info) 
+    {
+        if (photonView.Mine) photonView.RPC("RegistSelf", RpcTarget.AllViaServer);
+    }
+
+    [PunRPC]
+    void RegistSelf()
+    {
+        InGameManager.instance.RegisterMech(gameObject);
+        this.enabled = false;
+    }
 }

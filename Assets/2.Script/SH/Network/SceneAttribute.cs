@@ -3,10 +3,10 @@ using Photon.Pun;
 
 public class SceneAttribute : MonoBehaviour
 {
-    public enum Online {OfflineMode, OnlineMode}
-    public Online sceneMode;
+    enum Online {OfflineMode, OnlineMode}
+    [SerializeField] Online sceneMode;
     private void Reset() => transform.SetSiblingIndex(0);
-    private void Awake() 
+    private void Awake()
     {
         PhotonNetwork.SingleMode = sceneMode == Online.OfflineMode;
         #if UNITY_EDITOR
