@@ -3,8 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using RootMotion.FinalIK;
 using Photon.Pun;
-public class MechNetworkManager : MonoBehaviour, IInitialize
+public class MechNetworkManager : MonoBehaviour, IInitialize, IPunInstantiateMagicCallback
 {
+    [ContextMenu("Print IsMivne")]
+    void t()
+    {
+        print("IsMine : " + pv.IsMine);
+        print("Mine : " + pv.Mine);
+        print("CachedMine : " + pv.cachedMine);
+        print("SingleMode : " + PhotonNetwork.SingleMode);
+    }
     [ContextMenu("Find All")]
     public void Reset()
     {
@@ -82,5 +90,10 @@ public class MechNetworkManager : MonoBehaviour, IInitialize
             obj.layer = LayerMask.NameToLayer("RemotePlayer");
         LayerToChangeRemote.Clear();
         LayerToChangeRemote = null;
+    }
+
+    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        InGameManager.instance.RegisterMech(gameObject);
     }
 }

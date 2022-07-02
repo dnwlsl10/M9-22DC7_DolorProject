@@ -91,7 +91,7 @@ public class CrossHair : MonoBehaviourPun, IInitialize
         while (true)
         {
             yield return eof;
-            Ray ray = new Ray(laserPoint.position, laserPoint.forward);
+            Ray ray = new Ray(laserPoint.position + laserPoint.forward, laserPoint.forward);
             
             Vector3 aimPosition = Physics.Raycast(ray, out RaycastHit targetHit, attackDistance) ? targetHit.point : ray.GetPoint(attackDistance);
             Vector3 targetToEye = centerEye.position - aimPosition;

@@ -54,6 +54,8 @@ MonoBehaviour:
   - SetPath
   - ReturnToPoolRPC
   - RPCPath
+  - SelfDisable
+  - Ready
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

@@ -101,7 +101,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8826344079920379656}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1
@@ -134,8 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc2f50213e14b9240bf9b88f089e4f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootSpeed: 2
-  visualEffect: {fileID: 0}
+  onShootSpeed: 10
+  visualEffect: {fileID: 8826344080780086629}
 --- !u!1 &8826344080780086631
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,8 +161,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8826344080780086631}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.960001, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8826344079920379660}

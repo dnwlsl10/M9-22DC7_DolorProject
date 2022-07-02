@@ -58,8 +58,8 @@ public class OrbFire : WeaponBase
     public override void StopWeaponAction() //GetKeyUp //오브 발사하고
     {
         lastAttackTime = Time.time; //초기화
-        OrbMove orbMove = orb.GetComponent<OrbMove>();
-        orbMove.OrbSpeedChange();
+        OrbBase orbMove = orb.GetComponent<OrbBase>();
+        orbMove.OrbFire();
     }
 
 }
