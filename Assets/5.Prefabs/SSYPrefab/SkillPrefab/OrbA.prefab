@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 8826344079920379660}
   - component: {fileID: 8826344079920379663}
   - component: {fileID: 8826344079920379662}
-  - component: {fileID: 8826344079920379657}
+  - component: {fileID: 1459067683}
   m_Layer: 0
   m_Name: OrbA
   m_TagString: Untagged
@@ -122,7 +122,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8826344079920379657
+--- !u!114 &1459067683
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,10 +131,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8826344079920379656}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc2f50213e14b9240bf9b88f089e4f61, type: 3}
+  m_Script: {fileID: 11500000, guid: 85509d5b61a79064599e5a5f970eb9e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onShootSpeed: 10
+  onShootSpeed: 0
   visualEffect: {fileID: 8826344080780086629}
 --- !u!1 &8826344080780086631
 GameObject:
