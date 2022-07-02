@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
+using Photon.Pun;
 
-public class OrbBase : MonoBehaviour
+public class OrbBase : MonoBehaviourPun
 {
     [SerializeField]
     protected float onShootSpeed;
@@ -28,8 +29,22 @@ public class OrbBase : MonoBehaviour
         transform.position += dir * orbSpeed * Time.deltaTime;
     }
     
-    public virtual void OrbFire()
+    public void OrbFire()
     {
+        photonView.CustomRPC(this, "CallRpc", RpcTarget.AllViaServer, this.transform.position, this.transform.forward);
+    }
+
+    [PunRPC]
+    protected void CallRpc(Vector3 shootPosition, Vector3 forward)
+    {
+        RPCFire(shootPosition, forward);
+    }
+
+    protected virtual void RPCFire(Vector3 shootPosition, Vector3 forward)
+    {
+        this.transform.position = shootPosition;
+        this.transform.forward = forward;
+
         this.transform.SetParent(null);
         orbSpeed = onShootSpeed;
     }

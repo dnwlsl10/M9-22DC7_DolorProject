@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
+using Photon.Pun;
 
 public class OrbA : OrbBase
 {
@@ -20,12 +21,13 @@ public class OrbA : OrbBase
         yield return new WaitForSeconds(6f);
         visualEffect.SetFloat("Size", 0f);
         yield return new WaitForSeconds(1f);
+        
         Destroy(this.gameObject);
     }
 
-    public override void OrbFire()
+    protected override void RPCFire(Vector3 shootPosition, Vector3 forward)
     {
-        base.OrbFire();
+        base.RPCFire(shootPosition, forward);
         StartCoroutine(OrbSize());
     }
 }

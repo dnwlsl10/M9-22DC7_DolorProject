@@ -34,29 +34,25 @@ MonoBehaviour:
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
-  - ClickRpc
-  - DestroyRpc
-  - DestroySpaceship
-  - Fire
-  - RespawnSpaceship
-  - RPCSetWeight
-  - RPCAttack
-  - SetSpawnedObject
-  - RPCSpawn
-  - RPCCollision
-  - TakeDamage
-  - GameStartRPC
   - animPlay
-  - MessageRPC
-  - GameStart
+  - BulletHit
+  - CallRpc
+  - CDCHit
+  - ClickRpc
+  - CreateOrb
   - CrossFade
-  - ShootRPC
-  - SetPath
-  - ReturnToPoolRPC
-  - RPCPath
-  - SelfDisable
+  - DestroyRpc
+  - GameStart
+  - GameStartRPC
+  - LinkExit
+  - LinkStart
   - Ready
   - RegistSelf
+  - RPCAttack
+  - RPCCollision
+  - RPCPath
+  - RPCSetWeight
+  - RPCSpawn
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
