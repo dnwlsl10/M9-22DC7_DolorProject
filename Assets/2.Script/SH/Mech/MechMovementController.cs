@@ -9,13 +9,16 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
 {
     public void Reset() {
     #if UNITY_EDITOR
-        centerEye = GetComponentInChildren<Camera>(true)?.transform;
-        leftHandJoystick = Utility.FindInputReference(ActionMap.XRI_LeftHand_Locomotion, "Move");
+        centerEye = GetComponentInChildren<Camera>(true)?.transform; leftHandJoystick = Utility.FindInputReference(ActionMap.XRI_LeftHand_Locomotion, "Move");
     #endif
     }
     enum WalkState{Idle, Forward, Back, Left, Right}
     
     [SerializeField]        Transform centerEye;
+
+    [Header("Audio")]
+    [SerializeField]        AudioSource audio;
+    [SerializeField]        AudioClip footstep;
 
     [Header("Move")]
     [SerializeField]        InputActionReference leftHandJoystick;
@@ -231,6 +234,11 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
             tr.rotation = Quaternion.RotateTowards(tr.rotation, Quaternion.Euler(tr.eulerAngles - tr.up * angle), deltaTime * rotSpeed);
         else
             anim.SetFloat("TurnSpeed", rotSpeed/45);
+    }
+
+    public void PlayFootStepSound()
+    {
+
     }
 
     public void SetMoveSpeed(float _value) => moveSpeed = _value;

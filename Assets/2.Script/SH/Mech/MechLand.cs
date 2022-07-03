@@ -7,19 +7,13 @@ public class MechLand : MonoBehaviour, IInitialize
     public void Reset()
     {
 #if UNITY_EDITOR
-        groundLayer = LayerMask.GetMask("Ground");
-
-        if (componentsAfterStartScene.Count == 0)
-        {
+        groundLayer = LayerMask.GetMask("Ground"); groundDetectDistance = 0.6f; if (componentsAfterStartScene.Count == 0) {
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<HandIK>(true));
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<MechMovementController>(true));
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<WeaponBase>(true));
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<WeaponSystem>(true));
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<CrossHair>(true));
-            componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<IKWeight>(true));
-        }
-
-        groundDetectDistance = 0.6f;
+            componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<IKWeight>(true));}
 #endif
     }
 

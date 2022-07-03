@@ -14,7 +14,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject networkObjectPool;
     public GameObject myMech{get; private set;}
 
-    [SerializeField] private List<GameObject> players;
+    [SerializeField] private List<GameObject> players = new List<GameObject>();
     private int playerCount = 0;
 
     private void Awake() 
@@ -23,12 +23,10 @@ public class InGameManager : MonoBehaviourPunCallbacks
             Destroy(instance);
         else
             instance = this;
-
-        players = new List<GameObject>();
         
         Transform spawn = spawnPoint[PhotonNetwork.IsMasterClient ? 0 : 1];
+
         myMech = PhotonNetwork.Instantiate(mechPrefab.name, spawn.position, spawn.rotation);
-        
         Instantiate(networkObjectPool);
         
         photonView.RPC("Ready", RpcTarget.MasterClient);

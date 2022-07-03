@@ -42,18 +42,17 @@ public class BasicWeapon : WeaponBase, IInitialize
     public Transform bulletSpawnPoint;
 
     [Header("Fire Effects")]
-    [SerializeField]
-    private GameObject muzzleFlashEffect;
-    [SerializeField]
-    private GameObject bullet;
+    [SerializeField] GameObject muzzleFlashEffect;
+    [SerializeField] private GameObject bullet;
 
     [Header("Audio Clips")]
-    [SerializeField]
-    private AudioClip onFireSFX;
-    [SerializeField]
-    private AudioClip onReloadSFX;
+    [SerializeField] private AudioClip onFireSFX;
+    [SerializeField] private AudioClip onReloadSFX;
+    [SerializeField] private bool isAutomatic;
     private WaitForEndOfFrame eof = new WaitForEndOfFrame();
-    public float CurrentAmmo
+    IEnumerator coroutineHolder;
+
+    private float CurrentAmmo
     {
         get { return weaponSetting.currentAmmo;}
         set
@@ -68,8 +67,11 @@ public class BasicWeapon : WeaponBase, IInitialize
         }
     }
     
-    public bool isAutomatic;
-    IEnumerator coroutineHolder;
+    protected override void Initialize()
+    {
+        base.Initialize();
+        CurrentAmmo = weaponSetting.maxAmmo;
+    }
 
     public override void StartWeaponAction()
     {
@@ -96,7 +98,6 @@ public class BasicWeapon : WeaponBase, IInitialize
         if (isReloading)
             return;
 
-        StopWeaponAction();
         StartCoroutine(OnReload());
     }
 
@@ -145,13 +146,12 @@ public class BasicWeapon : WeaponBase, IInitialize
     IEnumerator OnReload()
     {
         isReloading = true;
+        WeaponSystem.instance.LockWeapon(weaponSetting.weaponName);
 
-        yield return new WaitForSeconds(2f);
-        while(false /* until reload procedure finish */)
-            yield return null;
+        yield return new WaitForSeconds(2f); // Reloading Procedure
 
         isReloading = false;
-
+        WeaponSystem.instance.UnlockWeapon(weaponSetting.weaponName);
         CurrentAmmo = weaponSetting.maxAmmo;
     }
 }

@@ -17,12 +17,6 @@ public class NetworkTest : MonoBehaviourPunCallbacks
         PhotonNetwork.GameVersion = "1.0";
     }
 
-    [ContextMenu("GameStart")]
-    void ForceStart()
-    {
-        OnPlayerEnteredRoom(null);
-    }
-
 #region NetworkConnect
     public void Connect() => PhotonNetwork.ConnectUsingSettings();
 

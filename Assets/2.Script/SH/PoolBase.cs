@@ -70,14 +70,14 @@ public abstract class PoolBase : MonoBehaviour
         if (gameObject) Destroy(gameObject);
     }
 
-    public GameObject SpawnFromPool(string name, Vector3 position) => 
-        _SpawnFromPool(name, position, Quaternion.identity);
-    public GameObject SpawnFromPool(string name, Vector3 position, Quaternion rotation) => 
-        _SpawnFromPool(name, position, rotation);
+    public GameObject SpawnFromPool(string name, Vector3 position, bool setActive=true) => 
+        _SpawnFromPool(name, position, Quaternion.identity, setActive);
+    public GameObject SpawnFromPool(string name, Vector3 position, Quaternion rotation, bool setActive=true) => 
+        _SpawnFromPool(name, position, rotation, setActive);
 
-    public T SpawnFromPool<T>(string name, Vector3 position) where T : Component
+    public T SpawnFromPool<T>(string name, Vector3 position, bool setActive=true) where T : Component
     {
-        GameObject obj = _SpawnFromPool(name, position, Quaternion.identity);
+        GameObject obj = _SpawnFromPool(name, position, Quaternion.identity, setActive);
         if (obj.TryGetComponent(out T component)) return component;
         else
         {
@@ -86,9 +86,9 @@ public abstract class PoolBase : MonoBehaviour
         }
     }
 
-    public T SpawnFromPool<T>(string name, Vector3 position, Quaternion rotation) where T : Component
+    public T SpawnFromPool<T>(string name, Vector3 position, Quaternion rotation, bool setActive=true) where T : Component
     {
-        GameObject obj = _SpawnFromPool(name, position, rotation);
+        GameObject obj = _SpawnFromPool(name, position, rotation, setActive);
         if (obj.TryGetComponent(out T component)) return component;
         else
         {
@@ -116,7 +116,7 @@ public abstract class PoolBase : MonoBehaviour
 
     protected abstract GameObject CreateNewObject(string name, GameObject prefab);
 
-    protected abstract GameObject _SpawnFromPool(string name, Vector3 position, Quaternion rotation);
+    protected abstract GameObject _SpawnFromPool(string name, Vector3 position, Quaternion rotation, bool setActive=true);
 
     protected void ArrangePool(GameObject obj)
     {

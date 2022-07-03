@@ -29,7 +29,7 @@ public class ObjectPooler : PoolBase
         return obj;
     }
 
-    protected override GameObject _SpawnFromPool(string name, Vector3 position, Quaternion rotation)
+    protected override GameObject _SpawnFromPool(string name, Vector3 position, Quaternion rotation, bool setActive=true)
     {
         if (!poolDictionary.ContainsKey(name))
             throw new Exception($"Pool with name {name} doesn't exist");
@@ -47,7 +47,7 @@ public class ObjectPooler : PoolBase
         GameObject objectToSpawn = poolQueue.Dequeue();
         objectToSpawn.transform.position = position;
         objectToSpawn.transform.rotation = rotation;
-        objectToSpawn.SetActive(true);
+        objectToSpawn.SetActive(setActive);
 
         return objectToSpawn;
     }

@@ -44,7 +44,7 @@ public class CrossHair : MonoBehaviourPun, IInitialize
     private void Awake() 
     {
         imageRenderer = crossHairImage.GetComponent<Renderer>();
-        attackDistance = GetComponent<WeaponBase>().weaponSetting.attackDistance;
+        attackDistance = transform.parent.GetComponent<BasicWeapon>().weaponSetting.attackDistance;
 
         #if UNITY_EDITOR && test
             if (TryGetComponent<LineRenderer>(out lr) == false)

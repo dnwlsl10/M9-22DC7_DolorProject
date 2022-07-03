@@ -9,7 +9,6 @@ public class OrbBase : MonoBehaviourPun
     [SerializeField]
     protected float onShootSpeed;
     protected float orbSpeed;
-   
 
     protected void Update()
     {
@@ -27,6 +26,24 @@ public class OrbBase : MonoBehaviourPun
     {
         Vector3 dir = this.transform.forward;
         transform.position += dir * orbSpeed * Time.deltaTime;
+    }
+    public void SetParent(Transform tr)
+    {
+        if (tr.TryGetComponent<PhotonView>(out var pv) && pv.ViewID > 0)
+            photonView.CustomRPC(this, "SetPRPC", RpcTarget.All, pv.ViewID);
+        else
+            MoveToParent(tr);
+    }
+    [PunRPC]
+    protected void SetPRPC(int viewID)
+    {
+        Transform tr = PhotonNetwork.GetPhotonView(viewID).transform;
+        MoveToParent(tr);
+    }
+    protected void MoveToParent(Transform tr)
+    {
+        transform.parent = tr;
+        transform.localPosition = transform.localEulerAngles = Vector3.zero;
     }
     
     public void OrbFire()

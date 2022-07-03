@@ -1841,7 +1841,7 @@ GameObject:
   - component: {fileID: 1788903856}
   - component: {fileID: 1788903855}
   - component: {fileID: 1788903860}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2068,6 +2068,9 @@ MonoBehaviour:
   - name: Hit 10
     prefab: {fileID: 1795992203533318, guid: 890aba7398207db48978724168fac5a7, type: 3}
     initSize: 10
+  - name: railgun_beam
+    prefab: {fileID: 100000, guid: 2062505970bd9964aa622179176d17cc, type: 3}
+    initSize: 10
 --- !u!4 &1844658666
 Transform:
   m_ObjectHideFlags: 0
@@ -2076,7 +2079,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1844658664}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.070487, y: 3.527934, z: 12.72283}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

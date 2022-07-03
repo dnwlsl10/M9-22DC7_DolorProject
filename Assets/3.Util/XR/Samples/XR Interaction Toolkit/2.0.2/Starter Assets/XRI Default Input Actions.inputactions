@@ -805,6 +805,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "OrbTest",
+                    "type": "Button",
+                    "id": "e35e4e1b-8652-4ac6-8889-9c9b3c6dc710",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -992,6 +1001,17 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "GuidedMissile",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "201026d1-e97d-4136-8d7b-0103b716b4c5",
+                    "path": "<XRController>{RightHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "OrbTest",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -19,14 +19,14 @@ public class NetworkObjectPool : PoolBase
     }
     protected override GameObject CreateNewObject(string name, GameObject prefab)
     {
-        var obj = PhotonNetwork.Instantiate(name, Vector3.zero, Quaternion.identity);
+        var obj = PhotonNetwork.Instantiate("NetworkPool/"+name, Vector3.zero, Quaternion.identity);
         obj.name = name;
         obj.SetActive(false); // call OnDisable() --> ReturnToPool
 
         return obj;
     }
 
-    protected override GameObject _SpawnFromPool(string name, Vector3 position, Quaternion rotation)
+    protected override GameObject _SpawnFromPool(string name, Vector3 position, Quaternion rotation, bool setActive=true)
     {
         if (!poolDictionary.ContainsKey(name))
             throw new Exception($"Pool with name {name} doesn't exist");
@@ -42,7 +42,7 @@ public class NetworkObjectPool : PoolBase
 
         // activate object from pool
         GameObject objectToSpawn = poolQueue.Dequeue();
-        objectToSpawn.GetComponent<NetworkPooledObject>().Spawn(position, rotation);
+        objectToSpawn.GetComponent<NetworkPooledObject>().Spawn(position, rotation, setActive);
 
         return objectToSpawn;
     }

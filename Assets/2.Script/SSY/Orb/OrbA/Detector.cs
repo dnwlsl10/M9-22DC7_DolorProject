@@ -5,74 +5,67 @@ using Photon.Pun;
 
 public class Detector : MonoBehaviourPun
 {
-    struct study // 스트럭트 - 값을 저장하는 컨테이너와 같은 / 
-    {
-        public Connector connector;
-        public WeaponSystem weaponSystem;
-    }
     // 딕셔너리 - 1대1 매칭 때 사용하기 용이, 키값은 유니크해야함!!!!!(단하나와 같은)
     public GameObject linkPrefab;
-    Dictionary<Transform, study> dic = new Dictionary<Transform, study>();
+    int linkIndex;
+    Dictionary<Transform, int> dic = new Dictionary<Transform, int>();
+    List<Connector> connectors = new List<Connector>();
+    private void Awake() {
+        GetComponentsInChildren<Connector>(true, connectors);
+    }
 
     void OnTriggerEnter(Collider other) //OrbA에 맞았을 때 맞은 대상 == UI에 방패불가라는 텍스트를 띄어주는
     {
-        int remotePlayerLayer = LayerMask.NameToLayer("RemotePlayer");
-        Transform remotePlayerRoot = other.transform.root;
-        if (remotePlayerRoot.gameObject.layer == remotePlayerLayer) //내가 아닌 나 == 상대방
+        if (other.gameObject.layer == LayerMask.NameToLayer("RemotePlayer")) //내가 아닌 나 == 상대방
         {
+            Transform remotePlayerRoot = other.transform.root;
             if (dic.ContainsKey(remotePlayerRoot)) return;
 
-            print("FIND ENEMY");
-
-            int viewID = remotePlayerRoot.GetComponent<PhotonView>().ViewID;
-            if (viewID > 0) // 멀티중
-            {
-                photonView.CustomRPC(this, "LinkStart", RpcTarget.All, viewID);
-            }
+            var pv = remotePlayerRoot.GetComponent<PhotonView>();
+            if (pv?.ViewID > 0 == false)
+                Connect(remotePlayerRoot);
             else
-            {
-                print("Invalid View ID");
-            }
+                photonView.CustomRPC(this, "LinkStart", RpcTarget.All, pv?.ViewID);
         }
     }
 
     [PunRPC]
     void LinkStart(int viewID)
     {
-        Transform remotePlayerRoot = PhotonNetwork.GetPhotonView(viewID).transform;
-        WeaponSystem weaponSystem = remotePlayerRoot.GetComponentInChildren<WeaponSystem>();
-
-        GameObject link = Instantiate(linkPrefab); //네트워크 공유
-        link.transform.parent = this.transform;//네트워크 공유
-        link.transform.localPosition = Vector3.zero; //네트워크 공유
-
-        Connector connector = link.GetComponent<Connector>();
-        connector.SetTarget(remotePlayerRoot);
-
-        study s = new study();
-        s.weaponSystem = weaponSystem;
-        s.connector = connector;//네트워크 공유
-        dic.Add(remotePlayerRoot, s);
-
-        if (photonView.Mine == false)
+        PhotonView targetPv = PhotonNetwork.GetPhotonView(viewID);
+        if (targetPv.Mine == true)
         {
-            weaponSystem.canUseSkill[(int)WeaponName.Shield] = false;
-            weaponSystem.StopWeaponEvent(WeaponName.Shield);
+            WeaponSystem.instance.LockWeapon(WeaponName.Shield);
         }
+
+        Connect(targetPv.transform);
+    }
+
+    void Connect(Transform target)
+    {
+        print("Link Start");
+
+        linkIndex = (linkIndex + 1) % connectors.Count;
+        int index = linkIndex;
+        connectors[index].SetTarget(target);
+
+        dic.Add(target, index);
     }
 
     void OnTriggerExit(Collider other)
     {
-        int remotePlayerLayer = LayerMask.NameToLayer("RemotePlayer");
         Transform remotePlayerRoot = other.transform.root;
-        int viewID = remotePlayerRoot.GetComponent<PhotonView>().ViewID;
+        int remotePlayerLayer = LayerMask.NameToLayer("RemotePlayer");
 
-        if (remotePlayerRoot.gameObject.layer == remotePlayerLayer) //내가 아닌 나 == 상대방
+        if (other.gameObject.layer == remotePlayerLayer) //내가 아닌 나 == 상대방
         {
             if (dic.ContainsKey(remotePlayerRoot))
             {
-                if((viewID > 0))
-                photonView.CustomRPC(this, "LinkExit", RpcTarget.All, viewID);
+                var pv = remotePlayerRoot.GetComponent<PhotonView>();
+                if (pv?.ViewID > 0 == false)
+                    Disconnect(remotePlayerRoot, dic[remotePlayerRoot]);
+                else
+                    photonView.CustomRPC(this, "LinkExit", RpcTarget.All, pv?.ViewID);
             }
         }
         //로봇인지 확인
@@ -81,16 +74,25 @@ public class Detector : MonoBehaviourPun
     }
 
     [PunRPC]
-    void LinkExit(int viewID)
+    void LinkExit(int viewID=0)
     {
-        Transform remotePlayerRoot = PhotonNetwork.GetPhotonView(viewID).transform;
+        PhotonView targetPv = PhotonNetwork.GetPhotonView(viewID);
+        Transform remotePlayerRoot = targetPv.transform;
 
-        if (dic.TryGetValue(remotePlayerRoot, out study s))
+        if (dic.TryGetValue(remotePlayerRoot, out int index))
         {
-
-            s.weaponSystem.canUseSkill[(int)WeaponName.Shield] = true; //네트워크 공유
-            Destroy(s.connector.gameObject); //네트워크 공유
+            Disconnect(remotePlayerRoot, index);
+            if (targetPv.Mine == true)
+                WeaponSystem.instance.UnlockWeapon(WeaponName.Shield); //네트워크 공유
         }
+    }
+
+    void Disconnect(Transform tr, int index)
+    {
+        print("Link Exit");
+
+        dic.Remove(tr);
+        connectors[index].Disconnect();
     }
 }
 

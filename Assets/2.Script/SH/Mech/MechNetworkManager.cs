@@ -44,27 +44,19 @@ public class MechNetworkManager : MonoBehaviourPun, IInitialize, IPunInstantiate
 #endif
     }
 
-    public List<Renderer> localDisableMesh;
-    public List<GameObject> LayerToChangeRemote;
-    public List<Component> componentsForOnlyLocal;
+    [SerializeField] List<Renderer> localDisableMesh;
+    [SerializeField] List<GameObject> LayerToChangeRemote;
+    [SerializeField] List<Component> componentsForOnlyLocal;
 
     private void Awake() 
     {
-        if (photonView.Mine)
-            SetLocal();
-        else
-            SetRemote();
+        if (photonView.Mine)    SetLocal();
+        else                    SetRemote();
 
-        LayerToChangeRemote = null;
-        localDisableMesh = null;
-        componentsForOnlyLocal = null;
+        LayerToChangeRemote = null; localDisableMesh = null; componentsForOnlyLocal = null;
     }
 
-    void SetLocal()
-    {
-        foreach (var mesh in localDisableMesh)
-            mesh.enabled = false;
-    }
+    void SetLocal() { foreach (var mesh in localDisableMesh) mesh.enabled = false; }
 
     void SetRemote()
     {
@@ -78,10 +70,7 @@ public class MechNetworkManager : MonoBehaviourPun, IInitialize, IPunInstantiate
             if (component) Destroy(component);
     }
 
-    public void OnPhotonInstantiate(PhotonMessageInfo info) 
-    {
-        if (photonView.Mine) photonView.RPC("RegistSelf", RpcTarget.AllViaServer);
-    }
+    public void OnPhotonInstantiate(PhotonMessageInfo info) { if (photonView.Mine) photonView.RPC("RegistSelf", RpcTarget.AllViaServer); }
 
     [PunRPC]
     void RegistSelf()

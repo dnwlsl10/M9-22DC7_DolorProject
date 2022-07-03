@@ -11,11 +11,9 @@ public class IKWeight : MonoBehaviourPun
     public InputActionReference gripL;
     public InputActionReference gripR;
 
-    void Reset()
-    {
+    void Reset(){
 #if UNITY_EDITOR
-        gripL = Utility.FindInputReference(ActionMap.XRI_LeftHand_Interaction, "Select");
-        gripR = Utility.FindInputReference(ActionMap.XRI_RightHand_Interaction, "Select");
+        gripL = Utility.FindInputReference(ActionMap.XRI_LeftHand_Interaction, "Select"); gripR = Utility.FindInputReference(ActionMap.XRI_RightHand_Interaction, "Select");
 #endif
     }
 
