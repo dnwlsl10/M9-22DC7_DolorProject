@@ -291,4 +291,5 @@ MonoBehaviour:
   damage: 1
   instanceNormalPositionOffset: 0
   setParentToParentObject: 0
-  EffectsOnCollision: []
+  EffectsOnCollision:
+  - {fileID: 1795992203533318, guid: 890aba7398207db48978724168fac5a7, type: 3}

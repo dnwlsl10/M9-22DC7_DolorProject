@@ -18,16 +18,14 @@ public class OrbB : OrbBase
     [SerializeField] LayerMask ChoongDolChae;
     SphereCollider sphereCollider;
 
-    Transform vfx;
-    Transform blackHole;
+    [SerializeField] Transform vfx;
+    [SerializeField] Transform blackHole;
     bool robotDamaged;
 
     void Awake() 
     {
         sphereCollider = GetComponentInChildren<SphereCollider>();
         scaleDown = (startSize - minScale)/maxCount;
-        vfx = transform.GetChild(0);
-        blackHole = transform.GetChild(1);
     }
     protected override void Init() //등장하는 순간
     {
@@ -35,9 +33,9 @@ public class OrbB : OrbBase
 
         if (photonView.Mine) sphereCollider.enabled = false; //콜라이더 끄기 //나중에 false 로 변경
 
-        vfx.localScale = Vector3.one * startSize; //스케일 다시 초기화
-        blackHole.gameObject.SetActive(true); //오브 VFX도 다시 켜주고
-        vfx.gameObject.SetActive(true);
+        blackHole.localScale = Vector3.one * startSize; //스케일 다시 초기화
+        blackHole.gameObject.SetActive(true);
+        vfx.gameObject.SetActive(true); //오브 VFX도 다시 켜주고
 
         count = 0;
         robotDamaged = false;
@@ -120,21 +118,21 @@ public class OrbB : OrbBase
         for (float f = 0; f < 0.5f; f += Time.deltaTime) // 0.1f == 지금 총알과 다음 총알 딜레이 시간 만큼 하면 자연스러울 것.!!!
         {
             orbSpeed = Mathf.Lerp(orbSpeed, targetSpeed, f/0.1f);
-            vfx.localScale = Mathf.Lerp(vfx.localScale.x, targetScale, f/0.1f) * Vector3.one;
+            blackHole.localScale = Mathf.Lerp(blackHole.localScale.x, targetScale, f/0.1f) * Vector3.one;
             yield return null;
         }
 
         orbSpeed = targetSpeed;
-        vfx.localScale = Vector3.one * targetScale;
+        blackHole.localScale = Vector3.one * targetScale;
     }
     
     IEnumerator OrbBomb() //터질 때
     {
-        blackHole.gameObject.SetActive(false); // 자식 오브젝트 첫번째를 부딪힌 순간 꺼주고
+        vfx.gameObject.SetActive(false); // 자식 오브젝트 첫번째를 부딪힌 순간 꺼주고
 
         for (float f = 0; f < timeToMaxScale; f += Time.deltaTime)
         {
-            vfx.localScale = Vector3.one * Mathf.Lerp(vfx.localScale.x, maxScale, f / timeToMaxScale);
+            blackHole.localScale = Vector3.one * Mathf.Lerp(blackHole.localScale.x, maxScale, f / timeToMaxScale);
             yield return null;
         }
 
@@ -142,7 +140,7 @@ public class OrbB : OrbBase
 
         for (float f = 0; f < timeToMaxScale; f += Time.deltaTime)
         {
-            vfx.localScale = Vector3.one * Mathf.Lerp(vfx.localScale.x, 0, f / timeToMaxScale);
+            blackHole.localScale = Vector3.one * Mathf.Lerp(blackHole.localScale.x, 0, f / timeToMaxScale);
             yield return null;
         }
 
