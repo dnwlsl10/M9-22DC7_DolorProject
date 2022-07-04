@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 248a3b40c6bb31342b747c974d5619d1
+timeCreated: 1489958556
+licenseType: Store
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Oculus-Rift-Remote-Icons
+  fontNames:
+  - Oculus-Rift-Remote-Icons
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

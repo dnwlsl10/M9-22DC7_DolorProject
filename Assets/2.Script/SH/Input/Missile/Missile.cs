@@ -12,7 +12,9 @@ public class Missile : MonoBehaviourPun
     private int index = 0;
     private float speed = 5;
     public float timeSpeed = 5;
+    public GuidedMissile gm;
 
+    public int count =1;
     [PunRPC]
     void RPCPath(Vector3 p1, Vector3 p2, Vector3 p3)
     {
@@ -73,6 +75,7 @@ public class Missile : MonoBehaviourPun
 
     private void OnCollisionEnter(Collision other)
     {
+
         if(other.collider.tag == "Enemy") isHit = true;
 
         if(!photonView.Mine && other.collider.tag == "Player" && other.collider.TryGetComponent<PhotonView>(out PhotonView pv) && pv.Mine){
@@ -83,5 +86,13 @@ public class Missile : MonoBehaviourPun
         if(isHit){
             this.gameObject.SetActive(false);
         }
+
+      
+        this.gameObject.SetActive(false);
+    }
+
+    void OnDisable(){
+        if(gm !=null)
+        gm.Destory();
     }
 }

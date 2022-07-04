@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/1.Scenes/MapJaKiJang_SSY.unity.meta
+guid: a01eea333d2b8aa41a3824a7d1b22f56
+========
 guid: 31663f61ea0e53541846c4595f6db965
 folderAsset: yes
+>>>>>>>> dev/ysh:Assets/0.Assets/FORGE3D/Sci-Fi Effects.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

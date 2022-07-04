@@ -23,6 +23,7 @@ public class OrbFire : WeaponBase
     IEnumerator Hold()
     {
         orb = NetworkObjectPool.instance.SpawnFromPool(orbFactory[orbType].name, firePosition.position, firePosition.rotation);
+        yield return new WaitForEndOfFrame();
         orb.GetComponent<OrbBase>().SetParent(firePosition);
 
         yield return new WaitForSecondsRealtime(4f);

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
+using UnityEngine.SceneManagement;
 public class SkillShield : WeaponBase, IDamageable
 {
     public event Cur_MaxEvent OnValueChange;
@@ -10,6 +10,7 @@ public class SkillShield : WeaponBase, IDamageable
     {
         weaponSetting.weaponName = WeaponName.Shield;
         weaponSetting.maxAmmo = 100;
+        weaponSetting.bLock = false;
         handSide = HandSide.Left;
         gaugeUpSpeed = 10;
         gaugeDownSpeed = 20;
@@ -19,6 +20,11 @@ public class SkillShield : WeaponBase, IDamageable
     [SerializeField] float gaugeDownSpeed;
     [SerializeField] Animator anim;
     bool shieldOn;
+    public System.Action OnPress;
+    public System.Action OnCancle;
+    
+
+    // public UnityEngine.InputSystem.InputActionReference alpha1;
 
     public float CurrentAmmo
     {
@@ -42,7 +48,7 @@ public class SkillShield : WeaponBase, IDamageable
         }
     }
 
-    protected override void Initialize()
+    public override void Initialize()
     {
         base.Initialize();
         anim.Play("ShieldOff", 0, 1);
@@ -50,7 +56,7 @@ public class SkillShield : WeaponBase, IDamageable
     }
 
     private void Update() {
-        if (photonView.Mine == false) return;
+        if (photonView.Mine == false || weaponSetting.bLock) return;
         float deltaTime = Time.deltaTime;
 
         if (shieldOn)
@@ -65,14 +71,16 @@ public class SkillShield : WeaponBase, IDamageable
     
     public override void StartWeaponAction() //GetKeyDown
     {
-        if (isReloading)
+        if (isReloading || CurrentAmmo != weaponSetting.currentAmmo)
             return;
         
         if (shieldOn == false)
         {
             shieldOn = true;
             photonView.CustomRPC(this, "animPlay", RpcTarget.All, true);
+            OnPress();
         }
+
     }
 
     public override void StopWeaponAction() //GetKeyUp
@@ -81,12 +89,14 @@ public class SkillShield : WeaponBase, IDamageable
         {
             shieldOn = false;
             photonView.CustomRPC(this, "animPlay", RpcTarget.All, false);
+            OnCancle();
         }
     }
 
     [PunRPC]
     public void animPlay(bool isStart)
     {
+        print(isStart);
         //어떤상황에서 어떤애니메이션
         if (isStart)
         {
@@ -110,11 +120,11 @@ public class SkillShield : WeaponBase, IDamageable
     IEnumerator GaugeOver() // 과부하
     {
         isReloading = true;
-        WeaponSystem.instance.LockWeapon(weaponSetting.weaponName);
+        // WeaponSystem.instance.LockWeapon(weaponSetting.weaponName);
 
         yield return new WaitForSeconds(3f); //3초에 패널티
 
-        WeaponSystem.instance.UnlockWeapon(weaponSetting.weaponName);
+        // WeaponSystem.instance.UnlockWeapon(weaponSetting.weaponName);
         isReloading = false;
     }
 

@@ -16,6 +16,7 @@ public class BasicWeapon : WeaponBase, IInitialize
         weaponSetting.attackDistance = 10;
         weaponSetting.attackRate = 0.2f;
         weaponSetting.damage = 1;
+        weaponSetting.bLock = false;
         handSide = HandSide.Right;
         isAutomatic = true;
 
@@ -38,6 +39,9 @@ public class BasicWeapon : WeaponBase, IInitialize
     }
     public event Cur_MaxEvent OnValueChange;
 
+    public System.Action OnPress;
+    public System.Action OnCancle;
+
     [Header("SpawnPoint")]
     public Transform bulletSpawnPoint;
 
@@ -52,7 +56,7 @@ public class BasicWeapon : WeaponBase, IInitialize
     private WaitForEndOfFrame eof = new WaitForEndOfFrame();
     IEnumerator coroutineHolder;
 
-    private float CurrentAmmo
+    public float CurrentAmmo
     {
         get { return weaponSetting.currentAmmo;}
         set
@@ -67,15 +71,14 @@ public class BasicWeapon : WeaponBase, IInitialize
         }
     }
     
-    protected override void Initialize()
+    public override void Initialize()
     {
         base.Initialize();
         CurrentAmmo = weaponSetting.maxAmmo;
     }
-
     public override void StartWeaponAction()
     {
-        if (isReloading)
+        if (isReloading || weaponSetting.bLock)
             return;
 
         if (isAutomatic)
@@ -85,17 +88,21 @@ public class BasicWeapon : WeaponBase, IInitialize
         }
         else
             OnAttack();
+
+        OnPress();
     }
 
     public override void StopWeaponAction()
     {
         if (coroutineHolder != null)
             StopCoroutine(coroutineHolder);
+
+        OnCancle();
     }
 
     public override void StartReload()
     {
-        if (isReloading)
+        if (isReloading) 
             return;
 
         StartCoroutine(OnReload());
