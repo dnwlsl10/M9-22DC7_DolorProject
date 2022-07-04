@@ -50,6 +50,7 @@ public class GuidedMissile : WeaponBase , IInitialize
         weaponSetting.attackDistance = 0;
         weaponSetting.attackRate = 0.2f;
         weaponSetting.damage = 1;
+        weaponSetting.bLock = false;
         handSide = HandSide.Right;
         isAutomatic = true;
         if(gmSystem == null)
@@ -96,15 +97,16 @@ public class GuidedMissile : WeaponBase , IInitialize
 
     public override void Initialize()
     {
+        base.Initialize();
         CurrentAmmo = 0;
-        OnValueChange?.Invoke(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
         if (SceneManager.GetActiveScene().name == "Connect") return;
 
         StartReload();
     }
     public override void StartWeaponAction() //키를 누르때
     {   
-        if(CurrentAmmo < weaponSetting.maxAmmo || bLock) return;
+        Debug.Log("Missle Test");
+        if(CurrentAmmo < weaponSetting.maxAmmo) return;
 
         if(gmSystem.state == eState.Normal)
         {

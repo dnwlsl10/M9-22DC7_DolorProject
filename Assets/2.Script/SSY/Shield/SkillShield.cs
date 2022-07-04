@@ -10,6 +10,7 @@ public class SkillShield : WeaponBase, IDamageable
     {
         weaponSetting.weaponName = WeaponName.Shield;
         weaponSetting.maxAmmo = 100;
+        weaponSetting.bLock = false;
         handSide = HandSide.Left;
         gaugeUpSpeed = 10;
         gaugeDownSpeed = 20;
@@ -55,7 +56,7 @@ public class SkillShield : WeaponBase, IDamageable
     }
 
     private void Update() {
-        if (photonView.Mine == false) return;
+        if (photonView.Mine == false || weaponSetting.bLock) return;
         float deltaTime = Time.deltaTime;
 
         if (shieldOn)
@@ -70,7 +71,7 @@ public class SkillShield : WeaponBase, IDamageable
     
     public override void StartWeaponAction() //GetKeyDown
     {
-        if (isReloading || bLock)
+        if (isReloading || CurrentAmmo != weaponSetting.currentAmmo)
             return;
         
         if (shieldOn == false)
@@ -84,7 +85,6 @@ public class SkillShield : WeaponBase, IDamageable
 
     public override void StopWeaponAction() //GetKeyUp
     {
-        if (bLock) return;
         if (shieldOn == true)
         {
             shieldOn = false;
@@ -96,6 +96,7 @@ public class SkillShield : WeaponBase, IDamageable
     [PunRPC]
     public void animPlay(bool isStart)
     {
+        print(isStart);
         //어떤상황에서 어떤애니메이션
         if (isStart)
         {
@@ -109,7 +110,7 @@ public class SkillShield : WeaponBase, IDamageable
 
     public override void StartReload() // 연료를 0까지 사용했을 때
     {
-        if (isReloading || bLock)
+        if (isReloading)
             return;
 
         // StopWeaponAction();
@@ -119,11 +120,11 @@ public class SkillShield : WeaponBase, IDamageable
     IEnumerator GaugeOver() // 과부하
     {
         isReloading = true;
-        WeaponSystem.instance.LockWeapon(weaponSetting.weaponName);
+        // WeaponSystem.instance.LockWeapon(weaponSetting.weaponName);
 
         yield return new WaitForSeconds(3f); //3초에 패널티
 
-        WeaponSystem.instance.UnlockWeapon(weaponSetting.weaponName);
+        // WeaponSystem.instance.UnlockWeapon(weaponSetting.weaponName);
         isReloading = false;
     }
 

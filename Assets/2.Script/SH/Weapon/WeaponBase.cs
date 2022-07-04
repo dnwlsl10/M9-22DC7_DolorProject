@@ -16,6 +16,7 @@ public struct WeaponSetting
     public float maxAmmo;
     public float attackRate;
     public float attackDistance;
+    public bool bLock;
 }
 public delegate void Cur_MaxEvent(float curValue, float maxValue);
 
@@ -28,8 +29,6 @@ public class WeaponBase : MonoBehaviourPun
     protected float lastAttackTime = 0;
     protected bool isReloading;
     protected bool isAttacking;
-    public bool bLock;
-
     public virtual void StartWeaponAction(){}
     public virtual void StopWeaponAction(){}
     public virtual void StartReload(){}

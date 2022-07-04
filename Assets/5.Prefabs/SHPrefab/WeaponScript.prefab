@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 4811588309065104376}
   - component: {fileID: 3762235261956914012}
   - component: {fileID: 539951605094041219}
+  - component: {fileID: 676354787}
   m_Layer: 0
   m_Name: WeaponScript
   m_TagString: Untagged
@@ -188,6 +189,7 @@ MonoBehaviour:
     maxAmmo: 100
     attackRate: 0
     attackDistance: 0
+    bLock: 0
   handSide: 0
   gaugeUpSpeed: 10
   gaugeDownSpeed: 20
@@ -224,6 +226,7 @@ MonoBehaviour:
     maxAmmo: 10
     attackRate: 1
     attackDistance: 0
+    bLock: 0
   handSide: 1
   firePosition: {fileID: 0}
   orbFactory:
@@ -262,6 +265,7 @@ MonoBehaviour:
     maxAmmo: 10
     attackRate: 0.2
     attackDistance: 10
+    bLock: 0
   handSide: 1
   bulletSpawnPoint: {fileID: 0}
   muzzleFlashEffect: {fileID: 0}
@@ -269,6 +273,67 @@ MonoBehaviour:
   onFireSFX: {fileID: 0}
   onReloadSFX: {fileID: 0}
   isAutomatic: 0
+--- !u!114 &676354787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8692011448270903495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6aff4d7010059641aff6e355e89c7e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  weaponSetting:
+    weaponName: 2
+    button:
+      m_UseReference: 1
+      m_Action:
+        m_Name: Button
+        m_Type: 0
+        m_ExpectedControlType: 
+        m_Id: 173c688c-e946-436a-b559-62b6c28f046a
+        m_Processors: 
+        m_Interactions: 
+        m_SingletonActionBindings: []
+        m_Flags: 0
+      m_Reference: {fileID: -2664691354614307530, guid: b212627b2d7d7b547ba7c981ca0c6bec, type: 3}
+    damage: 1
+    currentAmmo: 0
+    maxAmmo: 20
+    attackRate: 0.2
+    attackDistance: 0
+    bLock: 0
+  handSide: 1
+  gmSystem: {fileID: 6363595007051247092}
+  bulletSpawnPoint: {fileID: 0}
+  randomPath:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  muzzleFlashEffect: {fileID: 0}
+  bullet: {fileID: 7862229890340024945, guid: dcd588c0baea5234f945038cd6857d49, type: 3}
+  onFireSFX: {fileID: 0}
+  onReloadSFX: {fileID: 0}
+  isAutomatic: 1
+  target: {fileID: 0}
 --- !u!1 &8692011449641214084
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,7 +498,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2908577295761231465, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
 --- !u!4 &1542816634 stripped
 Transform:

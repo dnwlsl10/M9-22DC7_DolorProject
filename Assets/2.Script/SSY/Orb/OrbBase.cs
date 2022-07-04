@@ -42,6 +42,7 @@ public class OrbBase : MonoBehaviourPun
     }
     protected void MoveToParent(Transform tr)
     {
+        print(tr.position);
         transform.parent = tr;
         transform.localPosition = transform.localEulerAngles = Vector3.zero;
     }

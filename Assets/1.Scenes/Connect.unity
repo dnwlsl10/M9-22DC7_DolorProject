@@ -724,6 +724,7 @@ GameObject:
   - component: {fileID: 917939047}
   - component: {fileID: 917939049}
   - component: {fileID: 917939050}
+  - component: {fileID: 917939051}
   m_Layer: 0
   m_Name: Connect
   m_TagString: Untagged
@@ -764,7 +765,7 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &917939049
 MonoBehaviour:
@@ -803,6 +804,19 @@ MonoBehaviour:
   progressBar: {fileID: 1273837483}
   bg: {fileID: 580469285}
   pv: {fileID: 917939049}
+--- !u!114 &917939051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 917939046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8963843e66809df4f84da87bd31707da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneMode: 0
 --- !u!1 &1026502689
 GameObject:
   m_ObjectHideFlags: 0
@@ -1127,19 +1141,55 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6502242962511973359, guid: 6076051c4ed2b5f4bad6a576903babac, type: 3}
       propertyPath: pools.Array.size
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6502242962511973359, guid: 6076051c4ed2b5f4bad6a576903babac, type: 3}
       propertyPath: pools.Array.data[1].name
       value: MissileProjectile
       objectReference: {fileID: 0}
     - target: {fileID: 6502242962511973359, guid: 6076051c4ed2b5f4bad6a576903babac, type: 3}
+      propertyPath: pools.Array.data[2].name
+      value: laser_impulse_projectile_001
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502242962511973359, guid: 6076051c4ed2b5f4bad6a576903babac, type: 3}
+      propertyPath: pools.Array.data[3].name
+      value: OrbA 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502242962511973359, guid: 6076051c4ed2b5f4bad6a576903babac, type: 3}
+      propertyPath: pools.Array.data[4].name
+      value: OrbB 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502242962511973359, guid: 6076051c4ed2b5f4bad6a576903babac, type: 3}
       propertyPath: pools.Array.data[1].prefab
       value: 
       objectReference: {fileID: 7862229890340024945, guid: dcd588c0baea5234f945038cd6857d49, type: 3}
     - target: {fileID: 6502242962511973359, guid: 6076051c4ed2b5f4bad6a576903babac, type: 3}
+      propertyPath: pools.Array.data[2].prefab
+      value: 
+      objectReference: {fileID: 100004, guid: b68468ea19b581744b2449b90138eba4, type: 3}
+    - target: {fileID: 6502242962511973359, guid: 6076051c4ed2b5f4bad6a576903babac, type: 3}
+      propertyPath: pools.Array.data[3].prefab
+      value: 
+      objectReference: {fileID: 8826344079920379656, guid: 4c217890c355a674fba2d4d452e1a11f, type: 3}
+    - target: {fileID: 6502242962511973359, guid: 6076051c4ed2b5f4bad6a576903babac, type: 3}
+      propertyPath: pools.Array.data[4].prefab
+      value: 
+      objectReference: {fileID: 8882929318612687507, guid: c5c8ed6524cbed84898f1dd24a1769a0, type: 3}
+    - target: {fileID: 6502242962511973359, guid: 6076051c4ed2b5f4bad6a576903babac, type: 3}
       propertyPath: pools.Array.data[1].initSize
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502242962511973359, guid: 6076051c4ed2b5f4bad6a576903babac, type: 3}
+      propertyPath: pools.Array.data[2].initSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502242962511973359, guid: 6076051c4ed2b5f4bad6a576903babac, type: 3}
+      propertyPath: pools.Array.data[3].initSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502242962511973359, guid: 6076051c4ed2b5f4bad6a576903babac, type: 3}
+      propertyPath: pools.Array.data[4].initSize
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6076051c4ed2b5f4bad6a576903babac, type: 3}
@@ -1296,7 +1346,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &2002045603
 MonoBehaviour:

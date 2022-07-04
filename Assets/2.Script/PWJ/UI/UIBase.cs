@@ -27,8 +27,6 @@ public class UIBase : MonoBehaviour  , ILock
     public GameObject enableUIKeys; //노멀 키
     public GameObject disableUIKeys;
 
-    [Header("Lock")]
-    public bool bLock;
 
     public virtual void EventValue(float current, float max){}
     public virtual void OnValueUp(){}

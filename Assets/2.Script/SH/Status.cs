@@ -29,8 +29,7 @@ public class Status : MonoBehaviourPun, IDamageable
     }
 
     private void Start() {
-        hp = maxHP;
-        OnValueChange?.Invoke(hp, maxHP);
+        HP = maxHP;
     }
 
     public bool TakeDamage(float damage)

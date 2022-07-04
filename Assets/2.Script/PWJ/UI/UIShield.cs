@@ -7,24 +7,25 @@ public class UIShield : UIBase
 {
     [Header("UIShield")]
     public Image fillamount_progress;
-    private bool isOver;
-
+    private bool bOver;
+    public bool bLock;
     public override void EventValue(float current, float max)
     {
+        if (bLock) return;
         value = current / max;
         fillamount_progress.fillAmount = value;
 
-        if(isOver)
+        if(bOver)
         {
              if(current <= 30) return;
              else
-              isOver = false;
+                bOver = false;
               Set();
         }
         
-        if(current > 0 && !isOver) Debug.Log("test");
-        else if(current == 0){
-            isOver = true;
+        if(current == 0)
+        {
+            bOver = true;
             Set();
         }
     }

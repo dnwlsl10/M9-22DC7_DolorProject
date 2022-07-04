@@ -118,13 +118,6 @@ public class Connect : MonoBehaviourPunCallbacks
         photonView.RPC("GameStartRPC", RpcTarget.AllBuffered);
     }
 
-    void Update(){
-        Debug.Log(PhotonNetwork.InLobby);
-        if(Input.GetKeyDown(KeyCode.Space)){
-            StartCoroutine(OnStartCount());
-        }
-    }
-    
     [PunRPC]
     void GameStartRPC() => StartCoroutine(OnStartCount());
     IEnumerator OnStartCount()

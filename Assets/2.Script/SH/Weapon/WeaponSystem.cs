@@ -105,6 +105,7 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
     public static WeaponSystem instance;
     private void Awake() 
     {
+        print(photonView.Mine);
         if (photonView.Mine == false)
         {
             input_name_pair = null;

@@ -16,6 +16,7 @@ public class BasicWeapon : WeaponBase, IInitialize
         weaponSetting.attackDistance = 10;
         weaponSetting.attackRate = 0.2f;
         weaponSetting.damage = 1;
+        weaponSetting.bLock = false;
         handSide = HandSide.Right;
         isAutomatic = true;
 
@@ -77,7 +78,7 @@ public class BasicWeapon : WeaponBase, IInitialize
     }
     public override void StartWeaponAction()
     {
-        if (isReloading || bLock)
+        if (isReloading || weaponSetting.bLock)
             return;
 
         if (isAutomatic)
@@ -101,7 +102,7 @@ public class BasicWeapon : WeaponBase, IInitialize
 
     public override void StartReload()
     {
-        if (isReloading || bLock) 
+        if (isReloading) 
             return;
 
         StartCoroutine(OnReload());
