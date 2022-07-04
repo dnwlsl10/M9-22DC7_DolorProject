@@ -2,92 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class UIGuidedMissile : UIBase  , IUIButton
+public class UIGuidedMissile : UIBase
 {
-    [Header("UIButoon")]
-    public Image onClickFirstHelpkey;
-    public Image offClickFirstHelpkey;
-    public Image onClickSecondHelpkey;
-    public Image offClickSecondHelpkey;
-
-    public GameObject enableHelpUI; //노멀 키
-    public GameObject disableHelpUI;
-
     [Header("UIGuidedMissile")]
     public Image fillamount_progress;
-    private bool isFire;
-
-
-    public override void OnComplete(){
-        isFire = true;
-        textProgress.gameObject.SetActive(false);
-        base.OnComplete();
-    }
+    private bool isFire = false;
 
     public override void EventValue(float current, float max){
         
         value = current / max;
         fillamount_progress.fillAmount = value;
+        textProgress.text = ((int)(value * 100)).ToString();
 
-        if(isFire && fillamount_progress.fillAmount !=0) return;
-        isFire = false;
-
-        if (current >= max) StartUI();
-        else StopUI();
+        if(isFire){
+            disableUIKeys.gameObject.SetActive(true);
+            enableUIKeys.gameObject.SetActive(false);
+            if (fillamount_progress.fillAmount != 0) return;
+            else isFire = false;
+            OnOFF(available, reload);
+        }
+       
+        if(!textProgress.gameObject.activeSelf) textProgress.gameObject.SetActive(true);
+        
+        if(current == max){
+            Set();
+            isFire = true;
+            textProgress.gameObject.SetActive(false);
+        }
     }
-    public override void StartUI()
-    {
-        OnComplete();
-        OnButton();
-    }
-    public override void StopUI()
-    {
-        OnDefult();
-        OffButton();
-    }
-
-    public override void OnDefult(){
-
-        textProgress.gameObject.SetActive(true);
-        textProgress.text = (value * 100f).ToString();
-        base.OnDefult();
-    }
-
-    public void OnButton() //활성화
-    {
-        enableHelpUI.gameObject.SetActive(true);
-        disableHelpUI.gameObject.SetActive(false);
-    }
-
-    public void OffButton() //비활성화 
-    {
-        enableHelpUI.gameObject.SetActive(false);
-        disableHelpUI.gameObject.SetActive(true);
-    }
-
-    public void OnFirstButton()
-    {
-        onClickFirstHelpkey.gameObject.SetActive(true);
-        offClickFirstHelpkey.gameObject.SetActive(false);
-    }
-
-    public void OffFirstButton()
-    {
-        onClickFirstHelpkey.gameObject.SetActive(false);
-        offClickFirstHelpkey.gameObject.SetActive(true);
-    }
-
-    public void OnSecondButton()
-    {
-        onClickSecondHelpkey.gameObject.SetActive(true);
-        offClickSecondHelpkey.gameObject.SetActive(false);
-    }
-
-    public void OffSecondButton()
-    {
-        onClickSecondHelpkey.gameObject.SetActive(false);
-        offClickSecondHelpkey.gameObject.SetActive(true);
-    }
-
 }

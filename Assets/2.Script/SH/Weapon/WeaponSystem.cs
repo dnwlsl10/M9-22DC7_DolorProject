@@ -17,6 +17,7 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
         UIShield uIShield = transform.root.GetComponentInChildren<UIShield>();
         UIBasicWeapon uIBasicWeapon = transform.root.GetComponentInChildren<UIBasicWeapon>();
         UIGuidedMissile uIGuidedMissile = transform.root.GetComponentInChildren<UIGuidedMissile>();
+        UIOrb uIOrb = transform.root.GetComponentInChildren<UIOrb>();
 
         Transform tr = Utility.FindChildMatchName(transform.root, "Cockpit");
         if (tr != null)
@@ -39,7 +40,8 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, hilight.OnRelease);
 
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onGrab, uIShield.OnFirstButton);
-                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, uIShield.OffFirstButton);
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, uIShield.OFFFirstButton);
+
 
             }
             else if (grababble.handType == Autohand.HandType.right)
@@ -58,10 +60,13 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, hilight.OnRelease);
 
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onGrab, uIBasicWeapon.OnFirstButton);
-                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, uIBasicWeapon.OffFirstButton);
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, uIBasicWeapon.OFFFirstButton);
 
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onGrab, uIGuidedMissile.OnFirstButton);
-                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, uIGuidedMissile.OffFirstButton);
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, uIGuidedMissile.OFFFirstButton);
+
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onGrab, uIOrb.OnFirstButton);
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, uIOrb.OFFFirstButton);
             }
         }
 

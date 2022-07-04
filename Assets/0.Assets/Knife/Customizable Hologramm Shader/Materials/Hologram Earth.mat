@@ -86,7 +86,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Alpha: 1
+    - _Alpha: 0
     - _AlphaMaskAffect: 1
     - _AlphaMaskFeature: 1
     - _BumpScale: 1
@@ -175,7 +175,7 @@ Material:
     - _GrainScale: {r: 58.69, g: 25, b: 25, a: 0}
     - _GrainValues: {r: 371.8, g: 2, b: 0, a: 0}
     - _LineGlitchOffset: {r: 0.08, g: 0, b: 0, a: 0}
-    - _MainColor: {r: 1, g: 1, b: 1, a: 0.050980393}
+    - _MainColor: {r: 1, g: 1, b: 1, a: 0.29803923}
     - _MaskCenter: {r: 0, g: 0, b: 0, a: 0}
     - _MaskSize: {r: 0, g: 0, b: 0, a: 0}
     - _RandomGlitchOffset: {r: -0.1, g: 0, b: 0, a: 0}

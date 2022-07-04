@@ -73,11 +73,9 @@ public class BasicWeapon : WeaponBase, IInitialize
     
     public bool isAutomatic;
     IEnumerator coroutineHolder;
-    public override void Initialize() => CurrentAmmo = 10;
-    
     public override void StartWeaponAction()
     {
-        if (isReloading)
+        if (isReloading || bLock)
             return;
 
         if (isAutomatic)
@@ -95,13 +93,13 @@ public class BasicWeapon : WeaponBase, IInitialize
     {
         if (coroutineHolder != null)
             StopCoroutine(coroutineHolder);
-        
+
         OnCancle();
     }
 
     public override void StartReload()
     {
-        if (isReloading) 
+        if (isReloading || bLock) 
             return;
 
         StopWeaponAction();

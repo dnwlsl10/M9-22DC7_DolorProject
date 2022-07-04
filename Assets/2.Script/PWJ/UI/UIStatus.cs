@@ -9,37 +9,34 @@ public class UIStatus : UIBase
     public Image fillamount_progress;
     private Coroutine coroutineHolder;
 
-    public override void OnComplete() => base.OnComplete();
-    public override void OnDefult() => base.OnDefult();
-
     public override void EventValue(float hp, float maxHP)
     {
-     
         value = hp / maxHP;
         fillamount_progress.fillAmount = value;
         textProgress.text = hp.ToString();
 
-        if (hp == 100){
-            OnDefult();
-            return;
+        if (hp == 0){
+            available.gameObject.SetActive(false);
+            available.gameObject.SetActive(true);
+        }
+        else{
+            if (coroutineHolder != null)
+            {
+                StopCoroutine(coroutineHolder);
+                coroutineHolder = null;
+            }
+
+            if (hp > 0)
+                coroutineHolder = StartCoroutine(OnDelay());
         }
         
-        if(coroutineHolder !=null){
-            StopCoroutine(coroutineHolder);
-            coroutineHolder =null;
-        }
-
-        if (hp > 0)
-            coroutineHolder = StartCoroutine(OnDelay());
-
-        if(hp ==0) OnComplete();
     }
 
    IEnumerator OnDelay()
     {
-        OnComplete();
+        Set();
         yield return new WaitForSeconds(1f);
-        OnDefult();
+        Set();
     }
 
 }

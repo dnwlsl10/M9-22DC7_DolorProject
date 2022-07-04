@@ -8,12 +8,6 @@ using UnityEngine.UI;
 public class UIManagerV2 : MonoBehaviour
 {
     /*-----Event Inject-----*/
-<<<<<<< HEAD
-    [SerializeField] private Status status;
-    [SerializeField] private BasicWeapon bw;
-    [SerializeField] private SkillShield sw;
-    [SerializeField] private GuidedMissile gm;
-=======
     [SerializeField]
     private Status status;
     [SerializeField]
@@ -22,7 +16,6 @@ public class UIManagerV2 : MonoBehaviour
     private SkillShield sw;
     [SerializeField]
     private GuidedMissile gm;
->>>>>>> develop
     /*----------------------*/
 
     [Header("HP_STATUS")]

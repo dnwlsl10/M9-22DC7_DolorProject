@@ -26,7 +26,7 @@ public class WeaponBase : MonoBehaviourPun
     protected float lastAttackTime = 0;
     protected bool isReloading;
     protected bool isAttacking;
-    protected event System.Action OnClick;
+    public bool bLock;
 
     public virtual void StartWeaponAction(){}
     public virtual void StopWeaponAction(){}
@@ -49,7 +49,7 @@ public class WeaponBase : MonoBehaviourPun
         weaponSetting.currentAmmo = weaponSetting.maxAmmo;
     }
 
-    protected void Start()
+    protected void Awake()
     {
         Initialize();
     }

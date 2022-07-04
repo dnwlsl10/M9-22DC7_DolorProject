@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
+using UnityEngine.SceneManagement;
 public class SkillShield : WeaponBase, IDamageable
 {
     public void Reset()
@@ -22,6 +22,7 @@ public class SkillShield : WeaponBase, IDamageable
     Animator anim;
     public System.Action OnPress;
     public System.Action OnCancle;
+    
 
     // public UnityEngine.InputSystem.InputActionReference alpha1;
 
@@ -65,8 +66,8 @@ public class SkillShield : WeaponBase, IDamageable
     // {
     //     anim = GetComponent<Animator>();
     // }
-    public override void Initialize() => CurrentAmmo = 100;
-    private void Awake() {
+
+    private void Start(){
         anim = GetComponent<Animator>();
         anim.Play("ShieldOff", 0, 1);
     }
@@ -82,7 +83,7 @@ public class SkillShield : WeaponBase, IDamageable
 
     public override void StartWeaponAction() //GetKeyDown
     {
-        if (isReloading)
+        if (isReloading || bLock)
             return;
         photonView.CustomRPC(this, "animPlay", RpcTarget.All, true);
         StartCoroutine("OnShieldSkillUse");
@@ -92,7 +93,7 @@ public class SkillShield : WeaponBase, IDamageable
 
     public override void StopWeaponAction() //GetKeyUp
     {
-
+        if(bLock) return;
         photonView.CustomRPC(this, "animPlay", RpcTarget.All, false);
         
         StopCoroutine("OnShieldSkillUse");
@@ -116,7 +117,7 @@ public class SkillShield : WeaponBase, IDamageable
 
     public override void StartReload() // 연료를 0까지 사용했을 때
     {
-        if (isReloading)
+        if (isReloading || bLock)
             return;
 
         StopWeaponAction();
