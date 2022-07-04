@@ -29,8 +29,8 @@ public class UIScreen : MonoBehaviour
     [ContextMenu("Initialize")]
     public void Reset(){
         if(this.status == null) status = this.transform.root.root.GetComponent<Status>();
-        if (this.bw == null) bw = this.transform.root.root.Find("WeaponScript").Find("BasicWeapon").GetComponent<BasicWeapon>();
-        if (this.sw == null)  sw  = this.transform.root.root.Find("root").GetComponentInChildren<SkillShield>();
+        if (this.bw == null) bw = this.transform.root.GetComponentInChildren<BasicWeapon>();
+        if (this.sw == null)  sw  = this.transform.root.GetComponentInChildren<SkillShield>();
 
     }
 

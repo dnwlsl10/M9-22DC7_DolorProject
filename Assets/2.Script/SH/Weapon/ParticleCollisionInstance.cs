@@ -25,7 +25,7 @@ public class ParticleCollisionInstance : MonoBehaviourPun
     }
     void OnParticleCollision(GameObject other)
     {
-        if (photonView.cachedMine == false) return;
+        if (photonView.Mine == false) return;
    
         if (part.GetCollisionEvents(other, collisionEvents) > 0)
         {
@@ -51,7 +51,7 @@ public class ParticleCollisionInstance : MonoBehaviourPun
 
         foreach (var effect in EffectsOnCollision)
         {
-            var instance = ObjectPooler.SpawnFromPool(effect, intersection + normal * Offset, new Quaternion()) as GameObject;
+            var instance = ObjectPooler.instance.SpawnFromPool(effect, intersection + normal * Offset, new Quaternion()) as GameObject;
             if (!UseWorldSpacePosition) instance.transform.parent = transform;
             if (UseFirePointRotation) { instance.transform.LookAt(transform.position); }
             else if (rotationOffset != Vector3.zero && useOnlyRotationOffset) { instance.transform.rotation = Quaternion.Euler(rotationOffset); }

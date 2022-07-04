@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Photon.Pun;
 
-public enum WeaponName {Basic, Shield, Missile, Grenade, Laser}
+public enum WeaponName {Basic, Shield, Missile, Orb, Laser}
 public enum HandSide {Left, Right}
 [System.Serializable]
 public struct WeaponSetting
 {
     public WeaponName weaponName;
+    public InputActionProperty button;
     public int damage;
     public float currentAmmo;
     public float maxAmmo;
@@ -39,16 +41,21 @@ public class WeaponBase : MonoBehaviourPun
         audioSource.clip = clip;
         audioSource.Play();
     }
-    protected void Initialize()
+    protected virtual void Initialize()
     {
         lastAttackTime = -weaponSetting.attackRate;
         isReloading = false;
         isAttacking = false;
-        weaponSetting.currentAmmo = weaponSetting.maxAmmo;
     }
 
-    protected void Awake()
-    {
+    protected void OnEnable() {
+        if (photonView.Mine == false) return;
+
+        WeaponSystem.instance.RegistWeapon(weaponSetting.button.action, this);
         Initialize();
+    }
+    protected void OnDisable() {
+        if (photonView.Mine)
+            WeaponSystem.instance.UnregistWeapon(weaponSetting.button.action, this);
     }
 }

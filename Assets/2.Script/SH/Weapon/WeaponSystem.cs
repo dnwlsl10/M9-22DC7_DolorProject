@@ -52,15 +52,6 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onRelease, hilight.OnRelease);
             }
         }
-
-        if (input_name_pair == null) input_name_pair = new SDictionaty();
-
-        if (input_name_pair.ContainsValue(WeaponName.Basic) == false)
-            input_name_pair.Add(Utility.CloneAction(ActionMap.XRI_RightHand_Interaction, "Activate"), WeaponName.Basic);
-        if (input_name_pair.ContainsValue(WeaponName.Shield) == false)
-            input_name_pair.Add(Utility.CloneAction(ActionMap.XRI_LeftHand_Interaction, "Activate"), WeaponName.Shield);
-        if(input_name_pair.ContainsValue(WeaponName.Missile) == false)
-            input_name_pair.Add(Utility.CloneAction(ActionMap.XRI_RightHand_Interaction, "GuidedMissile"), WeaponName.Missile);
         
 #if test
         grabL = Utility.FindInputReference(ActionMap.XRI_LeftHand_Interaction, "Select");
@@ -69,83 +60,124 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
 #endif
     }
 
-    [System.Serializable]
-    public class SDictionaty : RotaryHeart.Lib.SerializableDictionary.SerializableDictionaryBase<InputAction, WeaponName>{}
-    public SDictionaty input_name_pair;
+    private Dictionary<InputAction, int> input_name_pair;
 
     WeaponBase[] weapons;
-    List<int> leftHandWeapon, rightHandWeapon;
-    public bool[] canUseSkill;
-    private bool[] isGrabbing = new bool[2];
-    private bool[] usingSkill = new bool[2];
+    List<int>[] weaponIndex_byHand;
+    private bool[] canUseSkill;
+    [SerializeField] private bool[] isGrabbing;
+    [SerializeField] private bool[] usingSkill;
 
-    void SetGrabState(bool isLeft, bool value)
+    void SetGrabState(int index, bool value)
     {
-        int index = isLeft ? 0 : 1;
-
         if (isGrabbing[index] == value) return;
 
         if (value == false)
         {
-            foreach (int i in isLeft ? leftHandWeapon : rightHandWeapon)
-                weapons[i].StopWeaponAction();   
+            foreach (int i in weaponIndex_byHand[index])
+                weapons[i].StopWeaponAction();
             usingSkill[index] = false;
         }
 
         isGrabbing[index] = value;
     }
 
-    public void OnGrabRight(bool grabbing) => SetGrabState(false, grabbing);
-    public void OnGrabLeft(bool grabbing) => SetGrabState(true, grabbing);
+    public void OnGrabLeft(bool grabbing) => SetGrabState((int)HandSide.Left, grabbing);
+    public void OnGrabRight(bool grabbing) => SetGrabState((int)HandSide.Right, grabbing);
 
+    public static WeaponSystem instance;
     private void Awake() 
     {
         if (photonView.Mine == false)
         {
-            input_name_pair.Clear();
             input_name_pair = null;
+            Destroy(this);
         }
+        else 
+        {
+            if (instance) Destroy(instance);
+            instance = this;
+            InitLocal();
+        }
+    }
 
-        int weaponNameCount = System.Enum.GetValues(typeof(WeaponName)).Length;
+    void InitLocal()
+    {
+        input_name_pair = new Dictionary<InputAction, int>();
+
+        weaponIndex_byHand = new List<int>[2];
+        weaponIndex_byHand[0] = new List<int>();
+        weaponIndex_byHand[1] = new List<int>();
+        isGrabbing = new bool[2];
+        usingSkill = new bool[2];
+
+        int weaponNameCount = System.Enum.GetNames(typeof(WeaponName)).Length;
         canUseSkill = new bool[weaponNameCount];
         for(int i = 0; i < weaponNameCount; i++) canUseSkill[i] = true;
         weapons = new WeaponBase[weaponNameCount];
-        
-        leftHandWeapon = new List<int>();
-        rightHandWeapon = new List<int>();
-
-        foreach (var weapon in transform.root.GetComponentsInChildren<WeaponBase>())
-        {
-            int index = (int)weapon.weaponSetting.weaponName;
-            weapons[index] = weapon;
-            (weapon.handSide == HandSide.Left ? leftHandWeapon : rightHandWeapon).Add(index);
-        }
     }
 
     void StartWeaponEvent(InputAction.CallbackContext ctx)
     {
         int index = (int)input_name_pair[ctx.action];
         if (canUseSkill[index] == false) return;
+        print("Start Weapon Evnet " + ((WeaponName)index).ToString());
 
         WeaponBase weapon = weapons[index];
-        index = (int)weapon.handSide;
-        
-        if (isGrabbing[index] == true && usingSkill[index] == false)
+        int handIndex = (int)weapon.handSide;
+        if (isGrabbing[handIndex] == true && usingSkill[handIndex] == false)
         {
-            usingSkill[index] = true;
+            usingSkill[handIndex] = true;
             weapon.StartWeaponAction();
         }
         else
             print("Cannot use skill");
     }
 
-    public void StopWeaponEvent(WeaponName weaponName) => StopWeaponEvent((int)weaponName);
+    public void LockWeapon(WeaponName weaponName)
+    {
+        canUseSkill[(int)weaponName] = false;
+        StopWeaponEvent((int)weaponName);
+    }
+    public void UnlockWeapon(WeaponName weaponName)
+    {
+        canUseSkill[(int)weaponName] = true;
+    }
     private void StopWeaponEvent(InputAction.CallbackContext ctx) => StopWeaponEvent((int)input_name_pair[ctx.action]);
     private void StopWeaponEvent(int index)
     {
+        print("Stop Weapon Evnet " + ((WeaponName)index).ToString());
         WeaponBase weapon = weapons[index];
         weapon.StopWeaponAction();
         usingSkill[(int)weapon.handSide] = false;
+    }
+
+    public void RegistWeapon(InputAction action, WeaponBase weapon)
+    {  
+        int weaponIndex = (int)weapon.weaponSetting.weaponName;
+
+        if (input_name_pair.ContainsKey(action) == false)
+        {
+            input_name_pair.Add(action, weaponIndex);
+            weapons[weaponIndex] = weapon;
+            weaponIndex_byHand[(int)weapon.handSide].Add(weaponIndex);
+
+            action.started += StartWeaponEvent;
+            action.canceled += StopWeaponEvent;
+        }
+    }
+
+    public void UnregistWeapon(InputAction action, WeaponBase weapon)
+    {
+        if (input_name_pair.TryGetValue(action, out var weaponName))
+        {
+            input_name_pair.Remove(action);
+            weapons[weaponName] = null;
+            weaponIndex_byHand[(int)weapon.handSide].Remove(weaponName);
+        
+            action.started -= StartWeaponEvent;
+            action.canceled -= StopWeaponEvent;
+        }
     }
 
 #if test
@@ -154,19 +186,9 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
     public InputActionReference grabR;
     private void OnGrabLeft(InputAction.CallbackContext ctx) => OnGrabLeft(ctx.ReadValueAsButton());
     private void OnGrabRight(InputAction.CallbackContext ctx) => OnGrabRight(ctx.ReadValueAsButton());
-#endif
 
     private void OnEnable() {
-        if (photonView.cachedMine == false) return;
-
-        foreach(var key_val in input_name_pair)
-        {
-            key_val.Key.Enable();
-            key_val.Key.started += StartWeaponEvent;
-            key_val.Key.canceled += StopWeaponEvent;
-        }
-
-        #if test
+        if (photonView.Mine == false) return;
         Debug.LogWarning("WeaponSystem is in testMode");
         if (Utility.isVRConnected == false)
         {
@@ -175,19 +197,11 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
             grabL.action.canceled += OnGrabLeft;
             grabR.action.canceled += OnGrabRight;
         } 
-        #endif
+
     }
     private void OnDisable() {
-        if (photonView.cachedMine == false) return;
+        if (photonView.Mine == false) return;
 
-        foreach(var key_val in input_name_pair)
-        {
-            key_val.Key.started -= StartWeaponEvent;
-            key_val.Key.canceled -= StopWeaponEvent;
-            key_val.Key.Disable();
-        }
-
-        #if test
         if (Utility.isVRConnected == false)
         {
             grabL.action.started -= OnGrabLeft;
@@ -195,6 +209,6 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
             grabL.action.canceled -= OnGrabLeft;
             grabR.action.canceled -= OnGrabRight;
         }
-        #endif
     }
+#endif
 }

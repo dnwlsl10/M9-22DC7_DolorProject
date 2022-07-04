@@ -165,7 +165,7 @@ public class GuidedMissile : WeaponBase , IInitialize
         Vector3 p2 = new Vector3(randomPath[randIndex].position.x, randomPath[randIndex].position.y, 0) + dir;
         Vector3 p3 = target.position;
 
-        var missile = NetworkObjectPool.SpawnFromPool<Missile>(bullet.name, bulletSpawnPoint.transform.position, Quaternion.identity);
+        var missile = NetworkObjectPool.instance.SpawnFromPool<Missile>(bullet.name, bulletSpawnPoint.transform.position, Quaternion.identity);
         photonView.CustomRPC(missile, "RPCPath", RpcTarget.AllViaServer, p1, p2, p3);
 
         StartCoroutine(OnMuzzleFlashEffect());

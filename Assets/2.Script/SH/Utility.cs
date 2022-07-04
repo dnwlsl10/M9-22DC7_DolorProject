@@ -6,31 +6,20 @@ using System.Reflection;
 using UnityEngine.XR;
 public enum ActionMap{XRI_Head, XRI_LeftHand, XRI_LeftHand_Interaction, XRI_LeftHand_Locomotion, XRI_RightHand, XRI_RightHand_Interaction, XRI_RightHand_Locomotion}
 
-public class Utility : MonoBehaviour
+public class Utility
 {
     public static bool cache;
     public static bool initialized;
     public static bool isVRConnected
     {
-        get 
+        get
         {
             if (initialized == false)
             {
-                List<XRDisplaySubsystem> lists = new List<XRDisplaySubsystem>();
-                SubsystemManager.GetInstances<XRDisplaySubsystem>(lists);
-                foreach (var display in lists)
-                    if (display.running)
-                    {
-                        cache = true;
-                        initialized = true;
-                        Debug.Log("VR Connected");
-                        return true;
-                    }
-                
-                cache = false;
                 initialized = true;
-                Debug.Log("VR Not Connected");
-                return false;
+                cache = UnityEngine.XR.Management.XRGeneralSettings.Instance.Manager.activeLoader != null;
+                Debug.Log("VR connected : " + cache);
+                return cache;
             }
             else
                 return cache;
@@ -41,8 +30,6 @@ public class Utility : MonoBehaviour
     { return FindChildMatchName(tr, new string[]{name}); }
     public static Transform FindChildMatchName(Transform tr, string[] names)
     {
-        
-
         for (int i = 0; i < tr.childCount; i++)
         {
             Transform tmp = tr.GetChild(i);
@@ -94,7 +81,6 @@ public class Utility : MonoBehaviour
                 return;
             }
         }
-        print(mi.Name);
                 
         ParameterInfo[] arguments = mi.GetParameters();
         if (parameters.Length == arguments.Length)
@@ -119,6 +105,7 @@ public class Utility : MonoBehaviour
         
         return;
     }
+    
     #if UNITY_EDITOR
     public static InputActionReference FindInputReference(ActionMap actionMap, string action)
     {
@@ -137,8 +124,6 @@ public class Utility : MonoBehaviour
         foreach (var a in map.actions)
             if (a.name == action)
                 tmp = a;
-
-        print(tmp);
         
         InputAction result = new InputAction(actionMap.ToString().Replace('_', ' ')+"/"+action, tmp.type, null, tmp.interactions, tmp.processors, tmp.expectedControlType);
         foreach (var v in tmp.bindings)

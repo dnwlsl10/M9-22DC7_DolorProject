@@ -8,45 +8,44 @@ using Photon.Pun;
 public class MechMovementController : MonoBehaviourPun, IInitialize
 {
     public void Reset() {
-#if UNITY_EDITOR
-        centerEye = GetComponentInChildren<Camera>(true)?.transform;
-        leftHandJoystick = Utility.FindInputReference(ActionMap.XRI_LeftHand_Locomotion, "Move");
-#endif
+    #if UNITY_EDITOR
+        centerEye = GetComponentInChildren<Camera>(true)?.transform; leftHandJoystick = Utility.FindInputReference(ActionMap.XRI_LeftHand_Locomotion, "Move");
+    #endif
     }
     enum WalkState{Idle, Forward, Back, Left, Right}
+    
+    [SerializeField]        Transform centerEye;
+
+    [Header("Audio")]
+    [SerializeField]        AudioSource audio;
+    [SerializeField]        AudioClip footstep;
 
     [Header("Move")]
-    public float moveSpeed = 1f;
-    public InputActionReference leftHandJoystick;
+    [SerializeField]        InputActionReference leftHandJoystick;
+    [SerializeField]        float moveSpeed = 1f;
 
     [Header("Rotation")]
-    [SerializeField]
-    Transform centerEye;
-    [SerializeField]
-    private float rotateStartThreshold = 30;
-    [SerializeField]
-    private float rotateFinishThreshold = 20;
-    [SerializeField]
-    private float timeToReachMaxRotSpeed = 1;
-    [SerializeField]
-    private float maxRotationSpeed = 15;
-    
-    [Space, Range(0, 2)]
-    public float timeToReachMinRotationSpeed = 1;
-    [SerializeField, Tooltip("If angle between hmd and robot is this value, the rotation speed becomes max")]
-    public float angleToReachMaxRotationSpeed = 90;
+    // [SerializeField]        private float timeToReachMaxRotSpeed = 1;
+    [SerializeField]        float rotateStartThreshold = 30;
+    [SerializeField]        float rotateFinishThreshold = 20;
+    [SerializeField]        float maxRotationSpeed = 15;
+    [Range(0, 10)]
+    [SerializeField]        float rotatingLerpSpeed = 1;
 
-    private Transform tr;
-    private Quaternion targetRot;
-    private Animator anim;
-    private Rigidbody rb;
+    [Tooltip("If angle between hmd and robot is this value, the rotation speed becomes max")]
+    [SerializeField]        float angleToReachMaxRotationSpeed = 90;
+                            bool rotating;
+
+    Transform tr;
+    Animator anim;
+    Rigidbody rb;
     Vector3 moveDir = Vector3.zero;
-    private float deltaTime;
     WalkState walkState;
-
-    
+    string[] walkStateToString;
+    float deltaTime;
     float angle, absAngle;
-    float rotSpeed, startRotSpeed;
+    float rotSpeed;
+    bool cachedMine;
 
     WalkState walkStateProperty
     {
@@ -56,7 +55,7 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
             if (walkState == value) return;
 
             walkState = value;
-            photonView.CustomRPC(this, "CrossFade", RpcTarget.All, walkState, anim.GetBool("Rotating"));
+            photonView.CustomRPC(this, "CrossFade", RpcTarget.All, walkState, rotating);
         }
     }
 
@@ -66,41 +65,40 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
         if (state == WalkState.Idle)
             anim.CrossFade(rotating ? "Rotate" : "Idle", 0.2f);
         else
-            anim.CrossFade(state.ToString(), 0.2f);
+            anim.CrossFade(walkStateToString[(int)state], 0.2f);
     }
 
     void Awake()
     {
-        tr = GetComponent<Transform>();
+        cachedMine = photonView.Mine;
+        walkStateToString = System.Enum.GetNames(typeof(WalkState));
         anim = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody>();
+
+        if (cachedMine)
+        {
+            tr = GetComponent<Transform>();
+            rb = GetComponent<Rigidbody>();
+        }
     }
 
-    void Start()
+    private void FixedUpdate()
     {
-        if (photonView.cachedMine)
-        // StartCoroutine(IEStartRotate());
-        StartCoroutine(IERotateVer2());
+        if (cachedMine) rb.AddForce(moveDir, ForceMode.VelocityChange);
     }
-
-    private void FixedUpdate() {
-        if (photonView.cachedMine)
-        rb.AddForce(moveDir, ForceMode.VelocityChange);
-    } 
 
 
     // Update is called once per frame
     void Update()
     {
-        if (photonView.cachedMine == false)
-            return;
+        if (cachedMine == false) return;
+
         deltaTime = Time.deltaTime;
         UpdateMove();
+        UpdateRotate();
     }
 
     private void UpdateMove()
     {
-        moveDir = Vector3.zero;
         Vector2 inputDir = leftHandJoystick.action.ReadValue<Vector2>();
 
         float absX = Mathf.Abs(inputDir.x);
@@ -128,9 +126,54 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
         }
         // not walk
         else
+        {
+            moveDir = Vector3.zero;
             walkStateProperty = WalkState.Idle;
+        }
     }
 
+    private void UpdateRotate()
+    {
+        CalculateAngle();
+
+        // Start rotate when angle between robot's forward direction and centereye's forward direction larger than threshold
+        if (rotating == false)
+        {
+            if (absAngle > rotateStartThreshold)
+            {
+                rotating = true;
+                anim.SetBool("Rotating", rotating);
+                anim.SetBool("RotateMirror", angle > 0 ? false : true);
+                rotSpeed = 0;
+            }
+            else if (rotSpeed > 0.1f)
+            {
+                rotSpeed = Mathf.Lerp(rotSpeed, 0, deltaTime * rotatingLerpSpeed);
+                Rotate();
+            }
+            else
+            {
+                rotSpeed = 0;
+            }
+        }
+        // Rotating...
+        else
+        {
+            if (absAngle > rotateFinishThreshold)
+            {
+                float targetSpeed = maxRotationSpeed * Mathf.Clamp01(absAngle/angleToReachMaxRotationSpeed);
+                rotSpeed = Mathf.Lerp(rotSpeed, targetSpeed, deltaTime * rotatingLerpSpeed);
+                Rotate();
+            }
+            else
+            {
+                rotating = false;
+                anim.SetBool("Rotating", rotating);
+            }
+        }
+    }
+
+#region 
     // IEnumerator IEStartRotate()
     // {
     //     float angle = 0;
@@ -179,43 +222,7 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
     //         yield return null;
     //     }
     // }
-    // 각도에 따른 회전 속도
-    IEnumerator IERotateVer2()
-    {
-        startRotSpeed = maxRotationSpeed * (rotateStartThreshold/angleToReachMaxRotationSpeed);
-
-        while(true)
-        {
-            CalculateAngle();
-
-            // Start rotate when angle between robot's forward direction and centereye's forward direction larger than threshold
-            if (absAngle > rotateStartThreshold)
-            {
-                anim.SetBool("Rotating", true);
-                anim.SetBool("RotateMirror", angle > 0 ? false : true);
-                rotSpeed = 0;
-                while (absAngle > rotateFinishThreshold)
-                {
-                    CalculateAngle();
-                    rotSpeed = rotSpeed < startRotSpeed ? Mathf.Lerp(rotSpeed, startRotSpeed+1, deltaTime / timeToReachMinRotationSpeed) : maxRotationSpeed * Mathf.Clamp01((absAngle/angleToReachMaxRotationSpeed));
-                    
-                    Rotate();
-                    yield return null;
-                }
-
-                for (float f = 0; f < 1; f += deltaTime)
-                {
-                    rotSpeed = Mathf.Lerp(rotSpeed, 0, f);
-                    Rotate();
-                    yield return null;
-                }
-                anim.SetBool("Rotating", false);
-            }
-
-            yield return null;
-        }
-    }
-
+#endregion
     void CalculateAngle()
     {
         angle = Vector3.SignedAngle(Vector3.ProjectOnPlane(centerEye.forward, tr.up), tr.forward, tr.up);
@@ -224,14 +231,14 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
     void Rotate()
     {
         if (walkState != WalkState.Idle)
-        {
-            targetRot = Quaternion.Euler(tr.eulerAngles - tr.up * angle);
-            tr.rotation = Quaternion.RotateTowards(tr.rotation, targetRot, deltaTime * rotSpeed);
-        }
+            tr.rotation = Quaternion.RotateTowards(tr.rotation, Quaternion.Euler(tr.eulerAngles - tr.up * angle), deltaTime * rotSpeed);
         else
-        {
             anim.SetFloat("TurnSpeed", rotSpeed/45);
-        }
+    }
+
+    public void PlayFootStepSound()
+    {
+
     }
 
     public void SetMoveSpeed(float _value) => moveSpeed = _value;

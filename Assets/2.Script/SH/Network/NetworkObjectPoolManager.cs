@@ -16,16 +16,6 @@ public class NetworkObjectPoolManager : MonoBehaviourPunCallbacks
             Instantiate(networkObjectPool);
     }
 
-    // public override void OnJoinedRoom()
-    // {
-    //     spawnedPool = Instantiate(networkObjectPool);
-    //     DontDestroyOnLoad(spawnedPool);
-    // }
-
-    public override void OnCreatedRoom()
-    {
-    }
-
     public override void OnLeftRoom()
     {
         spawnedPool.GetComponent<NetworkObjectPool>().DestroyPool();

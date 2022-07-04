@@ -11,11 +11,9 @@ public class IKWeight : MonoBehaviourPun
     public InputActionReference gripL;
     public InputActionReference gripR;
 
-    void Reset()
-    {
+    void Reset(){
 #if UNITY_EDITOR
-        gripL = Utility.FindInputReference(ActionMap.XRI_LeftHand_Interaction, "Select");
-        gripR = Utility.FindInputReference(ActionMap.XRI_RightHand_Interaction, "Select");
+        gripL = Utility.FindInputReference(ActionMap.XRI_LeftHand_Interaction, "Select"); gripR = Utility.FindInputReference(ActionMap.XRI_RightHand_Interaction, "Select");
 #endif
     }
 
@@ -23,7 +21,7 @@ public class IKWeight : MonoBehaviourPun
     void OnRightGripEvent(InputAction.CallbackContext ctx) => OnRightGripEvent(ctx.ReadValueAsButton() ? 1 : 0);
 
     private void OnEnable() {
-        if (Utility.isVRConnected || photonView.cachedMine == false) return;
+        if (Utility.isVRConnected || photonView.Mine == false) return;
 
         gripL.action.started += OnLeftGripEvent;
         gripL.action.canceled += OnLeftGripEvent;
@@ -31,7 +29,7 @@ public class IKWeight : MonoBehaviourPun
         gripR.action.canceled += OnRightGripEvent;
     }
     private void OnDisable() {
-        if (Utility.isVRConnected || photonView.cachedMine == false) return;
+        if (Utility.isVRConnected || photonView.Mine == false) return;
 
         gripL.action.started -= OnLeftGripEvent;
         gripL.action.canceled -= OnLeftGripEvent;
@@ -58,22 +56,14 @@ public class IKWeight : MonoBehaviourPun
     public void OnRightGripEvent(int targetWeight) => photonView.CustomRPC(this, "RPCSetWeight", RpcTarget.All, false, targetWeight);
     
     [PunRPC]
-    private void RPCSetWeight(bool isLeft, int targetWeight)
+    private void RPCSetWeight(bool isLeft, int targetWeight) => ResetCoroutine(ref isLeft ? ref leftIKCoroutine : ref rightIKCoroutine, isLeft, targetWeight);
+    void ResetCoroutine(ref IEnumerator coroutine, bool isLeft, int targetWeight)
     {
-        if (isLeft)
-        {
-            if (leftIKCoroutine != null)
-                StopCoroutine(leftIKCoroutine);
-            leftIKCoroutine = IESetIKWeight(isLeft, targetWeight);
-            StartCoroutine(leftIKCoroutine);
-        }
-        else
-        {
-            if (rightIKCoroutine != null)
-                StopCoroutine(rightIKCoroutine);
-            rightIKCoroutine = IESetIKWeight(isLeft, targetWeight);
-            StartCoroutine(rightIKCoroutine);
-        }
+        if (coroutine != null)
+            StopCoroutine(coroutine);
+
+        coroutine = IESetIKWeight(isLeft, targetWeight);
+        StartCoroutine(coroutine);
     }
 
     IEnumerator IESetIKWeight(bool isLeft, int targetWeight)
