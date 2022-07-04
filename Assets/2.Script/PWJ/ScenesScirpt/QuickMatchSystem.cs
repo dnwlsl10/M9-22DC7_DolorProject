@@ -7,26 +7,32 @@ public class QuickMatchSystem : DoorSystem
 {
     [Header("UI")]
     private UIEarth uIEarth;
+    private CockPit cockPit;
 
-    public void Init(CockPit cockPit){
-        this.uIEarth = cockPit.uIEarth;
+    public void Init(CockPit cp){
+        this.cockPit = cp;
     }
 
-    public override void Enter()
+    public override void Enter(System.Action OnComplete)
     {
-        this.uIEarth.Init();
+        cockPit.UnLockMode();
         base.Open(() =>
         {
+            cockPit.EnterQuickMatchMode();
+            OnComplete();
         });
     }
 
-    public void OnFindOtherPlayer() => this.uIEarth.OnRaycast();
+    public void OnFindOtherPlayer(){
+        cockPit.FindOtherPlayer();
+    } 
 
-    public override void Exit()
-    {
-        this.uIEarth.Exit();
-        base.Close(() =>
-        {
-        });
-    }
+    // public override void Exit(System.Action OnComplete)
+    // {
+    //     this.uIEarth.Exit();
+    //     base.Close(() =>
+    //     {
+    //         OnComplete();
+    //     });
+    // }
 }

@@ -20,6 +20,7 @@ public class Connect : MonoBehaviourPunCallbacks
     public InGame inGame;
     [Header("Test")]
     public bool isTest;
+    private bool bConnected;
 
     public System.Action OnCompelet;
     public System.Action<bool> IsMasterClient;
@@ -55,9 +56,18 @@ public class Connect : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
     public override void OnConnectedToMaster() => PhotonNetwork.JoinLobby(TypedLobby.Default);
+    public void CustomJoinedLobby(){
+        Debug.Log("restart");
+        bConnected = true;
+        PhotonNetwork.LeaveRoom();
+    }
+
     public override void OnJoinedLobby()
     {
+        Debug.Log(PhotonNetwork.InLobby);
         this.roomMode = eRoomMode.Lobby;
+
+        if (bConnected) return;
         if (isTest)
         {
             robot = Instantiate(playerPrefab, target.transform.position, Quaternion.identity);
@@ -68,6 +78,7 @@ public class Connect : MonoBehaviourPunCallbacks
         }
         inGame.Init(robot, photonView);
     }
+
     public void CustomCreatedRoom(eRoomMode room)
     {
         switch(room){
@@ -89,17 +100,18 @@ public class Connect : MonoBehaviourPunCallbacks
             break;
         }
     }
-    public void OnLeftCustomRoom() => OnLeftRoom();
 
-    public override void OnLeftRoom(){
-        NetworkObjectPool.instance.DestroyPool();
-        Debug.Log(roomMode);
-    }
+
+
+    public override void OnLeftRoom(){}
 
     public override void OnCreatedRoom() => Debug.Log(roomMode);
       
-    public override void OnJoinedRoom() => IsMasterClient(PhotonNetwork.IsMasterClient);
-     
+    public override void OnJoinedRoom()
+    {
+        if(this.roomMode == eRoomMode.QuickMatchRoom)  IsMasterClient(PhotonNetwork.IsMasterClient);
+    }
+
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if(PhotonNetwork.IsMasterClient) inGame.DetectRemotePlayerJoin();
@@ -107,6 +119,7 @@ public class Connect : MonoBehaviourPunCallbacks
     }
 
     void Update(){
+        Debug.Log(PhotonNetwork.InLobby);
         if(Input.GetKeyDown(KeyCode.Space)){
             StartCoroutine(OnStartCount());
         }
@@ -122,6 +135,7 @@ public class Connect : MonoBehaviourPunCallbacks
             this.count[i].SetActive(false);
         }
         yield return StartCoroutine(loadingScreenProcess.LoadingPhotonScreenProcess("InGame"));
+        NetworkObjectPool.instance.DestroyPool();
         OnCompelet();
     }
 

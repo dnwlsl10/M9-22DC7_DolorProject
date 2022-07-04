@@ -65,7 +65,7 @@ public class BasicWeapon1 : WeaponBase, IInitialize
         }
     }
     
-    protected override void Initialize()
+    public override void Initialize()
     {
         base.Initialize();
         CurrentAmmo = weaponSetting.maxAmmo;

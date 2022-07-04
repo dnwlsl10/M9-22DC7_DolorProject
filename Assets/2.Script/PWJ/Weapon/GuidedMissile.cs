@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 public class GuidedMissile : WeaponBase , IInitialize
 {
@@ -30,6 +31,8 @@ public class GuidedMissile : WeaponBase , IInitialize
     private AudioClip onReloadSFX;
     private WaitForEndOfFrame eof = new WaitForEndOfFrame();
     private WaitForSeconds ar = new WaitForSeconds(0.2f);
+    public System.Action OnPress;
+    public System.Action OnCancle;
 
     public bool isAutomatic;
     Coroutine coroutineHolder;
@@ -83,7 +86,7 @@ public class GuidedMissile : WeaponBase , IInitialize
         {
             float prevAmmo = weaponSetting.currentAmmo;
             weaponSetting.currentAmmo = Mathf.Clamp(value, 0, weaponSetting.maxAmmo);
-
+           
             if (prevAmmo != weaponSetting.currentAmmo)
             {
                 OnValueChange?.Invoke(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
@@ -91,55 +94,54 @@ public class GuidedMissile : WeaponBase , IInitialize
         }
     }
 
-    public override void StartWeaponAction()
+    public override void Initialize()
     {
-        if (isReloading)
-            return;
+        CurrentAmmo = 0;
+        OnValueChange?.Invoke(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
+        if (SceneManager.GetActiveScene().name == "Connect") return;
 
-        if (isAutomatic)
+        StartReload();
+    }
+    public override void StartWeaponAction() //키를 누르때
+    {   
+        if(CurrentAmmo < weaponSetting.maxAmmo || bLock) return;
+
+        if(gmSystem.state == eState.Normal)
         {
             gmSystem.state = eState.Tracking;
-            gmSystem.ActivateGuidedMissile(); //키를 누르고 있는동안 
+            gmSystem.StartGuidedMissile();
+            OnPress();
         }
     }
 
 
     public override void StopWeaponAction() //키를 땠을때 
     {
-       
-        if (gmSystem.state == eState.Tracking)
+        OnCancle();
+        if(gmSystem.state == eState.Tracking)
         {
-            Debug.Log("stop tracking");
-            gmSystem.CancleGuidedMissile();
-            gmSystem.state = eState.Normal;     
+            gmSystem.StopGuidedMissile();
+            gmSystem.state = eState.Normal;
         }
-        else if(gmSystem.state == eState.TrackingComplete)
+
+        if(bFire || CurrentAmmo < weaponSetting.maxAmmo) return;
+        
+        if(gmSystem.state == eState.TrackingComplete)
         {
-            Debug.Log("Fire");
             coroutineHolder = StartCoroutine(ContinuousFire());
-        }
+            bFire = true;
+        } 
     }
 
     public override void StartReload()
     {
-        if (isReloading)
-            return;
-        
-        if(coroutineHolder !=null) 
-        {
-            StopCoroutine(coroutineHolder);
-            coroutineHolder = null;
-        }
+        if(isReloading) return;
 
-        //다 맞은 후 꺼지는 걸로 변경 예정 
-        gmSystem.CancleGuidedMissile();
-        gmSystem.state = eState.Normal;
         StartCoroutine(OnReload());
     }
-
     IEnumerator ContinuousFire()
     {
-        while (true)
+        while (CurrentAmmo > 0)
         {
             yield return ar;
             OnAttack();
@@ -148,15 +150,10 @@ public class GuidedMissile : WeaponBase , IInitialize
 
     private void OnAttack()
     {
-        // if not ready-to-shoot, return
-        if (CurrentAmmo <= 0){
-            Debug.LogFormat("CurrentAmmo : {0}", CurrentAmmo);
-            return;
-        }
- 
         this.target = gmSystem.enemyTarget;
+
         int randIndex = Random.Range(0, randomPath.Count - 1);
-        Vector3 dir = new Vector3(Random.Range(-1f, 1f), Random.Range(0.1f, 1f),0);
+        Vector3 dir = new Vector3(Random.Range(-1f, 1f), Random.Range(0.1f, 1f), 0);
 
         dir.Normalize();
         dir += new Vector3(0, 0, -8.25f);
@@ -166,15 +163,29 @@ public class GuidedMissile : WeaponBase , IInitialize
         Vector3 p3 = target.position;
 
         var missile = NetworkObjectPool.instance.SpawnFromPool<Missile>(bullet.name, bulletSpawnPoint.transform.position, Quaternion.identity);
+        missile.gm = this;
+
+
         photonView.CustomRPC(missile, "RPCPath", RpcTarget.AllViaServer, p1, p2, p3);
 
         StartCoroutine(OnMuzzleFlashEffect());
         PlaySound(onFireSFX);
-
         CurrentAmmo--;
-
-        if (CurrentAmmo <= 0) StartReload();
     }
+
+    #region  DestoryCount
+    int mcount;
+    bool bFire;
+    int destoryCount = 0;
+    public void Destory(){
+        destoryCount++;
+        Debug.Log("미사일 파괴 갯수");
+        if(destoryCount == weaponSetting.maxAmmo){
+            gmSystem.StopGuidedMissile();
+            StartReload();
+        }
+    }
+#endregion
 
     IEnumerator OnMuzzleFlashEffect()
     {
@@ -189,19 +200,22 @@ public class GuidedMissile : WeaponBase , IInitialize
     {
         isReloading = true;
 
-        yield return new WaitForSeconds(2f);
-        while (CurrentAmmo != weaponSetting.maxAmmo)
+        yield return new WaitForSeconds(1f);
+        while (weaponSetting.currentAmmo < weaponSetting.maxAmmo)
         {
             yield return null;
-            Debug.Log(weaponSetting.maxAmmo);
-            Debug.Log(CurrentAmmo);
-            CurrentAmmo += 0.1f;    //시간당 게이지 시스템
-            //히트 시 게이지 시스템
-            //UI 표시
+            CurrentAmmo += 10f * Time.deltaTime; 
         }
-        
-        isReloading = false;
+        OnDefult();
+    }
 
+    private void OnDefult()
+    {
         CurrentAmmo = weaponSetting.maxAmmo;
+        isReloading = false;
+        bFire = false;
+        mcount = 0;
+        destoryCount = 0;
+        gmSystem.state = eState.Normal;
     }
 }

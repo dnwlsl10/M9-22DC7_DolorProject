@@ -28,6 +28,7 @@ public class WeaponBase : MonoBehaviourPun
     protected float lastAttackTime = 0;
     protected bool isReloading;
     protected bool isAttacking;
+    public bool bLock;
 
     public virtual void StartWeaponAction(){}
     public virtual void StopWeaponAction(){}
@@ -41,8 +42,9 @@ public class WeaponBase : MonoBehaviourPun
         audioSource.clip = clip;
         audioSource.Play();
     }
-    protected virtual void Initialize()
+    public virtual void Initialize()
     {
+        Debug.Log("init");
         lastAttackTime = -weaponSetting.attackRate;
         isReloading = false;
         isAttacking = false;

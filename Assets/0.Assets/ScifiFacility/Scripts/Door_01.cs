@@ -17,7 +17,7 @@ public class Door_01 : MonoBehaviour {
 
 	void OnTriggerEnter(Collider c) {
 		
-		if (c.tag.Equals("Player")) {
+		if (c.tag.Equals("GameController")) {
 			GetComponent<AudioSource> ().Play ();
 
 			WingLeft ["door_01_wing_left"].speed = 1;
@@ -30,7 +30,7 @@ public class Door_01 : MonoBehaviour {
 
 	void OnTriggerExit(Collider c) {
 
-		if (c.tag.Equals("Player")) {
+		if (c.tag.Equals("GameController")) {
 			GetComponent<AudioSource> ().Play ();
 			WingLeft ["door_01_wing_left"].time = WingLeft ["door_01_wing_left"].length;
 			WingRight ["door_01_wing_right"].time = WingRight ["door_01_wing_right"].length;

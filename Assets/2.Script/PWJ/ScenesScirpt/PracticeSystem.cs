@@ -5,17 +5,26 @@ using UnityEngine;
 
 public class PracticeSystem : DoorSystem
 {
-    public override void Enter()
+  private CockPit cockPit;
+    public void Init(CockPit cp){
+        this.cockPit = cp;
+    }
+    public override void Enter(System.Action OnComplete)
     {
+        cockPit.UnLockMode();
         base.Open(() =>{
-        //연습모드 로직 
+            OnComplete();
+            cockPit.EnterParticleMode();
       });
     }
 
-    public override void Exit()
+    public override void Exit(System.Action OnComplete)
     {
+        cockPit.LockMode();
         base.Close(()=>{
-        //연습모드 종료 
+            OnComplete();
+            cockPit.ExitParticleMode();
+            
        });
     }
 

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/1.Scenes/MapJaKiJang_SSY.unity.meta
 guid: 8b9825236c725f645b9fdcf7f0f87324
+========
+guid: 1ecf0f0488c89a54caa9d8de85dfad73
+>>>>>>>> dev/PWJ:Assets/0.Assets/ShapesFX_Pack/ShapesFX_Pack.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
