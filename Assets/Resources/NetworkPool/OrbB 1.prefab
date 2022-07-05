@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 963686151}
   - component: {fileID: 1656883373293766088}
   - component: {fileID: 681328864531638883}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: OrbB 1
   m_TagString: Orb
   m_Icon: {fileID: 0}
@@ -117,9 +117,9 @@ MonoBehaviour:
   maxScale: 10
   timeToMaxScale: 1
   maxCount: 20
-  ChoongDolChae:
+  explosionLayer:
     serializedVersion: 2
-    m_Bits: 67648
+    m_Bits: 134228032
   vfx: {fileID: 8882929319085064557}
   blackHole: {fileID: 8882929317887460080}
 --- !u!114 &1656883373293766088
