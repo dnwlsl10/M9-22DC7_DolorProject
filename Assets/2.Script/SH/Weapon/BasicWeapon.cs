@@ -150,12 +150,12 @@ public class BasicWeapon : WeaponBase, IInitialize
     IEnumerator OnReload()
     {
         isReloading = true;
-        WeaponSystem.instance.LockWeapon(weaponSetting.weaponName);
+        StopWeaponAction();
 
         yield return new WaitForSeconds(2f); // Reloading Procedure
 
         isReloading = false;
-        WeaponSystem.instance.UnlockWeapon(weaponSetting.weaponName);
+        // WeaponSystem.instance.UnlockWeapon(weaponSetting.weaponName);
         CurrentAmmo = weaponSetting.maxAmmo;
     }
 }

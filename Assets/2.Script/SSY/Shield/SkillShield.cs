@@ -20,8 +20,6 @@ public class SkillShield : WeaponBase, IDamageable
     [SerializeField] float gaugeDownSpeed;
     [SerializeField] Animator anim;
     bool shieldOn;
-    public System.Action OnPress;
-    public System.Action OnCancle;
     
 
     // public UnityEngine.InputSystem.InputActionReference alpha1;
@@ -71,14 +69,14 @@ public class SkillShield : WeaponBase, IDamageable
     
     public override void StartWeaponAction() //GetKeyDown
     {
-        if (isReloading || CurrentAmmo != weaponSetting.currentAmmo)
+        if (isReloading || CurrentAmmo == 0)
             return;
         
         if (shieldOn == false)
         {
             shieldOn = true;
             photonView.CustomRPC(this, "animPlay", RpcTarget.All, true);
-            OnPress();
+            WeaponSystem.instance.StartActionCallback((int)weaponSetting.weaponName);
         }
 
     }
@@ -89,7 +87,7 @@ public class SkillShield : WeaponBase, IDamageable
         {
             shieldOn = false;
             photonView.CustomRPC(this, "animPlay", RpcTarget.All, false);
-            OnCancle();
+            WeaponSystem.instance.StopActionCallback((int)weaponSetting.weaponName);
         }
     }
 
@@ -110,10 +108,10 @@ public class SkillShield : WeaponBase, IDamageable
 
     public override void StartReload() // 연료를 0까지 사용했을 때
     {
-        if (isReloading)
+        if (isReloading || weaponSetting.bLock)
             return;
 
-        // StopWeaponAction();
+        StopWeaponAction();
         StartCoroutine(GaugeOver());
     }
 

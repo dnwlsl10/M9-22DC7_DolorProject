@@ -12,9 +12,6 @@ public class OrbFire : WeaponBase
     public int orbType;
     public float cooldown;
     public bool bUseOrb;
-    public System.Action OnPress;
-    public System.Action OnCancle;
-
     public float Cooldown{
         get { return cooldown;}
         set
@@ -32,11 +29,12 @@ public class OrbFire : WeaponBase
 
     public override void StartWeaponAction() //GetKeyDown
     {
+        if(weaponSetting.bLock) return;
         print("Start Orb"); 
         if (Time.time - lastAttackTime < weaponSetting.attackRate) //만약 스킬 쿨타임 중이면 스킬 사용할 수 없다는 소리가 나면서 사용불가
             return;
         StartCoroutine(Hold());
-        OnPress();
+        WeaponSystem.instance.StartActionCallback((int)weaponSetting.weaponName);
     }
 
     IEnumerator Hold()
@@ -56,7 +54,7 @@ public class OrbFire : WeaponBase
         if (orb == null)
             return;
 
-        OnCancle();
+        WeaponSystem.instance.StopActionCallback((int)weaponSetting.weaponName);
         lastAttackTime = Time.time; //초기화
         StartCoroutine(StartCooldown());
         OrbBase orbMove = orb.GetComponent<OrbBase>();
@@ -75,5 +73,7 @@ public class OrbFire : WeaponBase
         }
         Cooldown = weaponSetting.attackRate;
     }
+
+    public void SetType(int type) => orbType = type;
 }
 

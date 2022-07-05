@@ -6,7 +6,10 @@ public class UIExit : MonoBehaviour
 {
     public System.Action OnSelceted;
     private void OnTriggerEnter(Collider other)
-    {   
-        OnSelceted();
+    {
+        if (other.gameObject.layer == 10)
+        {
+            OnSelceted();
+        }
     }
 }

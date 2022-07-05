@@ -24,26 +24,24 @@ public class UIScreen : MonoBehaviour
     private bool bLock;
     public void OnEnable(){
         bw.OnValueChange += uIBasicWeapon.EventValue;
-        // bw.OnPress = () => { uIBasicWeapon.OnSecondButton();};
-        // bw.OnCancle = () => { uIBasicWeapon.OffSecondButton();};
-
         WeaponSystem.instance.onStartAction[(int)WeaponName.Basic] += uIBasicWeapon.OnSecondButton;
         WeaponSystem.instance.onStopAction[(int)WeaponName.Basic] += uIBasicWeapon.OffSecondButton;
 
         gm.OnValueChange += uIGuidedMissile.EventValue;
-        gm.OnPress = uIGuidedMissile.OnSecondButton;
-        gm.OnCancle = uIGuidedMissile.OffSecondButton;
+        WeaponSystem.instance.onStartAction[(int)WeaponName.Missile] += uIGuidedMissile.OnSecondButton;
+        WeaponSystem.instance.onStopAction[(int)WeaponName.Missile] += uIGuidedMissile.OffSecondButton;
 
         sw.OnValueChange += uIShield.EventValue;
-        sw.OnPress = uIShield.OnSecondButton;
-        sw.OnCancle = uIShield.OffSecondButton;
+        WeaponSystem.instance.onStartAction[(int)WeaponName.Shield] += uIShield.OnSecondButton;
+        WeaponSystem.instance.onStopAction[(int)WeaponName.Shield] += uIShield.OffSecondButton;
 
         of.OnValueChange += uIOrb.EventValue;
-        of.OnPress = uIOrb.OnSecondButton;
-        of.OnCancle = uIOrb.OffSecondButton;
+        WeaponSystem.instance.onStartAction[(int)WeaponName.Orb] += uIOrb.OnSecondButton;
+        WeaponSystem.instance.onStopAction[(int)WeaponName.Orb] += uIOrb.OffSecondButton;
 
         status.OnValueChange += uIStatus.EventValue;
     }
+  
     void Start()
     {
         if (SceneManager.GetActiveScene().name == "Connect") LockMode();
@@ -53,14 +51,15 @@ public class UIScreen : MonoBehaviour
     {
         Debug.Log("Lock");
         bw.CurrentAmmo = 0;
-        bw.weaponSetting.bLock = true;
 
         gm.CurrentAmmo = 0;
-        gm.weaponSetting.bLock = true;
 
         sw.CurrentAmmo = 0;
         sw.weaponSetting.bLock = true;
 
+        of.Cooldown = 0;
+        uIOrb.textProgress.text = of.weaponSetting.maxAmmo.ToString();
+        of.weaponSetting.bLock = true;
     }
 
     public void UnLockMode()
@@ -71,7 +70,10 @@ public class UIScreen : MonoBehaviour
 
         gm.weaponSetting.bLock = false;
         gm.StartReload();
+
         sw.weaponSetting.bLock = false;
+        of.Cooldown = of.weaponSetting.attackRate;
+        of.weaponSetting.bLock = false;
     }
 
     private void OnDisable() {
