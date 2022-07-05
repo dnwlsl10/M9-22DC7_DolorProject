@@ -179,6 +179,7 @@ namespace Photon.Pun
         /// True if this is a scene photonview (null owner and ownerId == 0) on the Master client.
         /// </remarks>
         public bool IsMine { get; private set; }
+        public bool cachedMine {get; private set; }
         public bool Mine
         {
             get
@@ -341,6 +342,7 @@ namespace Photon.Pun
         /// <summary>Will FindObservables() and assign the sceneViewId, if that is != 0. This initializes the PhotonView if loaded with the scene. Called once by Unity, when this instance is created.</summary>
         protected internal void Awake()
         {
+            cachedMine = Mine;
             if (this.ViewID != 0)
             {
                 return;
@@ -612,7 +614,7 @@ namespace Photon.Pun
 
         public void CustomRPC(MonoBehaviour mb, string methodName, RpcTarget target, params object[] arguments)
         {
-            if (PhotonNetwork.SingleMode == true)
+            if (PhotonNetwork.SingleMode == true && cachedMine == true)
             {
                 if (mb == null)
                 {

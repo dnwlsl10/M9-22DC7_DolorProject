@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 364e6d1bd77bf9e4e9f773bcc4271083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onShootSpeed: 0.1
+  onShootSpeed: 1
   speedUp: 1
   startSize: 3
   minScale: 0.5

@@ -16,14 +16,8 @@ public class InGameManager : MonoBehaviourPunCallbacks
 
     [SerializeField] private List<GameObject> players = new List<GameObject>();
     private int playerCount = 0;
-
     public System.Action OnChangeLobby;
-    public bool bTest;
-    private void Awake(){
-        if(bTest) Init();
-    }
-
-    public void Init() 
+    public void Awake() 
     {
         if (instance != null)
             Destroy(instance);

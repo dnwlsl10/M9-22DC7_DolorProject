@@ -18,8 +18,7 @@ public class ProjectileBase : MonoBehaviourPun
         var pv = other.collider.GetComponent<PhotonView>();
 
         if (pv?.ViewID > 0 == false)
-            other.collider.GetComponent<IDamageable>()?.TakeDamage(damage);
-
+            other.collider.GetComponent<IDamageable>()?.TakeDamage(damage); 
         photonView.CustomRPC(this, "RPCCollision", RpcTarget.AllViaServer, pv?.ViewID, contact.point, contact.normal);
     }
 

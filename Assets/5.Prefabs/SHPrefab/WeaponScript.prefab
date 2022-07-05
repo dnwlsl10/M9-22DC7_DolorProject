@@ -224,7 +224,7 @@ MonoBehaviour:
     damage: 0
     currentAmmo: 0
     maxAmmo: 10
-    attackRate: 1
+    attackRate: 10
     attackDistance: 0
     bLock: 0
   handSide: 1
@@ -232,7 +232,10 @@ MonoBehaviour:
   orbFactory:
   - {fileID: 8826344079920379656, guid: 4c217890c355a674fba2d4d452e1a11f, type: 3}
   - {fileID: 8882929318612687507, guid: c5c8ed6524cbed84898f1dd24a1769a0, type: 3}
+  - {fileID: 8882929318612687507, guid: c5c8ed6524cbed84898f1dd24a1769a0, type: 3}
   orbType: 0
+  cooldown: 0
+  bUseOrb: 0
 --- !u!114 &539951605094041219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,7 +275,7 @@ MonoBehaviour:
   bullet: {fileID: 100004, guid: b68468ea19b581744b2449b90138eba4, type: 3}
   onFireSFX: {fileID: 0}
   onReloadSFX: {fileID: 0}
-  isAutomatic: 0
+  isAutomatic: 1
 --- !u!114 &676354787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,6 +313,42 @@ MonoBehaviour:
   gmSystem: {fileID: 6363595007051247092}
   bulletSpawnPoint: {fileID: 0}
   randomPath:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

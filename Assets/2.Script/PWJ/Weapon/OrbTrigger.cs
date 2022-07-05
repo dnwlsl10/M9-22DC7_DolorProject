@@ -11,20 +11,18 @@ public class OrbTrigger : MonoBehaviour
 
     public bool bGrabRightHand;
     private bool isChanging;
-    private UIOrb uIOrb;
+    public UIOrb uIOrb;
     private eOrbType orbType;
     private Coroutine coroutineholder;
     private MeshRenderer mr;
     private MaterialPropertyBlock matBlock;
     public float motionTime = 2f;
-    private List<Color> colorList;
-    //private Dictionary<int, Color> orbdic = new Dictionary<int, Color>();
+
     private Color[] color = new Color[] {new Color(0.01330545f, 0.1226415f, 0.01330545f), new Color(0.129365f,0.04142933f,0.4622642f) , new Color(0.957f, 0.4659617f, 0.1058823f) }; 
     System.Action<int> a;
     private void Awake()
     {
        // this.GetComponent<Collider>().enabled = true;
-        uIOrb = this.GetComponentInParent<UIOrb>();
         matBlock = new MaterialPropertyBlock();
         mr = this.GetComponent<MeshRenderer>();
         orbType = eOrbType.OrbA;
@@ -45,8 +43,9 @@ public class OrbTrigger : MonoBehaviour
     }
     private void OnCollisionEnter(Collision other) 
     {
-        if(other.collider.CompareTag("RightHand") && !bGrabRightHand && !isChanging)
+        if(other.collider.CompareTag("RightHand") || other.collider.CompareTag("LeftHand"))
         {
+            if(bGrabRightHand && isChanging) return;
             isChanging = true;
             Debug.Log("Test Hand");
             switch(orbType)

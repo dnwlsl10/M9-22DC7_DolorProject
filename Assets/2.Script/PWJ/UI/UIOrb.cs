@@ -38,23 +38,23 @@ public class UIOrb : UIBase
     }
 
     public IEnumerator OnLerpUI(bool isSelected){
-        tmp = originOrbA.position;
-        tmpB = originOrbB.position;
-        tmpC = originOrbC.position;
+        tmp = originOrbA.localPosition;
+        tmpB = originOrbB.localPosition;
+        tmpC = originOrbC.localPosition;
         while(isSelected)
         {
             yield return null;
-            originOrbA.position = Vector3.Lerp(originOrbA.position, tmpC , Time.deltaTime);
-            originOrbC.position = Vector3.Lerp(originOrbC.position, tmpB, Time.deltaTime);
-            originOrbB.position = Vector3.Lerp(originOrbB.position, tmp , Time.deltaTime);
+            originOrbA.localPosition = Vector3.Lerp(originOrbA.localPosition, tmpC , Time.deltaTime);
+            originOrbC.localPosition = Vector3.Lerp(originOrbC.localPosition, tmpB, Time.deltaTime);
+            originOrbB.localPosition = Vector3.Lerp(originOrbB.localPosition, tmp , Time.deltaTime);
         }
-        originOrbA.position = tmpC;
-        originOrbC.position = tmpB;
-        originOrbB.position = tmp;
+        originOrbA.localPosition = tmpC;
+        originOrbC.localPosition = tmpB;
+        originOrbB.localPosition = tmp;
 
-        tmp = originOrbA.position;
-        tmpB = originOrbB.position;
-        tmpC = originOrbC.position;
+        tmp = originOrbA.localPosition;
+        tmpB = originOrbB.localPosition;
+        tmpC = originOrbC.localPosition;
     }
 
     void OnTest()

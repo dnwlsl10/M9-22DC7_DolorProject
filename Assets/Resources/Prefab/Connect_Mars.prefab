@@ -10212,7 +10212,7 @@ GameObject:
   - component: {fileID: 2975807837097039009}
   - component: {fileID: 2975807837097039012}
   m_Layer: 0
-  m_Name: Connect_Mech_Base_IK_Fix_Weapon_UI 1 1 1
+  m_Name: Connect_Mars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10575,8 +10575,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 612b46c795d0d1f4a9da1518fbfd59c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gripL: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  gripR: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  gripL: {fileID: -6131295136447488360, guid: b212627b2d7d7b547ba7c981ca0c6bec, type: 3}
+  gripR: {fileID: 187161793506945269, guid: b212627b2d7d7b547ba7c981ca0c6bec, type: 3}
 --- !u!136 &2975807837097039009
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -31213,6 +31213,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4493909192352591270, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
+      propertyPath: vrController.scale
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4493909192352591270, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
       propertyPath: vrController.vrOrigin
       value: 
       objectReference: {fileID: 5037225719885630957}
@@ -31224,6 +31228,10 @@ PrefabInstance:
       propertyPath: vrController.rigOrigin
       value: 
       objectReference: {fileID: 7197041755488097955}
+    - target: {fileID: 4493909193067242888, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
+      propertyPath: vrController.scale
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 4493909193067242888, guid: a5dee167c314ca945b62bfa9d9d04b91, type: 3}
       propertyPath: vrController.vrOrigin
       value: 

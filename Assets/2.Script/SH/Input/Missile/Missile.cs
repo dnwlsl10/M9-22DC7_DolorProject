@@ -82,12 +82,10 @@ public class Missile : MonoBehaviourPun
             //other.gameObject.GetComponent<IDamageable>().TakeDamage(5f);
             isHit = true;
         }
-
-        if(isHit){
+        if(isHit)
+        {
             this.gameObject.SetActive(false);
-        }
-
-      
+        }      
         this.gameObject.SetActive(false);
     }
 
