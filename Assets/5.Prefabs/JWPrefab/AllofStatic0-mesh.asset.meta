@@ -1,15 +1,8 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/5.Prefabs/JWPrefab/AllofStatic0-mesh.asset.meta
 guid: aa56394cd88158545ba7d2a703a5b78a
 NativeFormatImporter:
   externalObjects: {}
-  mainObjectFileID: 4300000
-========
-guid: 1ebc8234449fb1c48a4081ca81778946
-folderAsset: yes
-DefaultImporter:
-  externalObjects: {}
->>>>>>>> dev/ysh:Assets/5.Prefabs/SSYPrefab/SkillPrefab/JaKiJang/WacandaForever.meta
+  mainObjectFileID: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
