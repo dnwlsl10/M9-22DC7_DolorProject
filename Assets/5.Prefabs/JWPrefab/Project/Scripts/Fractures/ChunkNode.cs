@@ -98,6 +98,7 @@ namespace Project.Scripts.Fractures
             rb.constraints = RigidbodyConstraints.None;
             rb.useGravity = true;
             rb.gameObject.layer = LayerMask.NameToLayer("Default");
+            Destroy(gameObject,30f);
             
         }
 
