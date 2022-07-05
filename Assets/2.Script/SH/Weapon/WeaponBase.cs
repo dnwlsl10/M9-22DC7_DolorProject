@@ -29,6 +29,9 @@ public class WeaponBase : MonoBehaviourPun
     protected float lastAttackTime = 0;
     protected bool isReloading;
     protected bool isAttacking;
+
+    protected void StartWeaponAction(InputAction.CallbackContext ctx) => StartWeaponAction();
+    protected void StopWeaponAction(InputAction.CallbackContext ctx) => StopWeaponAction();
     public virtual void StartWeaponAction(){}
     public virtual void StopWeaponAction(){}
     public virtual void StartReload(){}
@@ -52,11 +55,11 @@ public class WeaponBase : MonoBehaviourPun
     protected void OnEnable() {
         if (photonView.Mine == false) return;
 
-        WeaponSystem.instance.RegistWeapon(weaponSetting.button.action, this);
+        WeaponSystem.instance.RegistWeapon(this, (int)weaponSetting.weaponName);
         Initialize();
     }
     protected void OnDisable() {
         if (photonView.Mine)
-            WeaponSystem.instance.UnregistWeapon(weaponSetting.button.action, this);
+            WeaponSystem.instance.UnregistWeapon(this, (int)weaponSetting.weaponName);
     }
 }

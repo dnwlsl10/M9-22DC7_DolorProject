@@ -24,8 +24,11 @@ public class UIScreen : MonoBehaviour
     private bool bLock;
     public void OnEnable(){
         bw.OnValueChange += uIBasicWeapon.EventValue;
-        bw.OnPress = () => { uIBasicWeapon.OnSecondButton();};
-        bw.OnCancle = () => { uIBasicWeapon.OffSecondButton();};
+        // bw.OnPress = () => { uIBasicWeapon.OnSecondButton();};
+        // bw.OnCancle = () => { uIBasicWeapon.OffSecondButton();};
+
+        WeaponSystem.instance.onStartAction[(int)WeaponName.Basic] += uIBasicWeapon.OnSecondButton;
+        WeaponSystem.instance.onStopAction[(int)WeaponName.Basic] += uIBasicWeapon.OffSecondButton;
 
         gm.OnValueChange += uIGuidedMissile.EventValue;
         gm.OnPress = () => { uIGuidedMissile.OnSecondButton();};

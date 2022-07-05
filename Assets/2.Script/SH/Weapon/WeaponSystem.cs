@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.InputSystem;
 using Photon.Pun;
+using System;
 
 [RequireComponent(typeof(PhotonView))]
 public class WeaponSystem : MonoBehaviourPun, IInitialize
@@ -77,11 +78,10 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
 #endif
     }
 
-    private Dictionary<InputAction, int> input_name_pair;
-
     WeaponBase[] weapons;
     List<int>[] weaponIndex_byHand;
     private bool[] canUseSkill;
+    public Action[] onStartAction, onStopAction;
     [SerializeField] private bool[] isGrabbing;
     [SerializeField] private bool[] usingSkill;
 
@@ -108,7 +108,6 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
         print(photonView.Mine);
         if (photonView.Mine == false)
         {
-            input_name_pair = null;
             Destroy(this);
         }
         else 
@@ -121,8 +120,6 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
 
     void InitLocal()
     {
-        input_name_pair = new Dictionary<InputAction, int>();
-
         weaponIndex_byHand = new List<int>[2];
         weaponIndex_byHand[0] = new List<int>();
         weaponIndex_byHand[1] = new List<int>();
@@ -131,71 +128,43 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
 
         int weaponNameCount = System.Enum.GetNames(typeof(WeaponName)).Length;
         canUseSkill = new bool[weaponNameCount];
+        onStartAction = new Action[weaponNameCount];
+        onStopAction = new Action[weaponNameCount];
         for(int i = 0; i < weaponNameCount; i++) canUseSkill[i] = true;
         weapons = new WeaponBase[weaponNameCount];
     }
 
-    void StartWeaponEvent(InputAction.CallbackContext ctx)
+    public void StartActionCallback(int weaponIndex)
     {
-        int index = (int)input_name_pair[ctx.action];
-        if (canUseSkill[index] == false) return;
-        print("Start Weapon Evnet " + ((WeaponName)index).ToString());
-
-        WeaponBase weapon = weapons[index];
-        int handIndex = (int)weapon.handSide;
-        if (isGrabbing[handIndex] == true && usingSkill[handIndex] == false)
-        {
-            usingSkill[handIndex] = true;
-            weapon.StartWeaponAction();
-        }
-        else
-            print("Cannot use skill");
+        onStartAction[weaponIndex]?.Invoke();
+        usingSkill[(int)weapons[weaponIndex].handSide] = true;
+    }
+    public void StopActionCallback(int weaponIndex)
+    {
+        onStopAction[weaponIndex]?.Invoke();
+        usingSkill[(int)weapons[weaponIndex].handSide] = false;
     }
 
     public void LockWeapon(WeaponName weaponName)
     {
         canUseSkill[(int)weaponName] = false;
-        StopWeaponEvent((int)weaponName);
+        weapons[(int)weaponName].StopWeaponAction();
     }
     public void UnlockWeapon(WeaponName weaponName)
     {
         canUseSkill[(int)weaponName] = true;
     }
-    private void StopWeaponEvent(InputAction.CallbackContext ctx) => StopWeaponEvent((int)input_name_pair[ctx.action]);
-    private void StopWeaponEvent(int index)
+
+    public void RegistWeapon(WeaponBase weapon, int weaponIndex)
     {
-        print("Stop Weapon Evnet " + ((WeaponName)index).ToString());
-        WeaponBase weapon = weapons[index];
-        weapon.StopWeaponAction();
-        usingSkill[(int)weapon.handSide] = false;
+        weapons[weaponIndex] = weapon;
+        weaponIndex_byHand[(int)weapon.handSide].Add(weaponIndex);
     }
 
-    public void RegistWeapon(InputAction action, WeaponBase weapon)
-    {  
-        int weaponIndex = (int)weapon.weaponSetting.weaponName;
-
-        if (input_name_pair.ContainsKey(action) == false)
-        {
-            input_name_pair.Add(action, weaponIndex);
-            weapons[weaponIndex] = weapon;
-            weaponIndex_byHand[(int)weapon.handSide].Add(weaponIndex);
-
-            action.started += StartWeaponEvent;
-            action.canceled += StopWeaponEvent;
-        }
-    }
-
-    public void UnregistWeapon(InputAction action, WeaponBase weapon)
+    public void UnregistWeapon(WeaponBase weapon, int weaponIndex)
     {
-        if (input_name_pair.TryGetValue(action, out var weaponName))
-        {
-            input_name_pair.Remove(action);
-            weapons[weaponName] = null;
-            weaponIndex_byHand[(int)weapon.handSide].Remove(weaponName);
-        
-            action.started -= StartWeaponEvent;
-            action.canceled -= StopWeaponEvent;
-        }
+        weapons[weaponIndex] = null;
+        weaponIndex_byHand[(int)weapon.handSide].Remove(weaponIndex);
     }
 
 #if test
