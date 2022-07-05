@@ -9,36 +9,29 @@ public class ProjectileBase : MonoBehaviourPun
     public float instanceNormalPositionOffset;
     public bool setParentToParentObject;
     public GameObject[] EffectsOnCollision;
-    public virtual void GiveDamage(float damage){}
 
     protected void OnCollisionEnter(Collision other) 
     {
-        if (photonView.cachedMine == false) return;
+        if (photonView.Mine == false) return;
    
-        var contact = other.GetContact(0);     
-        if (other.collider.TryGetComponent<PhotonView>(out PhotonView pv) && pv.ViewID > 0)
-        {
-            photonView.CustomRPC(this, "RPCCollision", RpcTarget.AllViaServer, pv.ViewID, contact.point, contact.normal);
-        }
-        else
-        {
-            photonView.CustomRPC(this, "RPCCollision", RpcTarget.AllViaServer, 0, contact.point, contact.normal);
+        var contact = other.GetContact(0);
+        var pv = other.collider.GetComponent<PhotonView>();
 
-            if (other.collider.TryGetComponent<IDamageable>(out IDamageable damageable))
-                damageable.TakeDamage(damage);
-        }
-        
+        if (pv?.ViewID > 0 == false)
+            other.collider.GetComponent<IDamageable>()?.TakeDamage(damage);
+
+        photonView.CustomRPC(this, "RPCCollision", RpcTarget.AllViaServer, pv?.ViewID, contact.point, contact.normal);
     }
 
     [PunRPC]
     private void RPCCollision(int viewID, Vector3 intersection, Vector3 normal)
     {
-        if (viewID != 0 && PhotonNetwork.GetPhotonView(viewID).TryGetComponent<IDamageable>(out IDamageable damageable))
-            damageable.TakeDamage(damage);
+        if (viewID > 0)
+            PhotonNetwork.GetPhotonView(viewID).GetComponent<IDamageable>()?.TakeDamage(damage);
 
         foreach (var effect in EffectsOnCollision)
         {
-            var instance = ObjectPooler.SpawnFromPool(effect, intersection + normal * instanceNormalPositionOffset, new Quaternion()) as GameObject;
+            var instance = ObjectPooler.instance.SpawnFromPool(effect, intersection + normal * instanceNormalPositionOffset, new Quaternion()) as GameObject;
             if (!setParentToParentObject) instance.transform.parent = transform;
             instance.transform.LookAt(intersection + normal);
         }

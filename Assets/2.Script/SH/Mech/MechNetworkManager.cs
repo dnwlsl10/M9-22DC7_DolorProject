@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using RootMotion.FinalIK;
 using Photon.Pun;
-public class MechNetworkManager : MonoBehaviour, IInitialize, IPunInstantiateMagicCallback
+public class MechNetworkManager : MonoBehaviourPun, IInitialize, IPunInstantiateMagicCallback
 {
-    [ContextMenu("Print IsMivne")]
-    void t()
-    {
-        print("IsMine : " + pv.IsMine);
-        print("Mine : " + pv.Mine);
-        print("CachedMine : " + pv.cachedMine);
-        print("SingleMode : " + PhotonNetwork.SingleMode);
-    }
     [ContextMenu("Find All")]
     public void Reset()
     {
 #if UNITY_EDITOR
+        if (componentsForOnlyLocal.Count == 0)
+        {
+            componentsForOnlyLocal = new List<Component>();
+            componentsForOnlyLocal.Add(transform.root.GetComponent<Rigidbody>());
+            componentsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<HandIK>());
+            componentsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<CrossHair>());
+            componentsForOnlyLocal.AddRange(transform.root.GetComponentsInChildren<WeaponSystem>());
+        }
+
         Transform root = GetComponent<VRIK>().references.pelvis.parent;
         Transform meshRoot = Utility.FindChildMatchName(root, new string[]{"Mesh", "mesh"});
         
@@ -43,57 +44,38 @@ public class MechNetworkManager : MonoBehaviour, IInitialize, IPunInstantiateMag
 #endif
     }
 
-    [ContextMenu("Toggle Mesh")]
-    void ToggleMesh()
-    {
-        foreach (var renderer in localDisableMesh)
-            renderer.enabled = !renderer.enabled;
-    }
-    public List<Renderer> localDisableMesh;
-    public List<GameObject> LayerToChangeRemote;
-    IKSolverVR.Arm rightArmIK;
-    IKSolverVR.Arm leftArmIK;
-    PhotonView pv;
+    [SerializeField] List<Renderer> localDisableMesh;
+    [SerializeField] List<GameObject> LayerToChangeRemote;
+    [SerializeField] List<Component> componentsForOnlyLocal;
 
-    IEnumerator leftIKCoroutine;
-    IEnumerator rightIKCoroutine;
-
-    private void Start() 
+    private void Awake() 
     {
-        this.pv = this.GetComponent<PhotonView>();
-        if (pv.cachedMine)
-            SetLocal();
-        else
-            SetRemote();
+        if (photonView.Mine)    SetLocal();
+        else                    SetRemote();
+
+        LayerToChangeRemote = null; localDisableMesh = null; componentsForOnlyLocal = null;
     }
 
-    private void DisableMesh(List<Renderer> meshList)
-    {
-        foreach (var mesh in meshList)
-            mesh.enabled = false;
-        meshList.Clear();
-        meshList = null;
-    }
+    void SetLocal() { foreach (var mesh in localDisableMesh) mesh.enabled = false; }
 
-    void SetLocal()
-    {
-        DisableMesh(localDisableMesh);
-    }
     void SetRemote()
     {
-        ChangeRemoteLayer();
         GetComponent<Animator>().applyRootMotion = false;
-    }
-    void ChangeRemoteLayer()
-    {
+
+        int remoteLayer = LayerMask.NameToLayer("RemotePlayer");
         foreach (var obj in LayerToChangeRemote)
-            obj.layer = LayerMask.NameToLayer("RemotePlayer");
-        LayerToChangeRemote.Clear();
-        LayerToChangeRemote = null;
+            obj.layer = remoteLayer;
+            
+        foreach (var component in componentsForOnlyLocal)
+            if (component) Destroy(component);
     }
 
-    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    public void OnPhotonInstantiate(PhotonMessageInfo info) { if (photonView.Mine) photonView.RPC("RegistSelf", RpcTarget.AllViaServer); }
+
+    [PunRPC]
+    void RegistSelf()
     {
         InGameManager.instance.RegisterMech(gameObject);
+        this.enabled = false;
     }
 }

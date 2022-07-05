@@ -7,19 +7,13 @@ public class MechLand : MonoBehaviour, IInitialize
     public void Reset()
     {
 #if UNITY_EDITOR
-        groundLayer = LayerMask.GetMask("Ground");
-
-        if (componentsAfterStartScene.Count == 0)
-        {
+        groundLayer = LayerMask.GetMask("Ground"); groundDetectDistance = 0.6f; if (componentsAfterStartScene.Count == 0) {
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<HandIK>(true));
-            // componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<MechMovementController>(true));
+            componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<MechMovementController>(true));
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<WeaponBase>(true));
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<WeaponSystem>(true));
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<CrossHair>(true));
-            componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<IKWeight>(true));
-        }
-
-        groundDetectDistance = 0.6f;
+            componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<IKWeight>(true));}
 #endif
     }
 
@@ -30,14 +24,18 @@ public class MechLand : MonoBehaviour, IInitialize
     private void Awake() 
     {
         anim = GetComponent<Animator>();
+        foreach (var component in componentsAfterStartScene)
+            if(component) component.enabled = false;
+        
         StartFalling();
     }
     public void StartFalling() => StartCoroutine(CheckGroundDistance());
 
     IEnumerator CheckGroundDistance()
     {
-        foreach (var component in componentsAfterStartScene)
-            component.enabled = false;
+        var tmp = GetComponent<RootMotion.Demos.VRIK_PUN_Player>();
+        float storage = tmp.proxyMaxErrorSqrMag;
+        tmp.proxyMaxErrorSqrMag = 20;
 
         anim.SetLayerWeight(1, 0);
         anim.CrossFade("Falling", 0.2f, 0);
@@ -47,11 +45,12 @@ public class MechLand : MonoBehaviour, IInitialize
             yield return null;
 
         anim.SetTrigger("Land");
+        tmp.proxyMaxErrorSqrMag = storage;
 
         yield return new WaitForSeconds(3f);
 
         foreach (var component in componentsAfterStartScene)
-            component.enabled = true;
+            if(component) component.enabled = true;
 
         for (float f = 0; f < 1; f += Time.deltaTime)
         {
@@ -60,6 +59,7 @@ public class MechLand : MonoBehaviour, IInitialize
         }
         anim.SetLayerWeight(1, 1);
 
-        Destroy(this);
+        componentsAfterStartScene = null;
+        this.enabled = false;
     }
 }

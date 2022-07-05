@@ -2,24 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
+using UnityEngine.SceneManagement;
 public class SkillShield : WeaponBase, IDamageable
 {
+    public event Cur_MaxEvent OnValueChange;
     public void Reset()
     {
         weaponSetting.weaponName = WeaponName.Shield;
         weaponSetting.maxAmmo = 100;
+        weaponSetting.bLock = false;
         handSide = HandSide.Left;
         gaugeUpSpeed = 10;
         gaugeDownSpeed = 20;
     }
-    public event Cur_MaxEvent OnValueChange;
 
-    // public GameObject shieldCreatePos;
-    // public GameObject shield;
-    public float gaugeUpSpeed;
-    public float gaugeDownSpeed;
-    Animator anim;
+    [SerializeField] float gaugeUpSpeed;
+    [SerializeField] float gaugeDownSpeed;
+    [SerializeField] Animator anim;
+    bool shieldOn;
+    
+
     // public UnityEngine.InputSystem.InputActionReference alpha1;
 
     public float CurrentAmmo
@@ -27,7 +29,8 @@ public class SkillShield : WeaponBase, IDamageable
         get { return weaponSetting.currentAmmo; }
         set
         {
-            // curammo 1, value 1.1, maxammo 1
+            if (isReloading) return;
+
             float prevAmmo = weaponSetting.currentAmmo;
 
             weaponSetting.currentAmmo = Mathf.Clamp(value, 0f, weaponSetting.maxAmmo);
@@ -43,69 +46,61 @@ public class SkillShield : WeaponBase, IDamageable
         }
     }
 
-    // private void OnEnable()
-    // {
-    //     if (photonView.Mine == false) return;
-
-    //     alpha1.action.started += StartEvent;
-    //     alpha1.action.canceled += StopEvent;
-    // }
-    // private void OnDisable()
-    // {
-    //     if (photonView.Mine == false) return;
-
-    //     alpha1.action.started -= StartEvent;
-    //     alpha1.action.canceled -= StopEvent;
-    // }
-
-    // void Start()
-    // {
-    //     anim = GetComponent<Animator>();
-    // }
-
-    private void Awake() {
-        base.Awake();
-
-        anim = GetComponent<Animator>();
+    public override void Initialize()
+    {
+        base.Initialize();
         anim.Play("ShieldOff", 0, 1);
+        CurrentAmmo = weaponSetting.maxAmmo;
     }
 
-    // void StartEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
-    // {
-    //     StartWeaponAction();
-    // }
-    // void StopEvent(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
-    // {
-    //     StopWeaponAction();
-    // }
+    private void Update() {
+        if (photonView.Mine == false || weaponSetting.bLock) return;
+        float deltaTime = Time.deltaTime;
 
+        if (shieldOn)
+        {
+            CurrentAmmo -= deltaTime * gaugeDownSpeed;
+        }
+        else
+        {
+            CurrentAmmo += deltaTime * gaugeUpSpeed;
+        }
+    }
+    
     public override void StartWeaponAction() //GetKeyDown
     {
-        if (isReloading)
+        if (isReloading || CurrentAmmo == 0)
             return;
-        photonView.CustomRPC(this, "animPlay", RpcTarget.All, true);
-        StartCoroutine("OnShieldSkillUse");
-        StopCoroutine("GaugeIdle");
+        
+        if (shieldOn == false)
+        {
+            shieldOn = true;
+            photonView.CustomRPC(this, "animPlay", RpcTarget.All, true);
+            WeaponSystem.instance.StartActionCallback((int)weaponSetting.weaponName);
+        }
+
     }
 
     public override void StopWeaponAction() //GetKeyUp
     {
-
-        photonView.CustomRPC(this, "animPlay", RpcTarget.All, false);
-        
-        StopCoroutine("OnShieldSkillUse");
-        StartCoroutine("GaugeIdle");
+        if (shieldOn == true)
+        {
+            shieldOn = false;
+            photonView.CustomRPC(this, "animPlay", RpcTarget.All, false);
+            WeaponSystem.instance.StopActionCallback((int)weaponSetting.weaponName);
+        }
     }
 
     [PunRPC]
     public void animPlay(bool isStart)
     {
+        print(isStart);
         //어떤상황에서 어떤애니메이션
         if (isStart)
         {
             anim.CrossFade("ShieldOn", 0.1f);
         }
-        if (isStart == false && anim.GetCurrentAnimatorStateInfo(0).IsName("ShieldOn") == true)
+        if (isStart == false)
         {
             anim.CrossFade("ShieldOff", 0.1f);
         }
@@ -113,37 +108,21 @@ public class SkillShield : WeaponBase, IDamageable
 
     public override void StartReload() // 연료를 0까지 사용했을 때
     {
-        if (isReloading)
+        if (isReloading || weaponSetting.bLock)
             return;
 
         StopWeaponAction();
         StartCoroutine(GaugeOver());
     }
 
-    IEnumerator OnShieldSkillUse() // 쉴드스킬을 사용했을 때
-    {
-        while (true)
-        {
-            CurrentAmmo -= Time.deltaTime * gaugeDownSpeed;
-            yield return null;
-        }
-    }
-
-    IEnumerator GaugeIdle() // 쉴드스킬을 누르지 않은 상태일 때
-    {
-        while (true)
-        {
-            CurrentAmmo += Time.deltaTime * gaugeUpSpeed;
-            yield return null;
-        }
-    }
-
     IEnumerator GaugeOver() // 과부하
     {
         isReloading = true;
+        // WeaponSystem.instance.LockWeapon(weaponSetting.weaponName);
 
         yield return new WaitForSeconds(3f); //3초에 패널티
 
+        // WeaponSystem.instance.UnlockWeapon(weaponSetting.weaponName);
         isReloading = false;
     }
 

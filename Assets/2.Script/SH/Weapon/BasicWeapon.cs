@@ -16,6 +16,7 @@ public class BasicWeapon : WeaponBase, IInitialize
         weaponSetting.attackDistance = 10;
         weaponSetting.attackRate = 0.2f;
         weaponSetting.damage = 1;
+        weaponSetting.bLock = false;
         handSide = HandSide.Right;
         isAutomatic = true;
 
@@ -42,17 +43,16 @@ public class BasicWeapon : WeaponBase, IInitialize
     public Transform bulletSpawnPoint;
 
     [Header("Fire Effects")]
-    [SerializeField]
-    private GameObject muzzleFlashEffect;
-    [SerializeField]
-    private GameObject bullet;
+    [SerializeField] GameObject muzzleFlashEffect;
+    [SerializeField] private GameObject bullet;
 
     [Header("Audio Clips")]
-    [SerializeField]
-    private AudioClip onFireSFX;
-    [SerializeField]
-    private AudioClip onReloadSFX;
+    [SerializeField] private AudioClip onFireSFX;
+    [SerializeField] private AudioClip onReloadSFX;
+    [SerializeField] private bool isAutomatic;
     private WaitForEndOfFrame eof = new WaitForEndOfFrame();
+    IEnumerator coroutineHolder;
+
     public float CurrentAmmo
     {
         get { return weaponSetting.currentAmmo;}
@@ -68,9 +68,11 @@ public class BasicWeapon : WeaponBase, IInitialize
         }
     }
     
-    public bool isAutomatic;
-    IEnumerator coroutineHolder;
-
+    public override void Initialize()
+    {
+        base.Initialize();
+        CurrentAmmo = weaponSetting.maxAmmo;
+    }
     public override void StartWeaponAction()
     {
         if (isReloading)
@@ -83,12 +85,16 @@ public class BasicWeapon : WeaponBase, IInitialize
         }
         else
             OnAttack();
+
+        WeaponSystem.instance.StartActionCallback((int)weaponSetting.weaponName);
     }
 
     public override void StopWeaponAction()
     {
         if (coroutineHolder != null)
             StopCoroutine(coroutineHolder);
+
+        WeaponSystem.instance.StopActionCallback((int)weaponSetting.weaponName);
     }
 
     public override void StartReload()
@@ -96,7 +102,6 @@ public class BasicWeapon : WeaponBase, IInitialize
         if (isReloading) 
             return;
 
-        StopWeaponAction();
         StartCoroutine(OnReload());
     }
 
@@ -126,8 +131,8 @@ public class BasicWeapon : WeaponBase, IInitialize
     [PunRPC]
     private void RPCAttack(Vector3 bulletPosition, Quaternion bulletRotation)
     {
-        if (photonView.cachedMine)
-            NetworkObjectPool.SpawnFromPool(bullet.name, bulletPosition, bulletRotation);
+        if (photonView.Mine)
+            NetworkObjectPool.instance.SpawnFromPool(bullet.name, bulletPosition, bulletRotation);
         
         StartCoroutine(OnMuzzleFlashEffect());
         PlaySound(onFireSFX);
@@ -145,13 +150,12 @@ public class BasicWeapon : WeaponBase, IInitialize
     IEnumerator OnReload()
     {
         isReloading = true;
+        StopWeaponAction();
 
-        yield return new WaitForSeconds(2f);
-        while(false /* until reload procedure finish */)
-            yield return null;
+        yield return new WaitForSeconds(2f); // Reloading Procedure
 
         isReloading = false;
-
+        // WeaponSystem.instance.UnlockWeapon(weaponSetting.weaponName);
         CurrentAmmo = weaponSetting.maxAmmo;
     }
 }

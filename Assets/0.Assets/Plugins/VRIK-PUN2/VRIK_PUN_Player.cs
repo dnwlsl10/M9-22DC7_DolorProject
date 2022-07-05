@@ -57,7 +57,7 @@ namespace RootMotion.Demos
 
         void Update()
         {
-            if (photonView.cachedMine)
+            if (photonView.Mine)
             {
                 UpdateLocal();
             }

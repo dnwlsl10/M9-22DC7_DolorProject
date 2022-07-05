@@ -41,23 +41,19 @@ public class CrossHair : MonoBehaviourPun, IInitialize
             screenLayer = LayerMask.GetMask("Grabbing");
     }
 
-    private void Awake() {
-        if (photonView.Mine == false)
-            Destroy(this);
-            
-#if UNITY_EDITOR && test
-
-        if (TryGetComponent<LineRenderer>(out lr) == false)
-            lr = gameObject.AddComponent<LineRenderer>();
-        lr.startWidth = lr.endWidth = 0.1f;
-        lr.material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-        lr.material.color = Color.red;
-        Debug.LogWarning("CrossHair is in Test mode");
-#endif
-
-
+    private void Awake() 
+    {
         imageRenderer = crossHairImage.GetComponent<Renderer>();
-        attackDistance = GetComponent<WeaponBase>().weaponSetting.attackDistance;
+        attackDistance = transform.parent.GetComponent<BasicWeapon>().weaponSetting.attackDistance;
+
+        #if UNITY_EDITOR && test
+            if (TryGetComponent<LineRenderer>(out lr) == false)
+                lr = gameObject.AddComponent<LineRenderer>();
+            lr.startWidth = lr.endWidth = 0.1f;
+            lr.material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            lr.material.color = Color.red;
+            Debug.LogWarning("CrossHair is in Test mode");
+        #endif
     }
 
     private void OnEnable() {

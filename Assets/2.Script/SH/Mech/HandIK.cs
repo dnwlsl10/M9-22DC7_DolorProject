@@ -116,12 +116,10 @@ public class HandIK : MonoBehaviour, IInitialize
 
 #if test
     IEnumerator Start() {
-        if (transform.root.GetComponent<Photon.Pun.PhotonView>().Mine == false)
+        if (transform.root.GetComponent<Photon.Pun.PhotonView>().Mine == false || Utility.isVRConnected)
             yield break;
+
         Debug.LogWarning("Hand IK is in testMode");
-        
-        if (Utility.isVRConnected)
-            yield break;
 
         if (vrController.vrTarget.TryGetComponent<ActionBasedController>(out var abc) == false)
         {
@@ -129,25 +127,58 @@ public class HandIK : MonoBehaviour, IInitialize
             abc.updateTrackingType = XRBaseController.UpdateType.UpdateAndBeforeRender;
             abc.enableInputTracking = true;
             
-            var asset = vrController.vrTarget.GetComponentInParent<UnityEngine.XR.Interaction.Toolkit.Inputs.InputActionManager>().actionAssets[0];
-            var map = asset.actionMaps[(int)(isLeft ? ActionMap.XRI_LeftHand : ActionMap.XRI_RightHand)];
+            var iam = vrController.vrTarget.GetComponentInParent<UnityEngine.XR.Interaction.Toolkit.Inputs.InputActionManager>();
+            var asset = iam?.actionAssets[0];
+            var map = asset?.actionMaps[(int)(isLeft ? ActionMap.XRI_LeftHand : ActionMap.XRI_RightHand)];
 
-            abc.positionAction = new InputActionProperty(map.FindAction("Position"));
-            abc.rotationAction = new InputActionProperty(map.FindAction("Rotation"));
-            abc.trackingStateAction = new InputActionProperty(map.FindAction("Tracking State"));
+            abc.positionAction = new InputActionProperty(map?.FindAction("Position"));
+            abc.rotationAction = new InputActionProperty(map?.FindAction("Rotation"));
+            abc.trackingStateAction = new InputActionProperty(map?.FindAction("Tracking State"));
+
+            UnityEngine.InputSystem.XR.TrackedPoseDriver tpd = null;
+            if (!isLeft)
+            {
+                if (vrController.vrOrigin.TryGetComponent<UnityEngine.InputSystem.XR.TrackedPoseDriver>(out tpd) == false)
+                {
+                    tpd = vrController.vrOrigin.gameObject.AddComponent<UnityEngine.InputSystem.XR.TrackedPoseDriver>();
+                }
+
+                tpd.trackingType = UnityEngine.InputSystem.XR.TrackedPoseDriver.TrackingType.RotationAndPosition;
+                tpd.updateType = UnityEngine.InputSystem.XR.TrackedPoseDriver.UpdateType.UpdateAndBeforeRender;
+                map = asset?.actionMaps[(int)ActionMap.XRI_Head];
+                tpd.positionInput = new InputActionProperty(map?.FindAction("Position"));
+                tpd.rotationInput = new InputActionProperty(map?.FindAction("Rotation"));
+            }
 
             var v = GameObject.FindObjectOfType<UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation.XRDeviceSimulator>();
-            GameObject simulator = null;
-            if (v != null)
-                simulator = v.gameObject;
-            else
-                simulator = Instantiate(Resources.Load<GameObject>("XR Device Simulator"));
+            GameObject simulator = v != null ? simulator = v.gameObject : simulator = Instantiate(Resources.Load<GameObject>("XR Device Simulator"));
+            
 
             abc.enabled = false;
-            if (!isLeft) simulator.SetActive(false);
+            yield return null;
+            iam.enabled = false;
+            yield return null;
+
+            if (!isLeft) 
+            {
+                tpd.enabled = false;
+                yield return null;
+                simulator.SetActive(false);
+            }
+
             yield return new WaitForSeconds(0.1f);
+
+            iam.enabled = true;
+            yield return null;
             abc.enabled = true;
-            if (!isLeft) simulator.SetActive(true);
+            yield return null;
+
+            if (!isLeft) 
+            {
+                tpd.enabled = true;
+                yield return null;
+                simulator.SetActive(true);
+            }
         }
     }
 #endif

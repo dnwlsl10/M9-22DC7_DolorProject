@@ -14,22 +14,28 @@ public class InGameManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject networkObjectPool;
     public GameObject myMech{get; private set;}
 
-    [SerializeField] private List<GameObject> players;
+    [SerializeField] private List<GameObject> players = new List<GameObject>();
     private int playerCount = 0;
 
-    private void Awake() 
+    public System.Action OnChangeLobby;
+    public bool bTest;
+    private void Awake(){
+        if(bTest) Init();
+    }
+
+    public void Init() 
     {
-        print(PhotonNetwork.LevelLoadingProgress);
         if (instance != null)
             Destroy(instance);
         else
             instance = this;
-
-        players = new List<GameObject>();
-        photonView.RPC("Ready", RpcTarget.MasterClient);
+        
         Transform spawn = spawnPoint[PhotonNetwork.IsMasterClient ? 0 : 1];
+
         myMech = PhotonNetwork.Instantiate(mechPrefab.name, spawn.position, spawn.rotation);
         Instantiate(networkObjectPool);
+        
+        photonView.RPC("Ready", RpcTarget.MasterClient);
     }
     public void RegisterMech(GameObject mech) => players.Add(mech);
 
@@ -37,13 +43,17 @@ public class InGameManager : MonoBehaviourPunCallbacks
     private void Ready()
     {
         if (PhotonNetwork.IsMasterClient)
-            if (++playerCount == PhotonNetwork.CurrentRoom.PlayerCount)
-                StartCoroutine(CheckBeforeStart());
+        {
+            playerCount++;
+            StartCoroutine(CheckBeforeStart());
+        }
     }
 
     IEnumerator CheckBeforeStart()
     {
-        while(playerCount != players.Count) yield return null;
+        while(playerCount != players.Count || players.Count != PhotonNetwork.CurrentRoom.PlayerCount)
+            yield return null;
+            
         photonView.RPC("GameStart", RpcTarget.AllViaServer);
     }
 

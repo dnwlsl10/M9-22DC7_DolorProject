@@ -92,6 +92,10 @@ GameObject:
   - component: {fileID: 8692011448270903494}
   - component: {fileID: 5970413424952093713}
   - component: {fileID: 5970413424952093714}
+  - component: {fileID: 4811588309065104376}
+  - component: {fileID: 3762235261956914012}
+  - component: {fileID: 539951605094041219}
+  - component: {fileID: 676354787}
   m_Layer: 0
   m_Name: WeaponScript
   m_TagString: Untagged
@@ -149,131 +153,187 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c686e3eb128904fbe68d54917bc979, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input_name_pair:
-    reorderableList:
-      canAdd: 1
-      canRemove: 1
-      draggable: 1
-      expandable: 1
-      multipleSelection: 1
-      isExpanded: 1
-      label:
-        m_Text: Keys
-        m_Image: {fileID: 0}
-        m_Tooltip: 
-      headerHeight: 18
-      footerHeight: 13
-      slideEasing: 0.15
-      verticalSpacing: 2
-      showDefaultBackground: 1
-      elementDisplayType: 0
-      elementNameProperty: 
-      elementNameOverride: 
-      elementIcon: {fileID: 0}
-    reqReferences: {fileID: 0}
-    isExpanded: 1
-    _keyValues:
-    - m_Name: XRI RightHand Interaction/Activate
-      m_Type: 1
-      m_ExpectedControlType: Button
-      m_Id: 1db8a3a5-b4c3-494b-ac47-95c5cdfccc32
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings:
-      - m_Name: 
-        m_Id: fa59aed1-ae0b-4074-a58c-294b85f46228
-        m_Path: <XRController>{RightHand}/triggerPressed
-        m_Interactions: 
-        m_Processors: 
-        m_Groups: Generic XR Controller
-        m_Action: XRI RightHand Interaction/Activate
-        m_Flags: 0
-      m_Flags: 0
-    - m_Name: XRI LeftHand Interaction/Activate
-      m_Type: 1
-      m_ExpectedControlType: Button
-      m_Id: a3657d50-cd2f-4ad1-be06-7948680d8311
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings:
-      - m_Name: 
-        m_Id: 487f4f2e-9e9b-49aa-b0f2-4037a24624f5
-        m_Path: <XRController>{LeftHand}/triggerPressed
-        m_Interactions: 
-        m_Processors: 
-        m_Groups: Generic XR Controller
-        m_Action: XRI LeftHand Interaction/Activate
-        m_Flags: 0
-      m_Flags: 0
-    - m_Name: XRI RightHand Interaction/GuidedMissile
-      m_Type: 1
-      m_ExpectedControlType: Button
-      m_Id: 747c5029-cbd4-4156-a121-7369855df4f0
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings:
-      - m_Name: 
-        m_Id: adebd903-fa5d-487c-8e74-dca509ce6c55
-        m_Path: <XRController>{RightHand}/secondaryButton
-        m_Interactions: 
-        m_Processors: 
-        m_Groups: Generic XR Controller
-        m_Action: XRI RightHand Interaction/GuidedMissile
-        m_Flags: 0
-      m_Flags: 0
-    _keys:
-    - m_Name: XRI RightHand Interaction/Activate
-      m_Type: 1
-      m_ExpectedControlType: Button
-      m_Id: 1db8a3a5-b4c3-494b-ac47-95c5cdfccc32
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings:
-      - m_Name: 
-        m_Id: fa59aed1-ae0b-4074-a58c-294b85f46228
-        m_Path: <XRController>{RightHand}/triggerPressed
-        m_Interactions: 
-        m_Processors: 
-        m_Groups: Generic XR Controller
-        m_Action: XRI RightHand Interaction/Activate
-        m_Flags: 0
-      m_Flags: 0
-    - m_Name: XRI LeftHand Interaction/Activate
-      m_Type: 1
-      m_ExpectedControlType: Button
-      m_Id: a3657d50-cd2f-4ad1-be06-7948680d8311
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings:
-      - m_Name: 
-        m_Id: 487f4f2e-9e9b-49aa-b0f2-4037a24624f5
-        m_Path: <XRController>{LeftHand}/triggerPressed
-        m_Interactions: 
-        m_Processors: 
-        m_Groups: Generic XR Controller
-        m_Action: XRI LeftHand Interaction/Activate
-        m_Flags: 0
-      m_Flags: 0
-    - m_Name: XRI RightHand Interaction/GuidedMissile
-      m_Type: 1
-      m_ExpectedControlType: Button
-      m_Id: 747c5029-cbd4-4156-a121-7369855df4f0
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings:
-      - m_Name: 
-        m_Id: adebd903-fa5d-487c-8e74-dca509ce6c55
-        m_Path: <XRController>{RightHand}/secondaryButton
-        m_Interactions: 
-        m_Processors: 
-        m_Groups: Generic XR Controller
-        m_Action: XRI RightHand Interaction/GuidedMissile
-        m_Flags: 0
-      m_Flags: 0
-    _values: 000000000100000002000000
+  isGrabbing: 
+  usingSkill: 
   grabL: {fileID: -6131295136447488360, guid: b212627b2d7d7b547ba7c981ca0c6bec, type: 3}
   grabR: {fileID: 187161793506945269, guid: b212627b2d7d7b547ba7c981ca0c6bec, type: 3}
-  testMode: 0
+--- !u!114 &4811588309065104376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8692011448270903495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bafe0a648b4154e4e87596c5f8ccfd19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  weaponSetting:
+    weaponName: 1
+    button:
+      m_UseReference: 1
+      m_Action:
+        m_Name: Button
+        m_Type: 0
+        m_ExpectedControlType: 
+        m_Id: 82d5d292-21a7-462e-8e3f-2749c7841ef1
+        m_Processors: 
+        m_Interactions: 
+        m_SingletonActionBindings: []
+        m_Flags: 0
+      m_Reference: {fileID: -5982496924579745919, guid: b212627b2d7d7b547ba7c981ca0c6bec, type: 3}
+    damage: 0
+    currentAmmo: 0
+    maxAmmo: 100
+    attackRate: 0
+    attackDistance: 0
+    bLock: 0
+  handSide: 0
+  gaugeUpSpeed: 10
+  gaugeDownSpeed: 20
+  anim: {fileID: 0}
+--- !u!114 &3762235261956914012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8692011448270903495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef3f41dde7f6a224ca5443e310d40737, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  weaponSetting:
+    weaponName: 3
+    button:
+      m_UseReference: 1
+      m_Action:
+        m_Name: Button
+        m_Type: 0
+        m_ExpectedControlType: 
+        m_Id: 22d95ccf-23e6-4dc7-9d2e-0700b2afde7c
+        m_Processors: 
+        m_Interactions: 
+        m_SingletonActionBindings: []
+        m_Flags: 0
+      m_Reference: {fileID: -7145657412569494166, guid: b212627b2d7d7b547ba7c981ca0c6bec, type: 3}
+    damage: 0
+    currentAmmo: 0
+    maxAmmo: 10
+    attackRate: 1
+    attackDistance: 0
+    bLock: 0
+  handSide: 1
+  firePosition: {fileID: 0}
+  orbFactory:
+  - {fileID: 8826344079920379656, guid: 4c217890c355a674fba2d4d452e1a11f, type: 3}
+  - {fileID: 8882929318612687507, guid: c5c8ed6524cbed84898f1dd24a1769a0, type: 3}
+  orbType: 0
+--- !u!114 &539951605094041219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8692011448270903495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f76efec53aa5b44f8ad30393d7ac7e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  weaponSetting:
+    weaponName: 0
+    button:
+      m_UseReference: 1
+      m_Action:
+        m_Name: Button
+        m_Type: 0
+        m_ExpectedControlType: 
+        m_Id: 589d028c-c689-4e36-842f-9452f17f3136
+        m_Processors: 
+        m_Interactions: 
+        m_SingletonActionBindings: []
+        m_Flags: 0
+      m_Reference: {fileID: 83097790271614945, guid: b212627b2d7d7b547ba7c981ca0c6bec, type: 3}
+    damage: 1
+    currentAmmo: 0
+    maxAmmo: 10
+    attackRate: 0.2
+    attackDistance: 10
+    bLock: 0
+  handSide: 1
+  bulletSpawnPoint: {fileID: 0}
+  muzzleFlashEffect: {fileID: 0}
+  bullet: {fileID: 100004, guid: b68468ea19b581744b2449b90138eba4, type: 3}
+  onFireSFX: {fileID: 0}
+  onReloadSFX: {fileID: 0}
+  isAutomatic: 0
+--- !u!114 &676354787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8692011448270903495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6aff4d7010059641aff6e355e89c7e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  weaponSetting:
+    weaponName: 2
+    button:
+      m_UseReference: 1
+      m_Action:
+        m_Name: Button
+        m_Type: 0
+        m_ExpectedControlType: 
+        m_Id: 173c688c-e946-436a-b559-62b6c28f046a
+        m_Processors: 
+        m_Interactions: 
+        m_SingletonActionBindings: []
+        m_Flags: 0
+      m_Reference: {fileID: -2664691354614307530, guid: b212627b2d7d7b547ba7c981ca0c6bec, type: 3}
+    damage: 1
+    currentAmmo: 0
+    maxAmmo: 20
+    attackRate: 0.2
+    attackDistance: 0
+    bLock: 0
+  handSide: 1
+  gmSystem: {fileID: 6363595007051247092}
+  bulletSpawnPoint: {fileID: 0}
+  randomPath:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  muzzleFlashEffect: {fileID: 0}
+  bullet: {fileID: 7862229890340024945, guid: dcd588c0baea5234f945038cd6857d49, type: 3}
+  onFireSFX: {fileID: 0}
+  onReloadSFX: {fileID: 0}
+  isAutomatic: 1
+  target: {fileID: 0}
 --- !u!1 &8692011449641214084
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,8 +343,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8692011449641214087}
-  - component: {fileID: 8692011449641214081}
-  - component: {fileID: 8692011449641214086}
   - component: {fileID: 666033776476145112}
   m_Layer: 0
   m_Name: BasicWeapon
@@ -308,56 +366,6 @@ Transform:
   m_Father: {fileID: 8692011448270903494}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8692011449641214081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8692011449641214084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 0
-  OwnershipTransfer: 0
-  observableSearch: 0
-  ObservedComponents:
-  - {fileID: 0}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &8692011449641214086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8692011449641214084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f76efec53aa5b44f8ad30393d7ac7e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
-  weaponSetting:
-    weaponName: 0
-    damage: 1
-    currentAmmo: 20
-    maxAmmo: 10
-    attackRate: 0.2
-    attackDistance: 10
-  handSide: 1
-  bulletSpawnPoint: {fileID: 0}
-  muzzleFlashEffect: {fileID: 0}
-  bullet: {fileID: 1891902229039176, guid: 762dfe761f7d7274793acf4f6087a029, type: 3}
-  onFireSFX: {fileID: 0}
-  onReloadSFX: {fileID: 0}
-  isAutomatic: 1
 --- !u!114 &666033776476145112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,7 +498,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2908577295761231465, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 66acefbcd640c39439a88e00f54b0a0f, type: 3}
 --- !u!4 &1542816634 stripped
 Transform:

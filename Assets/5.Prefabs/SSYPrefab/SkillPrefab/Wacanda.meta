@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/5.Prefabs/SSYPrefab/SkillPrefab/JaKiJang.meta
 guid: 4e1dbdd22e95a254b93aec3ecfe1ac66
+========
+guid: 08e0ed4b533a38e4e8478e0a3d7e4798
+>>>>>>>> dev/PWJ:Assets/2.Script/PWJ/Lobby.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

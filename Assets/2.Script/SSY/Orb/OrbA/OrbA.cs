@@ -22,7 +22,7 @@ public class OrbA : OrbBase
         visualEffect.SetFloat("Size", 0f);
         yield return new WaitForSeconds(1f);
         
-        Destroy(this.gameObject);
+        gameObject.SetActive(false);
     }
 
     protected override void RPCFire(Vector3 shootPosition, Vector3 forward)

@@ -36,38 +36,41 @@ public class GuidedMissileCrossHair : MonoBehaviour
         mask = ~mask; //미사일 레이어 제외
     }
 
-    public void CancleGuidedMissile()
+    public void StartGuidedMissile()
+    {
+         coroutineOnTrack = StartCoroutine(OnTrack());
+    }
+
+
+    public void StopGuidedMissile()
     {
         if (coroutineOnTrack != null)
         {
             StopCoroutine(coroutineOnTrack);
             coroutineOnTrack = null;
+            Debug.Log("Stop Missile");
         }
-
         crossHairImage.gameObject.SetActive(false);
     }
 
-    public void ActivateGuidedMissile(){
-
-        coroutineOnTrack = StartCoroutine(OnTrack());
-    }
 
     private void StopOnTracking(){
 
-        if(coroutineOnTracking !=null){
+        if(coroutineOnTracking != null){
             StopCoroutine(coroutineOnTracking);
             coroutineOnTracking = null;
+            Debug.Log("Stop Tracking");
         }
     }
 
    private IEnumerator OnTrack()
     {
         enemyTarget = GameObject.Find("Enemy").transform;
-     
         crossHairImage.gameObject.SetActive(true);
-        while (state != eState.Normal)
+        while (true)
         {
             yield return null;
+
             var dir = enemyTarget.position - centerEye.position;
             var reveresDir = cameraEye.transform.position - enemyTarget.position;
             Ray ray = new Ray(centerEye.position, dir);
@@ -77,12 +80,13 @@ public class GuidedMissileCrossHair : MonoBehaviour
             {
                 if (targetHit.transform.CompareTag("Enemy"))
                 {
-
                     StopOnTracking();
-#if UNITY_EDITOR
+
+                    #if UNITY_EDITOR
                     lr.SetPosition(0, ray.origin);
                     lr.SetPosition(1, targetHit.point);
-#endif
+                    #endif
+
                     if (Physics.Raycast(reveresRay, out RaycastHit screenHit, 100f, screenLayer))
                     {
                       
@@ -90,7 +94,7 @@ public class GuidedMissileCrossHair : MonoBehaviour
                         imageRenderer.enabled = true;
                         lr.SetPosition(0, reveresRay.origin);
                         lr.SetPosition(1, screenHit.point);
-#endif
+                    #endif
                         crossHairImage.LookAt(cameraEye.transform.position);
                         crossHairImage.position = Vector3.Lerp(this.crossHairImage.position, screenHit.point, Time.deltaTime * 5f);
                         crossHairImage.rotation = Quaternion.Euler(crossHairImage.rotation.eulerAngles + new Vector3(0f, 0f, -30f));
