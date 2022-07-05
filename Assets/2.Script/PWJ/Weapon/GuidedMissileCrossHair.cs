@@ -32,7 +32,7 @@ public class GuidedMissileCrossHair : MonoBehaviour
     {
         origin = centerEye.position;
         this.cameraEye = Camera.main;
-        mask = 3 << 3; 
+        mask = 1 << 3; 
         mask = ~mask; //미사일 레이어 제외
     }
 
@@ -65,8 +65,9 @@ public class GuidedMissileCrossHair : MonoBehaviour
 
    private IEnumerator OnTrack()
     {
-        enemyTarget = GameObject.Find("Enemy").transform;
+        enemyTarget = GameObject.FindWithTag("Enemy").transform;
         crossHairImage.gameObject.SetActive(true);
+        
         while (true)
         {
             yield return null;
