@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+public enum eOrbType
+{
+    OrbA, OrbB, OrbC
+}
 public class OrbTrigger : MonoBehaviour
 {
-    public enum eOrbType{
-        OrbA, OrbB , OrbC
-    }
+
     public bool bGrabRightHand;
     private bool isChanging;
     private UIOrb uIOrb;
@@ -14,31 +16,21 @@ public class OrbTrigger : MonoBehaviour
     private Coroutine coroutineholder;
     private MeshRenderer mr;
     private MaterialPropertyBlock matBlock;
-    private Color oAc = new Color(0.1136274f, 0.04142933f , 0.4622642f);
-    private Color oBc = new Color(0.957f, 0.4659617f, 0.1058823f);
-    private Color oCc = new Color(0.01330545f,0.1226415f, 0.01330545f);
     public float motionTime = 2f;
     private List<Color> colorList;
-    private Dictionary<int, Color> orbdic = new Dictionary<int, Color>();
+    //private Dictionary<int, Color> orbdic = new Dictionary<int, Color>();
+    private Color[] color = new Color[] {new Color(0.1136274f, 0.04142933f, 0.4622642f), new Color(0.957f, 0.4659617f, 0.1058823f),new Color(0.01330545f, 0.1226415f, 0.01330545f) }; 
     private void Awake()
     {
-        Color[] colors = new Color[3] { oAc, oBc, oCc };
-        this.colorList = colors.ToList<Color>();
-
-        for(int i = 0; i < colorList.Count; i++){
-            orbdic.Add(i, colors[i]);
-        }
-
         uIOrb = this.GetComponentInParent<UIOrb>();
         matBlock = new MaterialPropertyBlock();
         mr = this.GetComponent<MeshRenderer>();
     }
     private IEnumerator ChangeColor(eOrbType ot)
     {
-        matBlock.SetColor("_Outline_Color", orbdic[(int)ot]);
+        matBlock.SetColor("_Outline_Color", color[(int)ot]);
         mr.SetPropertyBlock(matBlock);
         yield return new WaitForSeconds(motionTime);
-
         this.orbType = ot;
         uIOrb.OnSelectedOrb((int)this.orbType);
         isChanging = false;

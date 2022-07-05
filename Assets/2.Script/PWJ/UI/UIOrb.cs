@@ -15,10 +15,20 @@ public class UIOrb : UIBase
     public GameObject orbCAvailable;
     public GameObject orbCReload;
     public int orbType;
+
+    public GameObject[] orbAvailable;
+    public GameObject[] orbReload;
+
     Vector3 tmp;
     Vector3 tmpB;
     Vector3 tmpC;
-    
+
+    public void Awake()
+    {
+        orbAvailable = new GameObject[3] { available, orbBAvailable, orbCAvailable};
+        orbReload = new GameObject[3] {reload , orbBReload, orbCReload };
+    }
+
     public void OnSelectedOrb(int num)
     {
         this.orbType = num;
@@ -28,7 +38,7 @@ public class UIOrb : UIBase
         tmp = originOrbA.position;
         tmpB = originOrbB.position;
         tmpC = originOrbC.position;
-        while(!isSelected)
+        while(isSelected)
         {
             yield return null;
             originOrbA.position = Vector3.Lerp(originOrbA.position, tmpC , Time.deltaTime);
@@ -42,7 +52,6 @@ public class UIOrb : UIBase
         tmp = originOrbA.position;
         tmpB = originOrbB.position;
         tmpC = originOrbC.position;
-        isSelected = false;
     }
 
 
@@ -52,8 +61,13 @@ public class UIOrb : UIBase
     {
         if(coolval == attackRate)
         {
-            available.SetActive(true); //변경대상//
-
+            for(int i = 0; i < orbAvailable.Length ; i++){
+                if(i == orbType){
+                    orbAvailable[this.orbType].SetActive(true); //변경대상//
+                }else{
+                    orbAvailable[i].SetActive(false);
+                }
+        }
             enableUIKeys.SetActive(true);
             disableUIKeys.SetActive(false);
             textProgress.gameObject.SetActive(false);
@@ -63,7 +77,17 @@ public class UIOrb : UIBase
         {
             bCanUse = false;
 
-            available.SetActive(false); //변경대상//
+            for (int i = 0; i < orbAvailable.Length; i++)
+            {
+                if (i == orbType)
+                {
+                    orbAvailable[this.orbType].SetActive(false); //변경대상//
+                }
+                else
+                {
+                    orbAvailable[i].SetActive(true);
+                }
+            }
 
             enableUIKeys.SetActive(false);
             disableUIKeys.SetActive(true);
