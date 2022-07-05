@@ -75,7 +75,7 @@ public class BasicWeapon : WeaponBase, IInitialize
     }
     public override void StartWeaponAction()
     {
-        if (isReloading || weaponSetting.bLock)
+        if (isReloading)
             return;
 
         if (isAutomatic)

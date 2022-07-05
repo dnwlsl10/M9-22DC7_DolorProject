@@ -54,12 +54,16 @@ public class WeaponBase : MonoBehaviourPun
 
     protected void OnEnable() {
         if (photonView.Mine == false) return;
+        weaponSetting.button.action.started += StartWeaponAction;
+        weaponSetting.button.action.canceled += StopWeaponAction;
 
         WeaponSystem.instance.RegistWeapon(this, (int)weaponSetting.weaponName);
         Initialize();
     }
     protected void OnDisable() {
-        if (photonView.Mine)
-            WeaponSystem.instance.UnregistWeapon(this, (int)weaponSetting.weaponName);
+        if (photonView.Mine == false) return;
+        weaponSetting.button.action.started -= StartWeaponAction;
+        weaponSetting.button.action.canceled -= StopWeaponAction;
+        WeaponSystem.instance.UnregistWeapon(this, (int)weaponSetting.weaponName);
     }
 }
