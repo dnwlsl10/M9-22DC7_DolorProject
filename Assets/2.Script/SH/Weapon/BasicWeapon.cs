@@ -39,9 +39,6 @@ public class BasicWeapon : WeaponBase, IInitialize
     }
     public event Cur_MaxEvent OnValueChange;
 
-    public System.Action OnPress;
-    public System.Action OnCancle;
-
     [Header("SpawnPoint")]
     public Transform bulletSpawnPoint;
 
@@ -78,7 +75,7 @@ public class BasicWeapon : WeaponBase, IInitialize
     }
     public override void StartWeaponAction()
     {
-        if (isReloading || weaponSetting.bLock)
+        if (isReloading)
             return;
 
         if (isAutomatic)
@@ -89,7 +86,7 @@ public class BasicWeapon : WeaponBase, IInitialize
         else
             OnAttack();
 
-        OnPress();
+        WeaponSystem.instance.StartActionCallback((int)weaponSetting.weaponName);
     }
 
     public override void StopWeaponAction()
@@ -97,7 +94,7 @@ public class BasicWeapon : WeaponBase, IInitialize
         if (coroutineHolder != null)
             StopCoroutine(coroutineHolder);
 
-        OnCancle();
+        WeaponSystem.instance.StopActionCallback((int)weaponSetting.weaponName);
     }
 
     public override void StartReload()
