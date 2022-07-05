@@ -15,7 +15,7 @@ public class OrbB : OrbBase
     [Space]
     [SerializeField] int maxCount;
     int count = 0;
-    [SerializeField] LayerMask ChoongDolChae;
+    [SerializeField] LayerMask explosionLayer;
     SphereCollider sphereCollider;
 
     [SerializeField] Transform vfx;
@@ -31,7 +31,7 @@ public class OrbB : OrbBase
     {
         base.Init();
 
-        if (photonView.Mine) sphereCollider.enabled = false; //콜라이더 끄기 //나중에 false 로 변경
+        if (photonView.Mine) sphereCollider.enabled = false;
 
         blackHole.localScale = Vector3.one * startSize; //스케일 다시 초기화
         blackHole.gameObject.SetActive(true);
@@ -47,15 +47,15 @@ public class OrbB : OrbBase
     void OnTriggerEnter(Collider other) //무조건 트리거여야한다 - 콜리전이면 나중에 물리법칙을 받게 될 수 있따. 
     //나의 총알이 닿았을 때와  // 어떠한 충돌체와 닿았을 때
     {
-        if (ChoongDolChae == (ChoongDolChae | (1 << other.gameObject.layer))) //충돌체
+        if (explosionLayer == (explosionLayer | (1 << other.gameObject.layer))) //충돌체
         {
             sphereCollider.enabled = false;
-            int remotePlayerLayer = LayerMask.NameToLayer("RemotePlayer");
+            int remoteLayer = LayerMask.NameToLayer("RemoteCapsule");
 
-            Collider[] cols = Physics.OverlapSphere(transform.position, maxScale, ChoongDolChae);
+            Collider[] cols = Physics.OverlapSphere(transform.position, maxScale, explosionLayer);
 
             foreach (var collider in cols)
-                if (collider.gameObject.layer == remotePlayerLayer)
+                if (collider.gameObject.layer == remoteLayer)
                 {
                     if (robotDamaged == false)
                     {
@@ -75,7 +75,7 @@ public class OrbB : OrbBase
             if (pv?.ViewID > 0 == false)
                 other.gameObject.SetActive(false);
 
-            photonView.CustomRPC(this, "BulletHit", RpcTarget.All, pv?.ViewID);
+            photonView.CustomRPC(this, "BulletHit", RpcTarget.All, pv?.ViewID, count);
         }
     }
 
@@ -102,7 +102,7 @@ public class OrbB : OrbBase
     void GiveDamage(Transform tr, float damage) => tr.GetComponent<IDamageable>()?.TakeDamage(damage);
 
     [PunRPC]
-    void BulletHit(int viewID)
+    void BulletHit(int viewID, int count)
     {
         if (viewID > 0) PhotonNetwork.GetPhotonView(viewID).gameObject.SetActive(false);
 
@@ -115,6 +115,7 @@ public class OrbB : OrbBase
 
     IEnumerator CompressSize(float targetSpeed, float targetScale) //총알을 한번 맞을때
     {
+        print("Compress" + targetScale);
         for (float f = 0; f < 0.5f; f += Time.deltaTime) // 0.1f == 지금 총알과 다음 총알 딜레이 시간 만큼 하면 자연스러울 것.!!!
         {
             orbSpeed = Mathf.Lerp(orbSpeed, targetSpeed, f/0.1f);
