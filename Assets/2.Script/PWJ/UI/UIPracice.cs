@@ -8,6 +8,9 @@ public class UIPracice : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        OnSelceted();
+        if (other.gameObject.layer == 10)
+        {
+            OnSelceted();
+        }
     }
 }

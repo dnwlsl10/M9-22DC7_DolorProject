@@ -51,7 +51,7 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
                 grababble.onRelease = new Autohand.UnityHandGrabEvent();
 
                 var hilight = grababble.GetComponentInChildren<GrabControllerHighlight>();
-
+                
                 UnityEditor.Events.UnityEventTools.AddIntPersistentListener(grababble.onGrab, weight.OnRightGripEvent, 1);
                 UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(grababble.onGrab, OnGrabRight, true);
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grababble.onGrab, hilight.OnGrabHightlight);
@@ -184,7 +184,6 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
             grabL.action.canceled += OnGrabLeft;
             grabR.action.canceled += OnGrabRight;
         } 
-
     }
     private void OnDisable() {
         if (photonView.Mine == false) return;

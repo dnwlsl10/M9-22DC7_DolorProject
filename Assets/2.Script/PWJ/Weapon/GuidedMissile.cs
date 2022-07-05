@@ -31,8 +31,7 @@ public class GuidedMissile : WeaponBase , IInitialize
     private AudioClip onReloadSFX;
     private WaitForEndOfFrame eof = new WaitForEndOfFrame();
     private WaitForSeconds ar = new WaitForSeconds(0.2f);
-    public System.Action OnPress;
-    public System.Action OnCancle;
+
 
     public bool isAutomatic;
     Coroutine coroutineHolder;
@@ -112,22 +111,21 @@ public class GuidedMissile : WeaponBase , IInitialize
         {
             gmSystem.state = eState.Tracking;
             gmSystem.StartGuidedMissile();
-            OnPress();
+            WeaponSystem.instance.StartActionCallback((int)weaponSetting.weaponName);
         }
     }
 
 
     public override void StopWeaponAction() //키를 땠을때 
     {
-        OnCancle();
+        if (bFire || CurrentAmmo < weaponSetting.maxAmmo) return;
+        WeaponSystem.instance.StopActionCallback((int)weaponSetting.weaponName);
         if(gmSystem.state == eState.Tracking)
         {
             gmSystem.StopGuidedMissile();
             gmSystem.state = eState.Normal;
         }
 
-        if(bFire || CurrentAmmo < weaponSetting.maxAmmo) return;
-        
         if(gmSystem.state == eState.TrackingComplete)
         {
             coroutineHolder = StartCoroutine(ContinuousFire());
@@ -167,7 +165,6 @@ public class GuidedMissile : WeaponBase , IInitialize
         var missile = NetworkObjectPool.instance.SpawnFromPool<Missile>(bullet.name, bulletSpawnPoint.transform.position, Quaternion.identity);
         missile.gm = this;
 
-
         photonView.CustomRPC(missile, "RPCPath", RpcTarget.AllViaServer, p1, p2, p3);
 
         StartCoroutine(OnMuzzleFlashEffect());
@@ -187,6 +184,7 @@ public class GuidedMissile : WeaponBase , IInitialize
             StartReload();
         }
     }
+
 #endregion
 
     IEnumerator OnMuzzleFlashEffect()

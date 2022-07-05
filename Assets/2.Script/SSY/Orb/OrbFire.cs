@@ -10,14 +10,31 @@ public class OrbFire : WeaponBase
     public GameObject[] orbFactory;
     GameObject orb;
     public int orbType;
+    public float cooldown;
+    public bool bUseOrb;
+    public float Cooldown{
+        get { return cooldown;}
+        set
+        {
+            float preVal = cooldown;
+            cooldown = Mathf.Clamp(value, 0, weaponSetting.attackRate);
+            OnValueChange?.Invoke(cooldown, weaponSetting.attackRate);
+        }
+    }
+
+    public override void Initialize(){
+        base.Initialize();
+        cooldown = weaponSetting.attackRate;
+    }
 
     public override void StartWeaponAction() //GetKeyDown
     {
-        print("Start Orb");
+        if(weaponSetting.bLock) return;
+        print("Start Orb"); 
         if (Time.time - lastAttackTime < weaponSetting.attackRate) //만약 스킬 쿨타임 중이면 스킬 사용할 수 없다는 소리가 나면서 사용불가
             return;
-
         StartCoroutine(Hold());
+        WeaponSystem.instance.StartActionCallback((int)weaponSetting.weaponName);
     }
 
     IEnumerator Hold()
@@ -37,10 +54,26 @@ public class OrbFire : WeaponBase
         if (orb == null)
             return;
 
+        WeaponSystem.instance.StopActionCallback((int)weaponSetting.weaponName);
         lastAttackTime = Time.time; //초기화
+        StartCoroutine(StartCooldown());
         OrbBase orbMove = orb.GetComponent<OrbBase>();
         orbMove.OrbFire();
         orb = null;
     }
+
+    IEnumerator StartCooldown(){
+        
+        yield return null;
+
+        while(Cooldown > 0)
+        {
+            yield return new WaitForSeconds(1f);
+            Cooldown -= 1;
+        }
+        Cooldown = weaponSetting.attackRate;
+    }
+
+    public void SetType(int type) => orbType = type;
 }
 
