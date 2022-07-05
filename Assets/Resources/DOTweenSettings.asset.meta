@@ -1,12 +1,8 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Resources/DOTweenSettings.asset.meta
-guid: c4b5e7e7a2f44d249a7d9393718f69ec
+guid: a8e05e3a003aa684e9986c62129fd37c
 NativeFormatImporter:
-========
-guid: fb12f074407513d479a473fe8f96a8ce
-PrefabImporter:
->>>>>>>> dev/PWJ:Assets/Resources/ConnectMars 1.prefab.meta
   externalObjects: {}
+  mainObjectFileID: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

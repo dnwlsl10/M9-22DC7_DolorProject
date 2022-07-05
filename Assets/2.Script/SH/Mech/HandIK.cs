@@ -151,7 +151,7 @@ public class HandIK : MonoBehaviour, IInitialize
             }
 
             var v = GameObject.FindObjectOfType<UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation.XRDeviceSimulator>();
-            GameObject simulator = v != null ? simulator = v.gameObject : simulator = Instantiate(Resources.Load<GameObject>("XR Device Simulator"));
+            GameObject simulator = v != null ? simulator = v.gameObject : simulator = Instantiate(Resources.Load<GameObject>("TMP/XR Device Simulator"));
             
 
             abc.enabled = false;
