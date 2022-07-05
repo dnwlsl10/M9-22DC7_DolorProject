@@ -13,33 +13,36 @@ public class UIScreen : MonoBehaviour
     public UIGuidedMissile uIGuidedMissile; 
     public UIStatus uIStatus;
     public UIShield uIShield;
+
+    public UIOrb uIOrb;
     [SerializeField] private Status status;
     [SerializeField] private BasicWeapon bw;
     [SerializeField] private SkillShield sw;
     [SerializeField] private GuidedMissile gm;
-
-    // delegate void OnStart();
-    // OnStart[] starts;
+    [SerializeField] private OrbFire of;
 
     private bool bLock;
     public void OnEnable(){
         bw.OnValueChange += uIBasicWeapon.EventValue;
-        bw.OnPress = () => { uIBasicWeapon.OnSecondButton();};
-        bw.OnCancle = () => { uIBasicWeapon.OffSecondButton();};
+        bw.OnPress = uIBasicWeapon.OnSecondButton;
+        bw.OnCancle = uIBasicWeapon.OffSecondButton;;
 
         gm.OnValueChange += uIGuidedMissile.EventValue;
-        gm.OnPress = () => { uIGuidedMissile.OnSecondButton();};
-        gm.OnCancle = () => { uIGuidedMissile.OffSecondButton();};
+        gm.OnPress = uIGuidedMissile.OnSecondButton;
+        gm.OnCancle = uIGuidedMissile.OffSecondButton;
 
         sw.OnValueChange += uIShield.EventValue;
-        sw.OnPress = () => { uIShield.OnSecondButton();};
-        sw.OnCancle = () => { uIShield.OffSecondButton();};
+        sw.OnPress = uIShield.OnSecondButton;
+        sw.OnCancle = uIShield.OffSecondButton;
+
+        of.OnValueChange += uIOrb.EventValue;
+        of.OnPress = uIOrb.OnSecondButton;
+        of.OnCancle = uIOrb.OffSecondButton;
 
         status.OnValueChange += uIStatus.EventValue;
     }
     void Start()
     {
-        // starts[(int)WeaponName.Basic] = uIBasicWeapon.OnSecondButton;
         if (SceneManager.GetActiveScene().name == "Connect") LockMode();
     }
 
@@ -54,6 +57,7 @@ public class UIScreen : MonoBehaviour
 
         sw.CurrentAmmo = 0;
         sw.weaponSetting.bLock = true;
+
     }
 
     public void UnLockMode()
@@ -64,9 +68,7 @@ public class UIScreen : MonoBehaviour
 
         gm.weaponSetting.bLock = false;
         gm.StartReload();
-
         sw.weaponSetting.bLock = false;
-        
     }
 
     private void OnDisable() {

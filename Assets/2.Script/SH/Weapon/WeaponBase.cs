@@ -32,6 +32,7 @@ public class WeaponBase : MonoBehaviourPun
     public virtual void StartWeaponAction(){}
     public virtual void StopWeaponAction(){}
     public virtual void StartReload(){}
+
     
     protected void PlaySound(AudioClip clip)
     {
