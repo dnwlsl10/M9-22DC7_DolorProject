@@ -29,6 +29,9 @@ public class UIOrb : UIBase
     {
         orbAvailable = new GameObject[3] { available, orbBAvailable, orbCAvailable};
         orbReload = new GameObject[3] {reload , orbBReload, orbCReload };
+        tmp = originOrbA.localPosition;
+        tmpB = originOrbB.localPosition;
+        tmpC = originOrbC.localPosition;
     }
 
     public void OnSelectedOrb(int num)
@@ -38,9 +41,7 @@ public class UIOrb : UIBase
     }
 
     public IEnumerator OnLerpUI(bool isSelected){
-        tmp = originOrbA.localPosition;
-        tmpB = originOrbB.localPosition;
-        tmpC = originOrbC.localPosition;
+
         while(isSelected)
         {
             yield return null;
