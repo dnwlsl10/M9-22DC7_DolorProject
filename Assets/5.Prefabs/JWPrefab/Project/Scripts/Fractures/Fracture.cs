@@ -7,7 +7,7 @@ namespace Project.Scripts.Fractures
 {
     public static class Fracture
     {
-        public static ChunkGraphManager FractureGameObject(GameObject gameObject, Anchor anchor, int seed, int totalChunks,Material insideMaterial, Material outsideMaterial, float jointBreakForce, float density)
+        public static ChunkGraphManager FractureGameObject(GameObject gameObject, /*Anchor anchor,*/ int seed, int totalChunks,Material insideMaterial, Material outsideMaterial, float jointBreakForce, float density)
         {
             // Translate all meshes to one world mesh
             var mesh = GetWorldMesh(gameObject);
@@ -36,7 +36,7 @@ namespace Project.Scripts.Fractures
             }
 
             // Set anchored chunks as kinematic
-            AnchorChunks(gameObject, anchor);
+            AnchorChunks(gameObject/*, anchor*/);
 
             GameObject fractureGameObject = new GameObject("Fracture");
             foreach (var chunk in chunks)
@@ -50,11 +50,11 @@ namespace Project.Scripts.Fractures
             return graphManager;
         }
 
-        private static void AnchorChunks(GameObject gameObject, Anchor anchor)
+        private static void AnchorChunks(GameObject gameObject/*, Anchor anchor*/)
         {
             var transform = gameObject.transform;
             var bounds = gameObject.GetCompositeMeshBounds();
-            var anchoredColliders = GetAnchoredColliders(anchor, transform, bounds);
+            var anchoredColliders = GetAnchoredColliders(/*anchor,*/ transform, bounds);
             
             foreach (var collider in anchoredColliders)
             {
@@ -97,54 +97,54 @@ namespace Project.Scripts.Fractures
             return meshes;
         }
 
-        private static IEnumerable<Collider> GetAnchoredColliders(Anchor anchor, Transform meshTransform, Bounds bounds)
+        private static IEnumerable<Collider> GetAnchoredColliders(/*Anchor anchor,*/ Transform meshTransform, Bounds bounds)
         {
             var anchoredChunks = new HashSet<Collider>();
             var frameWidth = .01f;
             var meshWorldCenter = meshTransform.TransformPoint(bounds.center);
             var meshWorldExtents = bounds.extents.Multiply(meshTransform.lossyScale);
             
-            if (anchor.HasFlag(Anchor.Left))
-            {
-                var center = meshWorldCenter - meshTransform.right * meshWorldExtents.x;
-                var halfExtents = meshWorldExtents.Abs().SetX(frameWidth);
-                anchoredChunks.UnionWith(Physics.OverlapBox(center, halfExtents, meshTransform.rotation));
-            }
+            // if (anchor.HasFlag(Anchor.Left))
+            // {
+            //     var center = meshWorldCenter - meshTransform.right * meshWorldExtents.x;
+            //     var halfExtents = meshWorldExtents.Abs().SetX(frameWidth);
+            //     anchoredChunks.UnionWith(Physics.OverlapBox(center, halfExtents, meshTransform.rotation));
+            // }
             
-            if (anchor.HasFlag(Anchor.Right))
-            {
-                var center = meshWorldCenter + meshTransform.right * meshWorldExtents.x;
-                var halfExtents = meshWorldExtents.Abs().SetX(frameWidth);
-                anchoredChunks.UnionWith(Physics.OverlapBox(center, halfExtents, meshTransform.rotation));
-            }
+            // if (anchor.HasFlag(Anchor.Right))
+            // {
+            //     var center = meshWorldCenter + meshTransform.right * meshWorldExtents.x;
+            //     var halfExtents = meshWorldExtents.Abs().SetX(frameWidth);
+            //     anchoredChunks.UnionWith(Physics.OverlapBox(center, halfExtents, meshTransform.rotation));
+            // }
             
-            if (anchor.HasFlag(Anchor.Bottom))
-            {
-                var center = meshWorldCenter - meshTransform.up * meshWorldExtents.y;
-                var halfExtents = meshWorldExtents.Abs().SetY(frameWidth);
-                anchoredChunks.UnionWith(Physics.OverlapBox(center, halfExtents, meshTransform.rotation));
-            }
+            // if (anchor.HasFlag(Anchor.Bottom))
+            // {
+            //     var center = meshWorldCenter - meshTransform.up * meshWorldExtents.y;
+            //     var halfExtents = meshWorldExtents.Abs().SetY(frameWidth);
+            //     anchoredChunks.UnionWith(Physics.OverlapBox(center, halfExtents, meshTransform.rotation));
+            // }
             
-            if (anchor.HasFlag(Anchor.Top))
-            {
+            // if (anchor.HasFlag(Anchor.Top))
+            // {
                 var center = meshWorldCenter + meshTransform.up * meshWorldExtents.y;
                 var halfExtents = meshWorldExtents.Abs().SetY(frameWidth);
                 anchoredChunks.UnionWith(Physics.OverlapBox(center, halfExtents, meshTransform.rotation));
-            }
+            // }
             
-            if (anchor.HasFlag(Anchor.Front))
-            {
-                var center = meshWorldCenter - meshTransform.forward * meshWorldExtents.z;
-                var halfExtents = meshWorldExtents.Abs().SetZ(frameWidth);
-                anchoredChunks.UnionWith(Physics.OverlapBox(center,  halfExtents, meshTransform.rotation));
-            }
+            // if (anchor.HasFlag(Anchor.Front))
+            // {
+            //     var center = meshWorldCenter - meshTransform.forward * meshWorldExtents.z;
+            //     var halfExtents = meshWorldExtents.Abs().SetZ(frameWidth);
+            //     anchoredChunks.UnionWith(Physics.OverlapBox(center,  halfExtents, meshTransform.rotation));
+            // }
             
-            if (anchor.HasFlag(Anchor.Back))
-            {
-                var center = meshWorldCenter + meshTransform.forward * meshWorldExtents.z;
-                var halfExtents = meshWorldExtents.Abs().SetZ(frameWidth);
-                anchoredChunks.UnionWith(Physics.OverlapBox(center,  halfExtents, meshTransform.rotation));
-            }
+            // if (anchor.HasFlag(Anchor.Back))
+            // {
+            //     var center = meshWorldCenter + meshTransform.forward * meshWorldExtents.z;
+            //     var halfExtents = meshWorldExtents.Abs().SetZ(frameWidth);
+            //     anchoredChunks.UnionWith(Physics.OverlapBox(center,  halfExtents, meshTransform.rotation));
+            // }
             
             return anchoredChunks;
         }
