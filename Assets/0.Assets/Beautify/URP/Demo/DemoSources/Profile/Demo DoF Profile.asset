@@ -19,12 +19,12 @@ MonoBehaviour:
     m_Value: 0
   compareMode:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   compareSameSide:
     m_OverrideState: 1
     m_Value: 1
   comparePanning:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0.25
     min: 0
     max: 0.5
@@ -32,8 +32,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 1.4
   compareLineWidth:
-    m_OverrideState: 0
-    m_Value: 0.002
+    m_OverrideState: 1
+    m_Value: 0.0001
   flipY:
     m_OverrideState: 1
     m_Value: 0
