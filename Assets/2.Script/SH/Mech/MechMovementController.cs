@@ -238,7 +238,9 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
 
     public void PlayFootStepSound()
     {
-
+        if (Physics.Raycast(tr.position+tr.up*0.1f, -tr.up, 0.1f, LayerMask.GetMask("Ground")))
+            // audio.PlayOneShot(footstep);
+            AudioPool.instance.Play("shoot_energy", 2, tr.position);
     }
 
     public void SetMoveSpeed(float _value) => moveSpeed = _value;

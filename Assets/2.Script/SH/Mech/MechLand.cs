@@ -18,6 +18,7 @@ public class MechLand : MonoBehaviour, IInitialize
     }
 
     private Animator anim;
+    [SerializeField] private AudioClip clip;
     public LayerMask groundLayer;
     public List<Behaviour> componentsAfterStartScene;
     public float groundDetectDistance = 1;
@@ -45,6 +46,7 @@ public class MechLand : MonoBehaviour, IInitialize
             yield return null;
 
         anim.SetTrigger("Land");
+        AudioPool.instance.Play(clip.name, 2, transform.position);
         tmp.proxyMaxErrorSqrMag = storage;
 
         yield return new WaitForSeconds(3f);
