@@ -12,6 +12,7 @@ public class NetworkTest : MonoBehaviourPunCallbacks
     [SerializeField] byte maxPlayer;
     private void Start() 
     {
+        Cursor.lockState = CursorLockMode.Confined;
         PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.GameVersion = "1.0";

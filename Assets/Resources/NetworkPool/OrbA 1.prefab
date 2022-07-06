@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 2757160984934094389}
   - component: {fileID: 8315344407317233780}
   - component: {fileID: 7112057142267225374}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: OrbA 1
   m_TagString: Orb
   m_Icon: {fileID: 0}
