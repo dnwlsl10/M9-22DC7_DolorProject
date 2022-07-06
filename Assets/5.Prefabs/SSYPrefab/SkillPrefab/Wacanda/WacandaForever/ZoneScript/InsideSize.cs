@@ -20,7 +20,8 @@ public class InsideSize : MonoBehaviour
         mat = mr.material;
         changeVal = dissolveMinValue;
         mat.SetFloat("_Dissolve", changeVal);
-        StartCoroutine(ChangeInsideSize());
+        InGameManager2.instance.onGameStart += OnGameStart;
+
     }
 
     IEnumerator ChangeInsideSize()
@@ -43,5 +44,9 @@ public class InsideSize : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
             transform.GetChild(1).gameObject.SetActive(false);
+    }
+    void OnGameStart()
+    {
+        StartCoroutine(ChangeInsideSize());
     }
 }
