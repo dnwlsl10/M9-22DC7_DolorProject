@@ -39,17 +39,6 @@ public class UIOrb : UIBase
         OnSelectedOrbType(this.orbType);
     }
 
-<<<<<<< HEAD
-    public IEnumerator OnLerpUI(bool isSelected){
-
-        while(isSelected)
-        {
-            yield return null;
-            originOrbA.localPosition = Vector3.Lerp(originOrbA.localPosition, tmpC , Time.deltaTime);
-            originOrbC.localPosition = Vector3.Lerp(originOrbC.localPosition, tmpB, Time.deltaTime);
-            originOrbB.localPosition = Vector3.Lerp(originOrbB.localPosition, tmp , Time.deltaTime);
-        }
-=======
     public void OnLerpUI(int etype)
     {
         orbType = etype;
@@ -61,7 +50,6 @@ public class UIOrb : UIBase
         originOrbC.localPosition = Vector3.Lerp(originOrbC.localPosition, tmpB, Time.deltaTime);
         originOrbB.localPosition = Vector3.Lerp(originOrbB.localPosition, tmp , Time.deltaTime);
    
->>>>>>> develop
         originOrbA.localPosition = tmpC;
         originOrbC.localPosition = tmpB;
         originOrbB.localPosition = tmp;
