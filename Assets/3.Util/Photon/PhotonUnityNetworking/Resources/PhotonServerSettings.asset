@@ -55,6 +55,7 @@ MonoBehaviour:
   - SetPRPC
   - ShieldD
   - TD_RPC
+  - SetTargetRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
