@@ -148,16 +148,16 @@ public class GuidedMissile : WeaponBase , IInitialize
     //         yield return new WaitForEndOfFrame();
     //     }
     // }
-    float currentTime;
-    float createTime = 0.2f;
+
     private void FixedUpdate() {
+
         if(bFire)
         {
-            currentTime += Time.deltaTime;
-            if (CurrentAmmo > 0 && currentTime > createTime)
+            lastAttackTime += Time.deltaTime;
+            if (CurrentAmmo > 0 && lastAttackTime > weaponSetting.attackRate)
             {
                 OnAttack();
-                currentTime = 0;
+                lastAttackTime = 0;
             } 
         }
     }
@@ -165,22 +165,11 @@ public class GuidedMissile : WeaponBase , IInitialize
     private void OnAttack()
     {
         this.target = gmSystem.enemyTarget;
-        Debug.Log(target);
-        Vector3 dir = new Vector3(Random.Range(-1f, 1f), Random.Range(0.1f, 1f), 0);
-        dir.Normalize();
-        dir *= 3.85f;
-        dir += new Vector3(0, 0, -3.25f);
-        Vector3 p1 = bulletSpawnPoint.position;
-        Vector3 p2 = randomPath[Random.Range(0, randomPath.Count)].transform.position + dir;
-        Vector3 p3 = target.transform.position;
-        // Vector3 p1 = bulletSpawnPoint.transform.position;
-        // Vector3 p2 = new Vector3(randomPath[randIndex].position.x, randomPath[randIndex].position.y, 0) + dir;
-        // Vector3 p3 = this.target.position;
 
-        // var missile = NetworkObjectPool.instance.SpawnFromPool<Missile>(bullet.name, p1, Quaternion.identity);
-        // missile.gm = this;
-        // missile.damage  = weaponSetting.damage;
-        // missile.GetComponent<PhotonView>().CustomRPC(missile,"PathRPC", RpcTarget.AllViaServer, p1,p2,p3);
+        var missile = NetworkObjectPool.instance.SpawnFromPool<Missile>(bullet.name, bulletSpawnPoint.transform.position, Quaternion.identity);
+        missile.gm = this;
+        missile.damage  = weaponSetting.damage;
+        missile.GetComponent<PhotonView>().CustomRPC(missile,"SetTargetRPC", RpcTarget.AllViaServer, target);
 
         StartCoroutine(OnMuzzleFlashEffect());
         PlaySound(onFireSFX);
