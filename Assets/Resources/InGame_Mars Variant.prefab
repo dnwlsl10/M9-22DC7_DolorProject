@@ -19,29 +19,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: InGame_Mars Variant
       objectReference: {fileID: 0}
-    - target: {fileID: 2705916427777778069, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
-      propertyPath: m_Layer
-      value: 12
-      objectReference: {fileID: 0}
     - target: {fileID: 2975807836728042971, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
       propertyPath: sceneViewId
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975807837097039009, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
-      propertyPath: m_Height
-      value: 8.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975807837097039009, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
-      propertyPath: m_Radius
-      value: 1.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975807837097039009, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975807837097039009, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
-      propertyPath: m_Center.y
-      value: 4.25
       objectReference: {fileID: 0}
     - target: {fileID: 2975807837097039020, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
       propertyPath: sceneViewId
@@ -51,10 +31,6 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3328857668545830948, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
-      propertyPath: bullet
-      value: 
-      objectReference: {fileID: 196044, guid: c629ae44d905a704c9676e634d12438f, type: 3}
     - target: {fileID: 3370530952347843375, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
       propertyPath: m_RootOrder
       value: 0
