@@ -49,13 +49,16 @@ MonoBehaviour:
     initSize: 10
   - name: OrbA 1
     prefab: {fileID: 8826344079920379656, guid: 4c217890c355a674fba2d4d452e1a11f, type: 3}
-    initSize: 2
+    initSize: 5
   - name: OrbB 1
     prefab: {fileID: 8882929318612687507, guid: c5c8ed6524cbed84898f1dd24a1769a0, type: 3}
-    initSize: 2
+    initSize: 5
   - name: laser_impulse_projectile_001
     prefab: {fileID: 100004, guid: b68468ea19b581744b2449b90138eba4, type: 3}
     initSize: 10
   - name: laser_impulse_projectile_002
     prefab: {fileID: 100002, guid: b5519f04a82d89045bf023a3f5af2d82, type: 3}
     initSize: 10
+  - name: MissileProjectile
+    prefab: {fileID: 7862229890340024945, guid: dcd588c0baea5234f945038cd6857d49, type: 3}
+    initSize: 20

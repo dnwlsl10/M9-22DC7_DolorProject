@@ -57,8 +57,9 @@ public class UIScreen : MonoBehaviour
         sw.CurrentAmmo = 0;
         sw.weaponSetting.bLock = true;
 
+
         of.Cooldown = 0;
-        uIOrb.textProgress.text = of.weaponSetting.maxAmmo.ToString();
+        uIOrb.textProgress.gameObject.SetActive(false);
         of.weaponSetting.bLock = true;
     }
 
@@ -72,6 +73,8 @@ public class UIScreen : MonoBehaviour
         gm.StartReload();
 
         sw.weaponSetting.bLock = false;
+
+
         of.Cooldown = of.weaponSetting.attackRate;
         of.weaponSetting.bLock = false;
     }

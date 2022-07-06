@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
+using Photon.Realtime;
 public enum eState{
     Normal,
     Tracking,
     TrackingComplete
 }
-public class GuidedMissileCrossHair : MonoBehaviour
+public class GuidedMissileCrossHair : MonoBehaviourPun
 {
     [Header("LineRenderer")]
     public Renderer imageRenderer;
@@ -16,7 +17,7 @@ public class GuidedMissileCrossHair : MonoBehaviour
     [Header("RayTarget")]
     private Vector3 origin;
     public Transform centerEye;
-    private Camera cameraEye;
+    public Camera cameraEye;
     public Transform enemyTarget;
     public LayerMask screenLayer;
     public LayerMask mask;
@@ -31,7 +32,6 @@ public class GuidedMissileCrossHair : MonoBehaviour
     void Awake()
     {
         origin = centerEye.position;
-        this.cameraEye = Camera.main;
         mask = 1 << 3; 
         mask = ~mask; //미사일 레이어 제외
     }
@@ -63,11 +63,21 @@ public class GuidedMissileCrossHair : MonoBehaviour
         }
     }
 
+    public void Update()
+    {
+  
+    }
+
    private IEnumerator OnTrack()
     {
-        enemyTarget = GameObject.FindWithTag("Enemy").transform;
+        enemyTarget = GameObject.FindGameObjectWithTag("Enemy").transform;
+        if(enemyTarget == null)
+        {
+            crossHairImage.gameObject.SetActive(false);
+            yield break;
+        }
+
         crossHairImage.gameObject.SetActive(true);
-        
         while (true)
         {
             yield return null;
