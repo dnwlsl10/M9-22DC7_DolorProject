@@ -18,13 +18,13 @@ namespace Project.Scripts.Fractures
         private void Start()
         {
             FractureGameobject();
-            gameObject.SetActive(false);
+            // gameObject.SetActive(false);
         }
-
-        public ChunkGraphManager FractureGameobject()
+GameObject obj;
+        public void FractureGameobject()
         {
             var seed = rng.Next();
-            return Fracture.FractureGameObject(
+            Fracture.FractureGameObject(
                 gameObject,
                 // anchor,
                 seed,
@@ -32,8 +32,11 @@ namespace Project.Scripts.Fractures
                 insideMaterial,
                 outsideMaterial,
                 internalStrength,
-                density
+                density,
+                out obj
             );
+
+            obj.SetActive(false);
         }
     }
 }
