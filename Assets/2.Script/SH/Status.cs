@@ -32,11 +32,16 @@ public class Status : MonoBehaviourPun, IDamageable
         HP = maxHP;
     }
 
-    public bool TakeDamage(float damage)
+    public void TakeDamage(float damage)
+    {
+        photonView.CustomRPC(this, "TD_RPC", photonView.Owner, damage);
+    }
+
+    [PunRPC]
+    private void TD_RPC(float damage)
     {
         Debug.Log("Damage" + damage);
         HP -= damage;
-        return true;
     }
 
     private void OnDeath()

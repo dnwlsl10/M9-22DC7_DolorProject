@@ -15,17 +15,20 @@ public class OrbB : OrbBase
     [Space]
     [SerializeField] int maxCount;
     int count = 0;
-    [SerializeField] LayerMask explosionLayer;
+    [Tooltip("Don't include RemotePlayer layer")]
+    [SerializeField] LayerMask damageableLayer;
     SphereCollider sphereCollider;
 
     [SerializeField] Transform vfx;
     [SerializeField] Transform blackHole;
     bool robotDamaged;
+    int bulletLayer;
 
     void Awake() 
     {
         sphereCollider = GetComponentInChildren<SphereCollider>();
         scaleDown = (startSize - minScale)/maxCount;
+        bulletLayer = LayerMask.NameToLayer("Bullet");
     }
     protected override void Init() //등장하는 순간
     {
@@ -47,28 +50,10 @@ public class OrbB : OrbBase
     void OnTriggerEnter(Collider other) //무조건 트리거여야한다 - 콜리전이면 나중에 물리법칙을 받게 될 수 있따. 
     //나의 총알이 닿았을 때와  // 어떠한 충돌체와 닿았을 때
     {
-        if (explosionLayer == (explosionLayer | (1 << other.gameObject.layer))) //충돌체
-        {
-            sphereCollider.enabled = false;
-            int remoteLayer = LayerMask.NameToLayer("RemoteCapsule");
-
-            Collider[] cols = Physics.OverlapSphere(transform.position, maxScale, explosionLayer);
-
-            foreach (var collider in cols)
-                if (collider.gameObject.layer == remoteLayer)
-                {
-                    if (robotDamaged == false)
-                    {
-                        robotDamaged = true;
-                        CheckOhterHasPV(other.transform);
-                    }
-                }
-        }
-        else if (other.tag == "Bullet") // 총알이면
+        if (other.gameObject.layer == bulletLayer) // 총알이면
         {
             print("BULLET");
-            if (count == maxCount)
-                return;
+            if (count == maxCount) return;
             
             count++;
             var pv = other.gameObject.GetComponent<PhotonView>();
@@ -76,30 +61,25 @@ public class OrbB : OrbBase
                 other.gameObject.SetActive(false);
 
             photonView.CustomRPC(this, "BulletHit", RpcTarget.All, pv?.ViewID, count);
+            return;
         }
-    }
 
-    void CheckOhterHasPV(Transform tr)
-    {
-        var pv = tr.root.GetComponent<PhotonView>();
-        if (pv?.ViewID > 0 == false)
-            GiveDamage(tr.root, 100);
 
-        photonView.CustomRPC(this, "CDCHit", RpcTarget.All, pv?.ViewID, transform.position);
+        sphereCollider.enabled = false;
+        photonView.CustomRPC(this, "CDCHit", RpcTarget.All, transform.position);
+
+        Collider[] cols = Physics.OverlapSphere(transform.position, maxScale, damageableLayer);
+        for (int i = 0; i < cols.Length; i++)
+            cols[i].GetComponent<IDamageable>()?.TakeDamage(100);
     }
     
     [PunRPC]
-    void CDCHit(int viewID, Vector3 intersection)
+    void CDCHit(Vector3 intersection)
     {
         transform.position = intersection;
         orbSpeed = 0; // 네트워크 공유
         StartCoroutine(OrbBomb()); // 네트워크 공유
-
-        if (viewID > 0)
-            GiveDamage(PhotonNetwork.GetPhotonView(viewID).transform, 100);
     }
-
-    void GiveDamage(Transform tr, float damage) => tr.GetComponent<IDamageable>()?.TakeDamage(damage);
 
     [PunRPC]
     void BulletHit(int viewID, int count)

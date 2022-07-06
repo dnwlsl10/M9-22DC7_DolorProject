@@ -117,9 +117,9 @@ MonoBehaviour:
   maxScale: 10
   timeToMaxScale: 1
   maxCount: 20
-  explosionLayer:
+  damageableLayer:
     serializedVersion: 2
-    m_Bits: 134228032
+    m_Bits: 134357056
   vfx: {fileID: 8882929319085064557}
   blackHole: {fileID: 8882929317887460080}
 --- !u!114 &1656883373293766088

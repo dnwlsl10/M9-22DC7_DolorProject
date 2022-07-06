@@ -44,18 +44,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pools:
-  - name: Projectile 10
-    prefab: {fileID: 1891902229039176, guid: 762dfe761f7d7274793acf4f6087a029, type: 3}
-    initSize: 10
   - name: OrbA 1
     prefab: {fileID: 8826344079920379656, guid: 4c217890c355a674fba2d4d452e1a11f, type: 3}
     initSize: 2
   - name: OrbB 1
     prefab: {fileID: 8882929318612687507, guid: c5c8ed6524cbed84898f1dd24a1769a0, type: 3}
     initSize: 2
-  - name: laser_impulse_projectile_001
-    prefab: {fileID: 100004, guid: b68468ea19b581744b2449b90138eba4, type: 3}
-    initSize: 10
-  - name: laser_impulse_projectile_002
-    prefab: {fileID: 100002, guid: b5519f04a82d89045bf023a3f5af2d82, type: 3}
+  - name: BlueLaserMissile 1
+    prefab: {fileID: 196044, guid: c629ae44d905a704c9676e634d12438f, type: 3}
     initSize: 10
