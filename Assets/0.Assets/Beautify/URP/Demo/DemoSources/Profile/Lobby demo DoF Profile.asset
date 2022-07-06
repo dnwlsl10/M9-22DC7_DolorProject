@@ -172,7 +172,7 @@ MonoBehaviour:
     m_Value: 1
   saturate:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 3
     min: -2
     max: 3
   brightness:
@@ -215,7 +215,7 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 1
   lutIntensity:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
     min: 0
     max: 1
@@ -224,17 +224,17 @@ MonoBehaviour:
     m_Value: {fileID: 0}
   bloomIntensity:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 2.03
     min: 0
     max: 10
   bloomThreshold:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 0.75
     min: 0
     max: 5
   bloomMaxBrightness:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.97
   bloomDepthAtten:
     m_OverrideState: 0
     m_Value: 0
@@ -823,7 +823,7 @@ MonoBehaviour:
     showEyeDropper: 1
   ditherIntensity:
     m_OverrideState: 0
-    m_Value: 0.02
+    m_Value: 0.005
     min: 0
     max: 0.02
   frame:
@@ -856,7 +856,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: Demo DoF Profile
+  m_Name: Lobby demo DoF Profile
   m_EditorClassIdentifier: 
   components:
   - {fileID: -4322935215193396605}
