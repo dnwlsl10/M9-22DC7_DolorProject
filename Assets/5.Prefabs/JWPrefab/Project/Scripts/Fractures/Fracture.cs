@@ -7,7 +7,7 @@ namespace Project.Scripts.Fractures
 {
     public static class Fracture
     {
-        public static ChunkGraphManager FractureGameObject(GameObject gameObject, /*Anchor anchor,*/ int seed, int totalChunks,Material insideMaterial, Material outsideMaterial, float jointBreakForce, float density)
+        public static ChunkGraphManager FractureGameObject(GameObject gameObject, /*Anchor anchor,*/ int seed, int totalChunks,Material insideMaterial, Material outsideMaterial, float jointBreakForce, float density, out GameObject fracturedObj)
         {
             // Translate all meshes to one world mesh
             var mesh = GetWorldMesh(gameObject);
@@ -47,6 +47,7 @@ namespace Project.Scripts.Fractures
             var graphManager = fractureGameObject.AddComponent<ChunkGraphManager>();
             graphManager.Setup(fractureGameObject.GetComponentsInChildren<Rigidbody>());
             
+            fracturedObj = fractureGameObject;
             return graphManager;
         }
 
