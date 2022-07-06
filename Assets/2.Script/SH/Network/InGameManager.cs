@@ -16,7 +16,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
 
     [SerializeField] private List<GameObject> players = new List<GameObject>();
     private int playerCount = 0;
-
+    public event System.Action onGameStart;
     public System.Action OnChangeLobby;
     public bool bTest;
     private void Awake(){
@@ -69,6 +69,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
             door.Open();
             StartCoroutine(Deactivate(door.transform.root.gameObject));
         }
+        onGameStart?.Invoke();
     }
 
     IEnumerator Deactivate(GameObject obj)

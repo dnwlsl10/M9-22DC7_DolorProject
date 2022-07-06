@@ -305,6 +305,7 @@ GameObject:
   - component: {fileID: 396489256}
   - component: {fileID: 396489255}
   - component: {fileID: 396489258}
+  - component: {fileID: 396489259}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -410,45 +411,18 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!1 &849480510 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6481448568836607473, guid: 976d49efabd88174f8720b4acf986adb, type: 3}
-  m_PrefabInstance: {fileID: 6481448569966470089}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &849480511
+--- !u!114 &396489259
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 849480510}
+  m_GameObject: {fileID: 396489254}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec2cdf7137673b947959ce794da3e48d, type: 3}
+  m_Script: {fileID: 11500000, guid: ac0019b11026a7c40b7fc77fcac159d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mat: {fileID: 0}
-  changeVal: 0
-  dissolveMinValue: 1.2
-  dissolveMaxValue: -0.2
---- !u!114 &849480512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 849480510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 080e2cc90fb10ff4e95ce7ba36f1ba05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  changeFirstTime: 5
-  changeSecondTime: 9
-  changeThirdTime: 13
-  startSize: 6.5
-  secondSize: 4.5
-  thirdSize: 3
 --- !u!1 &878289866
 GameObject:
   m_ObjectHideFlags: 0
@@ -1113,7 +1087,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6139482662004200842, guid: 976d49efabd88174f8720b4acf986adb, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6481448568836607472, guid: 976d49efabd88174f8720b4acf986adb, type: 3}
       propertyPath: m_RootOrder
