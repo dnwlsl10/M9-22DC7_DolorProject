@@ -22,7 +22,6 @@ public class UIOrb : UIBase
     Vector3 tmp;
     Vector3 tmpB;
     Vector3 tmpC;
-
     public System.Action<int> OnSelectedOrbType;
 
     public void Awake()
@@ -40,6 +39,7 @@ public class UIOrb : UIBase
         OnSelectedOrbType(this.orbType);
     }
 
+<<<<<<< HEAD
     public IEnumerator OnLerpUI(bool isSelected){
 
         while(isSelected)
@@ -49,6 +49,19 @@ public class UIOrb : UIBase
             originOrbC.localPosition = Vector3.Lerp(originOrbC.localPosition, tmpB, Time.deltaTime);
             originOrbB.localPosition = Vector3.Lerp(originOrbB.localPosition, tmp , Time.deltaTime);
         }
+=======
+    public void OnLerpUI(int etype)
+    {
+        orbType = etype;
+        tmp = originOrbA.localPosition;
+        tmpB = originOrbB.localPosition;
+        tmpC = originOrbC.localPosition;
+
+        originOrbA.localPosition = Vector3.Lerp(originOrbA.localPosition, tmpC , Time.deltaTime);
+        originOrbC.localPosition = Vector3.Lerp(originOrbC.localPosition, tmpB, Time.deltaTime);
+        originOrbB.localPosition = Vector3.Lerp(originOrbB.localPosition, tmp , Time.deltaTime);
+   
+>>>>>>> develop
         originOrbA.localPosition = tmpC;
         originOrbC.localPosition = tmpB;
         originOrbB.localPosition = tmp;
@@ -56,54 +69,72 @@ public class UIOrb : UIBase
         tmp = originOrbA.localPosition;
         tmpB = originOrbB.localPosition;
         tmpC = originOrbC.localPosition;
+
+        if(isUseing){
+            ResultOn();
+            ResultOFF();
+        }
     }
 
-    void OnTest()
+    void ResultOn()
     {
         for (int i = 0; i < orbAvailable.Length; i++)
         {
             if (i == orbType)
             {
-                orbAvailable[this.orbType].SetActive(true); //변경대상//
+                orbAvailable[i].gameObject.SetActive(true);
             }
             else
             {
-                orbAvailable[i].SetActive(false);
+                orbAvailable[i].gameObject.SetActive(false);
+            }
+        }
+    }
+    void ResultOFF()
+    {
+        for (int i = 0; i < orbReload.Length; i++)
+        {
+            if (i == orbType)
+            {
+                orbReload[i].gameObject.SetActive(false);
+            }
+            else
+            {
+                orbReload[i].gameObject.SetActive(true);
             }
         }
     }
 
-
     //Start On
-    public bool bCanUse;
+    bool isUseing;
     public override void EventValue(float coolval, float attackRate)
     {
-        if(coolval == attackRate)
-        {
-            for (int i = 0; i < orbAvailable.Length; i++)
-            {
-                if (i == orbType)
-                {
-                    orbAvailable[this.orbType].SetActive(true); //변경대상//
-                }
-            }
-            enableUIKeys.SetActive(true);
-            disableUIKeys.SetActive(false);
-            textProgress.gameObject.SetActive(false);
-            bCanUse = true;
-        }
-        else if(bCanUse || coolval < attackRate)
-        {
-            bCanUse = false;
-
-            for (int i = 0; i < orbReload.Length; i++)
-            {
-                orbAvailable[this.orbType].SetActive(false);
-                orbReload[this.orbType].SetActive(true); //변경대상//
-            }
-
+        if(coolval == 0) {
             enableUIKeys.SetActive(false);
             disableUIKeys.SetActive(true);
+            isUseing = false;
+        }
+
+        if(coolval == attackRate)
+        {
+            orbAvailable[this.orbType].SetActive(true);
+            orbReload[this.orbType].SetActive(false);
+
+            enableUIKeys.SetActive(true);
+            disableUIKeys.SetActive(false);
+
+            textProgress.gameObject.SetActive(false);
+        }
+        else if(coolval < attackRate)
+        {
+            isUseing =true;
+            
+            if(isUseing){
+                orbReload[this.orbType].SetActive(true);
+                orbAvailable[this.orbType].SetActive(false);
+                enableUIKeys.SetActive(false);
+                disableUIKeys.SetActive(true);
+            }
             textProgress.gameObject.SetActive(true);
             textProgress.text = coolval.ToString();
         }

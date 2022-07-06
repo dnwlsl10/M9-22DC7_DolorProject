@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: -8768630244427078096}
   - component: {fileID: -838913032795381757}
   - component: {fileID: 2755964185832367152}
-  m_Layer: 10
+  m_Layer: 16
   m_Name: laser_impulse_projectile_002
   m_TagString: Bullet
   m_Icon: {fileID: 0}

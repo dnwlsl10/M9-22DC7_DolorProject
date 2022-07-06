@@ -8,60 +8,59 @@ public enum eOrbType
 }
 public class OrbTrigger : MonoBehaviour
 {
-
     public bool bGrabRightHand;
-    private bool isChanging;
     public UIOrb uIOrb;
     private eOrbType orbType;
     private Coroutine coroutineholder;
     private MeshRenderer mr;
-    private MaterialPropertyBlock matBlock;
-    public float motionTime = 2f;
-
-    private Color[] color = new Color[] {new Color(0.01330545f, 0.1226415f, 0.01330545f), new Color(0.129365f,0.04142933f,0.4622642f) , new Color(0.957f, 0.4659617f, 0.1058823f) }; 
+    private Material mat;
+    //new Color(0.1136274f,0.5188679f, 0.01330545f)
+    //new Color(0.129365f ,0.04142933f, 0.4622642f)
+    //new Color(0.957f, 0.4659617f, 0.1058823f)
+    private Color[] color = new Color[] {Color.green, Color.black , new Color(0.957f, 0.4659617f, 0.1058823f) }; 
     System.Action<int> a;
     private void Awake()
     {
-       // this.GetComponent<Collider>().enabled = true;
-        matBlock = new MaterialPropertyBlock();
+        this.gameObject.GetComponent<Collider>().enabled = false;
         mr = this.GetComponent<MeshRenderer>();
         orbType = eOrbType.OrbA;
-        matBlock.SetColor("_Outline_Color", color[(int)orbType]);
-        mr.SetPropertyBlock(matBlock);
+        Debug.Log(orbType);
+        mat = mr.material;
+        mat.SetColor("_Outline_Color", color[(int)orbType]);
         a += transform.root.GetComponentInChildren<OrbFire>().SetType;
-        
     }
-    private IEnumerator ChangeColor(eOrbType ot)
+    private void ChangeColor(eOrbType ot)
     {
-        matBlock.SetColor("_Outline_Color", color[(int)ot]);
-        mr.SetPropertyBlock(matBlock);
-        StartCoroutine(uIOrb.OnLerpUI(isChanging));
-        yield return new WaitForSeconds(motionTime);
+        mat.SetColor("_Outline_Color", color[(int)ot]);
+        uIOrb.OnLerpUI((int)ot);
         this.orbType = ot;
         a?.Invoke((int)ot);
-        isChanging = false;
     }
     private void OnCollisionEnter(Collision other) 
     {
-        if(other.collider.CompareTag("RightHand") || other.collider.CompareTag("LeftHand"))
+
+        if(other.collider.CompareTag("RightHand"))
         {
-            if(bGrabRightHand && isChanging) return;
-            isChanging = true;
+            if(bGrabRightHand) return;
+
             Debug.Log("Test Hand");
             switch(orbType)
             {
                 case eOrbType.OrbA:
-                    StartCoroutine(ChangeColor(eOrbType.OrbB));
+                    ChangeColor(eOrbType.OrbB);
                     break;
                 case eOrbType.OrbB:
-                    StartCoroutine(ChangeColor(eOrbType.OrbC));
+                    ChangeColor(eOrbType.OrbC);
                 break;
                 case eOrbType.OrbC:
-                    StartCoroutine(ChangeColor(eOrbType.OrbA)); 
+                    ChangeColor(eOrbType.OrbA);
                 break;
             }
         }
     }
-    public void OnGrabRight() => bGrabRightHand = true;
+    public void OnGrabRight(){
+        bGrabRightHand = true;
+        this.gameObject.GetComponent<Collider>().enabled = true;
+    } 
     public void OffGrabRight() => bGrabRightHand = false;
 }

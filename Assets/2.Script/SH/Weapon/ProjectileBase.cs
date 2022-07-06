@@ -15,19 +15,14 @@ public class ProjectileBase : MonoBehaviourPun
         if (photonView.Mine == false) return;
    
         var contact = other.GetContact(0);
-        var pv = other.collider.GetComponent<PhotonView>();
+        other.collider.GetComponent<IDamageable>()?.TakeDamage(damage); 
 
-        if (pv?.ViewID > 0 == false)
-            other.collider.GetComponent<IDamageable>()?.TakeDamage(damage); 
-        photonView.CustomRPC(this, "RPCCollision", RpcTarget.AllViaServer, pv?.ViewID, contact.point, contact.normal);
+        photonView.CustomRPC(this, "RPCCollision", RpcTarget.AllViaServer, contact.point, contact.normal);
     }
 
     [PunRPC]
-    private void RPCCollision(int viewID, Vector3 intersection, Vector3 normal)
+    private void RPCCollision(Vector3 intersection, Vector3 normal)
     {
-        if (viewID > 0)
-            PhotonNetwork.GetPhotonView(viewID).GetComponent<IDamageable>()?.TakeDamage(damage);
-
         foreach (var effect in EffectsOnCollision)
         {
             var instance = ObjectPooler.instance.SpawnFromPool(effect, intersection + normal * instanceNormalPositionOffset, new Quaternion()) as GameObject;

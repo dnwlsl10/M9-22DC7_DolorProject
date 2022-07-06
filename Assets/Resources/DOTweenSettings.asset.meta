@@ -1,6 +1,17 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+<<<<<<<< HEAD:Assets/Resources/DOTweenSettings.asset.meta
 guid: a8e05e3a003aa684e9986c62129fd37c
 NativeFormatImporter:
+========
+guid: ac95039fb8b240a419eeaae9986575df
+folderAsset: yes
+DefaultImporter:
+>>>>>>>> develop:Assets/0.Assets/Archanor/Sci-Fi Arsenal.meta
+=======
+guid: 9f27af10793f1394a8c3218bb1270ac2
+PrefabImporter:
+>>>>>>> develop
   externalObjects: {}
   mainObjectFileID: 0
   userData: 

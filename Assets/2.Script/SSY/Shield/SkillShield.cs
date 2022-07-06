@@ -126,10 +126,16 @@ public class SkillShield : WeaponBase, IDamageable
         isReloading = false;
     }
 
-    public bool TakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
+        photonView.CustomRPC(this, "ShieldD", photonView.Owner, damage);
+    }
+
+    [PunRPC]
+    private void ShieldD(float damage)
+    {
+        Debug.Log("Shield Attacked " + damage);
         CurrentAmmo -= damage;
-        return true;
     }
 
 }
