@@ -5,7 +5,7 @@ namespace Project.Scripts.Fractures
 {
     public class FractureThis : MonoBehaviour
     {
-        [SerializeField] private Anchor anchor = Anchor.Bottom;
+        // [SerializeField] private Anchor anchor = Anchor.Bottom;
         [SerializeField] private int chunks = 500;
         [SerializeField] private float density = 50;
         [SerializeField] private float internalStrength = 100;
@@ -26,7 +26,7 @@ namespace Project.Scripts.Fractures
             var seed = rng.Next();
             return Fracture.FractureGameObject(
                 gameObject,
-                anchor,
+                // anchor,
                 seed,
                 chunks,
                 insideMaterial,
