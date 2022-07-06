@@ -1,11 +1,6 @@
 fileFormatVersion: 2
-<<<<<<< Updated upstream:Assets/Resources/DOTweenSettings.asset.meta
-guid: 0334671d092599843ad743a08e9df674
-NativeFormatImporter:
-=======
-guid: 8ca17dab1e9c08249982582debcf64a2
+guid: 9f27af10793f1394a8c3218bb1270ac2
 PrefabImporter:
->>>>>>> Stashed changes:Assets/Resources/InGame_Mars Variant.prefab.meta
   externalObjects: {}
   mainObjectFileID: 0
   userData: 

@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Resources/NetworkPool.meta
-guid: 88bd710f45296a34294b69c118ac8424
-========
-guid: 87211437b4d12a048b2b52edfafcd923
->>>>>>>> dev/PWJ:Assets/2.Script/PWJ/Data.meta
+guid: 01ba5bc3c9d19da42b06f648beddbc03
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
