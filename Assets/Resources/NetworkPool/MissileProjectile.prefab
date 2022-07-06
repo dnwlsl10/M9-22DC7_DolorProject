@@ -533,10 +533,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfe0e155ab42ccd4bb51b1970b464c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RocketTarget: {fileID: 0}
-  RocketRb: {fileID: 2889982356658076497}
+  target: {fileID: 0}
+  missilRb: {fileID: 0}
   turnSpeed: 1
   rocketFlaySpeed: 10
+  damage: 0
+  gm: {fileID: 0}
+  effectsOnCollision: []
+  instanceNormalPositionOffset: 0
 --- !u!114 &1653157118604063610
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10098,7 +10098,7 @@ GameObject:
   - component: {fileID: 8628844463761909317}
   - component: {fileID: 9186380405379204289}
   - component: {fileID: -3808540881505766711}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: InGame_Mars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10475,11 +10475,11 @@ CapsuleCollider:
   m_GameObject: {fileID: 2705916427777778069}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5
-  m_Height: 1
+  m_Enabled: 1
+  m_Radius: 1.4
+  m_Height: 8.5
   m_Direction: 1
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Center: {x: 0, y: 4.25, z: 0}
 --- !u!114 &2975807837097039012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11691,7 +11691,7 @@ GameObject:
   - component: {fileID: 8556157499118385088}
   - component: {fileID: 3854278470142634635}
   - component: {fileID: 8241490259840790486}
-  m_Layer: 18
+  m_Layer: 5
   m_Name: UIOrb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14922,7 +14922,7 @@ GameObject:
   - component: {fileID: 5037225719773809554}
   - component: {fileID: 5037225719773809549}
   - component: {fileID: 5037225719773809548}
-  m_Layer: 31
+  m_Layer: 20
   m_Name: Screen
   m_TagString: Screen
   m_Icon: {fileID: 0}
@@ -21626,7 +21626,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
@@ -30094,6 +30094,10 @@ PrefabInstance:
       propertyPath: cameraEye
       value: 
       objectReference: {fileID: 5037225719885630967}
+    - target: {fileID: 6363595007051247092, guid: df700dbc90b28f844aad9a231c83b4b3, type: 3}
+      propertyPath: screenLayer.m_Bits
+      value: 1048576
+      objectReference: {fileID: 0}
     - target: {fileID: 8692011448270903494, guid: df700dbc90b28f844aad9a231c83b4b3, type: 3}
       propertyPath: m_RootOrder
       value: 2
