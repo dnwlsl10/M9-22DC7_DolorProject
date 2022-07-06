@@ -165,8 +165,8 @@ public class GuidedMissile : WeaponBase , IInitialize
     private void OnAttack()
     {
         this.target = gmSystem.enemyTarget;
-
-        var missile = NetworkObjectPool.instance.SpawnFromPool<Missile>(bullet.name, bulletSpawnPoint.transform.position, Quaternion.identity);
+        Quaternion qrot = Quaternion.Euler(new Vector3(Random.Range(0f, -90f), Random.Range(90f, 270f),0));
+        var missile = NetworkObjectPool.instance.SpawnFromPool<Missile>(bullet.name, bulletSpawnPoint.transform.position,qrot);
         missile.gm = this;
         missile.damage  = weaponSetting.damage;
         missile.GetComponent<PhotonView>().CustomRPC(missile,"SetTargetRPC", RpcTarget.AllViaServer, target);

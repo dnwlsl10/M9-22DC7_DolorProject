@@ -23,12 +23,12 @@ public float instanceNormalPositionOffset;
         if(target){
             Debug.Log("No Target");
         }
-        StartCoroutine(CustomDisable());
+      //  StartCoroutine(CustomDisable());
     }
 
     IEnumerator CustomDisable()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(10f);
         if(this.gameObject.activeSelf) this.gameObject.SetActive(false);
     }
 
@@ -37,19 +37,19 @@ public float instanceNormalPositionOffset;
         if (!target) 
             return;
 
+        if(isNot) return;
         missilRb.velocity = this.transform.forward * rocketFlaySpeed;
         var rocketTargetRot = Quaternion.LookRotation(target.position - this.transform.localPosition);
         missilRb.MoveRotation(Quaternion.RotateTowards(this.transform.localRotation, rocketTargetRot, turnSpeed));
     }
 
+    bool isNot;
     private void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.CompareTag("Enemy")){
-            Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
-            if(rb){
-                rb.AddForceAtPosition(Vector3.up * 100f , rb.position);
-            }
+        if(!other.gameObject.CompareTag("Enemy"))
+        {
         }
+        else this.gameObject.SetActive(false);
     }
     [PunRPC]
     private void RPCCollision(int viewID, Vector3 intersection, Vector3 normal)

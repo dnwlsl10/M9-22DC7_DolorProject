@@ -534,12 +534,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  missilRb: {fileID: 0}
+  missilRb: {fileID: 2889982356658076497}
   turnSpeed: 1
-  rocketFlaySpeed: 10
+  rocketFlaySpeed: 15
   damage: 0
   gm: {fileID: 0}
   effectsOnCollision: []
+  cb: {fileID: 8210282386152562635}
   instanceNormalPositionOffset: 0
 --- !u!114 &1653157118604063610
 MonoBehaviour:
