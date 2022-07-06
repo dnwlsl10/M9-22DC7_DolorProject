@@ -224,7 +224,7 @@ MonoBehaviour:
     damage: 0
     currentAmmo: 0
     maxAmmo: 10
-    attackRate: 1
+    attackRate: 10
     attackDistance: 0
     bLock: 0
   handSide: 1
@@ -232,7 +232,10 @@ MonoBehaviour:
   orbFactory:
   - {fileID: 8826344079920379656, guid: 4c217890c355a674fba2d4d452e1a11f, type: 3}
   - {fileID: 8882929318612687507, guid: c5c8ed6524cbed84898f1dd24a1769a0, type: 3}
+  - {fileID: 8882929318612687507, guid: c5c8ed6524cbed84898f1dd24a1769a0, type: 3}
   orbType: 0
+  cooldown: 0
+  bUseOrb: 0
 --- !u!114 &539951605094041219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,10 +272,10 @@ MonoBehaviour:
   handSide: 1
   bulletSpawnPoint: {fileID: 0}
   muzzleFlashEffect: {fileID: 0}
-  bullet: {fileID: 100004, guid: b68468ea19b581744b2449b90138eba4, type: 3}
+  bullet: {fileID: 196044, guid: c629ae44d905a704c9676e634d12438f, type: 3}
   onFireSFX: {fileID: 0}
   onReloadSFX: {fileID: 0}
-  isAutomatic: 0
+  isAutomatic: 1
 --- !u!114 &676354787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,7 +303,7 @@ MonoBehaviour:
         m_SingletonActionBindings: []
         m_Flags: 0
       m_Reference: {fileID: -2664691354614307530, guid: b212627b2d7d7b547ba7c981ca0c6bec, type: 3}
-    damage: 1
+    damage: 10
     currentAmmo: 0
     maxAmmo: 20
     attackRate: 0.2
@@ -310,19 +313,6 @@ MonoBehaviour:
   gmSystem: {fileID: 6363595007051247092}
   bulletSpawnPoint: {fileID: 0}
   randomPath:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -383,7 +373,7 @@ MonoBehaviour:
   laserPoint: {fileID: 0}
   screenLayer:
     serializedVersion: 2
-    m_Bits: 2147483648
+    m_Bits: 1048576
   maxInterpolationSpeed: 25
   minInterpolationSpeed: 2
   interpolationDistance: 0.01

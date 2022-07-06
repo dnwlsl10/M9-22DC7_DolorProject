@@ -472,7 +472,7 @@ GameObject:
   - component: {fileID: 121379076166881444}
   m_Layer: 3
   m_Name: MissileProjectile
-  m_TagString: Untagged
+  m_TagString: Missile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -519,7 +519,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 0
   m_CollisionDetection: 1
 --- !u!114 &-2140940927140737151
 MonoBehaviour:
@@ -533,7 +533,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfe0e155ab42ccd4bb51b1970b464c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeSpeed: 10
+  target: {fileID: 0}
+  missilRb: {fileID: 0}
+  turnSpeed: 1
+  rocketFlaySpeed: 10
+  damage: 0
+  gm: {fileID: 0}
+  effectsOnCollision: []
+  instanceNormalPositionOffset: 0
 --- !u!114 &1653157118604063610
 MonoBehaviour:
   m_ObjectHideFlags: 0

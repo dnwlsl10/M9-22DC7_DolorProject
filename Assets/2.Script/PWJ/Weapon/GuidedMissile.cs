@@ -48,7 +48,7 @@ public class GuidedMissile : WeaponBase , IInitialize
         weaponSetting.maxAmmo = 20;
         weaponSetting.attackDistance = 0;
         weaponSetting.attackRate = 0.2f;
-        weaponSetting.damage = 1;
+        weaponSetting.damage = 10;
         weaponSetting.bLock = false;
         handSide = HandSide.Right;
         isAutomatic = true;
@@ -128,7 +128,8 @@ public class GuidedMissile : WeaponBase , IInitialize
 
         if(gmSystem.state == eState.TrackingComplete)
         {
-            coroutineHolder = StartCoroutine(ContinuousFire());
+           // coroutineHolder = StartCoroutine(ContinuousFire());
+
             bFire = true;
         } 
     }
@@ -139,12 +140,25 @@ public class GuidedMissile : WeaponBase , IInitialize
 
         StartCoroutine(OnReload());
     }
-    IEnumerator ContinuousFire()
-    {
-        while (CurrentAmmo > 0)
+    // IEnumerator ContinuousFire()
+    // {
+    //     while (CurrentAmmo > 0)
+    //     {
+    //         photonView.CustomRPC(this, "OnAttack", RpcTarget.AllViaServer);
+    //         yield return new WaitForEndOfFrame();
+    //     }
+    // }
+
+    private void FixedUpdate() {
+
+        if(bFire)
         {
-            yield return ar;
-            OnAttack();
+            lastAttackTime += Time.deltaTime;
+            if (CurrentAmmo > 0 && lastAttackTime > weaponSetting.attackRate)
+            {
+                OnAttack();
+                lastAttackTime = 0;
+            } 
         }
     }
 
@@ -152,20 +166,10 @@ public class GuidedMissile : WeaponBase , IInitialize
     {
         this.target = gmSystem.enemyTarget;
 
-        int randIndex = Random.Range(0, randomPath.Count - 1);
-        Vector3 dir = new Vector3(Random.Range(-1f, 1f), Random.Range(0.1f, 1f), 0);
-
-        dir.Normalize();
-        dir += new Vector3(0, 0, -8.25f);
-
-        Vector3 p1 = bulletSpawnPoint.transform.position;
-        Vector3 p2 = new Vector3(randomPath[randIndex].position.x, randomPath[randIndex].position.y, 0) + dir;
-        Vector3 p3 = target.position;
-
         var missile = NetworkObjectPool.instance.SpawnFromPool<Missile>(bullet.name, bulletSpawnPoint.transform.position, Quaternion.identity);
         missile.gm = this;
-
-        photonView.CustomRPC(missile, "RPCPath", RpcTarget.AllViaServer, p1, p2, p3);
+        missile.damage  = weaponSetting.damage;
+        missile.GetComponent<PhotonView>().CustomRPC(missile,"SetTargetRPC", RpcTarget.AllViaServer, target);
 
         StartCoroutine(OnMuzzleFlashEffect());
         PlaySound(onFireSFX);
@@ -180,6 +184,7 @@ public class GuidedMissile : WeaponBase , IInitialize
         destoryCount++;
         Debug.Log("미사일 파괴 갯수");
         if(destoryCount == weaponSetting.maxAmmo){
+            bFire = false;
             gmSystem.StopGuidedMissile();
             StartReload();
         }
@@ -213,7 +218,6 @@ public class GuidedMissile : WeaponBase , IInitialize
     {
         CurrentAmmo = weaponSetting.maxAmmo;
         isReloading = false;
-        bFire = false;
         mcount = 0;
         destoryCount = 0;
         gmSystem.state = eState.Normal;

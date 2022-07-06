@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 963686151}
   - component: {fileID: 1656883373293766088}
   - component: {fileID: 681328864531638883}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: OrbB 1
   m_TagString: Orb
   m_Icon: {fileID: 0}
@@ -110,16 +110,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 364e6d1bd77bf9e4e9f773bcc4271083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onShootSpeed: 0.1
+  onShootSpeed: 1
   speedUp: 1
   startSize: 3
   minScale: 0.5
   maxScale: 10
   timeToMaxScale: 1
   maxCount: 20
-  ChoongDolChae:
+  damageableLayer:
     serializedVersion: 2
-    m_Bits: 67648
+    m_Bits: 134357056
   vfx: {fileID: 8882929319085064557}
   blackHole: {fileID: 8882929317887460080}
 --- !u!114 &1656883373293766088

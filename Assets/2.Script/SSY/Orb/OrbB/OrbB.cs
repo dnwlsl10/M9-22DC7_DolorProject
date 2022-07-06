@@ -15,23 +15,26 @@ public class OrbB : OrbBase
     [Space]
     [SerializeField] int maxCount;
     int count = 0;
-    [SerializeField] LayerMask ChoongDolChae;
+    [Tooltip("Don't include RemotePlayer layer")]
+    [SerializeField] LayerMask damageableLayer;
     SphereCollider sphereCollider;
 
     [SerializeField] Transform vfx;
     [SerializeField] Transform blackHole;
     bool robotDamaged;
+    int bulletLayer;
 
     void Awake() 
     {
         sphereCollider = GetComponentInChildren<SphereCollider>();
         scaleDown = (startSize - minScale)/maxCount;
+        bulletLayer = LayerMask.NameToLayer("Bullet");
     }
     protected override void Init() //등장하는 순간
     {
         base.Init();
 
-        if (photonView.Mine) sphereCollider.enabled = false; //콜라이더 끄기 //나중에 false 로 변경
+        if (photonView.Mine) sphereCollider.enabled = false;
 
         blackHole.localScale = Vector3.one * startSize; //스케일 다시 초기화
         blackHole.gameObject.SetActive(true);
@@ -47,62 +50,39 @@ public class OrbB : OrbBase
     void OnTriggerEnter(Collider other) //무조건 트리거여야한다 - 콜리전이면 나중에 물리법칙을 받게 될 수 있따. 
     //나의 총알이 닿았을 때와  // 어떠한 충돌체와 닿았을 때
     {
-        if (ChoongDolChae == (ChoongDolChae | (1 << other.gameObject.layer))) //충돌체
-        {
-            sphereCollider.enabled = false;
-            int remotePlayerLayer = LayerMask.NameToLayer("RemotePlayer");
-
-            Collider[] cols = Physics.OverlapSphere(transform.position, maxScale, ChoongDolChae);
-
-            foreach (var collider in cols)
-                if (collider.gameObject.layer == remotePlayerLayer)
-                {
-                    if (robotDamaged == false)
-                    {
-                        robotDamaged = true;
-                        CheckOhterHasPV(other.transform);
-                    }
-                }
-        }
-        else if (other.tag == "Bullet") // 총알이면
+        if (other.gameObject.layer == bulletLayer) // 총알이면
         {
             print("BULLET");
-            if (count == maxCount)
-                return;
+            if (count == maxCount) return;
             
             count++;
             var pv = other.gameObject.GetComponent<PhotonView>();
             if (pv?.ViewID > 0 == false)
                 other.gameObject.SetActive(false);
 
-            photonView.CustomRPC(this, "BulletHit", RpcTarget.All, pv?.ViewID);
+            photonView.CustomRPC(this, "BulletHit", RpcTarget.All, pv?.ViewID, count);
+            return;
         }
-    }
 
-    void CheckOhterHasPV(Transform tr)
-    {
-        var pv = tr.root.GetComponent<PhotonView>();
-        if (pv?.ViewID > 0 == false)
-            GiveDamage(tr.root, 100);
 
-        photonView.CustomRPC(this, "CDCHit", RpcTarget.All, pv?.ViewID, transform.position);
+        sphereCollider.enabled = false;
+        photonView.CustomRPC(this, "CDCHit", RpcTarget.All, transform.position);
+
+        Collider[] cols = Physics.OverlapSphere(transform.position, maxScale, damageableLayer);
+        for (int i = 0; i < cols.Length; i++)
+            cols[i].GetComponent<IDamageable>()?.TakeDamage(100);
     }
     
     [PunRPC]
-    void CDCHit(int viewID, Vector3 intersection)
+    void CDCHit(Vector3 intersection)
     {
         transform.position = intersection;
         orbSpeed = 0; // 네트워크 공유
         StartCoroutine(OrbBomb()); // 네트워크 공유
-
-        if (viewID > 0)
-            GiveDamage(PhotonNetwork.GetPhotonView(viewID).transform, 100);
     }
 
-    void GiveDamage(Transform tr, float damage) => tr.GetComponent<IDamageable>()?.TakeDamage(damage);
-
     [PunRPC]
-    void BulletHit(int viewID)
+    void BulletHit(int viewID, int count)
     {
         if (viewID > 0) PhotonNetwork.GetPhotonView(viewID).gameObject.SetActive(false);
 
@@ -115,6 +95,7 @@ public class OrbB : OrbBase
 
     IEnumerator CompressSize(float targetSpeed, float targetScale) //총알을 한번 맞을때
     {
+        print("Compress" + targetScale);
         for (float f = 0; f < 0.5f; f += Time.deltaTime) // 0.1f == 지금 총알과 다음 총알 딜레이 시간 만큼 하면 자연스러울 것.!!!
         {
             orbSpeed = Mathf.Lerp(orbSpeed, targetSpeed, f/0.1f);

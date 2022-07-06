@@ -128,7 +128,8 @@ public class Connect : MonoBehaviourPunCallbacks
             this.count[i].SetActive(false);
         }
         yield return StartCoroutine(loadingScreenProcess.LoadingPhotonScreenProcess("InGame"));
-        NetworkObjectPool.instance.DestroyPool();
+
+        if(isTest) yield break;
         OnCompelet();
     }
 
@@ -141,7 +142,4 @@ public class Connect : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom(this.roomName, null);
     }
     private void OnChangeScene() => OnCompelet();
-    public override void OnDisable() {
-        NetworkObjectPool.instance.DestroyPool();
-    }
 }   

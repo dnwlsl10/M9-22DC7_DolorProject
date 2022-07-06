@@ -18,12 +18,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
     private int playerCount = 0;
     public event System.Action onGameStart;
     public System.Action OnChangeLobby;
-    public bool bTest;
-    private void Awake(){
-        if(bTest) Init();
-    }
-
-    public void Init() 
+    public void Awake() 
     {
         if (instance != null)
             Destroy(instance);

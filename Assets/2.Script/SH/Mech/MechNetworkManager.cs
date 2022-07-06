@@ -68,6 +68,9 @@ public class MechNetworkManager : MonoBehaviourPun, IInitialize, IPunInstantiate
             
         foreach (var component in componentsForOnlyLocal)
             if (component) Destroy(component);
+        
+        this.gameObject.tag = "Enemy";
+        gameObject.layer = LayerMask.NameToLayer("RemoteCapsule");
     }
 
     public void OnPhotonInstantiate(PhotonMessageInfo info) { if (photonView.Mine) photonView.RPC("RegistSelf", RpcTarget.AllViaServer); }

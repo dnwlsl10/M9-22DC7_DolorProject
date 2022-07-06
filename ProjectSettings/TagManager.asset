@@ -1,3 +1,57 @@
+<<<<<<< HEAD
 version https://git-lfs.github.com/spec/v1
 oid sha256:5f404cae32beefcb72dabde3d783637262eadff381cc3eaace8978c1bfd43a7a
 size 452
+=======
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Bullet
+  - Left
+  - Enemy
+  - Screen
+  - Earth
+  - LeftHand
+  - RightHand
+  - Orb
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - MissileProjectile
+  - Water
+  - UI
+  - Ground
+  - FrozenChunks
+  - IgnorePostprocessing
+  - 
+  - LocalPlayer
+  - RemotePlayer
+  - LocalBound
+  - RemoteBound
+  - 
+  - Orb
+  - Bullet
+  - 
+  - 
+  - 
+  - Screen
+  - 
+  - 
+  - 
+  - 
+  - 
+  - AutoHand
+  - Map
+  - HandPlayer
+  - Hand
+  - Grabbable
+  - Grabbing
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+>>>>>>> develop

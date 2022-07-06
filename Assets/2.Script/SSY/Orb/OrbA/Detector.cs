@@ -8,10 +8,14 @@ public class Detector : MonoBehaviourPun
     // 딕셔너리 - 1대1 매칭 때 사용하기 용이, 키값은 유니크해야함!!!!!(단하나와 같은)
     public GameObject linkPrefab;
     int linkIndex;
-    Dictionary<Transform, int> dic = new Dictionary<Transform, int>();
+    Dictionary<Transform, int> dic;
     List<Connector> connectors = new List<Connector>();
     private void Awake() {
         GetComponentsInChildren<Connector>(true, connectors);
+    }
+
+    private void OnEnable() {
+        dic = new Dictionary<Transform, int>();
     }
 
     void OnTriggerEnter(Collider other) //OrbA에 맞았을 때 맞은 대상 == UI에 방패불가라는 텍스트를 띄어주는
@@ -35,6 +39,7 @@ public class Detector : MonoBehaviourPun
         PhotonView targetPv = PhotonNetwork.GetPhotonView(viewID);
         if (targetPv.Mine == true)
         {
+            print("Shield Break");
             WeaponSystem.instance.LockWeapon(WeaponName.Shield);
         }
 
@@ -83,7 +88,9 @@ public class Detector : MonoBehaviourPun
         {
             Disconnect(remotePlayerRoot, index);
             if (targetPv.Mine == true)
+            {
                 WeaponSystem.instance.UnlockWeapon(WeaponName.Shield); //네트워크 공유
+            }
         }
     }
 
@@ -91,8 +98,13 @@ public class Detector : MonoBehaviourPun
     {
         print("Link Exit");
 
-        dic.Remove(tr);
+        // dic.Remove(tr);
         connectors[index].Disconnect();
+    }
+
+    private void OnDisable() 
+    {
+        dic = null;
     }
 }
 
