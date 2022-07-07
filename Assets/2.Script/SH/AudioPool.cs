@@ -11,6 +11,12 @@ public class AudioPool : MonoBehaviour
     Queue<GameObject>[] poolQueue = new Queue<GameObject>[3];
 
     private void Awake() {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         instance = this;
         transform.position = Vector3.zero;
 
@@ -19,11 +25,10 @@ public class AudioPool : MonoBehaviour
         poolQueue[2] = new Queue<GameObject>();
 
         for (int i = 0; i < clips.Length; i++)
-        {
             clipDictionary.Add(clips[i].name, clips[i]);
-        }
-
+        
         InitPool();
+        DontDestroyOnLoad(gameObject);
     }
 
     private void InitPool()
@@ -46,21 +51,25 @@ public class AudioPool : MonoBehaviour
     {
         if (clipDictionary.ContainsKey(name) == false)
         {
-            Debug.LogWarning("NOMATCHNAME");
-            return null;
+            AudioClip clip = Resources.Load<AudioClip>("Audio/"+name);
+            if (clip) clipDictionary.Add(name, clip);
+            else
+            {
+                Debug.LogWarning("Audio name " + name + " not found");
+                return null;
+            }
         }
 
         if (poolQueue[type].Count <= 0)
-        {
             CreateNewSource(type);
-        }
-
+        
         GameObject go = poolQueue[type].Dequeue();
         go.transform.position = position;
         go.GetComponent<Audio>().Play(clipDictionary[name]);
 
         return go;
     }
+
     public GameObject Play(string name, int type, Vector3 position, Transform parent)
     {
         GameObject go = Play(name, type, position);
@@ -71,5 +80,13 @@ public class AudioPool : MonoBehaviour
     public void ReturnToPool(Audio a)
     {
         poolQueue[a.audioType].Enqueue(a.gameObject);
+        if (a.transform.parent != transform)
+            StartCoroutine(SetParent(a.transform));
+    }
+
+    IEnumerator SetParent(Transform t)
+    {
+        yield return null;
+        t.parent = transform;
     }
 }

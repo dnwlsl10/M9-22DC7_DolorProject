@@ -31,15 +31,8 @@ public class Audio : MonoBehaviour
     {
         gameObject.SetActive(true);
 
-        if (audioType != 2)
-        {
-            source.clip = clip;
-            source.Play();
-        }
-        else
-        {
-            source.PlayOneShot(clip);
-        }
+        source.clip = clip;
+        source.Play();
 
         StartCoroutine(IEAudioEnd());
     }
@@ -47,7 +40,7 @@ public class Audio : MonoBehaviour
     IEnumerator IEAudioEnd()
     {
         while(source.isPlaying)
-            yield return ws;
+            yield return null;
         
         transform.parent = AudioPool.instance.transform;
         gameObject.SetActive(false);
@@ -55,5 +48,9 @@ public class Audio : MonoBehaviour
 
     private void OnDisable() {
         AudioPool.instance.ReturnToPool(this);
+    }
+
+    private void OnDestroy() {
+        Debug.LogWarning("AudioPool Object has been destroyed");
     }
 }

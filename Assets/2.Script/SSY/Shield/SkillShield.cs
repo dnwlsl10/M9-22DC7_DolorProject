@@ -91,6 +91,8 @@ public class SkillShield : WeaponBase, IDamageable
         }
     }
 
+    GameObject sound;
+
     [PunRPC]
     public void animPlay(bool isStart)
     {
@@ -99,10 +101,12 @@ public class SkillShield : WeaponBase, IDamageable
         if (isStart)
         {
             anim.CrossFade("ShieldOn", 0.1f);
+            sound = AudioPool.instance.Play("264061__paul368__sfx-door-open", 1, anim.transform.position, anim.transform);
         }
         if (isStart == false)
         {
             anim.CrossFade("ShieldOff", 0.1f);
+            sound?.SetActive(false);
         }
     }
 
