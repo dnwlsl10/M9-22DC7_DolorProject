@@ -18,6 +18,14 @@ public class InGameManager : MonoBehaviourPunCallbacks
     private int playerCount = 0;
     public event System.Action onGameStart;
     public System.Action OnChangeLobby;
+
+    [SerializeField] Robot selectPrefab;
+    public void Init(UserInfo userInfo)
+    {
+        DataManager.GetInstance().LoadDatas();
+        var selectPrefab = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
+    }
+
     public void Awake() 
     {
         if (instance != null)

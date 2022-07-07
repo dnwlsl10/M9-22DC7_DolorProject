@@ -20,15 +20,15 @@ public class InsideSize : MonoBehaviour
         mat = mr.material;
         changeVal = dissolveMinValue;
         mat.SetFloat("_Dissolve", changeVal);
-        InGameManager2.instance.onGameStart += OnGameStart;
-
+         //InGameManager2.instance.onGameStart += OnGameStart;
+        OnGameStart();
     }
 
     IEnumerator ChangeInsideSize()
     {
         while(changeVal > dissolveMaxValue)
         {
-            changeVal -= 0.001f;
+            changeVal -= 0.005f;
             mat.SetFloat("_Dissolve", changeVal);
             yield return new WaitForEndOfFrame();
         }
@@ -39,14 +39,11 @@ public class InsideSize : MonoBehaviour
     {
         while (changeVal < dissolveMinValue) //-0.2에서 1.2f가 될 때까지 반복
         {
-            changeVal += 0.001f;
+            changeVal += 0.005f;
             mat.SetFloat("_Dissolve", changeVal);
             yield return new WaitForEndOfFrame();
         }
             transform.GetChild(1).gameObject.SetActive(false);
     }
-    void OnGameStart()
-    {
-        StartCoroutine(ChangeInsideSize());
-    }
+    void OnGameStart() => StartCoroutine(ChangeInsideSize());
 }
