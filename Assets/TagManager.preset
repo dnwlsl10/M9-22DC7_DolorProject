@@ -70,7 +70,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layers.Array.data[3]
-    value: 
+    value: MissileProjectile
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layers.Array.data[4]
@@ -86,15 +86,15 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layers.Array.data[7]
-    value: 
+    value: FrozenChunks
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layers.Array.data[8]
-    value: 
+    value: IgnorePostprocessing
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layers.Array.data[9]
-    value: 
+    value: TestLayer
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layers.Array.data[10]
@@ -106,11 +106,11 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layers.Array.data[12]
-    value: 
+    value: LocalBound
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layers.Array.data[13]
-    value: 
+    value: RemoteBound
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layers.Array.data[14]
@@ -118,7 +118,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layers.Array.data[15]
-    value: 
+    value: Orb
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layers.Array.data[16]
@@ -126,19 +126,19 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layers.Array.data[17]
-    value: Builder
+    value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layers.Array.data[18]
-    value: Orb
+    value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layers.Array.data[19]
-    value: RightHand
+    value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layers.Array.data[20]
-    value: 
+    value: Screen
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layers.Array.data[21]
@@ -158,7 +158,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layers.Array.data[25]
-    value: Enemy
+    value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layers.Array.data[26]

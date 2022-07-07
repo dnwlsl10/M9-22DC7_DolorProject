@@ -62,10 +62,10 @@ namespace Project.Scripts.Fractures
             NeighboursArray = Neighbours.ToArray();
         }
 
-        private void OnJointBreak(float breakForce)
-        {
-            HasBrokenLinks = true;
-        }
+        // private void OnJointBreak(float breakForce)
+        // {
+        //     HasBrokenLinks = true;
+        // }
 
         public void CleanBrokenLinks()
         {
@@ -110,42 +110,5 @@ namespace Project.Scripts.Fractures
             frozenPos = rb.transform.position;
             forzenRot = rb.transform.rotation;
         }
-
-        // private void OnDrawGizmos()
-        // {
-        //     var worldCenterOfMass = transform.TransformPoint(transform.GetComponent<Rigidbody>().centerOfMass);
-            
-        //     if (IsStatic)
-        //     {
-        //         Gizmos.color = Color.red;
-        //         Gizmos.DrawSphere(worldCenterOfMass, 0.05f);
-        //     }
-        //     else
-        //     {
-        //         Gizmos.color = Color.SetAlpha(0.5f);
-        //         Gizmos.DrawSphere(worldCenterOfMass, 0.1f);
-        //     }
-            
-        //     foreach (var joint in JointToChunk.Keys)
-        //     {
-        //         if (joint)
-        //         {
-        //             var from = transform.TransformPoint(rb.centerOfMass);
-        //             var to = joint.connectedBody.transform.TransformPoint(joint.connectedBody.centerOfMass);
-        //             Gizmos.color = Color;
-        //             Gizmos.DrawLine(from, to);
-        //         }
-        //     }
-        // }
-
-        // private void OnDrawGizmosSelected()
-        // {
-        //     foreach (var node in Neighbours)
-        //     {
-        //         var mesh = node.GetComponent<MeshFilter>().mesh;
-        //         Gizmos.color = Color.yellow.SetAlpha(.2f);
-        //         Gizmos.DrawMesh(mesh, node.transform.position, node.transform.rotation);
-        //     }
-        // }
     }
 }

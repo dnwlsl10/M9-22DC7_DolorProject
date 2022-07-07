@@ -12,6 +12,7 @@ TagManager:
   - LeftHand
   - RightHand
   - Orb
+  - Missile
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Ground
   - FrozenChunks
   - IgnorePostprocessing
-  - 
+  - TestLayer
   - LocalPlayer
   - RemotePlayer
   - LocalBound
