@@ -38,7 +38,8 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
 
     Transform tr;
     Animator anim;
-    Rigidbody rb;
+    // Rigidbody rb;
+    CharacterController cc;
     Vector3 moveDir = Vector3.zero;
     WalkState walkState;
     string[] walkStateToString;
@@ -77,13 +78,14 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
         if (cachedMine)
         {
             tr = GetComponent<Transform>();
-            rb = GetComponent<Rigidbody>();
+            // rb = GetComponent<Rigidbody>();
+            cc = GetComponent<CharacterController>();
         }
     }
 
     private void FixedUpdate()
     {
-        if (cachedMine) rb.AddForce(moveDir, ForceMode.VelocityChange);
+        if (cachedMine) cc.SimpleMove(moveDir);
     }
 
 
