@@ -83,11 +83,6 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
         }
     }
 
-    private void FixedUpdate()
-    {
-        if (cachedMine) cc.SimpleMove(moveDir);
-    }
-
 
     // Update is called once per frame
     void Update()
@@ -97,6 +92,7 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
         deltaTime = Time.deltaTime;
         UpdateMove();
         UpdateRotate();
+        cc.Move(moveDir * Time.deltaTime);
     }
 
     private void UpdateMove()
@@ -242,7 +238,7 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
 
     public void PlayFootStepSound()
     {
-        if (Physics.Raycast(tr.position+tr.up*0.1f, -tr.up, 0.1f, LayerMask.GetMask("Ground")))
+        if (Physics.Raycast(tr.position+tr.up*0.1f, -tr.up, 0.2f, LayerMask.GetMask("Ground")))
             // audio.PlayOneShot(footstep);
             AudioPool.instance.Play(footstep.name, 2, tr.position);
     }
