@@ -19,12 +19,12 @@ MonoBehaviour:
     m_Value: 0
   compareMode:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   compareSameSide:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 1
   comparePanning:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0.25
     min: 0
     max: 0.5
@@ -32,8 +32,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 1.4
   compareLineWidth:
-    m_OverrideState: 0
-    m_Value: 0.002
+    m_OverrideState: 1
+    m_Value: 0.0001
   flipY:
     m_OverrideState: 1
     m_Value: 0
@@ -172,7 +172,7 @@ MonoBehaviour:
     m_Value: 1
   saturate:
     m_OverrideState: 1
-    m_Value: 3
+    m_Value: 0
     min: -2
     max: 3
   brightness:
@@ -215,7 +215,7 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 1
   lutIntensity:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
     min: 0
     max: 1
@@ -224,12 +224,12 @@ MonoBehaviour:
     m_Value: {fileID: 0}
   bloomIntensity:
     m_OverrideState: 1
-    m_Value: 2.03
+    m_Value: 1
     min: 0
     max: 10
   bloomThreshold:
     m_OverrideState: 1
-    m_Value: 0.75
+    m_Value: 0
     min: 0
     max: 5
   bloomMaxBrightness:
@@ -244,24 +244,24 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   bloomExcludeLayers:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   bloomExclusionLayerMask:
     m_OverrideState: 1
     m_Value:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 603979808
   bloomExclusionZBias:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: -0.0001
     min: -0.1
     max: 0.1
   bloomAntiflicker:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 1
   bloomResolution:
     m_OverrideState: 1
-    m_Value: 5
+    m_Value: 10
     min: 1
     max: 10
   bloomCustomize:
@@ -823,7 +823,7 @@ MonoBehaviour:
     showEyeDropper: 1
   ditherIntensity:
     m_OverrideState: 0
-    m_Value: 0.005
+    m_Value: 0.02
     min: 0
     max: 0.02
   frame:
