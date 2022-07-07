@@ -1,32 +1,44 @@
-// using UnityEngine;
+using UnityEngine;
+using System.Collections;
 
-// public class BuildingDamage : MonoBehaviour, IDamageable
+public class BuildingDamage : MonoBehaviour, IDamageable
+{
+    float hp = 100;
+
+    void IDamageable.TakeDamage(float damage)
+    {
+        hp -= damage;
+
+        // if (hp <= 0)
+        // {
+        //     GetComponent<Project.Scripts.Fractures.FractureThis>().BuildingExplosion();
+        // }
+    }
+
+    IEnumerator Start()
+    {
+        yield return new WaitForSeconds(10);
+        GetComponent<Project.Scripts.Fractures.FractureThis>().TEST();
+    }
+}
+
+
+// class A()
 // {
-//     float hp = 100;
-
-//     public bool TakeDamage(float damage)
+//     private void OnEnable() {
+//         StartCoroutine(Q(10));
+//     }
+//     IEnumerator Q(float t)
 //     {
-//         hp -= damage;
-
-//         if (hp <= 0)
-//         {
-//             GetComponent<Project.Scripts.Fractures.FractureThis>().Change();
-//         }
-
-//         return true;
+//         yield return new WaitForSeconds(t);
+//         GameObject.setactive(false);
 //     }
 
-
-
-//     // Start is called before the first frame update
-//     void Start()
-//     {
-        
+//     private void OnCollisionEnter(Collision other) {
+//         Startcoroutine(Q(3));
 //     }
 
-//     // Update is called once per frame
-//     void Update()
-//     {
-        
+//     private void OnDisable() {
+//         GameObject.transform.localPosition = Vector3.zero;
 //     }
 // }

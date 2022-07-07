@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Project.Scripts.Utils;
 using UnityEngine;
@@ -19,20 +20,6 @@ namespace Project.Scripts.Fractures
                 nodes[i] = node;
             }
         }
-        
-        private void FixedUpdate()
-        {
-            var runSearch = false;
-            foreach (var brokenNodes in nodes.Where(n => n.HasBrokenLinks))
-            {
-                brokenNodes.CleanBrokenLinks();
-                runSearch = true;
-            }
-            
-            if(runSearch)
-                SearchGraph(nodes);
-        }
-
         private Color[] colors =
         {
             Color.blue, 
@@ -41,11 +28,11 @@ namespace Project.Scripts.Fractures
             Color.yellow
         };
         
-        public void SearchGraph(ChunkNode[] objects)
+        public void SearchGraph()
         {
-            var anchors = objects.Where(o => o.IsStatic).ToList();
+            var anchors = nodes.Where(o => o.IsStatic).ToList();
                 
-            ISet<ChunkNode> search = new HashSet<ChunkNode>(objects);
+            ISet<ChunkNode> search = new HashSet<ChunkNode>(nodes);
             var index = 0;
             foreach (var o in anchors)
             {

@@ -7,7 +7,7 @@ namespace Project.Scripts.Fractures
 {
     public static class Fracture
     {
-        public static ChunkGraphManager FractureGameObject(GameObject gameObject, /*Anchor anchor,*/ int seed, int totalChunks,Material insideMaterial, Material outsideMaterial, float jointBreakForce, float density, out GameObject fracturedObj)
+        public static ChunkGraphManager FractureGameObject(GameObject gameObject, Anchor anchor, int seed, int totalChunks,Material insideMaterial, Material outsideMaterial, float jointBreakForce, float density, out GameObject go)
         {
             // Translate all meshes to one world mesh
             var mesh = GetWorldMesh(gameObject);
@@ -30,32 +30,37 @@ namespace Project.Scripts.Fractures
             var chunks = BuildChunks(insideMaterial, outsideMaterial, meshes, chunkMass);
             
             // Connect blocks that are touching with fixed joints
+            // foreach (var chunk in chunks)
+            // {
+            //     ConnectTouchingChunks(chunk, jointBreakForce);
+            // }
+
+            // Set anchored chunks as kinematic     
+            AnchorChunks(gameObject, anchor);
+
+            var fractureGameObject = new GameObject("Fracture");
+            
             foreach (var chunk in chunks)
             {
-                ConnectTouchingChunks(chunk, jointBreakForce);
+                chunk.transform.SetParent(fractureGameObject.transform);
+                
             }
-
-            // Set anchored chunks as kinematic
-            AnchorChunks(gameObject/*, anchor*/);
-
-            GameObject fractureGameObject = new GameObject("Fracture");
-            foreach (var chunk in chunks)
-            {
-                chunk.transform.SetParent(fractureGameObject.transform, false);
-            }
+            GameObject go2 = new GameObject("Fracture");
+            go2.transform.position = gameObject.transform.position;
+            fractureGameObject.transform.parent = go2.transform;
             // Graph manager freezes/unfreezes blocks depending on whether they are connected to the graph or not
             var graphManager = fractureGameObject.AddComponent<ChunkGraphManager>();
             graphManager.Setup(fractureGameObject.GetComponentsInChildren<Rigidbody>());
             
-            fracturedObj = fractureGameObject;
+            go = go2;
             return graphManager;
         }
 
-        private static void AnchorChunks(GameObject gameObject/*, Anchor anchor*/)
+        private static void AnchorChunks(GameObject gameObject, Anchor anchor)
         {
             var transform = gameObject.transform;
             var bounds = gameObject.GetCompositeMeshBounds();
-            var anchoredColliders = GetAnchoredColliders(/*anchor,*/ transform, bounds);
+            var anchoredColliders = GetAnchoredColliders(anchor, transform, bounds);
             
             foreach (var collider in anchoredColliders)
             {
@@ -98,54 +103,54 @@ namespace Project.Scripts.Fractures
             return meshes;
         }
 
-        private static IEnumerable<Collider> GetAnchoredColliders(/*Anchor anchor,*/ Transform meshTransform, Bounds bounds)
+        private static IEnumerable<Collider> GetAnchoredColliders(Anchor anchor, Transform meshTransform, Bounds bounds)
         {
             var anchoredChunks = new HashSet<Collider>();
             var frameWidth = .01f;
             var meshWorldCenter = meshTransform.TransformPoint(bounds.center);
             var meshWorldExtents = bounds.extents.Multiply(meshTransform.lossyScale);
             
-            // if (anchor.HasFlag(Anchor.Left))
-            // {
-            //     var center = meshWorldCenter - meshTransform.right * meshWorldExtents.x;
-            //     var halfExtents = meshWorldExtents.Abs().SetX(frameWidth);
-            //     anchoredChunks.UnionWith(Physics.OverlapBox(center, halfExtents, meshTransform.rotation));
-            // }
+            if (anchor.HasFlag(Anchor.Left))
+            {
+                var center = meshWorldCenter - meshTransform.right * meshWorldExtents.x;
+                var halfExtents = meshWorldExtents.Abs().SetX(frameWidth);
+                anchoredChunks.UnionWith(Physics.OverlapBox(center, halfExtents, meshTransform.rotation));
+            }
             
-            // if (anchor.HasFlag(Anchor.Right))
-            // {
-            //     var center = meshWorldCenter + meshTransform.right * meshWorldExtents.x;
-            //     var halfExtents = meshWorldExtents.Abs().SetX(frameWidth);
-            //     anchoredChunks.UnionWith(Physics.OverlapBox(center, halfExtents, meshTransform.rotation));
-            // }
+            if (anchor.HasFlag(Anchor.Right))
+            {
+                var center = meshWorldCenter + meshTransform.right * meshWorldExtents.x;
+                var halfExtents = meshWorldExtents.Abs().SetX(frameWidth);
+                anchoredChunks.UnionWith(Physics.OverlapBox(center, halfExtents, meshTransform.rotation));
+            }
             
-            // if (anchor.HasFlag(Anchor.Bottom))
-            // {
-            //     var center = meshWorldCenter - meshTransform.up * meshWorldExtents.y;
-            //     var halfExtents = meshWorldExtents.Abs().SetY(frameWidth);
-            //     anchoredChunks.UnionWith(Physics.OverlapBox(center, halfExtents, meshTransform.rotation));
-            // }
+            if (anchor.HasFlag(Anchor.Bottom))
+            {
+                var center = meshWorldCenter - meshTransform.up * meshWorldExtents.y;
+                var halfExtents = meshWorldExtents.Abs().SetY(frameWidth);
+                anchoredChunks.UnionWith(Physics.OverlapBox(center, halfExtents, meshTransform.rotation));
+            }
             
-            // if (anchor.HasFlag(Anchor.Top))
-            // {
+            if (anchor.HasFlag(Anchor.Top))
+            {
                 var center = meshWorldCenter + meshTransform.up * meshWorldExtents.y;
                 var halfExtents = meshWorldExtents.Abs().SetY(frameWidth);
                 anchoredChunks.UnionWith(Physics.OverlapBox(center, halfExtents, meshTransform.rotation));
-            // }
+            }
             
-            // if (anchor.HasFlag(Anchor.Front))
-            // {
-            //     var center = meshWorldCenter - meshTransform.forward * meshWorldExtents.z;
-            //     var halfExtents = meshWorldExtents.Abs().SetZ(frameWidth);
-            //     anchoredChunks.UnionWith(Physics.OverlapBox(center,  halfExtents, meshTransform.rotation));
-            // }
+            if (anchor.HasFlag(Anchor.Front))
+            {
+                var center = meshWorldCenter - meshTransform.forward * meshWorldExtents.z;
+                var halfExtents = meshWorldExtents.Abs().SetZ(frameWidth);
+                anchoredChunks.UnionWith(Physics.OverlapBox(center,  halfExtents, meshTransform.rotation));
+            }
             
-            // if (anchor.HasFlag(Anchor.Back))
-            // {
-            //     var center = meshWorldCenter + meshTransform.forward * meshWorldExtents.z;
-            //     var halfExtents = meshWorldExtents.Abs().SetZ(frameWidth);
-            //     anchoredChunks.UnionWith(Physics.OverlapBox(center,  halfExtents, meshTransform.rotation));
-            // }
+            if (anchor.HasFlag(Anchor.Back))
+            {
+                var center = meshWorldCenter + meshTransform.forward * meshWorldExtents.z;
+                var halfExtents = meshWorldExtents.Abs().SetZ(frameWidth);
+                anchoredChunks.UnionWith(Physics.OverlapBox(center,  halfExtents, meshTransform.rotation));
+            }
             
             return anchoredChunks;
         }
@@ -217,38 +222,38 @@ namespace Project.Scripts.Fractures
             rigibody.mass = mass;
 
             var mc = chunk.AddComponent<MeshCollider>();
-            mc.inflateMesh = true;
+            // mc.inflateMesh = true;
             mc.convex = true;
 
             return chunk;
         }
         
-        private static void ConnectTouchingChunks(GameObject chunk, float jointBreakForce, float touchRadius = .01f)
-        {
-            var rb = chunk.GetComponent<Rigidbody>();
-            var mesh = chunk.GetComponent<MeshFilter>().mesh;
+        // private static void ConnectTouchingChunks(GameObject chunk, float jointBreakForce, float touchRadius = .01f)
+        // {
+        //     var rb = chunk.GetComponent<Rigidbody>();
+        //     var mesh = chunk.GetComponent<MeshFilter>().mesh;
         
-            var overlaps = new HashSet<Rigidbody>();
-            var vertices = mesh.vertices;
-            for (var i = 0; i < vertices.Length; i++)
-            {
-                var worldPosition = chunk.transform.TransformPoint(vertices[i]);
-                var hits = Physics.OverlapSphere(worldPosition, touchRadius);
-                for (var j = 0; j < hits.Length; j++)
-                {
-                    overlaps.Add(hits[j].GetComponent<Rigidbody>());
-                }
-            }
+        //     var overlaps = new HashSet<Rigidbody>();
+        //     var vertices = mesh.vertices;
+        //     for (var i = 0; i < vertices.Length; i++)
+        //     {
+        //         var worldPosition = chunk.transform.TransformPoint(vertices[i]);
+        //         var hits = Physics.OverlapSphere(worldPosition, touchRadius);
+        //         for (var j = 0; j < hits.Length; j++)
+        //         {
+        //             overlaps.Add(hits[j].GetComponent<Rigidbody>());
+        //         }
+        //     }
 
-            foreach (var overlap in overlaps)
-            { 
-                if (overlap.gameObject != chunk.gameObject)
-                {
-                    var joint = overlap.gameObject.AddComponent<FixedJoint>();
-                    joint.connectedBody = rb;
-                    joint.breakForce = jointBreakForce;
-                }
-            }
-        }
+        //     foreach (var overlap in overlaps)
+        //     { 
+        //         if (overlap.gameObject != chunk.gameObject)
+        //         {
+        //             var joint = overlap.gameObject.AddComponent<FixedJoint>();
+        //             joint.connectedBody = rb;
+        //             joint.breakForce = jointBreakForce;
+        //         }
+        //     }
+        // }
     }
 }
