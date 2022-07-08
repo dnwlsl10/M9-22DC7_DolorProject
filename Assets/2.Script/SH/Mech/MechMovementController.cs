@@ -42,7 +42,7 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
     CharacterController cc;
     Vector3 moveDir = Vector3.zero;
     WalkState walkState;
-    string[] walkStateToString;
+    int[] walkStateHash;
     float deltaTime;
     float angle, absAngle;
     float rotSpeed;
@@ -56,25 +56,26 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
             if (walkState == value) return;
 
             walkState = value;
-            photonView.CustomRPC(this, "CrossFade", RpcTarget.All, walkState, rotating);
+            photonView.CustomRPC(this, "CrossFade", RpcTarget.All, (int)walkState, rotating);
         }
     }
 
     [PunRPC]
-    private void CrossFade(WalkState state, bool rotating)
+    private void CrossFade(int state, bool rotating)
     {
-        // if (state == WalkState.Idle)
-        //     anim.CrossFade(rotating ? "Rotate" : "Idle", 0.2f);
-        // else
-            anim.CrossFade(walkStateToString[(int)state], 0.2f);
+        anim.CrossFade(walkStateHash[state], 0.2f);
     }
 
     void Awake()
     {
         cachedMine = photonView.Mine;
-        walkStateToString = System.Enum.GetNames(typeof(WalkState));
-        anim = GetComponent<Animator>();
 
+        string[] walkStateNames = System.Enum.GetNames(typeof(WalkState));
+        walkStateHash = new int[walkStateNames.Length];
+        for (int i = 0; i < walkStateNames.Length; i++)
+            walkStateHash[i] = Animator.StringToHash(walkStateNames[i]);
+
+        anim = GetComponent<Animator>();
         if (cachedMine)
         {
             tr = GetComponent<Transform>();
@@ -82,7 +83,6 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
             cc = GetComponent<CharacterController>();
         }
     }
-
 
     // Update is called once per frame
     void Update()
@@ -92,7 +92,7 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
         deltaTime = Time.deltaTime;
         UpdateMove();
         UpdateRotate();
-        cc.Move(moveDir * Time.deltaTime);
+        cc.Move(moveDir * deltaTime * moveSpeed);
     }
 
     private void UpdateMove()
@@ -173,6 +173,26 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
         }
     }
 
+    void CalculateAngle()
+    {
+        angle = Vector3.SignedAngle(Vector3.ProjectOnPlane(centerEye.forward, tr.up), tr.forward, tr.up);
+        absAngle = Mathf.Abs(angle);
+    }
+    void Rotate()
+    {
+        if ((int)walkState < (int)WalkState.RotateLeft)
+            tr.rotation = Quaternion.RotateTowards(tr.rotation, Quaternion.Euler(tr.eulerAngles - tr.up * angle), deltaTime * rotSpeed);
+        else
+            anim.SetFloat("TurnSpeed", rotSpeed/45);
+    }
+
+    public void PlayFootStepSound()
+    {
+        if (Physics.Raycast(tr.position+tr.up*0.1f, -tr.up, 0.2f, LayerMask.GetMask("Ground")))
+            // audio.PlayOneShot(footstep);
+            AudioPool.instance.Play(footstep.name, 2, tr.position);
+    }
+
 #region 
     // IEnumerator IEStartRotate()
     // {
@@ -223,26 +243,4 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
     //     }
     // }
 #endregion
-    void CalculateAngle()
-    {
-        angle = Vector3.SignedAngle(Vector3.ProjectOnPlane(centerEye.forward, tr.up), tr.forward, tr.up);
-        absAngle = Mathf.Abs(angle);
-    }
-    void Rotate()
-    {
-        if ((int)walkState < (int)WalkState.RotateLeft)
-            tr.rotation = Quaternion.RotateTowards(tr.rotation, Quaternion.Euler(tr.eulerAngles - tr.up * angle), deltaTime * rotSpeed);
-        else
-            anim.SetFloat("TurnSpeed", rotSpeed/45);
-    }
-
-    public void PlayFootStepSound()
-    {
-        if (Physics.Raycast(tr.position+tr.up*0.1f, -tr.up, 0.2f, LayerMask.GetMask("Ground")))
-            // audio.PlayOneShot(footstep);
-            AudioPool.instance.Play(footstep.name, 2, tr.position);
-    }
-
-    public void SetMoveSpeed(float _value) => moveSpeed = _value;
-    public void SetRotSpeed(float _value) => maxRotationSpeed = _value;
 }
