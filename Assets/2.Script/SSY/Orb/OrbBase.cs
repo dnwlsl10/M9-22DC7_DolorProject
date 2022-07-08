@@ -40,11 +40,12 @@ public class OrbBase : MonoBehaviourPun
         Transform tr = PhotonNetwork.GetPhotonView(viewID).transform;
         MoveToParent(tr);
     }
+    GameObject audio;
     protected void MoveToParent(Transform tr)
     {
-        print(tr.position);
         transform.parent = tr;
         transform.localPosition = transform.localEulerAngles = Vector3.zero;
+        audio = AudioPool.instance.Play("264061__paul368__sfx-door-open", 1, tr.position, tr);
     }
     
     public void OrbFire()
@@ -65,5 +66,6 @@ public class OrbBase : MonoBehaviourPun
 
         this.transform.SetParent(null);
         orbSpeed = onShootSpeed;
+        audio.SetActive(false);
     }
 }

@@ -135,7 +135,8 @@ public class BasicWeapon : WeaponBase, IInitialize
             NetworkObjectPool.instance.SpawnFromPool(bullet.name, bulletPosition, bulletRotation);
         
         StartCoroutine(OnMuzzleFlashEffect());
-        PlaySound(onFireSFX);
+        // PlaySound(onFireSFX);
+        AudioPool.instance.Play(onFireSFX.name, 2, bulletPosition);
     }
 
     IEnumerator OnMuzzleFlashEffect()

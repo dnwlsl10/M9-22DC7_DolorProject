@@ -3,36 +3,45 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Bullet
+  - Left
+  - Enemy
+  - Screen
+  - Earth
+  - LeftHand
+  - RightHand
+  - Orb
+  - Missile
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - MissileProjectile
   - Water
   - UI
+  - Ground
+  - FrozenChunks
+  - IgnorePostprocessing
+  - TestLayer
+  - LocalPlayer
+  - RemotePlayer
+  - LocalBound
+  - RemoteBound
+  - 
+  - Orb
+  - Bullet
+  - 
+  - 
+  - 
+  - Screen
   - 
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - AutoHand
+  - Map
   - HandPlayer
   - Hand
   - Grabbable

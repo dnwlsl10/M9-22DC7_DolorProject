@@ -12,12 +12,11 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
         centerEye = GetComponentInChildren<Camera>(true)?.transform; leftHandJoystick = Utility.FindInputReference(ActionMap.XRI_LeftHand_Locomotion, "Move");
     #endif
     }
-    enum WalkState{Idle, Forward, Back, Left, Right}
+    enum WalkState{Idle, Forward, Back, Left, Right, RotateLeft, RotateRight}
     
     [SerializeField]        Transform centerEye;
 
     [Header("Audio")]
-    [SerializeField]        AudioSource audio;
     [SerializeField]        AudioClip footstep;
 
     [Header("Move")]
@@ -35,10 +34,12 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
     [Tooltip("If angle between hmd and robot is this value, the rotation speed becomes max")]
     [SerializeField]        float angleToReachMaxRotationSpeed = 90;
                             bool rotating;
+                            bool rotateLeft;
 
     Transform tr;
     Animator anim;
-    Rigidbody rb;
+    // Rigidbody rb;
+    CharacterController cc;
     Vector3 moveDir = Vector3.zero;
     WalkState walkState;
     string[] walkStateToString;
@@ -62,9 +63,9 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
     [PunRPC]
     private void CrossFade(WalkState state, bool rotating)
     {
-        if (state == WalkState.Idle)
-            anim.CrossFade(rotating ? "Rotate" : "Idle", 0.2f);
-        else
+        // if (state == WalkState.Idle)
+        //     anim.CrossFade(rotating ? "Rotate" : "Idle", 0.2f);
+        // else
             anim.CrossFade(walkStateToString[(int)state], 0.2f);
     }
 
@@ -77,13 +78,14 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
         if (cachedMine)
         {
             tr = GetComponent<Transform>();
-            rb = GetComponent<Rigidbody>();
+            // rb = GetComponent<Rigidbody>();
+            cc = GetComponent<CharacterController>();
         }
     }
 
     private void FixedUpdate()
     {
-        if (cachedMine) rb.AddForce(moveDir, ForceMode.VelocityChange);
+        if (cachedMine) cc.SimpleMove(moveDir);
     }
 
 
@@ -128,7 +130,7 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
         else
         {
             moveDir = Vector3.zero;
-            walkStateProperty = WalkState.Idle;
+            walkStateProperty = rotating ? (rotateLeft ? WalkState.RotateLeft : WalkState.RotateRight) : WalkState.Idle;
         }
     }
 
@@ -142,8 +144,9 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
             if (absAngle > rotateStartThreshold)
             {
                 rotating = true;
-                anim.SetBool("Rotating", rotating);
-                anim.SetBool("RotateMirror", angle > 0 ? false : true);
+                rotateLeft = angle > 0;
+                if (walkState == WalkState.Idle)
+                    walkStateProperty = rotateLeft ? WalkState.RotateLeft : WalkState.RotateRight;
                 rotSpeed = 0;
             }
             else if (rotSpeed > 0.1f)
@@ -168,7 +171,8 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
             else
             {
                 rotating = false;
-                anim.SetBool("Rotating", rotating);
+                if ((int)walkStateProperty >= (int)WalkState.RotateLeft)
+                    walkStateProperty = WalkState.Idle;
             }
         }
     }
@@ -230,7 +234,7 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
     }
     void Rotate()
     {
-        if (walkState != WalkState.Idle)
+        if ((int)walkState < (int)WalkState.RotateLeft)
             tr.rotation = Quaternion.RotateTowards(tr.rotation, Quaternion.Euler(tr.eulerAngles - tr.up * angle), deltaTime * rotSpeed);
         else
             anim.SetFloat("TurnSpeed", rotSpeed/45);
@@ -238,7 +242,9 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
 
     public void PlayFootStepSound()
     {
-
+        if (Physics.Raycast(tr.position+tr.up*0.1f, -tr.up, 0.1f, LayerMask.GetMask("Ground")))
+            // audio.PlayOneShot(footstep);
+            AudioPool.instance.Play(footstep.name, 2, tr.position);
     }
 
     public void SetMoveSpeed(float _value) => moveSpeed = _value;

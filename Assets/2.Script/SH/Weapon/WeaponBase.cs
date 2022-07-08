@@ -41,9 +41,11 @@ public class WeaponBase : MonoBehaviourPun
     {
         if (clip == null) return;
 
-        audioSource.Stop();
-        audioSource.clip = clip;
-        audioSource.Play();
+        // audioSource.Stop();
+        // audioSource.clip = clip;
+        // audioSource.Play();
+        // audioSource.PlayOneShot(clip);
+        
     }
     public virtual void Initialize()
     {
