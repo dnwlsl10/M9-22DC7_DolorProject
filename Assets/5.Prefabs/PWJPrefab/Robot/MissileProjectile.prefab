@@ -533,7 +533,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfe0e155ab42ccd4bb51b1970b464c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeSpeed: 10
+  target: {fileID: 0}
+  missilRb: {fileID: 2889982356658076497}
+  turnSpeed: 1
+  rocketFlaySpeed: 10
+  damage: 0
+  gm: {fileID: 0}
+  effectsOnCollision:
+  - {fileID: 5271948925172720486, guid: 68c4301db66944b4cbe77b555b192fd7, type: 3}
+  instanceNormalPositionOffset: 0
+  setParentToParentObject: 0
+  OnHitSFX: {fileID: 0}
 --- !u!114 &1653157118604063610
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,7 +5,6 @@ using Photon.Pun;
 using Photon.Realtime;
 public class Missile : MonoBehaviourPun
 {
-
 public Transform target;
 public Rigidbody missilRb;
 
@@ -15,8 +14,8 @@ public float damage;
 public GuidedMissile gm;
 public GameObject[] effectsOnCollision;
 public float instanceNormalPositionOffset;
-public GameObject[] EffectsOnCollision;
 public bool setParentToParentObject;
+public AudioClip OnHitSFX;
 
     [PunRPC]
     void SetTargetRPC(Transform tg)
@@ -39,13 +38,10 @@ public bool setParentToParentObject;
         if (!target) 
             return;
 
-        if(isNot) return;
         missilRb.velocity = this.transform.forward * rocketFlaySpeed;
         var rocketTargetRot = Quaternion.LookRotation(target.position - this.transform.localPosition);
         missilRb.MoveRotation(Quaternion.RotateTowards(this.transform.localRotation, rocketTargetRot, turnSpeed));
     }
-
-    bool isNot;
     private void OnCollisionEnter(Collision other)
     {
         if (photonView.Mine == false) return;
@@ -56,14 +52,15 @@ public bool setParentToParentObject;
         photonView.CustomRPC(this, "RPCCollision", RpcTarget.AllViaServer, contact.point, contact.normal);
     }
     [PunRPC]
-    private void RPCCollision(int viewID, Vector3 intersection, Vector3 normal)
+    private void RPCCollision(Vector3 intersection, Vector3 normal)
     {
-        foreach (var effect in EffectsOnCollision)
+        foreach (var effect in effectsOnCollision)
         {
             var instance = ObjectPooler.instance.SpawnFromPool(effect, intersection + normal * instanceNormalPositionOffset, new Quaternion()) as GameObject;
             if (!setParentToParentObject) instance.transform.parent = transform;
             instance.transform.LookAt(intersection + normal);
         }
+        AudioPool.instance.Play(OnHitSFX.name, 2, intersection);
         gameObject.SetActive(false);
     }
 

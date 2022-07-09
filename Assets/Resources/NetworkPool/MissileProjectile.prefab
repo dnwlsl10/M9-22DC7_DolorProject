@@ -540,10 +540,10 @@ MonoBehaviour:
   damage: 0
   gm: {fileID: 0}
   effectsOnCollision:
-  - {fileID: 1795992203533318, guid: 890aba7398207db48978724168fac5a7, type: 3}
+  - {fileID: 5271948925172720486, guid: 68c4301db66944b4cbe77b555b192fd7, type: 3}
   instanceNormalPositionOffset: 0
-  EffectsOnCollision: []
   setParentToParentObject: 0
+  OnHitSFX: {fileID: 8300000, guid: d1b87566f9fd9cc4296f2ef86a93660c, type: 3}
 --- !u!114 &1653157118604063610
 MonoBehaviour:
   m_ObjectHideFlags: 0

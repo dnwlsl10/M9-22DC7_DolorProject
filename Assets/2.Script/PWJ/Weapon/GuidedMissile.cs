@@ -13,8 +13,6 @@ public class GuidedMissile : WeaponBase , IInitialize
 
     [Header("SpawnPoint")]
     public Transform bulletSpawnPoint;
-    [Header("CurvedRangePath")]
-    public List<Transform> randomPath;
 
     [Header("Fire Effects")]
     [SerializeField]
@@ -65,12 +63,6 @@ public class GuidedMissile : WeaponBase , IInitialize
                 bulletSpawnPoint.parent = forearm;
                 bulletSpawnPoint.localPosition = new Vector3(0, -0.001199978f, -0.01820103f);
                 bulletSpawnPoint.localEulerAngles = new Vector3(0, 0, 0);
-            }
-        }
-        else{
-        
-            for(int i =0; i < bulletSpawnPoint.childCount; i++){
-                randomPath.Add(bulletSpawnPoint.GetChild(i));
             }
         }
 #endif
