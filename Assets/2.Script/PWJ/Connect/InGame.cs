@@ -12,12 +12,13 @@ public class InGame : MonoBehaviourPunCallbacks
     public UIPracice uIPracice;
     public UIQuickMatch uIQuickMatch;
     public UIExit uIExit;
+    public Animator prAni;
     public void Init(GameObject obj, PhotonView pv)
     {
         this.pv = pv;
         var cokpit = obj.GetComponentInChildren<CockPit>();
-        quickMatchSystem.Init(cokpit);
-        practiceSystem.Init(cokpit);
+        quickMatchSystem.Init(cokpit , prAni);
+        practiceSystem.Init(cokpit, prAni);
         InitUI();
     }
 

@@ -14,6 +14,7 @@ public class OrbTrigger : MonoBehaviour
     private Coroutine coroutineholder;
     private MeshRenderer mr;
     private Material mat;
+    public AudioClip onTouchSFX;
     //new Color(0.1136274f,0.5188679f, 0.01330545f)
     //new Color(0.129365f ,0.04142933f, 0.4622642f)
     //new Color(0.957f, 0.4659617f, 0.1058823f)
@@ -42,7 +43,7 @@ public class OrbTrigger : MonoBehaviour
         if(other.collider.CompareTag("RightHand"))
         {
             if(bGrabRightHand) return;
-
+            AudioPool.instance.Play(onTouchSFX.name, 2, this.transform.position);
             Debug.Log("Test Hand");
             switch(orbType)
             {
