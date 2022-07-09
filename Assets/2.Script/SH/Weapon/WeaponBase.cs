@@ -28,7 +28,7 @@ public class WeaponBase : MonoBehaviourPun
     protected bool isReloading;
     protected bool isAttacking;
 
-    protected void StartWeaponAction(InputAction.CallbackContext ctx) => StartWeaponAction();
+    protected void StartWeaponAction(InputAction.CallbackContext ctx) => WeaponSystem.instance.TryUseWeapon((int)weaponSetting.weaponName, (int)handSide, StartWeaponAction);
     protected void StopWeaponAction(InputAction.CallbackContext ctx) => StopWeaponAction();
     public virtual void StartWeaponAction(){}
     public virtual void StopWeaponAction(){}

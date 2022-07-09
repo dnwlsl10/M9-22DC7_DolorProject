@@ -190,6 +190,18 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
         usingSkill[(int)weapons[weaponIndex].handSide] = false;
     }
 
+    public void TryUseWeapon(int weaponIndex, int handSide, Action action)
+    {
+        if (isGrabbing[handSide] == true && usingSkill[handSide] == false && canUseSkill[weaponIndex] == true)
+        {
+            action();
+        }
+        else
+        {
+            Debug.Log("Cannot Use Weapon");
+        }
+    }
+
     public void LockWeapon(WeaponName weaponName)
     {
         canUseSkill[(int)weaponName] = false;
