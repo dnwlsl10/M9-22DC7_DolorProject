@@ -29,4 +29,11 @@ public class UIShield : UIBase
             Set();
         }
     }
+
+    private void OnEnable() {
+        WeaponSystem.instance.AddStartStopCallbackTarget(this, (int)WeaponName.Shield);
+    }
+    private void OnDisable() {
+        WeaponSystem.instance.RemoveStartStopCallbackTarget(this, (int)WeaponName.Shield);
+    }
 }

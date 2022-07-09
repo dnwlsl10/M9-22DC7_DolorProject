@@ -127,4 +127,11 @@ public class UIOrb : UIBase
             textProgress.text = coolval.ToString();
         }
     }
+
+    private void OnEnable() {
+        WeaponSystem.instance.AddStartStopCallbackTarget(this, (int)WeaponName.Orb);
+    }
+    private void OnDisable() {
+        WeaponSystem.instance.RemoveStartStopCallbackTarget(this, (int)WeaponName.Orb);
+    }
 }

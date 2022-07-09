@@ -78,10 +78,11 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
 #endif
     }
 
-    WeaponBase[] weapons;
+    public static WeaponSystem instance;
+    [SerializeField] WeaponBase[] weapons;
     List<int>[] weaponIndex_byHand;
     private bool[] canUseSkill;
-    public Action[] onStartAction, onStopAction;
+    Action[] onStartAction, onStopAction;
     [SerializeField] private bool[] isGrabbing;
     [SerializeField] private bool[] usingSkill;
 
@@ -102,7 +103,6 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
     public void OnGrabLeft(bool grabbing) => SetGrabState((int)HandSide.Left, grabbing);
     public void OnGrabRight(bool grabbing) => SetGrabState((int)HandSide.Right, grabbing);
 
-    public static WeaponSystem instance;
     private void Awake() 
     {
         print(photonView.Mine);
@@ -118,20 +118,65 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
         }
     }
 
+    private void ArrangeWeaponIndex()
+    {
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            if (i == (int)weapons[i].weaponSetting.weaponName)
+            {
+                InitSetting(weapons[i]);
+                continue;
+            }
+
+            for (int j = i+1; j < weapons.Length; j++)
+            {
+                if (i == (int)weapons[j].weaponSetting.weaponName)
+                {
+                    var tmp = weapons[i];
+                    weapons[i] = weapons[j];
+                    weapons[j] = tmp;
+
+                    InitSetting(weapons[i]);
+                }
+            }
+        }
+    }
+
+    private void InitSetting(WeaponBase wb)
+    {
+        int index = (int)wb.weaponSetting.weaponName;
+        weaponIndex_byHand[(int)wb.handSide].Add(index);
+        canUseSkill[index] = true;
+    }
+
+    public void AddStartStopCallbackTarget(IWeaponEvent intfce, int weaponIndex)
+    {
+        onStartAction[weaponIndex] += intfce.OnSecondButton;
+        onStopAction[weaponIndex] += intfce.OffSecondButton;
+        weapons[weaponIndex].OnValueChange += intfce.EventValue;
+    }
+    public void RemoveStartStopCallbackTarget(IWeaponEvent intfce, int weaponIndex)
+    {
+        onStartAction[weaponIndex] -= intfce.OnSecondButton;
+        onStopAction[weaponIndex] -= intfce.OffSecondButton;
+        weapons[weaponIndex].OnValueChange -= intfce.EventValue;
+    }
+
     void InitLocal()
     {
+        int weaponNameCount = System.Enum.GetNames(typeof(WeaponName)).Length;
+
         weaponIndex_byHand = new List<int>[2];
         weaponIndex_byHand[0] = new List<int>();
         weaponIndex_byHand[1] = new List<int>();
-        isGrabbing = new bool[2];
         usingSkill = new bool[2];
+        isGrabbing = new bool[2];
 
-        int weaponNameCount = System.Enum.GetNames(typeof(WeaponName)).Length;
-        canUseSkill = new bool[weaponNameCount];
         onStartAction = new Action[weaponNameCount];
         onStopAction = new Action[weaponNameCount];
-        for(int i = 0; i < weaponNameCount; i++) canUseSkill[i] = true;
-        weapons = new WeaponBase[weaponNameCount];
+        canUseSkill = new bool[weaponNameCount];
+
+        ArrangeWeaponIndex();
     }
 
     public void StartActionCallback(int weaponIndex)
@@ -155,18 +200,6 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
         canUseSkill[(int)weaponName] = true;
     }
 
-    public void RegistWeapon(WeaponBase weapon, int weaponIndex)
-    {
-        weapons[weaponIndex] = weapon;
-        weaponIndex_byHand[(int)weapon.handSide].Add(weaponIndex);
-    }
-
-    public void UnregistWeapon(WeaponBase weapon, int weaponIndex)
-    {
-        weapons[weaponIndex] = null;
-        weaponIndex_byHand[(int)weapon.handSide].Remove(weaponIndex);
-    }
-
 #if test
     [Header("Test")]
     public InputActionReference grabL;
@@ -183,7 +216,7 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
             grabR.action.started += OnGrabRight;
             grabL.action.canceled += OnGrabLeft;
             grabR.action.canceled += OnGrabRight;
-        } 
+        }
     }
     private void OnDisable() {
         if (photonView.Mine == false) return;

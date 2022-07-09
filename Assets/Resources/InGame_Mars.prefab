@@ -10527,14 +10527,10 @@ MonoBehaviour:
   - {fileID: 1662289987501590690}
   - {fileID: 1662289986719039628}
   - {fileID: 6336740819896078677}
-  - {fileID: 7749009839681264991}
-  - {fileID: 2124032713280839163}
-  - {fileID: 3328857668545830948}
-  - {fileID: 2975807838545935428}
-  - {fileID: 8905615473235987125}
   - {fileID: 2337943554104484735}
   - {fileID: 2975807837097039035}
   groundDetectDistance: 0.6
+  gravity: 2
 --- !u!114 &9186380405379204289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29959,6 +29955,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 539951605094041219, guid: df700dbc90b28f844aad9a231c83b4b3, type: 3}
+      propertyPath: onFireSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 256940877f0400b498389d79cf217be5, type: 3}
+    - target: {fileID: 539951605094041219, guid: df700dbc90b28f844aad9a231c83b4b3, type: 3}
       propertyPath: bulletSpawnPoint
       value: 
       objectReference: {fileID: 3948895276902030882}
@@ -29978,6 +29978,26 @@ PrefabInstance:
       propertyPath: anim
       value: 
       objectReference: {fileID: 4656608415453567543}
+    - target: {fileID: 5970413424952093714, guid: df700dbc90b28f844aad9a231c83b4b3, type: 3}
+      propertyPath: weapons.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5970413424952093714, guid: df700dbc90b28f844aad9a231c83b4b3, type: 3}
+      propertyPath: weapons.Array.data[0]
+      value: 
+      objectReference: {fileID: 7749009839681264991}
+    - target: {fileID: 5970413424952093714, guid: df700dbc90b28f844aad9a231c83b4b3, type: 3}
+      propertyPath: weapons.Array.data[1]
+      value: 
+      objectReference: {fileID: 2124032713280839163}
+    - target: {fileID: 5970413424952093714, guid: df700dbc90b28f844aad9a231c83b4b3, type: 3}
+      propertyPath: weapons.Array.data[2]
+      value: 
+      objectReference: {fileID: 3328857668545830948}
+    - target: {fileID: 5970413424952093714, guid: df700dbc90b28f844aad9a231c83b4b3, type: 3}
+      propertyPath: weapons.Array.data[3]
+      value: 
+      objectReference: {fileID: 2975807838545935428}
     - target: {fileID: 6363595007051247092, guid: df700dbc90b28f844aad9a231c83b4b3, type: 3}
       propertyPath: cameraEye
       value: 

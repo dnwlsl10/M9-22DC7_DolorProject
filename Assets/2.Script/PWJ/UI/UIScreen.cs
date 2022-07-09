@@ -23,22 +23,6 @@ public class UIScreen : MonoBehaviour
 
     private bool bLock;
     public void OnEnable(){
-        bw.OnValueChange += uIBasicWeapon.EventValue;
-        WeaponSystem.instance.onStartAction[(int)WeaponName.Basic] += uIBasicWeapon.OnSecondButton;
-        WeaponSystem.instance.onStopAction[(int)WeaponName.Basic] += uIBasicWeapon.OffSecondButton;
-
-        gm.OnValueChange += uIGuidedMissile.EventValue;
-        WeaponSystem.instance.onStartAction[(int)WeaponName.Missile] += uIGuidedMissile.OnSecondButton;
-        WeaponSystem.instance.onStopAction[(int)WeaponName.Missile] += uIGuidedMissile.OffSecondButton;
-
-        sw.OnValueChange += uIShield.EventValue;
-        WeaponSystem.instance.onStartAction[(int)WeaponName.Shield] += uIShield.OnSecondButton;
-        WeaponSystem.instance.onStopAction[(int)WeaponName.Shield] += uIShield.OffSecondButton;
-
-        of.OnValueChange += uIOrb.EventValue;
-        WeaponSystem.instance.onStartAction[(int)WeaponName.Orb] += uIOrb.OnSecondButton;
-        WeaponSystem.instance.onStopAction[(int)WeaponName.Orb] += uIOrb.OffSecondButton;
-
         status.OnValueChange += uIStatus.EventValue;
     }
   
@@ -56,7 +40,6 @@ public class UIScreen : MonoBehaviour
 
         sw.CurrentAmmo = 0;
         sw.weaponSetting.bLock = true;
-
 
         of.Cooldown = 0;
         uIOrb.textProgress.gameObject.SetActive(false);
@@ -80,9 +63,6 @@ public class UIScreen : MonoBehaviour
     }
 
     private void OnDisable() {
-        bw.OnValueChange -= uIBasicWeapon.EventValue;
-        gm.OnValueChange -= uIGuidedMissile.EventValue;
-        sw.OnValueChange -= uIShield.EventValue;
         status.OnValueChange -= uIStatus.EventValue;
     }
 

@@ -5,7 +5,6 @@ using Photon.Pun;
 using UnityEngine.SceneManagement;
 public class SkillShield : WeaponBase, IDamageable
 {
-    public event Cur_MaxEvent OnValueChange;
     public void Reset()
     {
         weaponSetting.weaponName = WeaponName.Shield;
@@ -37,7 +36,7 @@ public class SkillShield : WeaponBase, IDamageable
 
             if (prevAmmo != weaponSetting.currentAmmo)
             {
-                OnValueChange?.Invoke(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
+                ValueChangeEvent(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
                 if (weaponSetting.currentAmmo == 0)
                 {
                     StartReload();

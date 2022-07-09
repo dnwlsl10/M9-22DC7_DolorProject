@@ -5,7 +5,6 @@ using Photon.Pun;
 //오브의 스킬 쿨타임이 상승하여 사용 가능하면
 public class OrbFire : WeaponBase
 {
-    public event Cur_MaxEvent OnValueChange;
      public Transform firePosition;
     public GameObject[] orbFactory;
     GameObject orb;
@@ -18,7 +17,7 @@ public class OrbFire : WeaponBase
         {
             float preVal = cooldown;
             cooldown = Mathf.Clamp(value, 0, weaponSetting.attackRate);
-            OnValueChange?.Invoke(cooldown, weaponSetting.attackRate);
+            ValueChangeEvent(cooldown, weaponSetting.attackRate);
         }
     }
 
