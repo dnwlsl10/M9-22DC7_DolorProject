@@ -20,7 +20,7 @@ public class InsideSize : MonoBehaviour
         mat = mr.material;
         changeVal = dissolveMinValue;
         mat.SetFloat("_Dissolve", changeVal);
-        InGameManager2.instance.onGameStart += OnGameStart;
+        GameManager.instance.onGameStart += OnGameStart;
 
     }
 

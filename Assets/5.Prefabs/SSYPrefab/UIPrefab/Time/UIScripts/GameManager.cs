@@ -11,21 +11,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
 
     [Header("Time")]
+    [SerializeField] float gamePlayTime;
     bool isGameStart; //게임이 실행 중 이라면
     public TextRound[] timeText; //외부에서 넣은 텍스트 모두 넣기.
     private float playTime; //설정해준 플레이타임(current=150/s)
-
-    [Header("Result")]
-    public GameObject victory;
-    public GameObject defeat;
-    MeshRenderer mr;
-    Material mat;
-    [Header("change value")]
-    public float dissolveVal;
-
-    [Header("defult value")]
-    [SerializeField] float dissolveMinValue = 0f;
-    [SerializeField] float dissolveMaxValue = 1f;
 
     public static GameManager instance;
 
@@ -38,6 +27,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     private int playerCount = 0;
     public event System.Action onGameStart;
     public System.Action OnChangeLobby;
+
+    
     public void Awake()
     {
         if (instance != null)
@@ -100,18 +91,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        InGameManager2.instance.onGameStart += OnGameStart;
-        playTime = 150f; //플레이타임 시간 설정
-
-        // victory.gameObject.SetActive(false);
-        // defeat.gameObject.SetActive(false);
-         mr = transform.GetComponent<MeshRenderer>(); //월드에서 어떻게 가져올지 질문!!!!!!!!!
-        // mat = mr.material;
-        // dissolveVal = dissolveMinValue;
-        // mat.SetFloat("_Fade", dissolveVal);
-
-        // UI에게 승패여부 전달 --> UI가 승리 패배 띄우기
-
+        GameManager.instance.onGameStart += OnGameStart;
+        playTime = gamePlayTime; //플레이타임 시간 설정
     }
 
     void FixedUpdate()
@@ -125,11 +106,9 @@ public class GameManager : MonoBehaviourPunCallbacks
                 {
                     timeText[i].text = "TimeOver"+"                                          "; //스페이스바 필요
                 }
-           
                 if (PhotonNetwork.IsMasterClient)
                 {
                     photonView.RPC("SendHp", RpcTarget.All);
-
                 }
                return;
             }
@@ -200,11 +179,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         ResultUI ru = myMech.GetComponentInChildren<ResultUI>();//지정해주기
         ru.ShowResult(true);
-        // StartCoroutine(nameof(VictorySG)); <-이거는 UI에서
     }
     void GameLose()
     {
-        // UI.instance.ShowResult(false);
-        // StartCoroutine(nameof(DefeatSG));
+        ResultUI ru = myMech.GetComponentInChildren<ResultUI>();//지정해주기
+        ru.ShowResult(false);
     }
 }
