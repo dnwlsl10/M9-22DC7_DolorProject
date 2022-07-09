@@ -6,16 +6,15 @@ using Photon.Pun;
 public class Status : MonoBehaviourPun, IDamageable
 {
     public event System.Action<float, float> OnValueChange;
-    public int maxHP = 100;
-    [SerializeField]
-    private float hp;
-    private bool hpValueFixed;
+    [SerializeField] private int maxHP = 100;
+    [SerializeField] private float hp; // show inspector
+    public bool lockHp;
     public float HP
     {
         get{return hp;}
         private set
         {
-            if (hpValueFixed) return;
+            if (lockHp) return;
 
             float prevHp = hp;
             hp = Mathf.Clamp(value, 0, maxHP);
@@ -34,7 +33,8 @@ public class Status : MonoBehaviourPun, IDamageable
 
     public void TakeDamage(float damage)
     {
-        photonView.CustomRPC(this, "TD_RPC", photonView.Owner, damage);
+        if (lockHp == false)
+            photonView.CustomRPC(this, "TD_RPC", photonView.Owner, damage);
     }
 
     [PunRPC]
@@ -46,6 +46,7 @@ public class Status : MonoBehaviourPun, IDamageable
 
     private void OnDeath()
     {
-        hpValueFixed = true;
+        lockHp = true;
+        GameManager.instance?.OnPlayerDeath();
     }
 }

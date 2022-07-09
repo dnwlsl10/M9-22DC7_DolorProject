@@ -10136,6 +10136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   hp: 0
+  lockHp: 0
 --- !u!114 &2975807837097039020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10522,7 +10523,7 @@ MonoBehaviour:
   clip: {fileID: 8300000, guid: 0f6af11a70a3fee4ab40efe0844b2f2a, type: 3}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 134217728
   componentsAfterStartScene:
   - {fileID: 1662289987501590690}
   - {fileID: 1662289986719039628}

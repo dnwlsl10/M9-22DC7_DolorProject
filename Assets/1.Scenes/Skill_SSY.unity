@@ -1632,7 +1632,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef3f41dde7f6a224ca5443e310d40737, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
   weaponSetting:
     weaponName: 0
     button:
@@ -2957,6 +2956,7 @@ GameObject:
   - component: {fileID: 1732798924}
   - component: {fileID: 1732798927}
   - component: {fileID: 1732798928}
+  - component: {fileID: 1732798929}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -3078,11 +3078,32 @@ MonoBehaviour:
   - {fileID: 1227858587}
   - {fileID: 654483446}
   - {fileID: 1040921547}
-  victory: {fileID: 0}
-  defeat: {fileID: 0}
-  dissolveVal: 0
-  dissolveMinValue: 0
-  dissolveMaxValue: 1
+  mechPrefab: {fileID: 0}
+  spawnPoint: []
+  networkObjectPool: {fileID: 0}
+  players: []
+--- !u!114 &1732798929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1732798922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &1968442818
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3767,7 +3788,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bafe0a648b4154e4e87596c5f8ccfd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
   weaponSetting:
     weaponName: 1
     button:
@@ -3792,6 +3812,7 @@ MonoBehaviour:
   gaugeUpSpeed: 10
   gaugeDownSpeed: 20
   anim: {fileID: 0}
+  clip: {fileID: 0}
 --- !u!1 &726552059389268817
 GameObject:
   m_ObjectHideFlags: 0
@@ -4813,7 +4834,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerEye: {fileID: 5908981496180155774}
-  audio: {fileID: 0}
   footstep: {fileID: 0}
   leftHandJoystick: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   moveSpeed: 1
@@ -4860,6 +4880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f6bf1d8b35f2594fa1d04a0c7996b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clip: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -4871,6 +4892,7 @@ MonoBehaviour:
   - {fileID: 37589138810700758}
   - {fileID: 2690295033233248254}
   groundDetectDistance: 0.6
+  gravity: 2
 --- !u!114 &2690295033233248212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4955,6 +4977,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   hp: 0
+  lockHp: 0
 --- !u!114 &2690295033233248218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6200,6 +6223,7 @@ MonoBehaviour:
     rb: {fileID: 4027946181441663250}
     scale: 4
     speedMultiplier: 1
+    teleportDistance: 0
   characterHandMesh: {fileID: 0}
 --- !u!4 &4027946182152288566
 Transform:
@@ -6286,6 +6310,7 @@ MonoBehaviour:
     rb: {fileID: 4027946182152288568}
     scale: 4
     speedMultiplier: 1
+    teleportDistance: 0
   characterHandMesh: {fileID: 0}
 --- !u!4 &4027946182702461944
 Transform:
@@ -8225,6 +8250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c686e3eb128904fbe68d54917bc979, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weapons: []
   isGrabbing: 
   usingSkill: 
   grabL: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f, type: 3}
@@ -8941,7 +8967,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f76efec53aa5b44f8ad30393d7ac7e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
   weaponSetting:
     weaponName: 0
     button:

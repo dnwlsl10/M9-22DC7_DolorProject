@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Photon.Pun;
-public class OrbB : OrbBase
+public class OrbB : OrbBase, IDamageable
 {
     [SerializeField] private float speedUp;
 
@@ -84,9 +84,9 @@ public class OrbB : OrbBase
     }
 
     [PunRPC]
-    void BulletHit(int viewID, int count)
+    void BulletHit(int count)
     {
-        if (viewID > 0) PhotonNetwork.GetPhotonView(viewID).gameObject.SetActive(false);
+        // if (viewID > 0) PhotonNetwork.GetPhotonView(viewID).gameObject.SetActive(false);
 
         if (coroutine != null) // 네트워크 공유 // 코루틴이 이미 돌고있다
             StopCoroutine(coroutine); // 네트워크 공유
@@ -136,6 +136,14 @@ public class OrbB : OrbBase
         //콜라이더 켜기
         if (photonView.Mine)
             sphereCollider.enabled = true;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if (count == maxCount) return;
+            
+            count++;
+            photonView.CustomRPC(this, "BulletHit", RpcTarget.All, count);
     }
 }
 

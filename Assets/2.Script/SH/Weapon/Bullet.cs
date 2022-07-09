@@ -15,39 +15,60 @@ public class Bullet : MonoBehaviourPun
     [Space]
     [SerializeField] private float speed;
 
-    private void Awake() { rb = GetComponent<Rigidbody>(); }
+    private void Awake() { rb = GetComponent<Rigidbody>(); transform = GetComponent<Transform>(); }
 
-    private void OnEnable() { rb.velocity = transform.forward * speed; }
+    private void OnEnable() { rb.velocity = transform.forward * speed; hitNextUpdate = false; }
 
-    protected void OnCollisionEnter(Collision other) 
-    {
-        if (photonView.Mine == false)
-        {
-            print("Please Disable collider");
-            return;
-        }
+    // protected void OnCollisionEnter(Collision other) 
+    // {
+    //     if (photonView.Mine == false)
+    //     {
+    //         print("Please Disable collider");
+    //         return;
+    //     }
    
-        var contact = other.GetContact(0);
-        other.collider.GetComponent<IDamageable>()?.TakeDamage(damage);
+    //     var contact = other.GetContact(0);
+    //     other.collider.GetComponent<IDamageable>()?.TakeDamage(damage);
 
-        photonView.CustomRPC(this, "RPCCollision", RpcTarget.AllViaServer, contact.point, contact.normal.normalized, 1 << other.gameObject.layer);
-    }
+    //     photonView.CustomRPC(this, "RPCCollision", RpcTarget.AllViaServer, contact.point, contact.normal.normalized, 1 << other.gameObject.layer);
+    // }
 
     [PunRPC]
-    private void RPCCollision(Vector3 intersection, Vector3 normal, int layer)
+    private void RPCCollision(Vector3 intersection, Vector3 normal, int layer, bool showEffect)
     {
-        RaycastHit rayHit = new RaycastHit();
-        bool isHit = false;
-        if (setParent) isHit = Physics.Raycast(intersection + normal * 0.05f, -normal, out rayHit, 0.1f, layer);
-
-        foreach (var effect in EffectsOnCollision)
+        if (showEffect)
         {
-            var instance = ObjectPooler.instance.SpawnFromPool(effect, intersection + normal * effectNormalPositionOffset, new Quaternion()) as GameObject;
-            if (setParent && isHit)
-                instance.transform.parent = rayHit.collider.transform;
-            instance.transform.LookAt(intersection + normal);
+            RaycastHit rayHit = new RaycastHit();
+            bool isHit = false;
+            if (setParent) isHit = Physics.Raycast(intersection + normal * 0.05f, -normal, out rayHit, 0.1f, layer);
+
+            foreach (var effect in EffectsOnCollision)
+            {
+                var instance = ObjectPooler.instance.SpawnFromPool(effect, intersection + normal * effectNormalPositionOffset, new Quaternion()) as GameObject;
+                if (setParent && isHit)
+                    instance.transform.parent = rayHit.collider.transform;
+                instance.transform.LookAt(intersection + normal);
+            }
         }
 
         gameObject.SetActive(false);
+    }
+
+    [SerializeField] LayerMask bulletHitLayer;
+    Transform transform;
+    RaycastHit raycastHit;
+    bool hitNextUpdate;
+    private void FixedUpdate() {
+        if (photonView.Mine == false) return;
+
+        if (hitNextUpdate == false && Physics.Raycast(transform.position, transform.forward, out raycastHit, speed * Time.fixedDeltaTime, bulletHitLayer, QueryTriggerInteraction.Collide))
+        {
+            hitNextUpdate = true;
+        }
+        else if (hitNextUpdate)
+        {
+            raycastHit.collider.GetComponent<IDamageable>()?.TakeDamage(damage);
+            photonView.CustomRPC(this, "RPCCollision", RpcTarget.All, raycastHit.point, raycastHit.normal, 1 << raycastHit.collider.gameObject.layer, raycastHit.collider.gameObject.layer != LayerMask.NameToLayer("DamageAble"));
+        }
     }
 }

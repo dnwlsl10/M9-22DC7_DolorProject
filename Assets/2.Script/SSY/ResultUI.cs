@@ -21,7 +21,7 @@ public class ResultUI : MonoBehaviour
         float dissolveVal = 0;
         //소리 주아아앙
         //메테리얼-Fade 0부터 1까지
-        while (dissolveVal > dissolveMaxValue)
+        while (dissolveVal < dissolveMaxValue)
         {
             dissolveVal += 0.001f;
             mat.SetFloat("_Fade", dissolveVal);

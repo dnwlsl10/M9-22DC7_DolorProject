@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
 
-
+[RequireComponent(typeof(PhotonView))]
 public class GameManager : MonoBehaviourPunCallbacks
 {
 
@@ -15,20 +15,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     public TextRound[] timeText; //외부에서 넣은 텍스트 모두 넣기.
     private float playTime; //설정해준 플레이타임(current=150/s)
 
-    [Header("Result")]
-    public GameObject victory;
-    public GameObject defeat;
-    MeshRenderer mr;
-    Material mat;
-    [Header("change value")]
-    public float dissolveVal;
-
-    [Header("defult value")]
-    [SerializeField] float dissolveMinValue = 0f;
-    [SerializeField] float dissolveMaxValue = 1f;
-
     public static GameManager instance;
 
+
+    private readonly string padding = "                                          ";
     [SerializeField] GameObject mechPrefab;
     [SerializeField] List<Transform> spawnPoint;
     [SerializeField] GameObject networkObjectPool;
@@ -38,7 +28,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     private int playerCount = 0;
     public event System.Action onGameStart;
     public System.Action OnChangeLobby;
-    public void Awake()
+    int prevSecond;
+    void Awake()
     {
         if (instance != null)
             Destroy(instance);
@@ -51,67 +42,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         Instantiate(networkObjectPool);
 
         photonView.RPC("Ready", RpcTarget.MasterClient);
-    }
-    public void RegisterMech(PhotonView mech) => players.Add(mech);
-
-    [PunRPC]
-    private void Ready()
-    {
         if (PhotonNetwork.IsMasterClient)
-        {
-            playerCount++;
             StartCoroutine(CheckBeforeStart());
-        }
-    }
-
-    IEnumerator CheckBeforeStart()
-    {
-        while (playerCount != players.Count || players.Count != PhotonNetwork.CurrentRoom.PlayerCount)
-            yield return null;
-
-        photonView.RPC("GameStart", RpcTarget.AllViaServer);
-    }
-
-    [PunRPC]
-    private void GameStart() => StartCoroutine(StartCountDown());
-
-    IEnumerator StartCountDown()
-    {
-        yield return new WaitForSecondsRealtime(3);
-
-        foreach (var door in GameObject.FindObjectsOfType<DoorSystem>())
-        {
-            door.Open();
-            StartCoroutine(Deactivate(door.transform.root.gameObject));
-        }
-        onGameStart?.Invoke();
-    }
-
-    IEnumerator Deactivate(GameObject obj)
-    {
-        yield return new WaitForSecondsRealtime(3f);
-        obj.SetActive(false);
-    }
-
-    public override void OnLeftRoom()
-    {
-        PhotonNetwork.LoadLevel(0);
     }
 
     void Start()
     {
-        InGameManager2.instance.onGameStart += OnGameStart;
         playTime = 150f; //플레이타임 시간 설정
-
-        // victory.gameObject.SetActive(false);
-        // defeat.gameObject.SetActive(false);
-         mr = transform.GetComponent<MeshRenderer>(); //월드에서 어떻게 가져올지 질문!!!!!!!!!
-        // mat = mr.material;
-        // dissolveVal = dissolveMinValue;
-        // mat.SetFloat("_Fade", dissolveVal);
-
-        // UI에게 승패여부 전달 --> UI가 승리 패배 띄우기
-
     }
 
     void FixedUpdate()
@@ -121,90 +58,106 @@ public class GameManager : MonoBehaviourPunCallbacks
             playTime -= Time.fixedDeltaTime; //시간이 떨어지게 해준다.
             if (playTime <= 0)
             {
-                for (int i = 0; i < timeText.Length; i++)
-                {
-                    timeText[i].text = "TimeOver"+"                                          "; //스페이스바 필요
-                }
-           
                 if (PhotonNetwork.IsMasterClient)
-                {
-                    photonView.RPC("SendHp", RpcTarget.All);
+                    photonView.RPC("OnTimeOver", RpcTarget.AllViaServer);
 
-                }
-               return;
+                for (int i = 0; i < timeText.Length; i++)
+                    timeText[i].text = "TimeOver" + padding; //스페이스바 필요
+                isGameStart = false;
+                return;
             }
 
             int min = (int)(playTime / 60);
             int second = (int)(playTime % 60);
-            string time = string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second) + "                                          "; //스페이스바 필요
-            for (int i = 0; i < timeText.Length; i++)
+            if (prevSecond != second) // 초가 달라질때만 text 업데이트
             {
-                timeText[i].text = time;
+                prevSecond = second;
+                string time = string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second) + padding; //스페이스바 필요
+                for (int i = 0; i < timeText.Length; i++)
+                    timeText[i].text = time;
             }
         }
     }
 
-    float enemyHp;
-    float myHp;
+    public void RegisterMech(PhotonView mech) => players.Add(mech);
+    public void OnPlayerDeath() => photonView.RPC("Death", RpcTarget.All);    
+    public override void OnPlayerLeftRoom(Player otherPlayer) => ShowResult(true);
+    public override void OnLeftRoom() => PhotonNetwork.LoadLevel(0);
 
-    [PunRPC]
-    private void SendHp()
+    void CompareHp(float myhp, float enemyhp) // 적과 내 HP를  비교
     {
-        photonView.RPC("HP", RpcTarget.All, myMech.GetComponent<Status>().HP); 
+        if (myhp > enemyhp) //내 HP가 상대 HP보다 크면 VICTORY
+            ShowResult(true);
+        else if (myhp == enemyhp && PhotonNetwork.IsMasterClient) //동일하면 마스터 승리
+            ShowResult(true);
+        else
+            ShowResult(false);
     }
 
-    [PunRPC]
-    private void HP(float hp, PhotonMessageInfo info)
+    void ShowResult(bool isWinner)
     {
-        if (info.photonView.IsMine) return;
-
-        enemyHp = hp;
-        myHp = myMech.GetComponent<Status>().HP;
-
-        result(myHp, enemyHp);
+        isGameStart = false;
+        ResultUI ru = myMech.GetComponentInChildren<ResultUI>();
+        #if UNITY_EDITOR
+            if (ru == null) ru = GameObject.FindObjectOfType<ResultUI>();
+        #endif
+        ru?.ShowResult(isWinner);
+        StartCoroutine(LeaveRoom());
     }
 
-    void OnGameStart()
+#region Coroutine
+    IEnumerator CheckBeforeStart()
+    {
+        while (playerCount != players.Count || players.Count != PhotonNetwork.CurrentRoom.PlayerCount)
+            yield return null;
+
+        photonView.RPC("GameStart", RpcTarget.AllViaServer);
+    }
+    IEnumerator StartCountDown()
+    {
+        yield return new WaitForSecondsRealtime(3);
+
+        foreach (var door in GameObject.FindObjectsOfType<DoorSystem>())
+        {
+            door.Open();
+            StartCoroutine(Deactivate(door.transform.root.gameObject));
+        }
+
+        onGameStart?.Invoke();
+    }
+    IEnumerator Deactivate(GameObject obj)
+    {
+        yield return new WaitForSecondsRealtime(3f);
+        obj.SetActive(false);
+    }
+    IEnumerator LeaveRoom()
+    {
+        yield return new WaitForSeconds(3);
+        PhotonNetwork.LeaveRoom();
+    }
+#endregion
+    
+#region RPC
+    [PunRPC] private void Ready() => playerCount++;
+    [PunRPC] private void GameStart()
     {
         isGameStart = true;
-    }
-
-    public override void OnPlayerLeftRoom(Player otherPlayer)
+        StartCoroutine(StartCountDown());
+    } 
+    [PunRPC] private void OnTimeOver()
     {
-        //상대방이 자리를 떠났을 때
-        GameWin();
+        isGameStart = false;
+        var status = myMech.GetComponent<Status>();
+        status.lockHp = true;
+        photonView.RPC("RcvHp", RpcTarget.Others, status.HP);
     }
-    void result(float myhp, float enemyhp) // 적과 내 HP를  비교
+    [PunRPC] private void RcvHp(float enemyHp, PhotonMessageInfo info) => CompareHp(myMech.GetComponent<Status>().HP, enemyHp);
+    [PunRPC] void Death(PhotonMessageInfo info)
     {
-        //내 HP가 상대 HP보다 크면 VICTORY
-        if (myhp > enemyhp)
-        {
-            GameWin();
-        }
-        //내 HP가 상대 HP보다 작으면 DEFEAT
-        else if (myhp < enemyhp)
-        {
-            GameLose();
-        }
+        if (info.Sender.IsLocal == false)
+            ShowResult(true);
         else
-        {
-            if (PhotonNetwork.IsMasterClient)
-                GameWin();
-            else
-                GameLose();
-        }
-        //동일하면 마스터 승리
+            ShowResult(false);
     }
-
-    void GameWin()
-    {
-        ResultUI ru = myMech.GetComponentInChildren<ResultUI>();//지정해주기
-        ru.ShowResult(true);
-        // StartCoroutine(nameof(VictorySG)); <-이거는 UI에서
-    }
-    void GameLose()
-    {
-        // UI.instance.ShowResult(false);
-        // StartCoroutine(nameof(DefeatSG));
-    }
+#endregion
 }
