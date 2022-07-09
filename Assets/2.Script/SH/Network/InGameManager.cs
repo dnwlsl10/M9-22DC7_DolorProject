@@ -39,17 +39,15 @@ public class InGameManager : MonoBehaviourPunCallbacks
         Instantiate(networkObjectPool);
         
         photonView.RPC("Ready", RpcTarget.MasterClient);
+        if (PhotonNetwork.IsMasterClient)
+            StartCoroutine(CheckBeforeStart());
     }
     public void RegisterMech(GameObject mech) => players.Add(mech);
 
     [PunRPC]
     private void Ready()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            playerCount++;
-            StartCoroutine(CheckBeforeStart());
-        }
+        playerCount++;
     }
 
     IEnumerator CheckBeforeStart()

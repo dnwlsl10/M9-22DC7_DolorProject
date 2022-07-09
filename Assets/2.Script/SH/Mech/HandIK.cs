@@ -8,8 +8,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 using RootMotion.FinalIK;
 public class HandIK : MonoBehaviour, IInitialize
 {
-    [ContextMenu("Switch Movement Method")]
-    void ChangeMethod() => vrController.UseTransformToMove = !vrController.UseTransformToMove;
+    // [ContextMenu("Switch Movement Method")]
+    // void ChangeMethod() => vrController.UseTransformToMove = !vrController.UseTransformToMove;
 
     [ContextMenu("Find Ref")]
     public void Reset()
@@ -64,38 +64,46 @@ public class HandIK : MonoBehaviour, IInitialize
         public Vector3 trackingPositionOffset;
         public Vector3 trackingRotationOffset;
         public Rigidbody rb;
-        bool useTransformToMove;
-        public bool UseTransformToMove {
-            get {return useTransformToMove;} 
-            set
-            {
-                useTransformToMove = value;
-                rb.isKinematic = value;
-                rb.GetComponent<Collider>().enabled = !value;
+        // bool useTransformToMove;
+        // public bool UseTransformToMove {
+        //     get {return useTransformToMove;} 
+        //     set
+        //     {
+        //         useTransformToMove = value;
+        //         rb.isKinematic = value;
+        //         rb.GetComponent<Collider>().enabled = !value;
 
-                print("Now Using " + (value ? "Transform" : "RigidBody"));
-            }
-        }
+        //         print("Now Using " + (value ? "Transform" : "RigidBody"));
+        //     }
+        // }
         [Tooltip("Scale multiplied for calculate Robot's hand position")]
         public float scale = 1;
         [Range(0, 1), Tooltip("Only applied when using Rigidbody movement system")]
         public float speedMultiplier = 1;
+        [SerializeField]
+        private float teleportDistance;
 
         public void MapLocal()
         {
-            if (scale == 1)
-                rigTarget.position = vrTarget.TransformPoint(trackingPositionOffset);
-            else
-            {
+            // if (scale == 1)
+            //     rigTarget.position = vrTarget.TransformPoint(trackingPositionOffset);
+            // else
+            // {
                 Vector3 dir = vrTarget.position - vrOrigin.position;
                 Vector3 position = rigOrigin.position + dir * scale;
-                if (useTransformToMove)
-                    rigTarget.position = position;
-                else
-                {
-                    rb.velocity = (position - rigTarget.position) / Time.fixedDeltaTime * speedMultiplier;
-                }
-            }
+                // if (useTransformToMove)
+                //     rigTarget.position = position;
+                // else
+                // {
+                    if (Vector3.Distance(rigTarget.position, position) > teleportDistance)
+                    {
+                        rigTarget.position = position;
+                        print("TP");
+                    }
+                    else
+                        rb.velocity = (position - rigTarget.position) / Time.fixedDeltaTime * speedMultiplier;
+                // }
+            // }
             rigTarget.rotation = vrTarget.rotation * Quaternion.Euler(trackingRotationOffset);
         }
     }

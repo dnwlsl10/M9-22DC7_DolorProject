@@ -26,4 +26,11 @@ public class UIBasicWeapon : UIBase
             isReloading = true;
         }
     }
+
+    private void OnEnable() {
+        WeaponSystem.instance.AddStartStopCallbackTarget(this, (int)WeaponName.Basic);
+    }
+    private void OnDisable() {
+        WeaponSystem.instance.RemoveStartStopCallbackTarget(this, (int)WeaponName.Basic);
+    }
 }

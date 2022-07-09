@@ -8,7 +8,7 @@ public interface ILock{
     public void OnLock();
     public void UnLock();
 }
-public class UIBase : MonoBehaviour  , ILock
+public class UIBase : MonoBehaviour  , ILock, IWeaponEvent
 {
 
     [Header("UIBase")]

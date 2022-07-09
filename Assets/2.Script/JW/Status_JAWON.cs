@@ -4,7 +4,7 @@ using Photon.Pun;
 
 public class Status_JAWON : MonoBehaviourPun/*,  IDamageable */
 {
-    public event Cur_MaxEvent OnHpValueChange;
+    public event System.Action<float, float> OnHpValueChange;
     public int maxHP = 100;
     [SerializeField]
     private float hp;

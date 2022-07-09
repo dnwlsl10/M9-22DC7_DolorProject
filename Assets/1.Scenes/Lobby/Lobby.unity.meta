@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/1.Scenes/Lobby/Lobby.unity.meta
 guid: ef3571ea2b076fe4fb24bf6aeff9254c
+========
+guid: 224b3568172c9f74d9ded65e41096274
+folderAsset: yes
+>>>>>>>> 761c7135bee911a86728dac4b73cf122871f4f49:Assets/0.Assets/SCI-FI UI Pack_Components V1/Resources_Components V1/Textures/Components_V1/Components_V1_Part2/Materials.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

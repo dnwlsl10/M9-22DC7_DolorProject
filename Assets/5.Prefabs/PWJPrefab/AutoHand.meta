@@ -1,8 +1,14 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/5.Prefabs/PWJPrefab/AutoHand.meta
 guid: bb056b2be54dac844a7155802778d770
 folderAsset: yes
 DefaultImporter:
+========
+guid: a671d8edea31d694a99d7293db510e5a
+NativeFormatImporter:
+>>>>>>>> 761c7135bee911a86728dac4b73cf122871f4f49:Assets/5.Prefabs/SSYPrefab/UIPrefab/Result/DissolveResult.mat.meta
   externalObjects: {}
+  mainObjectFileID: 2100000
   userData: 
   assetBundleName: 
   assetBundleVariant: 

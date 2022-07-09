@@ -20,9 +20,6 @@ public class CrossHair : MonoBehaviourPun, IInitialize
     [Range(0, 0.1f)]
     public float interpolationDistance = 0.01f;
 
-    private IEnumerator coroutineHolder;
-    private WaitForEndOfFrame eof = new WaitForEndOfFrame();
-
     [ContextMenu("Initialize")]
     public void Initialize(){
         if(centerEye == null){
@@ -38,11 +35,17 @@ public class CrossHair : MonoBehaviourPun, IInitialize
         if (laserPoint == null)
             laserPoint = GetComponent<BasicWeapon>().bulletSpawnPoint;
         if (screenLayer == 0)
-            screenLayer = LayerMask.GetMask("Grabbing");
+            screenLayer = LayerMask.GetMask("Screen");
     }
 
     private void Awake() 
     {
+        if (photonView.Mine == false)
+        {
+            Destroy(this);
+            return;
+        }
+
         imageRenderer = crossHairImage.GetComponent<Renderer>();
         attackDistance = transform.parent.GetComponent<BasicWeapon>().weaponSetting.attackDistance;
 
@@ -56,57 +59,29 @@ public class CrossHair : MonoBehaviourPun, IInitialize
         #endif
     }
 
-    private void OnEnable() {
-        OnUseCrosshair();
-    }
-
-    public void OnUseCrosshair()
-    {
-        imageRenderer.enabled = true;
-
-        coroutineHolder = UseCrosshair();
-        StartCoroutine(coroutineHolder);
-    }
-
-    public void OnDisuseCrosshair()
-    {
-        if (coroutineHolder != null)
-            StopCoroutine(coroutineHolder);
-
-        imageRenderer.enabled = false;
-    }
-
     private Vector3 SmoothMove(Vector3 a, Vector3 b)
     {
         float distance = Vector3.Distance(a, b);
         return Vector3.Lerp(a, b, Mathf.Clamp(distance/interpolationDistance*maxInterpolationSpeed, minInterpolationSpeed, maxInterpolationSpeed) * Time.deltaTime);
     }
 
-    IEnumerator UseCrosshair()
-    {
-        while (true)
-        {
-            yield return eof;
-            Ray ray = new Ray(laserPoint.position + laserPoint.forward, laserPoint.forward);
+    private void Update() {
+        Ray ray = new Ray(laserPoint.position + laserPoint.forward, laserPoint.forward);
             
-            Vector3 aimPosition = Physics.Raycast(ray, out RaycastHit targetHit, attackDistance) ? targetHit.point : ray.GetPoint(attackDistance);
-            Vector3 targetToEye = centerEye.position - aimPosition;
-#if UNITY_EDITOR && test
+        Vector3 aimPosition = Physics.Raycast(ray, out RaycastHit targetHit, attackDistance) ? targetHit.point : ray.GetPoint(attackDistance);
+        Vector3 targetToEye = centerEye.position - aimPosition;
+        if (Physics.Raycast(aimPosition, targetToEye, out RaycastHit screenHit, targetToEye.magnitude, screenLayer) && screenHit.collider.gameObject.layer == LayerMask.NameToLayer("Screen"))
+        {
+            imageRenderer.enabled = true;
+            crossHairImage.position = SmoothMove(crossHairImage.position, screenHit.point);
+            crossHairImage.forward = -targetToEye.normalized;
+            // crossHairImage.up = screenHit.normal;
+        }
+        else imageRenderer.enabled = false;
+
+        #if UNITY_EDITOR && test
             lr.SetPosition(0, ray.origin);
             lr.SetPosition(1, aimPosition);
-#endif
-            if (Physics.Raycast(aimPosition, targetToEye, out RaycastHit screenHit, float.MaxValue, screenLayer))
-            {
-                imageRenderer.enabled = true;
-                crossHairImage.position = SmoothMove(crossHairImage.position, screenHit.point);
-                crossHairImage.forward = -targetToEye.normalized;
-                // crossHairImage.up = screenHit.normal;
-            }
-            else
-            {
-                imageRenderer.enabled = false;
-            }
-        }
-        
+        #endif
     }
 }

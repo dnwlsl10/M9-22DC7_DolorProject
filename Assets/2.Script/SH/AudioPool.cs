@@ -47,8 +47,10 @@ public class AudioPool : MonoBehaviour
         return go;
     }
 
-    public GameObject Play(string name, int type, Vector3 position)
+    public Audio Play(string name, int type, Vector3 position)
     {
+        if (name == null) return null;
+        
         if (clipDictionary.ContainsKey(name) == false)
         {
             AudioClip clip = Resources.Load<AudioClip>("Audio/"+name);
@@ -65,16 +67,19 @@ public class AudioPool : MonoBehaviour
         
         GameObject go = poolQueue[type].Dequeue();
         go.transform.position = position;
-        go.GetComponent<Audio>().Play(clipDictionary[name]);
+        Audio audio = go.GetComponent<Audio>();
+        audio.Play(clipDictionary[name]);
 
-        return go;
+        return audio;
     }
 
-    public GameObject Play(string name, int type, Vector3 position, Transform parent)
+    public Audio Play(string name, int type, Vector3 position, Transform parent)
     {
-        GameObject go = Play(name, type, position);
-        go?.transform.SetParent(parent);
-        return go;
+        if (name == null) return null;
+
+        Audio audio = Play(name, type, position);
+        audio?.transform.SetParent(parent);
+        return audio;
     }
 
     public void ReturnToPool(Audio a)

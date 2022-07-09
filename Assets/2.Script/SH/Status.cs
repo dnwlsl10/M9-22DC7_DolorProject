@@ -5,11 +5,11 @@ using Photon.Pun;
 
 public class Status : MonoBehaviourPun, IDamageable
 {
-    public event Cur_MaxEvent OnValueChange;
+    public event System.Action<float, float> OnValueChange;
     public int maxHP = 100;
     [SerializeField]
     private float hp;
-    bool hpValueFixed;
+    private bool hpValueFixed;
     public float HP
     {
         get{return hp;}
@@ -48,23 +48,4 @@ public class Status : MonoBehaviourPun, IDamageable
     {
         hpValueFixed = true;
     }
-
-    // IEnumerator test()
-    // {
-    //     Renderer[] renderers = GetComponentsInChildren<Renderer>();
-
-    //     Color origin = renderers[0].material.color;
-
-    //     foreach(var renderer in renderers)
-    //     {
-    //         renderer.material.color = Color.red;
-    //     }
-
-    //     yield return new WaitForSeconds(0.01f);
-
-    //     foreach(var renderer in renderers)
-    //     {
-    //         renderer.material.color = origin;
-    //     }
-    // }
 }
