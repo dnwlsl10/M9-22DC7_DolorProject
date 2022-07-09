@@ -5,7 +5,6 @@ using Photon.Pun;
 using UnityEngine.SceneManagement;
 public class SkillShield : WeaponBase, IDamageable
 {
-    public event Cur_MaxEvent OnValueChange;
     public void Reset()
     {
         weaponSetting.weaponName = WeaponName.Shield;
@@ -37,7 +36,7 @@ public class SkillShield : WeaponBase, IDamageable
 
             if (prevAmmo != weaponSetting.currentAmmo)
             {
-                OnValueChange?.Invoke(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
+                ValueChangeEvent(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
                 if (weaponSetting.currentAmmo == 0)
                 {
                     StartReload();
@@ -91,22 +90,22 @@ public class SkillShield : WeaponBase, IDamageable
         }
     }
 
-    GameObject sound;
+    Audio audio;
+    [SerializeField] AudioClip clip;
 
     [PunRPC]
     public void animPlay(bool isStart)
     {
-        print(isStart);
         //어떤상황에서 어떤애니메이션
         if (isStart)
         {
             anim.CrossFade("ShieldOn", 0.1f);
-            sound = AudioPool.instance.Play("264061__paul368__sfx-door-open", 1, anim.transform.position, anim.transform);
+            audio = AudioPool.instance.Play(clip.name, 1, anim.transform.position, anim.transform);
         }
         if (isStart == false)
         {
             anim.CrossFade("ShieldOff", 0.1f);
-            sound?.SetActive(false);
+            audio?.FadeOut();
         }
     }
 

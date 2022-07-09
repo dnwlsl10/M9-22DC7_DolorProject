@@ -22,14 +22,28 @@ public class MechLand : MonoBehaviour, IInitialize
     public LayerMask groundLayer;
     public List<Behaviour> componentsAfterStartScene;
     public float groundDetectDistance = 1;
+    CharacterController cc;
     private void Awake() 
     {
         anim = GetComponent<Animator>();
+        cc = GetComponent<CharacterController>();
         foreach (var component in componentsAfterStartScene)
             if(component) component.enabled = false;
         
         StartFalling();
     }
+    [SerializeField] float gravity = 2;
+    float fallSpeed = 0;
+    private void Update() {
+        float deltaTime = Time.deltaTime;
+        cc.Move(new Vector3(0, fallSpeed * deltaTime, 0));
+        fallSpeed -= deltaTime * 2;
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit) {
+        fallSpeed = 0;
+    }
+
     public void StartFalling() => StartCoroutine(CheckGroundDistance());
 
     IEnumerator CheckGroundDistance()

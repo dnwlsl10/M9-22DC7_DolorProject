@@ -1,0 +1,291 @@
+fileFormatVersion: 2
+guid: a52a78ea6e4bb3d40a670a917d9a8305
+ModelImporter:
+  serializedVersion: 20200
+  internalIDToNameTable:
+  - first:
+      74: -9201416186787659424
+    second: Screen|Backing (2)|Take 001|Layer 001
+  - first:
+      74: -2871647933288655112
+    second: Screen|BackingPanel01|Take 001|Layer 001
+  - first:
+      74: -3457586006636665315
+    second: Screen|BackingPanel02|Take 001|Layer 001
+  - first:
+      74: 5494200784049683738
+    second: Screen|Backing|Take 001|Layer 001
+  - first:
+      74: -6120751631340495150
+    second: Screen|BaseStructure|Take 001|Layer 001
+  - first:
+      74: -3294031502635293625
+    second: Screen|Bottom|Take 001|Layer 001
+  - first:
+      74: 2626674701735577067
+    second: Screen|Cockpit|Take 001|Layer 001
+  - first:
+      74: 2470516188064904688
+    second: Screen|ControlDial_L|Take 001|Layer 001
+  - first:
+      74: -165096193135997211
+    second: Screen|ControlDial_R|Take 001|Layer 001
+  - first:
+      74: 8345456855566891382
+    second: Screen|Dials_w_Screen (2)|Take 001|Layer 001
+  - first:
+      74: 9065127058977446894
+    second: Screen|Dials_w_Screen|Take 001|Layer 001
+  - first:
+      74: 1573168790760185317
+    second: Screen|Left|Take 001|Layer 001
+  - first:
+      74: 1200648332698425990
+    second: Screen|Right|Take 001|Layer 001
+  - first:
+      74: 6908013432194482064
+    second: Screen|Screen01 (2)|Take 001|Layer 001
+  - first:
+      74: 3799035160832270551
+    second: Screen|Screen01|Take 001|Layer 001
+  - first:
+      74: -4619585899537095869
+    second: Screen|Screen|Take 001|Layer 001
+  - first:
+      74: -6039519025550704602
+    second: Screen|SimplePanel_L_01|Take 001|Layer 001
+  - first:
+      74: -6639376876845378050
+    second: Screen|SimplePanel_R_01|Take 001|Layer 001
+  - first:
+      74: -5348137644026200005
+    second: Screen|SimplePanel_R_02|Take 001|Layer 001
+  - first:
+      74: 7828197850872059677
+    second: Screen|TopPanel|Take 001|Layer 001
+  - first:
+      74: -613293682792136200
+    second: Screen|Top|Take 001|Layer 001
+  - first:
+      74: 3938825545927386672
+    second: BaseStructure|Backing (2)|Take 001|Layer 001
+  - first:
+      74: -701904026055278883
+    second: BaseStructure|BackingPanel01|Take 001|Layer 001
+  - first:
+      74: -3370967198564531313
+    second: BaseStructure|BackingPanel02|Take 001|Layer 001
+  - first:
+      74: -741162386600485576
+    second: BaseStructure|Backing|Take 001|Layer 001
+  - first:
+      74: 3016901780889777627
+    second: BaseStructure|BaseStructure|Take 001|Layer 001
+  - first:
+      74: -4727614141276105344
+    second: BaseStructure|Bottom|Take 001|Layer 001
+  - first:
+      74: -1903662751229162700
+    second: BaseStructure|Cockpit|Take 001|Layer 001
+  - first:
+      74: -7276793027230045957
+    second: BaseStructure|ControlDial_L|Take 001|Layer 001
+  - first:
+      74: -2414658166669046102
+    second: BaseStructure|ControlDial_R|Take 001|Layer 001
+  - first:
+      74: 2483745442908967182
+    second: BaseStructure|Dials_w_Screen (2)|Take 001|Layer 001
+  - first:
+      74: 8793965291203734418
+    second: BaseStructure|Dials_w_Screen|Take 001|Layer 001
+  - first:
+      74: -2145936315750043791
+    second: BaseStructure|Left|Take 001|Layer 001
+  - first:
+      74: -9035315058242962992
+    second: BaseStructure|Right|Take 001|Layer 001
+  - first:
+      74: -8943857493925070649
+    second: BaseStructure|Screen01 (2)|Take 001|Layer 001
+  - first:
+      74: 693357739463222328
+    second: BaseStructure|Screen01|Take 001|Layer 001
+  - first:
+      74: 4129816644653950305
+    second: BaseStructure|Screen|Take 001|Layer 001
+  - first:
+      74: -3342126758289002626
+    second: BaseStructure|SimplePanel_L_01|Take 001|Layer 001
+  - first:
+      74: -2979435083624040756
+    second: BaseStructure|SimplePanel_R_01|Take 001|Layer 001
+  - first:
+      74: -7037135057572289191
+    second: BaseStructure|SimplePanel_R_02|Take 001|Layer 001
+  - first:
+      74: -8402433132749122443
+    second: BaseStructure|TopPanel|Take 001|Layer 001
+  - first:
+      74: -5555161305087195159
+    second: BaseStructure|Top|Take 001|Layer 001
+  - first:
+      74: 9086291649306586623
+    second: Cockpit|Backing (2)|Take 001|Layer 001
+  - first:
+      74: -5947300722064704230
+    second: Cockpit|BackingPanel01|Take 001|Layer 001
+  - first:
+      74: 5306983340045399877
+    second: Cockpit|BackingPanel02|Take 001|Layer 001
+  - first:
+      74: -1694851975127734881
+    second: Cockpit|Backing|Take 001|Layer 001
+  - first:
+      74: 4507740374885452347
+    second: Cockpit|BaseStructure|Take 001|Layer 001
+  - first:
+      74: -78579490185024613
+    second: Cockpit|Bottom|Take 001|Layer 001
+  - first:
+      74: -1469544715260883052
+    second: Cockpit|Cockpit|Take 001|Layer 001
+  - first:
+      74: -7756209957901452859
+    second: Cockpit|ControlDial_L|Take 001|Layer 001
+  - first:
+      74: 5299369655500008404
+    second: Cockpit|ControlDial_R|Take 001|Layer 001
+  - first:
+      74: -1246697047234159475
+    second: Cockpit|Dials_w_Screen (2)|Take 001|Layer 001
+  - first:
+      74: -843597612384516352
+    second: Cockpit|Dials_w_Screen|Take 001|Layer 001
+  - first:
+      74: -6925607114484343889
+    second: Cockpit|Left|Take 001|Layer 001
+  - first:
+      74: -2351479638142011483
+    second: Cockpit|Right|Take 001|Layer 001
+  - first:
+      74: -2026672620634487997
+    second: Cockpit|Screen01 (2)|Take 001|Layer 001
+  - first:
+      74: -7843582882168599914
+    second: Cockpit|Screen01|Take 001|Layer 001
+  - first:
+      74: -2281698996732712065
+    second: Cockpit|Screen|Take 001|Layer 001
+  - first:
+      74: -4033777715542644198
+    second: Cockpit|SimplePanel_L_01|Take 001|Layer 001
+  - first:
+      74: -3372995352058317242
+    second: Cockpit|SimplePanel_R_01|Take 001|Layer 001
+  - first:
+      74: 6491071614211832728
+    second: Cockpit|SimplePanel_R_02|Take 001|Layer 001
+  - first:
+      74: 4802815565817877047
+    second: Cockpit|TopPanel|Take 001|Layer 001
+  - first:
+      74: 8806011414968580787
+    second: Cockpit|Top|Take 001|Layer 001
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

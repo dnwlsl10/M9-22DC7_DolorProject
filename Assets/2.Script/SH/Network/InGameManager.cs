@@ -18,6 +18,14 @@ public class InGameManager : MonoBehaviourPunCallbacks
     private int playerCount = 0;
     public event System.Action onGameStart;
     public System.Action OnChangeLobby;
+
+    [SerializeField] Robot selectPrefab;
+    public void Init(UserInfo userInfo)
+    {
+        DataManager.GetInstance().LoadDatas();
+        var selectPrefab = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
+    }
+
     public void Awake() 
     {
         if (instance != null)
@@ -31,17 +39,15 @@ public class InGameManager : MonoBehaviourPunCallbacks
         Instantiate(networkObjectPool);
         
         photonView.RPC("Ready", RpcTarget.MasterClient);
+        if (PhotonNetwork.IsMasterClient)
+            StartCoroutine(CheckBeforeStart());
     }
     public void RegisterMech(GameObject mech) => players.Add(mech);
 
     [PunRPC]
     private void Ready()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            playerCount++;
-            StartCoroutine(CheckBeforeStart());
-        }
+        playerCount++;
     }
 
     IEnumerator CheckBeforeStart()

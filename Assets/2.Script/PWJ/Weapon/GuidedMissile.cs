@@ -7,8 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class GuidedMissile : WeaponBase , IInitialize
 {
-    public event Cur_MaxEvent OnValueChange;
-
     [Header("CrossHair")]
     [SerializeField]
     private GuidedMissileCrossHair gmSystem;
@@ -89,7 +87,7 @@ public class GuidedMissile : WeaponBase , IInitialize
            
             if (prevAmmo != weaponSetting.currentAmmo)
             {
-                OnValueChange?.Invoke(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
+                ValueChangeEvent(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
             }
         }
     }
@@ -172,7 +170,7 @@ public class GuidedMissile : WeaponBase , IInitialize
         missile.GetComponent<PhotonView>().CustomRPC(missile,"SetTargetRPC", RpcTarget.AllViaServer, target);
 
         StartCoroutine(OnMuzzleFlashEffect());
-        PlaySound(onFireSFX);
+        // PlaySound(onFireSFX);
         CurrentAmmo--;
     }
 

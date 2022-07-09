@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onShootSpeed: 1
+  clip: {fileID: 8300000, guid: be77b49f515f8314eb99a0efb888b1bb, type: 3}
   visualEffect: {fileID: 8826344080780086629}
 --- !u!114 &-320411235454593204
 MonoBehaviour:

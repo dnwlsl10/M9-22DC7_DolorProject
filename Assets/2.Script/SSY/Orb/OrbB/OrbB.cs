@@ -76,6 +76,8 @@ public class OrbB : OrbBase
     [PunRPC]
     void CDCHit(Vector3 intersection)
     {
+        if (coroutine != null)
+            StopCoroutine(coroutine);
         transform.position = intersection;
         orbSpeed = 0; // 네트워크 공유
         StartCoroutine(OrbBomb()); // 네트워크 공유

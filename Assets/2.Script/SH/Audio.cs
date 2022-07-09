@@ -34,7 +34,27 @@ public class Audio : MonoBehaviour
         source.clip = clip;
         source.Play();
 
-        StartCoroutine(IEAudioEnd());
+        if (audioType == 2)
+            StartCoroutine(IEAudioEnd());
+    }
+
+    public void FadeOut()
+    {
+        StartCoroutine(IEFadeOut());
+    }
+
+    IEnumerator IEFadeOut()
+    {
+        float startVolume = source.volume;
+        while(source.volume > 0.1f)
+        {
+            source.volume = source.volume - Time.deltaTime;
+            print(source.volume);
+            yield return null;
+        }
+        
+        source.volume = startVolume;
+        gameObject.SetActive(false);
     }
 
     IEnumerator IEAudioEnd()

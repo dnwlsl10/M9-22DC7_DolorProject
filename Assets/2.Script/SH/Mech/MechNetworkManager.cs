@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RootMotion.FinalIK;
 using Photon.Pun;
-public class MechNetworkManager : MonoBehaviourPun, IInitialize, IPunInstantiateMagicCallback
+public class MechNetworkManager : MonoBehaviourPun, IInitialize
 {
     [ContextMenu("Find All")]
     public void Reset()
@@ -53,6 +53,7 @@ public class MechNetworkManager : MonoBehaviourPun, IInitialize, IPunInstantiate
         if (photonView.Mine)    SetLocal();
         else                    SetRemote();
 
+        print("Awake");
         LayerToChangeRemote = null; localDisableMesh = null; componentsForOnlyLocal = null;
     }
 
@@ -72,13 +73,14 @@ public class MechNetworkManager : MonoBehaviourPun, IInitialize, IPunInstantiate
         this.gameObject.tag = "Enemy";
         gameObject.layer = LayerMask.NameToLayer("RemoteCapsule");
     }
-
-    public void OnPhotonInstantiate(PhotonMessageInfo info) { if (photonView.Mine) photonView.RPC("RegistSelf", RpcTarget.AllViaServer); }
-
+    private void Start() 
+    {
+        if (photonView.Mine) photonView.CustomRPC(this, "RegistSelf", RpcTarget.AllViaServer);
+    }
     [PunRPC]
     void RegistSelf()
     {
-        InGameManager.instance.RegisterMech(gameObject);
+        InGameManager.instance?.RegisterMech(gameObject);
         this.enabled = false;
     }
 }

@@ -30,4 +30,11 @@ public class UIGuidedMissile : UIBase
             textProgress.gameObject.SetActive(false);
         }
     }
+
+    private void OnEnable() {
+        WeaponSystem.instance.AddStartStopCallbackTarget(this, (int)WeaponName.Missile);
+    }
+    private void OnDisable() {
+        WeaponSystem.instance.RemoveStartStopCallbackTarget(this, (int)WeaponName.Missile);
+    }
 }

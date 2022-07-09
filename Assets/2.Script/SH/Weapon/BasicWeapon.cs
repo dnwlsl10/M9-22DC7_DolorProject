@@ -37,7 +37,6 @@ public class BasicWeapon : WeaponBase, IInitialize
         }
 #endif
     }
-    public event Cur_MaxEvent OnValueChange;
 
     [Header("SpawnPoint")]
     public Transform bulletSpawnPoint;
@@ -63,7 +62,7 @@ public class BasicWeapon : WeaponBase, IInitialize
 
             if (prevAmmo != weaponSetting.currentAmmo)
             {
-                OnValueChange?.Invoke(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
+                ValueChangeEvent(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
             }
         }
     }
@@ -136,7 +135,7 @@ public class BasicWeapon : WeaponBase, IInitialize
         
         StartCoroutine(OnMuzzleFlashEffect());
         // PlaySound(onFireSFX);
-        AudioPool.instance.Play(onFireSFX.name, 2, bulletPosition);
+        AudioPool.instance.Play(onFireSFX?.name, 2, bulletPosition);
     }
 
     IEnumerator OnMuzzleFlashEffect()
