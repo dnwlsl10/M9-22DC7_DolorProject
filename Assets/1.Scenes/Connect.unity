@@ -744,7 +744,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1288883811d54fc4ea895a41e715d09a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 7362915999745884301, guid: 304e3f99661a24a41bd48c82ccec233b, type: 3}
+  playerPrefab: {fileID: 1310434571037981997, guid: 9b26fa32e46c9c0499792651dc05aecd, type: 3}
   target: {fileID: 498380821}
   inGame: {fileID: 1973878719}
   isTest: 1
@@ -1084,6 +1084,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1393706654}
   - component: {fileID: 1393706653}
+  - component: {fileID: 1393706655}
   m_Layer: 0
   m_Name: Global Volume
   m_TagString: Untagged
@@ -1122,6 +1123,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1393706655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393706652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b900b6d691ae49f8a12753b63b449e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sun: {fileID: 0}
+  depthOfFieldTarget: {fileID: 0}
 --- !u!4 &1579620119 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9187463683781586111, guid: 6cf64ed9b453ba44ea764eab0e8b70f4, type: 3}

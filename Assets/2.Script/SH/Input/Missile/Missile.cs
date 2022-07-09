@@ -25,7 +25,7 @@ public bool setParentToParentObject;
         if(target){
             Debug.Log("No Target");
         }
-      //  StartCoroutine(CustomDisable());
+       StartCoroutine(CustomDisable());
     }
 
     IEnumerator CustomDisable()
@@ -69,6 +69,8 @@ public bool setParentToParentObject;
 
     void OnDisable()
     {
+        this.missilRb.angularVelocity = Vector3.zero;
+        this.missilRb.velocity = Vector3.zero;
         if(gm !=null) gm.Destory();
     }
 }

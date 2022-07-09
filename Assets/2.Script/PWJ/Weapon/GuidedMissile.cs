@@ -157,7 +157,7 @@ public class GuidedMissile : WeaponBase , IInitialize
         missile.gm = this;
         missile.damage  = weaponSetting.damage;
         missile.GetComponent<PhotonView>().CustomRPC(missile,"SetTargetRPC", RpcTarget.AllViaServer, target);
-
+        AudioPool.instance.Play(onFireSFX.name, 2, bulletSpawnPoint.position);
         StartCoroutine(OnMuzzleFlashEffect());
         CurrentAmmo--;
     }
