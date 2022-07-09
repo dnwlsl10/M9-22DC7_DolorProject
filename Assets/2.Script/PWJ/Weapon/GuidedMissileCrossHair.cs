@@ -63,11 +63,6 @@ public class GuidedMissileCrossHair : MonoBehaviourPun
         }
     }
 
-    public void Update()
-    {
-  
-    }
-
    private IEnumerator OnTrack()
     {
         enemyTarget = GameObject.FindGameObjectWithTag("Enemy").transform;

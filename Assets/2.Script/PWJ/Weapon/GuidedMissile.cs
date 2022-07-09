@@ -126,8 +126,6 @@ public class GuidedMissile : WeaponBase , IInitialize
 
         if(gmSystem.state == eState.TrackingComplete)
         {
-           // coroutineHolder = StartCoroutine(ContinuousFire());
-
             bFire = true;
         } 
     }
@@ -138,15 +136,6 @@ public class GuidedMissile : WeaponBase , IInitialize
 
         StartCoroutine(OnReload());
     }
-    // IEnumerator ContinuousFire()
-    // {
-    //     while (CurrentAmmo > 0)
-    //     {
-    //         photonView.CustomRPC(this, "OnAttack", RpcTarget.AllViaServer);
-    //         yield return new WaitForEndOfFrame();
-    //     }
-    // }
-
     private void FixedUpdate() {
 
         if(bFire)
@@ -170,7 +159,6 @@ public class GuidedMissile : WeaponBase , IInitialize
         missile.GetComponent<PhotonView>().CustomRPC(missile,"SetTargetRPC", RpcTarget.AllViaServer, target);
 
         StartCoroutine(OnMuzzleFlashEffect());
-        // PlaySound(onFireSFX);
         CurrentAmmo--;
     }
 
