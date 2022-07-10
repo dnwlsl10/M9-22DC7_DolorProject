@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
 
     [Header("Time")]
+    [SerializeField] float gamePlayTime;
     bool isGameStart; //게임이 실행 중 이라면
     public TextRound[] timeText; //외부에서 넣은 텍스트 모두 넣기.
     private float playTime; //설정해준 플레이타임(current=150/s)
