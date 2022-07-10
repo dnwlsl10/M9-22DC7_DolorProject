@@ -568,8 +568,8 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: M922DC7_DolorProject
-  metroPackageVersion: 
+  metroPackageName: M922DC7DolorProject
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -577,7 +577,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: M922DC7_DolorProject
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: M922DC7_DolorProject
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0

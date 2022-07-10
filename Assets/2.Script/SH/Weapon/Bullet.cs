@@ -5,48 +5,45 @@ using Photon.Pun;
 
 public class Bullet : MonoBehaviourPun
 {
-    Rigidbody rb;
+    Transform transform;
+    Vector3 prevPosition;
+    RaycastHit raycastHit;
+    int orbBLayer = 16;
+
     [Header("On Collision")]
     [SerializeField] private GameObject[] EffectsOnCollision;
     [SerializeField] private float effectNormalPositionOffset;
     [SerializeField] private bool setParent;
     [SerializeField] private float damage;
+    [SerializeField] LayerMask bulletHitLayer;
     
     [Space]
     [SerializeField] private float speed;
 
-    private void Awake() { rb = GetComponent<Rigidbody>(); transform = GetComponent<Transform>(); }
+    private void Awake() 
+    {
+        transform = GetComponent<Transform>();
+    }
 
-    private void OnEnable() { rb.velocity = transform.forward * speed; hitNextUpdate = false; }
-
-    // protected void OnCollisionEnter(Collision other) 
-    // {
-    //     if (photonView.Mine == false)
-    //     {
-    //         print("Please Disable collider");
-    //         return;
-    //     }
-   
-    //     var contact = other.GetContact(0);
-    //     other.collider.GetComponent<IDamageable>()?.TakeDamage(damage);
-
-    //     photonView.CustomRPC(this, "RPCCollision", RpcTarget.AllViaServer, contact.point, contact.normal.normalized, 1 << other.gameObject.layer);
-    // }
+    private void OnEnable() 
+    {
+        prevPosition = transform.position - transform.forward * Time.deltaTime;
+    }
 
     [PunRPC]
     private void RPCCollision(Vector3 intersection, Vector3 normal, int layer, bool showEffect)
     {
         if (showEffect)
         {
-            RaycastHit rayHit = new RaycastHit();
-            bool isHit = false;
-            if (setParent) isHit = Physics.Raycast(intersection + normal * 0.05f, -normal, out rayHit, 0.1f, layer);
+            bool isHit = true;
+            if (setParent && photonView.Mine == false)
+                isHit = Physics.Raycast(intersection + normal * 0.05f, -normal, out raycastHit, 0.1f, layer);
 
             foreach (var effect in EffectsOnCollision)
             {
-                var instance = ObjectPooler.instance.SpawnFromPool(effect, intersection + normal * effectNormalPositionOffset, new Quaternion()) as GameObject;
+                GameObject instance = ObjectPooler.instance.SpawnFromPool(effect, intersection + normal * effectNormalPositionOffset, Quaternion.identity);
                 if (setParent && isHit)
-                    instance.transform.parent = rayHit.collider.transform;
+                    instance.transform.parent = raycastHit.collider.transform;
                 instance.transform.LookAt(intersection + normal);
             }
         }
@@ -54,21 +51,16 @@ public class Bullet : MonoBehaviourPun
         gameObject.SetActive(false);
     }
 
-    [SerializeField] LayerMask bulletHitLayer;
-    Transform transform;
-    RaycastHit raycastHit;
-    bool hitNextUpdate;
     private void FixedUpdate() {
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
         if (photonView.Mine == false) return;
 
-        if (hitNextUpdate == false && Physics.Raycast(transform.position, transform.forward, out raycastHit, speed * Time.fixedDeltaTime, bulletHitLayer, QueryTriggerInteraction.Collide))
-        {
-            hitNextUpdate = true;
-        }
-        else if (hitNextUpdate)
+        Vector3 dir = transform.position - prevPosition;
+        if (Physics.Raycast(prevPosition, dir.normalized, out raycastHit, dir.magnitude, bulletHitLayer, QueryTriggerInteraction.UseGlobal))
         {
             raycastHit.collider.GetComponent<IDamageable>()?.TakeDamage(damage);
-            photonView.CustomRPC(this, "RPCCollision", RpcTarget.All, raycastHit.point, raycastHit.normal, 1 << raycastHit.collider.gameObject.layer, raycastHit.collider.gameObject.layer != LayerMask.NameToLayer("DamageAble"));
+            photonView.CustomRPC(this, "RPCCollision", RpcTarget.All, raycastHit.point, raycastHit.normal, 1 << raycastHit.collider.gameObject.layer, raycastHit.collider.gameObject.layer != orbBLayer);
         }
+        prevPosition = transform.position;
     }
 }

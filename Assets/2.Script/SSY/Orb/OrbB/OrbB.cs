@@ -50,19 +50,19 @@ public class OrbB : OrbBase, IDamageable
     void OnTriggerEnter(Collider other) //무조건 트리거여야한다 - 콜리전이면 나중에 물리법칙을 받게 될 수 있따. 
     //나의 총알이 닿았을 때와  // 어떠한 충돌체와 닿았을 때
     {
-        if (other.gameObject.layer == bulletLayer) // 총알이면
-        {
-            print("BULLET");
-            if (count == maxCount) return;
+        // if (other.gameObject.layer == bulletLayer) // 총알이면
+        // {
+        //     print("BULLET");
+        //     if (count == maxCount) return;
             
-            count++;
-            var pv = other.gameObject.GetComponent<PhotonView>();
-            if (pv?.ViewID > 0 == false)
-                other.gameObject.SetActive(false);
+        //     count++;
+        //     var pv = other.gameObject.GetComponent<PhotonView>();
+        //     if (pv?.ViewID > 0 == false)
+        //         other.gameObject.SetActive(false);
 
-            photonView.CustomRPC(this, "BulletHit", RpcTarget.All, pv?.ViewID, count);
-            return;
-        }
+        //     photonView.CustomRPC(this, "BulletHit", RpcTarget.All, pv?.ViewID, count);
+        //     return;
+        // }
 
 
         sphereCollider.enabled = false;
@@ -142,8 +142,8 @@ public class OrbB : OrbBase, IDamageable
     {
         if (count == maxCount) return;
             
-            count++;
-            photonView.CustomRPC(this, "BulletHit", RpcTarget.All, count);
+        count++;
+        photonView.CustomRPC(this, "BulletHit", RpcTarget.All, count);
     }
 }
 

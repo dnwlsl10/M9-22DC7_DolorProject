@@ -536,14 +536,12 @@ MonoBehaviour:
   target: {fileID: 0}
   missilRb: {fileID: 2889982356658076497}
   turnSpeed: 1
-  rocketFlaySpeed: 15
+  rocketFlySpeed: 15
   damage: 0
   gm: {fileID: 0}
   effectsOnCollision:
   - {fileID: 1795992203533318, guid: 890aba7398207db48978724168fac5a7, type: 3}
   instanceNormalPositionOffset: 0
-  EffectsOnCollision: []
-  setParentToParentObject: 0
 --- !u!114 &1653157118604063610
 MonoBehaviour:
   m_ObjectHideFlags: 0

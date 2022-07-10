@@ -1377,7 +1377,7 @@ GameObject:
   - component: {fileID: 1607253575}
   - component: {fileID: 1607253574}
   - component: {fileID: 1607253573}
-  m_Layer: 6
+  m_Layer: 27
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1862,6 +1862,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   hp: 0
+  lockHp: 0
 --- !u!65 &1788903856
 BoxCollider:
   m_ObjectHideFlags: 0
