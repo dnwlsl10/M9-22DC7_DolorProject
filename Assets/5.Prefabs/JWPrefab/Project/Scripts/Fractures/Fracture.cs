@@ -38,14 +38,14 @@ namespace Project.Scripts.Fractures
             // Set anchored chunks as kinematic     
             AnchorChunks(gameObject, anchor);
 
-            var fractureGameObject = new GameObject("Fracture");
+            var fractureGameObject = new GameObject("a");
             
             foreach (var chunk in chunks)
             {
                 chunk.transform.SetParent(fractureGameObject.transform);
                 
             }
-            GameObject go2 = new GameObject("Fracture");
+            GameObject go2 = new GameObject("FractureParent");
             go2.transform.position = gameObject.transform.position;
             fractureGameObject.transform.parent = go2.transform;
             // Graph manager freezes/unfreezes blocks depending on whether they are connected to the graph or not
@@ -162,6 +162,9 @@ namespace Project.Scripts.Fractures
             var chunkMesh = outside.toUnityMesh();
             chunkMesh.subMeshCount = 2;
             chunkMesh.SetIndices(inside.getIndexes(), MeshTopology.Triangles, 1);
+
+            // UnityEditor.AssetDatabase.CreateAsset(chunkMesh, "Assets/Meshes/Chunk["+index+"].asset");
+            // UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Meshes/Chunk["+index+"].asset", typeof(Mesh)) as Mesh;
             return chunkMesh;
         }
 

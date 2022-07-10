@@ -24,15 +24,15 @@ namespace Project.Scripts.Fractures
             return Neighbours.Contains(chunkNode);
         }
 
-        private void FixedUpdate()
-        {
-            // Kinda hacky, but otherwise the chunks slowly drift apart.
-            if (frozen)
-            {
-                transform.position = frozenPos;
-                transform.rotation = forzenRot;
-            }
-        }
+        // private void FixedUpdate()
+        // {
+        //     // Kinda hacky, but otherwise the chunks slowly drift apart.
+        //     if (frozen)
+        //     {
+        //         transform.position = frozenPos;
+        //         transform.rotation = forzenRot;
+        //     }
+        // }
 
         public void Setup()
         {
@@ -67,30 +67,30 @@ namespace Project.Scripts.Fractures
         //     HasBrokenLinks = true;
         // }
 
-        public void CleanBrokenLinks()
-        {
-            var brokenLinks = JointToChunk.Keys.Where(j => j == false).ToList();
-            foreach (var link in brokenLinks)
-            {
-                var body = JointToChunk[link];
+        // public void CleanBrokenLinks()
+        // {
+        //     var brokenLinks = JointToChunk.Keys.Where(j => j == false).ToList();
+        //     foreach (var link in brokenLinks)
+        //     {
+        //         var body = JointToChunk[link];
 
-                JointToChunk.Remove(link);
-                ChunkToJoint.Remove(body);
+        //         JointToChunk.Remove(link);
+        //         ChunkToJoint.Remove(body);
 
-                body.Remove(this);
-                Neighbours.Remove(body);
-            }
+        //         body.Remove(this);
+        //         Neighbours.Remove(body);
+        //     }
 
-            NeighboursArray = Neighbours.ToArray();
-            HasBrokenLinks = false;
-        }
+        //     NeighboursArray = Neighbours.ToArray();
+        //     HasBrokenLinks = false;
+        // }
 
-        private void Remove(ChunkNode chunkNode)
-        {
-            ChunkToJoint.Remove(chunkNode);
-            Neighbours.Remove(chunkNode);
-            NeighboursArray = Neighbours.ToArray();
-        }
+        // private void Remove(ChunkNode chunkNode)
+        // {
+        //     ChunkToJoint.Remove(chunkNode);
+        //     Neighbours.Remove(chunkNode);
+        //     NeighboursArray = Neighbours.ToArray();
+        // }
 
         public void Unfreeze()
         {
