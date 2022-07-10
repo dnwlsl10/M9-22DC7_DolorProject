@@ -129,7 +129,7 @@ public class SkillShield : WeaponBase, IDamageable
         isReloading = false;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Vector3 position)
     {
         photonView.CustomRPC(this, "ShieldD", photonView.Owner, damage);
     }

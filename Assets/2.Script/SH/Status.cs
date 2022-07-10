@@ -31,7 +31,7 @@ public class Status : MonoBehaviourPun, IDamageable
         HP = maxHP;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Vector3 position)
     {
         if (lockHp == false)
             photonView.CustomRPC(this, "TD_RPC", photonView.Owner, damage);

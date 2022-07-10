@@ -15,13 +15,13 @@ public class DamagePasser : MonoBehaviour, IDamageable
         target = transform.root.GetComponent<IDamageable>();
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Vector3 position)
     {
-        PassDamage(damage);
+        PassDamage(damage, position);
     }
 
-    public void PassDamage(float damage)
+    public void PassDamage(float damage, Vector3 position)
     {
-        target.TakeDamage(damage);
+        target.TakeDamage(damage, position);
     }
 }

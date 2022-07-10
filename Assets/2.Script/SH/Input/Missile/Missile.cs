@@ -55,7 +55,7 @@ public class Missile : MonoBehaviourPun
         if (photonView.Mine == false) return;
 
         var contact = other.GetContact(0);
-        other.collider.GetComponent<IDamageable>()?.TakeDamage(damage);
+        other.collider.GetComponent<IDamageable>()?.TakeDamage(damage, contact.point);
 
         gm?.Destory();
         photonView.CustomRPC(this, "RPCCollision", RpcTarget.AllViaServer, contact.point, contact.normal);

@@ -68,7 +68,7 @@ public class UIScreen : MonoBehaviour
 
     private void Update(){
         if(Input.GetKeyDown(KeyCode.M)){
-            status.TakeDamage(5f);
+            status.TakeDamage(5f, Vector3.zero);
         }
     }
 }
