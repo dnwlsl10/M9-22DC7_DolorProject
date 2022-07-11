@@ -58,11 +58,14 @@ MonoBehaviour:
   - SetTargetRPC
   - HP
   - SendHp
+<<<<<<< HEAD
   - Death
   - OnTimeOver
   - RcvHp
   - BDmg
   - Collapse
+=======
+>>>>>>> cjw/dev
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
