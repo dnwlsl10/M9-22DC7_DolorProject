@@ -157,6 +157,7 @@ MonoBehaviour:
     m_Bits: 128
   maxDetectCollider: 10
   scanRadius: 10
+  fracturedBuilding: {fileID: 0}
 --- !u!4 &31742625
 Transform:
   m_ObjectHideFlags: 0

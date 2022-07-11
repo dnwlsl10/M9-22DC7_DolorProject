@@ -24,6 +24,6 @@ public class BuildingDamageable : MonoBehaviourPun, IDamageable
     [PunRPC]
     private void Collapse(Vector3 position)
     {
-        BuildingManager.instance.TryCollapse(new Building(gameObject, position));
+        BuildingManager.instance.TryCollapse(new Building(transform, position));
     }
 }

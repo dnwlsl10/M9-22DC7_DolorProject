@@ -4,8 +4,8 @@ using UnityEngine;
 
 public struct Building
 {
-    public GameObject building; public Vector3 hitPosition;
-    public Building(GameObject building, Vector3 hitPosition)
+    public Transform building; public Vector3 hitPosition;
+    public Building(Transform building, Vector3 hitPosition)
     { this.building = building; this.hitPosition = hitPosition; }
 }
 public class BuildingManager : MonoBehaviour
@@ -40,7 +40,7 @@ public class BuildingManager : MonoBehaviour
         while(currentCollapsingBuilding < 2)
             yield return null;
         
-        currentCollapsingBuilding++;
+        // currentCollapsingBuilding++;
         Collapse(collapseQ.Dequeue());
 
         if (collapseQ.Count > 0)
@@ -54,16 +54,19 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] LayerMask layer;
     [SerializeField] int maxDetectCollider;
     [SerializeField] float scanRadius;
-    private void Collapse(Building bdg)
+    [SerializeField] GameObject fracturedBuilding;
+    private void Collapse(Building bldg)
     {
         currentCollapsingBuilding++;
 
-        int colNum = Physics.OverlapSphereNonAlloc(bdg.hitPosition, scanRadius, colliders, layer, QueryTriggerInteraction.Ignore);
-        bdg.building.transform.GetChild(0).gameObject.SetActive(true);
+        bldg.building.gameObject.SetActive(false);
+
+        var fracturedBldg = ObjectPooler.instance.SpawnFromPool(fracturedBuilding.name, bldg.building.position, bldg.building.rotation);
+        int colNum = Physics.OverlapSphereNonAlloc(bldg.hitPosition, scanRadius, colliders, layer, QueryTriggerInteraction.Ignore);
+        
         for (int i = 0; i < colNum; i++)
         {
-            colliders[i].attachedRigidbody.isKinematic = false;
-            colliders[i].attachedRigidbody.AddExplosionForce(100, bdg.hitPosition, scanRadius, 0, ForceMode.Impulse);
+            colliders[i].attachedRigidbody.AddExplosionForce(100, bldg.hitPosition, scanRadius, 0, ForceMode.Impulse);
         }
     }
 }
