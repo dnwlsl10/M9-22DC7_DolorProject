@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: bb66bbe7-bc68-4e11-96ed-7f0b64bfc0c7
+    AppIdRealtime: 
     AppIdFusion: 
     AppIdChat: 
     AppIdVoice: 
@@ -28,44 +28,12 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: kr
+  DevRegion: 
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
-  RpcList:
-  - animPlay
-  - BulletHit
-  - CallRpc
-  - CDCHit
-  - ClickRpc
-  - CrossFade
-  - DestroyRpc
-  - GameStart
-  - GameStartRPC
-  - LinkExit
-  - LinkStart
-  - Ready
-  - RegistSelf
-  - RPCAttack
-  - RPCCollision
-  - RPCPath
-  - RPCSetWeight
-  - RPCSpawn
-  - SetPRPC
-  - ShieldD
-  - TD_RPC
-  - SetTargetRPC
-  - HP
-  - SendHp
-<<<<<<< HEAD
-  - Death
-  - OnTimeOver
-  - RcvHp
-  - BDmg
-  - Collapse
-=======
->>>>>>> cjw/dev
+  RpcList: []
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
-  DevRegionSetOnce: 1
+  ShowSettings: 0
+  DevRegionSetOnce: 0

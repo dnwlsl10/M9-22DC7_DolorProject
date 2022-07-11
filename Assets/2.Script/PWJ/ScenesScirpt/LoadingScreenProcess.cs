@@ -43,7 +43,9 @@ public class LoadingScreenProcess : MonoBehaviourPun
     public IEnumerator LoadingNormalScreenProcess(string sceneName , System.Action<AsyncOperation> OnComplete)
     {
         AsyncOperation ao = SceneManager.LoadSceneAsync(sceneName);
+        Debug.Log("90%");
         ao.allowSceneActivation = false;
+        Debug.Log("90%");
         while (!ao.isDone)
         {
             yield return null;

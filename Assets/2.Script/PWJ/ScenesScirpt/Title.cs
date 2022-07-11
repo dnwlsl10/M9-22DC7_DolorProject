@@ -8,23 +8,23 @@ public class Title : MonoBehaviour
     public GameObject txtObj;
     public AsyncOperation ao;
 
-    private void Start()   
+    public void Init()   
     {
         txtObj.gameObject.SetActive(false);
 
-        loadingAsyc.LoadingNormalScreenProcess("Lobby" ,  (ao) =>{
+       StartCoroutine(loadingAsyc.LoadingNormalScreenProcess("Lobby" ,  (ao) =>{
             this.ao = ao;
             txtObj.gameObject.SetActive(true);
             StartCoroutine(OnAnyKeyDown());
-        });       
+        }));       
     }
 
     IEnumerator OnAnyKeyDown(){
         
         while(!Input.anyKeyDown)
-        {
             yield return null;
-            ao.allowSceneActivation = true;   
-        }
+
+        ao.allowSceneActivation = true;
+        OnClick();
     }
 }
