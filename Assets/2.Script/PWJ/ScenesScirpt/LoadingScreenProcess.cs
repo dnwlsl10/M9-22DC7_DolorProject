@@ -40,7 +40,7 @@ public class LoadingScreenProcess : MonoBehaviourPun
         }      
     }
 
-    public IEnumerator LoadingNormalScreenProcess(string sceneName)
+    public IEnumerator LoadingNormalScreenProcess(string sceneName , System.Action<AsyncOperation> OnComplete)
     {
         AsyncOperation ao = SceneManager.LoadSceneAsync(sceneName);
         ao.allowSceneActivation = false;
@@ -58,7 +58,7 @@ public class LoadingScreenProcess : MonoBehaviourPun
                 if (progressBar.fillAmount >= 1f)
                 {
                     Debug.Log(ao.isDone);
-                    ao.allowSceneActivation = true;
+                    OnComplete(ao);
                     yield break;
                 }
             }

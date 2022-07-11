@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public enum eSceneType
 {
-    App, Logo, Title , Lobby, Connect, InGame
+    App, Logo, Title , Lobby, Connect, InGame , Loading
 }
 public class App : MonoBehaviour
 {
@@ -47,6 +47,9 @@ public class App : MonoBehaviour
             case eSceneType.Title:
                 {
                     AsyncOperation ao = SceneManager.LoadSceneAsync("Title");
+
+                    ao.allowSceneActivation = false;
+
                     ao.completed += (obj) =>
                     {
                         Debug.Log(obj.isDone);
@@ -113,4 +116,5 @@ public class App : MonoBehaviour
         }
 
     }
+
 }
