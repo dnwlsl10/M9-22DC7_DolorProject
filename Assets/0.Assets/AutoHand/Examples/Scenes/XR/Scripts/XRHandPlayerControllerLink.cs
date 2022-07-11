@@ -12,7 +12,7 @@ public class XRHandPlayerControllerLink : MonoBehaviour{
         public Common2DAxis moveAxis;
         public Common2DAxis turnAxis;
 
-        
+
         void Update(){
             player.Move(moveController.GetAxis2D(moveAxis));
             player.Turn(turnController.GetAxis2D(turnAxis).x);

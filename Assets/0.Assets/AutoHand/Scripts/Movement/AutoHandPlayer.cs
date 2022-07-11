@@ -324,9 +324,12 @@ namespace Autohand {
         public virtual void Move(Vector2 axis, bool useDeadzone = true, bool useRelativeDirection = false) {
             moveDirection.x = (!useDeadzone || Mathf.Abs(axis.x) > movementDeadzone) ? axis.x : 0;
             moveDirection.z = (!useDeadzone || Mathf.Abs(axis.y) > movementDeadzone) ? axis.y : 0;
+
             if(useRelativeDirection)
                 moveDirection = transform.rotation * moveDirection;
         }
+
+
 
         public virtual void Turn(float turnAxis) {
             turnAxis = (Mathf.Abs(turnAxis) > turnDeadzone) ? turnAxis : 0;
@@ -441,7 +444,7 @@ namespace Autohand {
         protected virtual bool CanInputMove() {
             return (allowClimbingMovement || !IsClimbing());
         }
-
+       
         protected virtual void InterpolateMovement() {
             var deltaTime = (Time.realtimeSinceStartup - lastUpdateTime);
             var startRightHandPos = handRight.transform.position;

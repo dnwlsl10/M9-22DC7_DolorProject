@@ -28,7 +28,7 @@ public class AudioPool : MonoBehaviour
             clipDictionary.Add(clips[i].name, clips[i]);
         
         InitPool();
-        DontDestroyOnLoad(gameObject);
+       // DontDestroyOnLoad(gameObject);
     }
 
     private void InitPool()

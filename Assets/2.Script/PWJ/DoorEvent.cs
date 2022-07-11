@@ -8,11 +8,17 @@ public class DoorEvent : MonoBehaviour
     public GameObject smkVFX;
     void OpenDoorSound(){
         AudioPool.instance.Play(openDoorSFX.name, 2, this.transform.position);
-        smkVFX.gameObject?.SetActive(true);
+        if(smkVFX !=null){
+            smkVFX.gameObject.SetActive(true);
+        }
+
     }
 
     void CloseSoudn(){
-        smkVFX.gameObject?.SetActive(false);
+        if (smkVFX != null)
+        {
+            smkVFX.gameObject.SetActive(false);
+        }
     }
 
 }
