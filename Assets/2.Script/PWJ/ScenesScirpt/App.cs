@@ -35,13 +35,11 @@ public class App : MonoBehaviour
 
                         var logo = GameObject.FindObjectOfType<Logo>();
 
-                        logo.Init();
-
                         logo.onComplete = () =>
                         {
                             this.ChangeScene(eSceneType.Title);
-                        };
-
+                         };
+                        logo.Init();
                     };
                 }
                 break;
