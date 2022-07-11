@@ -1,15 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Title : MonoBehaviour
 {
     public System.Action OnClick;
-    public void Update()
+    public LoadingScreenProcess loadingAsyc;
+    public GameObject txtObj;
+    public AsyncOperation ao;
+
+    private void Start()   
     {
-        if (Input.anyKeyDown)
+        txtObj.gameObject.SetActive(false);
+
+        loadingAsyc.LoadingNormalScreenProcess("Lobby" ,  (ao) =>{
+            this.ao = ao;
+            txtObj.gameObject.SetActive(true);
+            StartCoroutine(OnAnyKeyDown());
+        });       
+    }
+
+    IEnumerator OnAnyKeyDown(){
+        
+        while(!Input.anyKeyDown)
         {
-            this.OnClick();
+            yield return null;
+            ao.allowSceneActivation = true;   
         }
     }
 }

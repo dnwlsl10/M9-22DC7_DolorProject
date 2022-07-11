@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/5.Prefabs/SSYPrefab/UIPrefab/TitleScene/Title.prefab.meta
 guid: e6e471ab2dc267a429d79e4dd02b6762
+========
+guid: 32fce8e1891ca93439f62ec8ca915dd0
+>>>>>>>> develop:Assets/5.Prefabs/SSYPrefab/TitlePrefab.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 
