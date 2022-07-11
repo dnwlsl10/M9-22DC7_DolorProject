@@ -19,8 +19,9 @@ public class Bullet : MonoBehaviourPun
     
     [Space]
     [SerializeField] private float speed;
+    float attackDistance;
 
-    private void Awake() 
+    private void Awake()
     {
         transform = GetComponent<Transform>();
     }
@@ -28,6 +29,25 @@ public class Bullet : MonoBehaviourPun
     private void OnEnable() 
     {
         prevPosition = transform.position - transform.forward * Time.deltaTime;
+        StartCoroutine(DisableAfter(attackDistance/speed));
+    }
+
+    private void Update() {
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        if (photonView.Mine == false) return;
+
+        Vector3 dir = transform.position - prevPosition;
+        if (Physics.Raycast(prevPosition, dir.normalized, out raycastHit, dir.magnitude, bulletHitLayer, QueryTriggerInteraction.UseGlobal))
+        {
+            raycastHit.collider.GetComponent<IDamageable>()?.TakeDamage(damage, raycastHit.point);
+            photonView.CustomRPC(this, "RPCCollision", RpcTarget.All, raycastHit.point, raycastHit.normal, 1 << raycastHit.collider.gameObject.layer, raycastHit.collider.gameObject.layer != orbBLayer);
+        }
+        prevPosition = transform.position;
+    }
+
+    public void SetAttackDistance(float distance)
+    {
+        attackDistance = distance;
     }
 
     [PunRPC]
@@ -51,16 +71,12 @@ public class Bullet : MonoBehaviourPun
         gameObject.SetActive(false);
     }
 
-    private void FixedUpdate() {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
-        if (photonView.Mine == false) return;
+    [PunRPC]
+    private void Deactivate() => gameObject.SetActive(false);
 
-        Vector3 dir = transform.position - prevPosition;
-        if (Physics.Raycast(prevPosition, dir.normalized, out raycastHit, dir.magnitude, bulletHitLayer, QueryTriggerInteraction.UseGlobal))
-        {
-            raycastHit.collider.GetComponent<IDamageable>()?.TakeDamage(damage, raycastHit.point);
-            photonView.CustomRPC(this, "RPCCollision", RpcTarget.All, raycastHit.point, raycastHit.normal, 1 << raycastHit.collider.gameObject.layer, raycastHit.collider.gameObject.layer != orbBLayer);
-        }
-        prevPosition = transform.position;
+    IEnumerator DisableAfter(float time)
+    {
+        yield return new WaitForSeconds(time);
+        photonView.CustomRPC(this, "Deactivate", RpcTarget.All);
     }
 }
