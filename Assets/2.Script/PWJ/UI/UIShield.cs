@@ -17,7 +17,7 @@ public class UIShield : UIBase
 
         if(bOver)
         {
-             if(current <= 30) return;
+             if(current <= 3) return;
              else
                 bOver = false;
               Set();

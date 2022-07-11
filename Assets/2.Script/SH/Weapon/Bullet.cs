@@ -58,7 +58,7 @@ public class Bullet : MonoBehaviourPun
         Vector3 dir = transform.position - prevPosition;
         if (Physics.Raycast(prevPosition, dir.normalized, out raycastHit, dir.magnitude, bulletHitLayer, QueryTriggerInteraction.UseGlobal))
         {
-            raycastHit.collider.GetComponent<IDamageable>()?.TakeDamage(damage);
+            raycastHit.collider.GetComponent<IDamageable>()?.TakeDamage(damage, raycastHit.point);
             photonView.CustomRPC(this, "RPCCollision", RpcTarget.All, raycastHit.point, raycastHit.normal, 1 << raycastHit.collider.gameObject.layer, raycastHit.collider.gameObject.layer != orbBLayer);
         }
         prevPosition = transform.position;

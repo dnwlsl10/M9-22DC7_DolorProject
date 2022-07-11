@@ -15,6 +15,7 @@ public class Missile : MonoBehaviourPun
     public GuidedMissile gm;
     [SerializeField] GameObject[] effectsOnCollision;
     [SerializeField] float instanceNormalPositionOffset;
+    public AudioClip OnHitSFX;
 
     private void OnEnable() {
         missilRb.velocity = missilRb.angularVelocity = Vector3.zero;
@@ -48,14 +49,12 @@ public class Missile : MonoBehaviourPun
         var rocketTargetRot = Quaternion.LookRotation(target.position - this.transform.localPosition);
         missilRb.MoveRotation(Quaternion.RotateTowards(this.transform.localRotation, rocketTargetRot, turnSpeed));
     }
-
-    bool isNot;
     private void OnCollisionEnter(Collision other)
     {
         if (photonView.Mine == false) return;
 
         var contact = other.GetContact(0);
-        other.collider.GetComponent<IDamageable>()?.TakeDamage(damage);
+        other.collider.GetComponent<IDamageable>()?.TakeDamage(damage, contact.point);
 
         gm?.Destory();
         photonView.CustomRPC(this, "RPCCollision", RpcTarget.AllViaServer, contact.point, contact.normal);
@@ -68,6 +67,7 @@ public class Missile : MonoBehaviourPun
             GameObject instance = ObjectPooler.instance.SpawnFromPool(effect, intersection + normal * instanceNormalPositionOffset, Quaternion.identity);
             instance.transform.LookAt(intersection + normal);
         }
+        AudioPool.instance.Play(OnHitSFX.name, 2, intersection);
 
         gameObject.SetActive(false);
     }
@@ -75,6 +75,5 @@ public class Missile : MonoBehaviourPun
     void OnDisable()
     {
         target = null;
-        // if(gm !=null) gm.Destory();
     }
 }

@@ -6,7 +6,8 @@ using Photon.Realtime;
 public enum eState{
     Normal,
     Tracking,
-    TrackingComplete
+    TrackingComplete,
+    Fire
 }
 public class GuidedMissileCrossHair : MonoBehaviourPun
 {
@@ -29,12 +30,6 @@ public class GuidedMissileCrossHair : MonoBehaviourPun
 
     public Coroutine coroutineOnTrack;
     public Coroutine coroutineOnTracking;
-    void Awake()
-    {
-        origin = centerEye.position;
-        mask = 1 << 3; 
-        mask = ~mask; //미사일 레이어 제외
-    }
 
     public void StartGuidedMissile()
     {
@@ -50,22 +45,23 @@ public class GuidedMissileCrossHair : MonoBehaviourPun
 
     public void StopGuidedMissile()
     {
-        if (coroutineOnTrack != null)
-        {
+        if (coroutineOnTrack != null){
             StopCoroutine(coroutineOnTrack);
             coroutineOnTrack = null;
             Debug.Log("Stop Missile");
+            crossHairImage.gameObject.SetActive(false);
+            StopAs();
         }
-        crossHairImage.gameObject.SetActive(false);
     }
 
 
-    private void StopOnTracking(){
+    public void StopOnTracking(){
 
         if(coroutineOnTracking != null){
             StopCoroutine(coroutineOnTracking);
             coroutineOnTracking = null;
             Debug.Log("Stop Tracking");
+            StopAs();
         }
     }
 
@@ -75,65 +71,65 @@ public class GuidedMissileCrossHair : MonoBehaviourPun
         while (true)
         {
             yield return null;
-
-            var dir = enemyTarget.position - centerEye.position;
             var reveresDir = cameraEye.transform.position - enemyTarget.position;
-            Ray ray = new Ray(centerEye.position, dir);
+            var distance = Vector3.Distance(cameraEye.transform.position, enemyTarget.position);
             Ray reveresRay = new Ray(enemyTarget.position, reveresDir);
 
-            if (Physics.Raycast(ray, out RaycastHit targetHit , 100f , mask))
+            if (Physics.Raycast(reveresRay, out RaycastHit screenHit, distance, screenLayer))
             {
-                if (targetHit.transform.CompareTag("Enemy"))
+                if (screenHit.collider.gameObject.layer == LayerMask.NameToLayer("Screen"))
                 {
                     StopOnTracking();
-
-                    #if UNITY_EDITOR
-                    lr.SetPosition(0, ray.origin);
-                    lr.SetPosition(1, targetHit.point);
-                    #endif
-
-                    if (Physics.Raycast(reveresRay, out RaycastHit screenHit, 100f, screenLayer))
-                    {
-                      
-                    #if UNITY_EDITOR
-                        imageRenderer.enabled = true;
-                        lr.SetPosition(0, reveresRay.origin);
-                        lr.SetPosition(1, screenHit.point);
-                    #endif
-                        crossHairImage.LookAt(cameraEye.transform.position);
-                        crossHairImage.position = Vector3.Lerp(this.crossHairImage.position, screenHit.point, Time.deltaTime * 5f);
-                        crossHairImage.rotation = Quaternion.Euler(crossHairImage.rotation.eulerAngles + new Vector3(0f, 0f, -30f));
-                        state = eState.TrackingComplete;
-                    }
-                }
-                else
-                {
-                    #if UNITY_EDITOR
-                    lr.SetPosition(0, ray.origin);
-                    lr.SetPosition(1, targetHit.point);
-                    #endif
-                    yield return coroutineOnTracking = StartCoroutine(OnTraking());
-                }
+                    OnTrackCompleteSFX();
+                    crossHairImage.LookAt(cameraEye.transform.position);
+                    crossHairImage.position = Vector3.Lerp(this.crossHairImage.position, screenHit.point, Time.deltaTime * 5f);
+                    crossHairImage.rotation = Quaternion.Euler(crossHairImage.rotation.eulerAngles + new Vector3(0f, 0f, -30f));
+                    state = eState.TrackingComplete;
+                }else yield return coroutineOnTracking = StartCoroutine(OnTraking());
             }
         }
     }
 
+    
+
+
     private IEnumerator OnTraking()
     {
-        if(state == eState.Normal) yield break;
+        if(state ==eState.Fire) yield break;
+        yield return new WaitForEndOfFrame();
+        
+        Vector3 direction = centerEye.position + new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.2f, 0.2f), 0);
 
-        Vector3 direction = origin + new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.2f, 0.2f), 0f);
-        float floatingSpeed = Random.Range(1f, 4f);
-        float rotateSpeed = Random.Range(-3f, 3f);
         while (Vector3.Distance(crossHairImage.position, direction) > 0.03f)
         {
+            if (state == eState.Normal) yield break;
+            OnTrackingSFX();
             crossHairImage.LookAt(cameraEye.transform.position);
-            crossHairImage.position = Vector3.Lerp(crossHairImage.position, direction, 0.05f);
-            crossHairImage.rotation = Quaternion.Euler(crossHairImage.rotation.eulerAngles + new Vector3(0f, 0f, rotateSpeed));
+            crossHairImage.position = Vector3.Lerp(crossHairImage.position, centerEye.position, 0.05f);
+           // crossHairImage.rotation = Quaternion.Euler(crossHairImage.rotation.eulerAngles + new Vector3(0f, 0f, rotateSpeed));
             isLook = false;
-         
-            yield return null;
+            yield return new WaitForEndOfFrame();
         }
+    }
+
+    public AudioSource ac;
+    public AudioClip onTrackingSFX;
+    public AudioClip onTrackCompleteSFX;
+    public void OnTrackingSFX()
+    {
+        ac.clip = onTrackingSFX; 
+        if(ac.isPlaying) return;
+        ac.Play();
+    }
+
+    public void OnTrackCompleteSFX(){
+        ac.clip = onTrackCompleteSFX;
+        if (ac.isPlaying ) return;
+        ac.Play();
+    }
+
+    public void StopAs(){
+        ac?.Stop();  
     }
 }
 

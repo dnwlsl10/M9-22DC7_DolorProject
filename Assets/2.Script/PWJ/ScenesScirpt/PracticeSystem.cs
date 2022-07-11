@@ -6,8 +6,10 @@ using UnityEngine;
 public class PracticeSystem : DoorSystem
 {
   private CockPit cockPit;
-    public void Init(CockPit cp){
+  private Animator prAni;
+    public void Init(CockPit cp, Animator ani){
         this.cockPit = cp;
+        this.prAni = ani;
     }
     public override void Enter(System.Action OnComplete)
     {
@@ -15,6 +17,7 @@ public class PracticeSystem : DoorSystem
         base.Open(() =>{
             OnComplete();
             cockPit.EnterParticleMode();
+            prAni.SetTrigger("Start");
       });
     }
 
@@ -24,7 +27,7 @@ public class PracticeSystem : DoorSystem
         base.Close(()=>{
             OnComplete();
             cockPit.ExitParticleMode();
-            
+            prAni.SetTrigger("Stop");
        });
     }
 

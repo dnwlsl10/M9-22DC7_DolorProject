@@ -130,12 +130,13 @@ public class BasicWeapon : WeaponBase, IInitialize
     [PunRPC]
     private void RPCAttack(Vector3 bulletPosition, Quaternion bulletRotation)
     {
-        if (photonView.Mine)
-            NetworkObjectPool.instance.SpawnFromPool(bullet.name, bulletPosition, bulletRotation);
+        if (photonView.Mine){
+            var bt = NetworkObjectPool.instance.SpawnFromPool<Bullet>(bullet.name, bulletPosition, bulletRotation);
+        }
+    
         
         StartCoroutine(OnMuzzleFlashEffect());
-        // PlaySound(onFireSFX);
-        AudioPool.instance.Play(onFireSFX?.name, 2, bulletPosition);
+        if (onFireSFX) AudioPool.instance.Play(onFireSFX.name, 2, bulletPosition);
     }
 
     IEnumerator OnMuzzleFlashEffect()

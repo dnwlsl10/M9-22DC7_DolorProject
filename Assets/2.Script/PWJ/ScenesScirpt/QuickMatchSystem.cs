@@ -8,9 +8,11 @@ public class QuickMatchSystem : DoorSystem
     [Header("UI")]
     private UIEarth uIEarth;
     private CockPit cockPit;
+    private Animator prAni;
 
-    public void Init(CockPit cp){
+    public void Init(CockPit cp, Animator ani){
         this.cockPit = cp;
+        this.prAni = ani;
     }
 
     public override void Enter(System.Action OnComplete)
@@ -20,6 +22,7 @@ public class QuickMatchSystem : DoorSystem
         {
             cockPit.EnterQuickMatchMode();
             OnComplete();
+            prAni.SetTrigger("Start");
         });
     }
 

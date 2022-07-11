@@ -1,3 +1,4 @@
+#define test
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,27 +10,33 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(PhotonView))]
 public class GameManager : MonoBehaviourPunCallbacks
 {
+    public static GameManager instance;
+    public event System.Action onGameStart;
+    public System.Action OnChangeLobby;
 
     [Header("Time")]
-    [SerializeField] float gamePlayTime;
-    bool isGameStart; //게임이 실행 중 이라면
-    public TextRound[] timeText; //외부에서 넣은 텍스트 모두 넣기.
-    private float playTime; //설정해준 플레이타임(current=150/s)
-
-    public static GameManager instance;
-
-
+    // [SerializeField] float gamePlayTime;
+    [SerializeField] private float playTime; //설정해준 플레이타임(current=150/s)
+    [SerializeField] TextRound[] timeText; //외부에서 넣은 텍스트 모두 넣기.
+    private bool isGameStart; //게임이 실행 중 이라면
     private readonly string padding = "                                          ";
+
+    [Header("Spawn")]
     [SerializeField] GameObject mechPrefab;
     [SerializeField] List<Transform> spawnPoint;
     [SerializeField] GameObject networkObjectPool;
-    public GameObject myMech { get; private set; }
 
-    [SerializeField] private List<PhotonView> players = new List<PhotonView>();
-    private int playerCount = 0;
-    public event System.Action onGameStart;
-    public System.Action OnChangeLobby;
-    int prevSecond;
+    public GameObject myMech { get; private set; }
+    private List<PhotonView> players = new List<PhotonView>();
+    private int playerCount;
+    private int prevSecond;
+
+#if test
+    public override void OnConnectedToMaster() => PhotonNetwork.JoinLobby();
+    public override void OnJoinedLobby() => PhotonNetwork.CreateRoom("TestRoom", new RoomOptions{MaxPlayers = 1, IsVisible = false, IsOpen = false}, TypedLobby.Default);
+    public override void OnCreatedRoom() => InitGame();
+#endif
+
     void Awake()
     {
         if (instance != null)
@@ -37,6 +44,21 @@ public class GameManager : MonoBehaviourPunCallbacks
         else
             instance = this;
 
+        if (PhotonNetwork.IsConnected)
+            InitGame();
+        else
+        {
+            #if test
+            Debug.LogWarning("GameManager is in test mode");
+            PhotonNetwork.ConnectUsingSettings();
+            #else
+            throw new System.Exception("Not Connected to Photon Server");
+            #endif
+        }
+    }
+
+    void InitGame()
+    {
         Transform spawn = spawnPoint[PhotonNetwork.IsMasterClient ? 0 : 1];
 
         myMech = PhotonNetwork.Instantiate(mechPrefab.name, spawn.position, spawn.rotation);
@@ -45,11 +67,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         photonView.RPC("Ready", RpcTarget.MasterClient);
         if (PhotonNetwork.IsMasterClient)
             StartCoroutine(CheckBeforeStart());
-    }
-
-    void Start()
-    {
-        playTime = 150f; //플레이타임 시간 설정
+        
+        // playTime = 150f; //플레이타임 시간 설정
     }
 
     void FixedUpdate()
@@ -133,7 +152,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     IEnumerator LeaveRoom()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
         PhotonNetwork.LeaveRoom();
     }
 #endregion
@@ -148,12 +167,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC] private void OnTimeOver()
     {
         isGameStart = false;
-        var status = myMech.GetComponent<Status>();
+        Status status = myMech.GetComponent<Status>();
         status.lockHp = true;
         photonView.RPC("RcvHp", RpcTarget.Others, status.HP);
     }
     [PunRPC] private void RcvHp(float enemyHp, PhotonMessageInfo info) => CompareHp(myMech.GetComponent<Status>().HP, enemyHp);
-    [PunRPC] void Death(PhotonMessageInfo info)
+    [PunRPC] private void Death(PhotonMessageInfo info)
     {
         if (info.Sender.IsLocal == false)
             ShowResult(true);

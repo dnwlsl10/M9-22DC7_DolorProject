@@ -70,7 +70,7 @@ public class OrbB : OrbBase, IDamageable
 
         Collider[] cols = Physics.OverlapSphere(transform.position, maxScale, damageableLayer);
         for (int i = 0; i < cols.Length; i++)
-            cols[i].GetComponent<IDamageable>()?.TakeDamage(100);
+            cols[i].GetComponent<IDamageable>()?.TakeDamage(100, transform.position);
     }
     
     [PunRPC]
@@ -138,7 +138,7 @@ public class OrbB : OrbBase, IDamageable
             sphereCollider.enabled = true;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Vector3 position)
     {
         if (count == maxCount) return;
             

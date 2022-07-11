@@ -23,6 +23,18 @@ public class UIEarth : MonoBehaviour
     [Header("Mat_Alpa")]
     [SerializeField] private List<Material> mats;
 
+    [Header("Sound")]
+    public AudioClip onFindPlayerSFX;
+    public AudioClip onEarthSFX;
+    public AudioSource myAs;
+
+    private void OnEnable(){
+        myAs.clip = onEarthSFX;
+        myAs.loop = true;
+        myAs.Play();
+    }
+
+
     public IEnumerator StartAction(Material mat){
         float val = 0f;
         mat.SetFloat("_Alpha", val);
@@ -55,11 +67,18 @@ public class UIEarth : MonoBehaviour
         {
             if (hitInfo.collider.CompareTag("Earth"))
             {
+                OnFindSFX();
                 rotator.enabled = false;
                 this.effect.transform.position = hitInfo.point;
                 this.effect.SetActive(true);
             }
         }
+    }
+
+    private void OnFindSFX(){
+        myAs.clip = onFindPlayerSFX;
+        myAs.loop = false;
+        myAs.Play();
     }
 
     public void Exit() {

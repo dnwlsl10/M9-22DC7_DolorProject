@@ -13,10 +13,14 @@ public class ZoneSize : MonoBehaviour
     [SerializeField] float startSize; //6.5
     [SerializeField] float secondSize; //4.5
     [SerializeField] float thirdSize; //3
-    
-    void Start()
+
+    private void Start() {
+        GameManager.instance.onGameStart += OnGameStart;
+    }
+
+    void OnGameStart()
     {
-       StartCoroutine(nameof(TestChangeSize));
+        StartCoroutine(TestChangeSize());
     }
   
     IEnumerator TestChangeSize()

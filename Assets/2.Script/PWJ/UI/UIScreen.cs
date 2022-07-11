@@ -25,25 +25,25 @@ public class UIScreen : MonoBehaviour
     public void OnEnable(){
         status.OnValueChange += uIStatus.EventValue;
     }
-  
-    void Start()
-    {
+
+    public void Start(){
         if (SceneManager.GetActiveScene().name == "Connect") LockMode();
     }
-
     public void LockMode()
     {
         Debug.Log("Lock");
+        bw.weaponSetting.bLock = true;
         bw.CurrentAmmo = 0;
-
-        gm.CurrentAmmo = 0;
-
-        sw.CurrentAmmo = 0;
         sw.weaponSetting.bLock = true;
-
-        of.Cooldown = 0;
-        uIOrb.textProgress.gameObject.SetActive(false);
+        sw.CurrentAmmo = 0;
+        gm.weaponSetting.bLock = true;
+        gm.CurrentAmmo = 0;
         of.weaponSetting.bLock = true;
+        of.Cooldown = 0;
+        uIOrb.isLock =true;
+        uIOrb.textProgress.gameObject.SetActive(false);
+        uIOrb.orbAvailable[uIOrb.orbType].SetActive(false);
+         WeaponSystem.instance.LockWeapon(of.weaponSetting.weaponName);
     }
 
     public void UnLockMode()
@@ -51,15 +51,12 @@ public class UIScreen : MonoBehaviour
         Debug.Log("UnLock");
         bw.weaponSetting.bLock = false;
         bw.CurrentAmmo = bw.weaponSetting.maxAmmo;
-
-        gm.weaponSetting.bLock = false;
         gm.StartReload();
-
         sw.weaponSetting.bLock = false;
-
-
-        of.Cooldown = of.weaponSetting.attackRate;
+        uIOrb.isLock = false;
         of.weaponSetting.bLock = false;
+        of.Cooldown = of.weaponSetting.maxAmmo;
+        WeaponSystem.instance.UnlockWeapon(of.weaponSetting.weaponName);
     }
 
     private void OnDisable() {
@@ -68,7 +65,7 @@ public class UIScreen : MonoBehaviour
 
     private void Update(){
         if(Input.GetKeyDown(KeyCode.M)){
-            status.TakeDamage(5f);
+            status.TakeDamage(5f, Vector3.zero);
         }
     }
 }
