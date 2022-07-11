@@ -27,6 +27,13 @@ public class SelectionMachine : MonoBehaviour
     public GameObject potal;
     public SmControllerLights controllerLights;
 
+    public AudioClip onHoloSFX;
+    public AudioClip onUITouckSFX;
+    public AudioClip onUIStartSFX;
+    public AudioClip onLobbyBgmSFX;
+
+    
+
     public void Init(RobotData robotData)
     {
         this.shapeChange = this.GetComponentInChildren<ShapeChangeValue>();
@@ -36,6 +43,7 @@ public class SelectionMachine : MonoBehaviour
         selectRobotList.Add(robot);
         potal.gameObject.SetActive(false);
         controllerLights.gameObject.SetActive(false);
+        AudioPool.instance.Play(onLobbyBgmSFX.name, 1, this.transform.position);
     }
     void Start()
     {
@@ -81,6 +89,7 @@ public class SelectionMachine : MonoBehaviour
 
     void OnSelect()
     {
+        AudioPool.instance.Play(onUITouckSFX.name, 2, this.transform.position);
         isSelect = false;
         this.selectID = selectRobotList[currentIndex].GetRobotID();
         selectRobotList[currentIndex].gameObject.SetActive(false);
@@ -91,6 +100,7 @@ public class SelectionMachine : MonoBehaviour
     }
     void BtnLeft()
     {
+        AudioPool.instance.Play(onUITouckSFX.name, 2, this.transform.position);
         this.currentIndex--;
         selectRobotList[currentIndex + 1].gameObject.SetActive(false);
         selectRobotList[currentIndex].gameObject.SetActive(true);
@@ -112,6 +122,7 @@ public class SelectionMachine : MonoBehaviour
     }
     void BtnRight()
     {
+        AudioPool.instance.Play(onUITouckSFX.name, 2, this.transform.position);
         selectRobotList[currentIndex].gameObject.SetActive(false);
         selectRobotList[++currentIndex].gameObject.SetActive(true);
 
@@ -137,7 +148,7 @@ public class SelectionMachine : MonoBehaviour
         {
             OnStart();
             StartCoroutine(this.shapeChange.OnStart());
-
+            AudioPool.instance.Play(onUIStartSFX.name, 2, this.transform.position);
         }
     }
 
