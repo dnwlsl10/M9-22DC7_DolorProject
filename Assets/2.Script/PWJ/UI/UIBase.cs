@@ -29,8 +29,8 @@ public class UIBase : MonoBehaviour  , ILock, IWeaponEvent
 
 
     public virtual void EventValue(float current, float max){}
-    public virtual void OnValueUp(){}
-    public virtual void OnValeDown(){}
+    public virtual void OnValueUp(float val){}
+    public virtual void OnValeDown(float val){}
 
     public void Set()
     {
@@ -58,13 +58,13 @@ public class UIBase : MonoBehaviour  , ILock, IWeaponEvent
         offbtnF.gameObject.SetActive(true);
     }
 
-    public void OnSecondButton()
+    public virtual void OnSecondButton()
     {
         onbtnS.gameObject.SetActive(true);
         offbtnS.gameObject.SetActive(false);
     }
 
-    public void OffSecondButton()
+    public virtual void OffSecondButton()
     {
         onbtnS.gameObject.SetActive(false);
         offbtnS.gameObject.SetActive(true);

@@ -818,6 +818,9 @@ MonoBehaviour:
   rotator: {fileID: 1702299492840527406}
   effect: {fileID: 949928089989878775}
   mats: []
+  onFindPlayerSFX: {fileID: 0}
+  onEarthSFX: {fileID: 0}
+  myAs: {fileID: 0}
 --- !u!1 &644598617102015029
 GameObject:
   m_ObjectHideFlags: 0
@@ -11774,12 +11777,10 @@ MonoBehaviour:
   disableUIKeys: {fileID: 859612940001856277}
   originOrbA: {fileID: 3959403558660594562}
   originOrbB: {fileID: 8521226248440032590}
-  originOrbC: {fileID: 3736713025083278593}
   orbBAvailable: {fileID: 2858480102717921385}
   orbBReload: {fileID: 3975237601303544497}
-  orbCAvailable: {fileID: 2625418408450514633}
-  orbCReload: {fileID: 3547213188628949005}
   orbType: 0
+  isLock: 0
   orbAvailable: []
   orbReload: []
 --- !u!1 &3723185184523569351

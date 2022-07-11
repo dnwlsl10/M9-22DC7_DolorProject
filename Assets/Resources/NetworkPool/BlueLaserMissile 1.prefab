@@ -4848,6 +4848,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e013516d015074db1f917f7aef3de1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bw: {fileID: 0}
   EffectsOnCollision:
   - {fileID: 1795992203533318, guid: 890aba7398207db48978724168fac5a7, type: 3}
   effectNormalPositionOffset: 0.1

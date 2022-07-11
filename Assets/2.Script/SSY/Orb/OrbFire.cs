@@ -10,12 +10,10 @@ public class OrbFire : WeaponBase
     GameObject orb;
     public int orbType;
     public float cooldown;
-    public bool bUseOrb;
     public float Cooldown{
         get { return cooldown;}
         set
         {
-            float preVal = cooldown;
             cooldown = Mathf.Clamp(value, 0, weaponSetting.attackRate);
             ValueChangeEvent(cooldown, weaponSetting.attackRate);
         }
@@ -28,7 +26,6 @@ public class OrbFire : WeaponBase
 
     public override void StartWeaponAction() //GetKeyDown
     {
-        if(weaponSetting.bLock) return;
         print("Start Orb"); 
         if (Time.time - lastAttackTime < weaponSetting.attackRate) //만약 스킬 쿨타임 중이면 스킬 사용할 수 없다는 소리가 나면서 사용불가
             return;

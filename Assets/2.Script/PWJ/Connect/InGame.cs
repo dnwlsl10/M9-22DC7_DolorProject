@@ -65,6 +65,7 @@ public class InGame : MonoBehaviourPunCallbacks
     }
 
     public void DetectRemotePlayerJoin(){
+        //플레이어 찾앗을때 사운드 
         quickMatchSystem.OnFindOtherPlayer();
         quickMatchSystem.Exit(() =>{});
     }

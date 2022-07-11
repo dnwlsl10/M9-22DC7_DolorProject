@@ -24,11 +24,11 @@ public class GuidedMissile : WeaponBase , IInitialize
     [SerializeField]
     private AudioClip onFireSFX;
     [SerializeField]
-    private AudioClip onReloadSFX;
+    private AudioClip onFailedSFX;
     private WaitForEndOfFrame eof = new WaitForEndOfFrame();
     private WaitForSeconds ar = new WaitForSeconds(0.2f);
 
-
+    private float upGaugeRate;
     public bool isAutomatic;
     Coroutine coroutineHolder;
 
@@ -46,6 +46,7 @@ public class GuidedMissile : WeaponBase , IInitialize
         weaponSetting.attackRate = 0.2f;
         weaponSetting.damage = 10;
         weaponSetting.bLock = false;
+ 
         handSide = HandSide.Right;
         isAutomatic = true;
         if(gmSystem == null)
@@ -88,8 +89,8 @@ public class GuidedMissile : WeaponBase , IInitialize
     {
         base.Initialize();
         CurrentAmmo = 0;
-        if (SceneManager.GetActiveScene().name == "Connect") return;
-
+        upGaugeRate = 0.05f;
+        if(SceneManager.GetActiveScene().name == "Connect") return;
         StartReload();
     }
     public override void StartWeaponAction() //키를 누르때
@@ -113,12 +114,16 @@ public class GuidedMissile : WeaponBase , IInitialize
         if(gmSystem.state == eState.Tracking)
         {
             gmSystem.StopGuidedMissile();
+            gmSystem.StopOnTracking();
             gmSystem.state = eState.Normal;
+            AudioPool.instance.Play(onFailedSFX.name, 2, this.transform.position);
         }
 
         if(gmSystem.state == eState.TrackingComplete)
         {
             bFire = true;
+            gmSystem.StopGuidedMissile();
+            gmSystem.state = eState.Fire;
         } 
     }
 
@@ -126,7 +131,8 @@ public class GuidedMissile : WeaponBase , IInitialize
     {
         if(isReloading) return;
 
-        StartCoroutine(OnReload());
+        if(weaponSetting.bLock) upGaugeRate = 10f;
+        StartCoroutine(OnReload(upGaugeRate));
     }
     private void FixedUpdate() {
 
@@ -141,6 +147,9 @@ public class GuidedMissile : WeaponBase , IInitialize
         }
     }
 
+    public void GetGauge(){
+        CurrentAmmo += 0.05f;
+    }
     private void OnAttack()
     {
         this.target = gmSystem.enemyTarget;
@@ -163,7 +172,6 @@ public class GuidedMissile : WeaponBase , IInitialize
         Debug.Log("미사일 파괴 갯수");
         if(destoryCount == weaponSetting.maxAmmo){
             bFire = false;
-            gmSystem.StopGuidedMissile();
             StartReload();
         }
     }
@@ -179,7 +187,7 @@ public class GuidedMissile : WeaponBase , IInitialize
         muzzleFlashEffect.SetActive(false);
     }
 
-    IEnumerator OnReload()
+    IEnumerator OnReload(float upGaugeVal)
     {
         isReloading = true;
 
@@ -187,7 +195,7 @@ public class GuidedMissile : WeaponBase , IInitialize
         while (weaponSetting.currentAmmo < weaponSetting.maxAmmo)
         {
             yield return null;
-            CurrentAmmo += 10f * Time.deltaTime; 
+            CurrentAmmo += upGaugeVal * Time.deltaTime; 
         }
         OnDefult();
     }

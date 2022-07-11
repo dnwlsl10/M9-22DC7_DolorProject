@@ -121,10 +121,8 @@ public class SkillShield : WeaponBase, IDamageable
     IEnumerator GaugeOver() // 과부하
     {
         isReloading = true;
-        // WeaponSystem.instance.LockWeapon(weaponSetting.weaponName);
-
+         //WeaponSystem.instance.LockWeapon(weaponSetting.weaponName);
         yield return new WaitForSeconds(3f); //3초에 패널티
-
         // WeaponSystem.instance.UnlockWeapon(weaponSetting.weaponName);
         isReloading = false;
     }

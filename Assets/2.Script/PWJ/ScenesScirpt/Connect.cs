@@ -29,19 +29,20 @@ public class Connect : MonoBehaviourPunCallbacks
     [Header("Count Text")]
     public GameObject[] count;
 
-
     public LoadingScreenProcess loadingScreenProcess;
 
     private string roomName;
     private readonly string gameVersion = "v1.0";
     private eRoomMode roomMode;
 
+    public AudioClip[] connectBgms;
+    public AudioClip onGameStartSFX;
+    public AudioClip onCountSFX;
     public void Start() {if(isTest) Init();}
    
     public void Init(UserInfo userInfoData = null)
     {
         this.userInfo = userInfoData;
-
         if (!isTest)
         {
             DataManager.GetInstance().LoadDatas();
@@ -77,6 +78,12 @@ public class Connect : MonoBehaviourPunCallbacks
             robot = Instantiate<GameObject>(prefab, target.transform.position, Quaternion.identity);
         }
         inGame.Init(robot, photonView);
+
+
+        foreach (var bgm in connectBgms)
+        {
+            AudioPool.instance.Play(bgm.name, 1, this.transform.position);
+        }
     }
 
     public void CustomCreatedRoom(eRoomMode room)
@@ -101,8 +108,6 @@ public class Connect : MonoBehaviourPunCallbacks
         }
     }
 
-
-
     public override void OnLeftRoom(){}
 
     public override void OnCreatedRoom() => Debug.Log(roomMode);
@@ -115,6 +120,12 @@ public class Connect : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if(PhotonNetwork.IsMasterClient) inGame.DetectRemotePlayerJoin();
+
+        FindUserBgmSFX();
+    }
+
+    public void FindUserBgmSFX(){
+        AudioPool.instance.Play(onGameStartSFX.name, 1, this.transform.position);
         photonView.RPC("GameStartRPC", RpcTarget.AllBuffered);
     }
 
@@ -124,6 +135,7 @@ public class Connect : MonoBehaviourPunCallbacks
     {
         for(int i =0 ; i< count.Length; i++){
             this.count[i].SetActive(true);
+            AudioPool.instance.Play(onCountSFX.name, 2, this.transform.position);
             yield return eof;
             this.count[i].SetActive(false);
         }

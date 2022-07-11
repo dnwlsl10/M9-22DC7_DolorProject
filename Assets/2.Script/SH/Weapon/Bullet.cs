@@ -6,6 +6,7 @@ using Photon.Pun;
 public class Bullet : MonoBehaviourPun
 {
     Rigidbody rb;
+    public BasicWeapon bw;
     [Header("On Collision")]
     [SerializeField] private GameObject[] EffectsOnCollision;
     [SerializeField] private float effectNormalPositionOffset;
@@ -29,7 +30,7 @@ public class Bullet : MonoBehaviourPun
    
         var contact = other.GetContact(0);
         other.collider.GetComponent<IDamageable>()?.TakeDamage(damage);
-
+        bw.GetComponent<GuidedMissile>().GetGauge();
         photonView.CustomRPC(this, "RPCCollision", RpcTarget.AllViaServer, contact.point, contact.normal.normalized, 1 << other.gameObject.layer);
     }
 
