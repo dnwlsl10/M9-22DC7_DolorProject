@@ -32,18 +32,19 @@ public class OrbBase : MonoBehaviourPun
         if (tr.TryGetComponent<PhotonView>(out var pv) && pv.ViewID > 0)
             photonView.CustomRPC(this, "SetPRPC", RpcTarget.All, pv.ViewID);
         else
-            MoveToParent(tr);
+            StartCoroutine(MoveToParent(tr));
     }
     [PunRPC]
     protected void SetPRPC(int viewID)
     {
         Transform tr = PhotonNetwork.GetPhotonView(viewID).transform;
-        MoveToParent(tr);
+        StartCoroutine(MoveToParent(tr));
     }
     Audio audio;
     [SerializeField] AudioClip clip;
-    protected void MoveToParent(Transform tr)
+    protected IEnumerator MoveToParent(Transform tr)
     {
+        yield return new WaitForEndOfFrame();
         transform.parent = tr;
         transform.localPosition = transform.localEulerAngles = Vector3.zero;
         audio = AudioPool.instance.Play(clip.name, 1, tr.position, tr);

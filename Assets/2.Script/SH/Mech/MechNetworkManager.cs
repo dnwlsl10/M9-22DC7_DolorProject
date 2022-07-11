@@ -71,7 +71,7 @@ public class MechNetworkManager : MonoBehaviourPun, IInitialize
             if (component) Destroy(component);
         
         this.gameObject.tag = "Enemy";
-        gameObject.layer = LayerMask.NameToLayer("RemoteCapsule");
+        gameObject.layer = LayerMask.NameToLayer("RemoteBound");
     }
     private void Start() 
     {
@@ -80,7 +80,7 @@ public class MechNetworkManager : MonoBehaviourPun, IInitialize
     [PunRPC]
     void RegistSelf()
     {
-        InGameManager.instance?.RegisterMech(gameObject);
+        GameManager.instance?.RegisterMech(photonView);
         this.enabled = false;
     }
 }

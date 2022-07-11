@@ -132,7 +132,6 @@ public class BasicWeapon : WeaponBase, IInitialize
     {
         if (photonView.Mine){
             var bt = NetworkObjectPool.instance.SpawnFromPool<Bullet>(bullet.name, bulletPosition, bulletRotation);
-            bt.bw = this;
         }
     
         

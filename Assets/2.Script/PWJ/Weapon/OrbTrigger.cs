@@ -8,59 +8,60 @@ public enum eOrbType
 }
 public class OrbTrigger : MonoBehaviour
 {
-    public bool bGrabRightHand;
+    bool canChangeColor;
     public UIOrb uIOrb;
     private eOrbType orbType;
     private Coroutine coroutineholder;
     private MeshRenderer mr;
     private Material mat;
     public AudioClip onTouchSFX;
-    private Color[] color = new Color[] {new Color(0.1136274f, 0.5188679f, 0.01330545f), new Color(0.129365f, 0.04142933f, 0.4622642f) }; 
-    System.Action<int> a;
-    private Collider orbCol;
-
-    private void Awake()
+    private Color[] color = new Color[] {new Color(0.1136274f, 0.5188679f, 0.01330545f), new Color(0.129365f, 0.04142933f, 0.4622642f) };
+    System.Action<int> changePrefabIndex;
+    private Collider col;
+    int numOrbType;
+    IEnumerator Start()
     {
-        orbCol = this.gameObject.GetComponent<Collider>();
-        orbCol.enabled = false;
-        mr = this.GetComponent<MeshRenderer>();
+        numOrbType = System.Enum.GetValues(typeof(eOrbType)).Length;
         orbType = eOrbType.OrbA;
+
+        col = GetComponent<Collider>();
+        col.enabled = false;
+
+        mr = this.GetComponent<MeshRenderer>();
         mat = mr.material;
-        mat.SetColor("_Outline_Color", color[(int)orbType]);
-        a += transform.root.GetComponentInChildren<OrbFire>().SetType;
+        mat.SetColor("_Outline_Color", color[0]);
+
+        changePrefabIndex = WeaponSystem.instance.GetComponentInChildren<OrbFire>().SetType;
+
+        yield return new WaitForSeconds(3f);
+        col.enabled = true;
     }
-    private void ChangeColor(eOrbType ot)
+    private void ChangeColor(int orbIndex)
     {
-        mat.SetColor("_Outline_Color", color[(int)ot]);
+        mat.SetColor("_Outline_Color", color[orbIndex]);
         
-        StartCoroutine(uIOrb.OnLerpUI((int)ot ,()=>{
-            this.orbType = ot;
-            a?.Invoke((int)ot);
-            orbCol.enabled = true;
+        StartCoroutine(uIOrb.OnLerpUI(orbIndex ,()=>{
+            this.orbType = (eOrbType)orbIndex;
+            changePrefabIndex?.Invoke(orbIndex);
+            col.enabled = true;
         }));
     }
     private void OnCollisionEnter(Collision other) 
     {
+        if (other.relativeVelocity.magnitude < 0.1f) return;
+
         if(other.collider.CompareTag("RightHand"))
         {
-            if(bGrabRightHand) return;
-
-            orbCol.enabled = false;
+            col.enabled = false;
             AudioPool.instance.Play(onTouchSFX.name, 2, this.transform.position);
-            switch(orbType)
-            {
-                case eOrbType.OrbA:
-                    ChangeColor(eOrbType.OrbB);
-                    break;
-                case eOrbType.OrbB:
-                    ChangeColor(eOrbType.OrbA);
-                break;
-            }
+            ChangeColor(((int)orbType + 1) % numOrbType);
         }
     }
     public void OnGrabRight(){
-        bGrabRightHand = true;
-        this.gameObject.GetComponent<Collider>().enabled = true;
-    } 
-    public void OffGrabRight() => bGrabRightHand = false;
+        col.enabled = false;
+    }
+    public void OffGrabRight()
+    {
+        col.enabled = true;
+    }
 }

@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/5.Prefabs/SSYPrefab/UIPrefab/Result/ResultDefeat.prefab.meta
+guid: 7dd2e1078862c9b469272406a0e1a6e6
+PrefabImporter:
+========
 guid: 78915166983f5e343ba8fcd2accddddd
 folderAsset: yes
 DefaultImporter:
+>>>>>>>> develop:Assets/5.Prefabs/PWJPrefab/AutoHand/Examples.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

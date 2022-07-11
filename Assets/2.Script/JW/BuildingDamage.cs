@@ -5,7 +5,7 @@ public class BuildingDamage : MonoBehaviour, IDamageable
 {
     float hp = 100;
 
-    void IDamageable.TakeDamage(float damage)
+    void IDamageable.TakeDamage(float damage, Vector3 position)
     {
         hp -= damage;
 

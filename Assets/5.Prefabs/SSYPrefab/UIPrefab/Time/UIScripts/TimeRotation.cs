@@ -11,6 +11,4 @@ public class TimeRotation : MonoBehaviour //타겟의 축을 기준으로 회전
     {
         transform.RotateAround(target.position, Vector3.up, 1 * Time.deltaTime * rotationSpeed);
     }
-
-  
 }

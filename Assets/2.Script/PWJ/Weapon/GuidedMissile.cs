@@ -124,6 +124,7 @@ public class GuidedMissile : WeaponBase , IInitialize
             bFire = true;
             gmSystem.StopGuidedMissile();
             gmSystem.state = eState.Fire;
+           StartCoroutine(LaunchMissile());
         } 
     }
 
@@ -134,16 +135,25 @@ public class GuidedMissile : WeaponBase , IInitialize
         if(weaponSetting.bLock) upGaugeRate = 10f;
         StartCoroutine(OnReload(upGaugeRate));
     }
-    private void FixedUpdate() {
 
-        if(bFire)
+    PhotonView targetPV;
+    IEnumerator LaunchMissile()
+    {
+        this.target = gmSystem.enemyTarget;
+        targetPV = target.GetComponent<PhotonView>();
+        lastAttackTime = 0;
+        while (CurrentAmmo > 0)
         {
-            lastAttackTime += Time.deltaTime;
-            if (CurrentAmmo > 0 && lastAttackTime > weaponSetting.attackRate)
+            yield return new WaitForEndOfFrame();
+            if (lastAttackTime < weaponSetting.attackRate)
             {
-                OnAttack();
+                lastAttackTime += Time.deltaTime;
+            }
+            else
+            {
                 lastAttackTime = 0;
-            } 
+                OnAttack();
+            }
         }
     }
 
@@ -152,13 +162,20 @@ public class GuidedMissile : WeaponBase , IInitialize
     }
     private void OnAttack()
     {
-        this.target = gmSystem.enemyTarget;
         Quaternion qrot = Quaternion.Euler(new Vector3(Random.Range(0f, -90f), Random.Range(90f, 270f),0));
-        var missile = NetworkObjectPool.instance.SpawnFromPool<Missile>(bullet.name, bulletSpawnPoint.transform.position,qrot);
+        var missile = NetworkObjectPool.instance.SpawnFromPool<Missile>(bullet.name, bulletSpawnPoint.transform.position, qrot, false);
         missile.gm = this;
         missile.damage  = weaponSetting.damage;
-        missile.GetComponent<PhotonView>().CustomRPC(missile,"SetTargetRPC", RpcTarget.AllViaServer, target);
         AudioPool.instance.Play(onFireSFX.name, 2, bulletSpawnPoint.position);
+        
+        if(targetPV?.ViewID > 0)
+            missile.photonView.RPC("SetTargetRPC", RpcTarget.AllViaServer, targetPV);
+        else
+        {
+            print("AAA");
+            missile.Launch(target);
+        }
+
         StartCoroutine(OnMuzzleFlashEffect());
         CurrentAmmo--;
     }

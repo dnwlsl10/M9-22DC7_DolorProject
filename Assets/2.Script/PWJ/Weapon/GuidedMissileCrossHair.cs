@@ -33,6 +33,12 @@ public class GuidedMissileCrossHair : MonoBehaviourPun
 
     public void StartGuidedMissile()
     {
+        enemyTarget = GameObject.FindGameObjectWithTag("Enemy").transform;
+        if(enemyTarget == null)
+        {
+            crossHairImage.gameObject.SetActive(false);
+            return;
+        }
          coroutineOnTrack = StartCoroutine(OnTrack());
     }
 
@@ -59,15 +65,8 @@ public class GuidedMissileCrossHair : MonoBehaviourPun
         }
     }
 
-    private IEnumerator OnTrack()
+   private IEnumerator OnTrack()
     {
-        enemyTarget = GameObject.FindGameObjectWithTag("Enemy").transform;
-        if (enemyTarget == null)
-        {
-            crossHairImage.gameObject.SetActive(false);
-            yield break;
-        }
-
         crossHairImage.gameObject.SetActive(true);
         while (true)
         {

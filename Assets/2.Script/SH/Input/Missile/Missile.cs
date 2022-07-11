@@ -5,40 +5,47 @@ using Photon.Pun;
 using Photon.Realtime;
 public class Missile : MonoBehaviourPun
 {
-public Transform target;
-public Rigidbody missilRb;
 
-public float turnSpeed =1f;
-public float rocketFlaySpeed = 10f;
-public float damage;
-public GuidedMissile gm;
-public GameObject[] effectsOnCollision;
-public float instanceNormalPositionOffset;
-public bool setParentToParentObject;
-public AudioClip OnHitSFX;
+    public Transform target;
+    [SerializeField] Rigidbody missilRb;
+
+    [SerializeField] float turnSpeed = 1f;
+    [SerializeField] float rocketFlySpeed = 10f;
+    public float damage;
+    public GuidedMissile gm;
+    [SerializeField] GameObject[] effectsOnCollision;
+    [SerializeField] float instanceNormalPositionOffset;
+    public AudioClip OnHitSFX;
+
+    private void OnEnable() {
+        missilRb.velocity = missilRb.angularVelocity = Vector3.zero;
+    }
 
     [PunRPC]
-    void SetTargetRPC(Transform tg)
+    void SetTargetRPC(int viewID)
     {
-        this.target = tg;
-        if(target){
-            Debug.Log("No Target");
-        }
-       StartCoroutine(CustomDisable());
+        Launch(PhotonNetwork.GetPhotonView(viewID).transform);
+    }
+
+    public void Launch(Transform tr)
+    {
+        target = tr;
+        gameObject.SetActive(true);
+        //  StartCoroutine(CustomDisable());
     }
 
     IEnumerator CustomDisable()
     {
         yield return new WaitForSeconds(10f);
-        if(this.gameObject.activeSelf) this.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 
-    private void FixedUpdate(){
-
-        if (!target) 
+    private void FixedUpdate()
+    {
+        if (target == null) 
             return;
 
-        missilRb.velocity = this.transform.forward * rocketFlaySpeed;
+        missilRb.velocity = this.transform.forward * rocketFlySpeed;
         var rocketTargetRot = Quaternion.LookRotation(target.position - this.transform.localPosition);
         missilRb.MoveRotation(Quaternion.RotateTowards(this.transform.localRotation, rocketTargetRot, turnSpeed));
     }
@@ -47,8 +54,9 @@ public AudioClip OnHitSFX;
         if (photonView.Mine == false) return;
 
         var contact = other.GetContact(0);
-        other.collider.GetComponent<IDamageable>()?.TakeDamage(damage);
+        other.collider.GetComponent<IDamageable>()?.TakeDamage(damage, contact.point);
 
+        gm?.Destory();
         photonView.CustomRPC(this, "RPCCollision", RpcTarget.AllViaServer, contact.point, contact.normal);
     }
     [PunRPC]
@@ -56,18 +64,16 @@ public AudioClip OnHitSFX;
     {
         foreach (var effect in effectsOnCollision)
         {
-            var instance = ObjectPooler.instance.SpawnFromPool(effect, intersection + normal * instanceNormalPositionOffset, new Quaternion()) as GameObject;
-            if (!setParentToParentObject) instance.transform.parent = transform;
+            GameObject instance = ObjectPooler.instance.SpawnFromPool(effect, intersection + normal * instanceNormalPositionOffset, Quaternion.identity);
             instance.transform.LookAt(intersection + normal);
         }
         AudioPool.instance.Play(OnHitSFX.name, 2, intersection);
+
         gameObject.SetActive(false);
     }
 
     void OnDisable()
     {
-        this.missilRb.angularVelocity = Vector3.zero;
-        this.missilRb.velocity = Vector3.zero;
-        if(gm !=null) gm.Destory();
+        target = null;
     }
 }

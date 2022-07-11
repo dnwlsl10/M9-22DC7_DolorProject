@@ -183,7 +183,7 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
         if ((int)walkState < (int)WalkState.RotateLeft)
             tr.rotation = Quaternion.RotateTowards(tr.rotation, Quaternion.Euler(tr.eulerAngles - tr.up * angle), deltaTime * rotSpeed);
         else
-            anim.SetFloat("TurnSpeed", rotSpeed/45);
+            anim.SetFloat("TurnSpeed", rotSpeed/22.5f);
     }
 
     public void PlayFootStepSound()
