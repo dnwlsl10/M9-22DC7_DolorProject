@@ -50,7 +50,6 @@ public class LoadingScreenProcess : MonoBehaviourPun
             yield return null;
             if (ao.progress < 0.9f)
             {
-                Debug.Log("90%");
                 progressBar.fillAmount = ao.progress;
             }
             else
@@ -58,7 +57,6 @@ public class LoadingScreenProcess : MonoBehaviourPun
                 progressBar.fillAmount += 0.01f;
                 if (progressBar.fillAmount >= 1f)
                 {
-                    Debug.Log(ao.isDone);
                     OnComplete(ao);
                     yield break;
                 }
