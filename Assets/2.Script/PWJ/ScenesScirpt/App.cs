@@ -48,7 +48,6 @@ public class App : MonoBehaviour
             case eSceneType.Title:
                 {
                     AsyncOperation ao = SceneManager.LoadSceneAsync("Title");
-
                     ao.completed += (obj) =>
                     {
                         Debug.Log(obj.isDone);
@@ -111,5 +110,4 @@ public class App : MonoBehaviour
         }
 
     }
-
 }

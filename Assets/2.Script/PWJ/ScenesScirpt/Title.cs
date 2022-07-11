@@ -25,6 +25,8 @@ public class Title : MonoBehaviour
             yield return null;
 
         ao.allowSceneActivation = true;
+
+        yield return new WaitForSeconds(3f);
         OnClick();
     }
 }
