@@ -33,7 +33,33 @@ MonoBehaviour:
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
-  RpcList: []
+  RpcList:
+  - animPlay
+  - BDmg
+  - BulletHit
+  - CallRpc
+  - CDCHit
+  - ClickRpc
+  - Collapse
+  - CrossFade
+  - Death
+  - DestroyRpc
+  - GameStart
+  - GameStartRPC
+  - LinkExit
+  - LinkStart
+  - OnTimeOver
+  - RcvHp
+  - Ready
+  - RegistSelf
+  - RPCAttack
+  - RPCCollision
+  - RPCSetWeight
+  - RPCSpawn
+  - SetPRPC
+  - SetTargetRPC
+  - ShieldD
+  - TD_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 0
