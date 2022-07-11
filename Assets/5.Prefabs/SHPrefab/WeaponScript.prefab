@@ -173,15 +173,15 @@ MonoBehaviour:
   enemyTarget: {fileID: 0}
   screenLayer:
     serializedVersion: 2
-    m_Bits: 2147483648
+    m_Bits: 137363456
   mask:
     serializedVersion: 2
-    m_Bits: 0
-  crossHairImage: {fileID: 0}
+    m_Bits: 1048576
+  crossHairImage: {fileID: 4328605414819387396}
   state: 0
   ac: {fileID: 0}
   onTrackingSFX: {fileID: 0}
-  onTrackCompleteSFX: {fileID: 0}
+  onTrackCompleteSFX: {fileID: 8300000, guid: 325e8e68fcaa7404e8768ccc5b29ecb3, type: 3}
 --- !u!1 &873271583434685589
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,7 +206,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 873271583434685589}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.017}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4328605414819387396}
@@ -230,7 +230,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4328605414819387396
 Transform:
   m_ObjectHideFlags: 0
@@ -238,9 +238,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5220942297214099040}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 9.222, z: 0.0343}
-  m_LocalScale: {x: 0.07801536, y: 0.07801535, z: 0.07801535}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 3885230787990734565}
   m_RootOrder: 0
@@ -489,7 +489,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c686e3eb128904fbe68d54917bc979, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapons: []
+  weapons:
+  - {fileID: 4811588309065104376}
+  - {fileID: 3762235261956914012}
+  - {fileID: 539951605094041219}
+  - {fileID: 676354787}
   isGrabbing: 
   usingSkill: 
   grabL: {fileID: -6131295136447488360, guid: b212627b2d7d7b547ba7c981ca0c6bec, type: 3}
@@ -530,7 +534,7 @@ MonoBehaviour:
   gaugeUpSpeed: 10
   gaugeDownSpeed: 20
   anim: {fileID: 0}
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 161d7d23b7448e54f851d0d274a64e34, type: 3}
 --- !u!114 &3762235261956914012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -607,7 +611,7 @@ MonoBehaviour:
   bulletSpawnPoint: {fileID: 0}
   muzzleFlashEffect: {fileID: 0}
   bullet: {fileID: 196044, guid: c629ae44d905a704c9676e634d12438f, type: 3}
-  onFireSFX: {fileID: 0}
+  onFireSFX: {fileID: 8300000, guid: 15900e8f0931e2e418d0136e7533f198, type: 3}
   onReloadSFX: {fileID: 0}
   isAutomatic: 1
 --- !u!114 &676354787
@@ -647,8 +651,8 @@ MonoBehaviour:
   bulletSpawnPoint: {fileID: 0}
   muzzleFlashEffect: {fileID: 0}
   bullet: {fileID: 7862229890340024945, guid: dcd588c0baea5234f945038cd6857d49, type: 3}
-  onFireSFX: {fileID: 0}
-  onFailedSFX: {fileID: 0}
+  onFireSFX: {fileID: 8300000, guid: 6f90e84614d8f4e43886ea2c0c6c3609, type: 3}
+  onFailedSFX: {fileID: 8300000, guid: 64604a59b0aa16c48ad730b74c998a1d, type: 3}
   isAutomatic: 1
   target: {fileID: 0}
 --- !u!1 &8692011449641214084

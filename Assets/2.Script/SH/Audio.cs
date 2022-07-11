@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Audio : MonoBehaviour
 {
-    AudioSource source;
+    public AudioSource source;
     WaitForSeconds ws = new WaitForSeconds(0.1f);
     public int audioType;
 
@@ -27,10 +27,11 @@ public class Audio : MonoBehaviour
         }
     }
     
-    public void Play(AudioClip clip)
+    public void Play(AudioClip clip, float volume)
     {
         gameObject.SetActive(true);
 
+        source.volume = volume;
         source.clip = clip;
         source.Play();
 

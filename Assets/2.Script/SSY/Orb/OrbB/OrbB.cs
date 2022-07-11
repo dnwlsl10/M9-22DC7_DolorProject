@@ -50,20 +50,7 @@ public class OrbB : OrbBase, IDamageable
     void OnTriggerEnter(Collider other) //무조건 트리거여야한다 - 콜리전이면 나중에 물리법칙을 받게 될 수 있따. 
     //나의 총알이 닿았을 때와  // 어떠한 충돌체와 닿았을 때
     {
-        // if (other.gameObject.layer == bulletLayer) // 총알이면
-        // {
-        //     print("BULLET");
-        //     if (count == maxCount) return;
-            
-        //     count++;
-        //     var pv = other.gameObject.GetComponent<PhotonView>();
-        //     if (pv?.ViewID > 0 == false)
-        //         other.gameObject.SetActive(false);
-
-        //     photonView.CustomRPC(this, "BulletHit", RpcTarget.All, pv?.ViewID, count);
-        //     return;
-        // }
-
+        if (other.gameObject.layer == LayerMask.NameToLayer("MagneticField")) return;
 
         sphereCollider.enabled = false;
         photonView.CustomRPC(this, "CDCHit", RpcTarget.All, transform.position);
@@ -71,6 +58,10 @@ public class OrbB : OrbBase, IDamageable
         Collider[] cols = Physics.OverlapSphere(transform.position, maxScale, damageableLayer);
         for (int i = 0; i < cols.Length; i++)
             cols[i].GetComponent<IDamageable>()?.TakeDamage(100, transform.position);
+    }
+
+    private void OnTriggerExit(Collider other) {
+        gameObject.SetActive(false);
     }
     
     [PunRPC]
