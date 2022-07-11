@@ -1110,14 +1110,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2975807838545935428, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
-      propertyPath: onFireSFX
-      value: 
-      objectReference: {fileID: 8300000, guid: 6f90e84614d8f4e43886ea2c0c6c3609, type: 3}
-    - target: {fileID: 2975807838545935428, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
-      propertyPath: onFailedSFX
-      value: 
-      objectReference: {fileID: 8300000, guid: 64604a59b0aa16c48ad730b74c998a1d, type: 3}
-    - target: {fileID: 2975807838545935428, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
       propertyPath: bulletSpawnPoint
       value: 
       objectReference: {fileID: 6433403649465672471}
@@ -1129,10 +1121,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3328857668545830948, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
-      propertyPath: onFireSFX
-      value: 
-      objectReference: {fileID: 8300000, guid: 15900e8f0931e2e418d0136e7533f198, type: 3}
     - target: {fileID: 3328857668545830948, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
       propertyPath: audioSource
       value: 
@@ -1305,10 +1293,6 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7749009839681264991, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
-      propertyPath: clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 161d7d23b7448e54f851d0d274a64e34, type: 3}
     - target: {fileID: 7972732911250192968, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
       propertyPath: sceneViewId
       value: 0
@@ -1325,10 +1309,6 @@ PrefabInstance:
       propertyPath: onTrackingSFX
       value: 
       objectReference: {fileID: 8300000, guid: d912fd6ea0fb91e4b9a389534d756b56, type: 3}
-    - target: {fileID: 8241490259840790486, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
-      propertyPath: onTouchSFX
-      value: 
-      objectReference: {fileID: 8300000, guid: 45887dae92d74b64ea04dae615326c35, type: 3}
     - target: {fileID: 8521226248440032590, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.397864
@@ -1501,6 +1481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9626618011463ed45b8fc98ae7534e10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  source: {fileID: 0}
   audioType: 1
 --- !u!114 &9095409780670848640
 MonoBehaviour:
