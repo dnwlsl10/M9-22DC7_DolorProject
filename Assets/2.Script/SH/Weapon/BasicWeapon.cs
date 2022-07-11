@@ -136,7 +136,7 @@ public class BasicWeapon : WeaponBase, IInitialize
     
         
         StartCoroutine(OnMuzzleFlashEffect());
-        AudioPool.instance.Play(onFireSFX?.name, 2, bulletPosition);
+        if (onFireSFX) AudioPool.instance.Play(onFireSFX.name, 2, bulletPosition);
     }
 
     IEnumerator OnMuzzleFlashEffect()
