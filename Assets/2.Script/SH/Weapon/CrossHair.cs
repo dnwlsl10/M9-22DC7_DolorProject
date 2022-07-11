@@ -9,16 +9,22 @@ public class CrossHair : MonoBehaviourPun, IInitialize
 #if test
     LineRenderer lr;
 #endif
-    public Transform centerEye;
-    public Transform crossHairImage;
-    public Transform laserPoint;
-    private Renderer imageRenderer;
-    public LayerMask screenLayer;
-    private float attackDistance;
-    public float maxInterpolationSpeed = 25;
-    public float minInterpolationSpeed = 2;
+    [SerializeField] Transform centerEye;
+    [SerializeField] Transform crossHairImage;
+    [SerializeField] Transform laserPoint;
+    [SerializeField] Renderer imageRenderer;
+    [SerializeField] LayerMask bulletHitLayer;
+    [SerializeField] LayerMask screenLayer;
+    [SerializeField] private float attackDistance;
+    [SerializeField] float maxInterpolationSpeed = 25;
+    [SerializeField] float minInterpolationSpeed = 2;
     [Range(0, 0.1f)]
-    public float interpolationDistance = 0.01f;
+    [SerializeField] float interpolationDistance = 0.01f;
+
+    [SerializeField] Color hitColor;
+    [SerializeField] Color nonHitColor;
+    [SerializeField] Material mat;
+    int colorProperty;
 
     [ContextMenu("Initialize")]
     public void Initialize(){
@@ -48,6 +54,8 @@ public class CrossHair : MonoBehaviourPun, IInitialize
 
         imageRenderer = crossHairImage.GetComponent<Renderer>();
         attackDistance = transform.parent.GetComponent<BasicWeapon>().weaponSetting.attackDistance;
+        mat = imageRenderer.material;
+        colorProperty = Shader.PropertyToID("_Color");
 
         #if UNITY_EDITOR && test
             if (TryGetComponent<LineRenderer>(out lr) == false)
@@ -66,10 +74,14 @@ public class CrossHair : MonoBehaviourPun, IInitialize
     }
 
     private void Update() {
-        Ray ray = new Ray(laserPoint.position + laserPoint.forward, laserPoint.forward);
-            
-        Vector3 aimPosition = Physics.Raycast(ray, out RaycastHit targetHit, attackDistance) ? targetHit.point : ray.GetPoint(attackDistance);
+        Ray ray = new Ray(laserPoint.position, laserPoint.forward);
+        bool hitTarget = Physics.Raycast(ray, out RaycastHit targetHit, attackDistance, bulletHitLayer, QueryTriggerInteraction.Ignore);
+
+        mat.SetColor(colorProperty, hitTarget ? hitColor : nonHitColor);
+        // mat.SetColor()
+        Vector3 aimPosition = hitTarget ? targetHit.point : ray.GetPoint(attackDistance);
         Vector3 targetToEye = centerEye.position - aimPosition;
+
         if (Physics.Raycast(aimPosition, targetToEye, out RaycastHit screenHit, targetToEye.magnitude, screenLayer) && screenHit.collider.gameObject.layer == LayerMask.NameToLayer("Screen"))
         {
             imageRenderer.enabled = true;

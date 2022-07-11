@@ -29,15 +29,16 @@ public class OrbFire : WeaponBase
         print("Start Orb"); 
         if (Time.time - lastAttackTime < weaponSetting.attackRate) //만약 스킬 쿨타임 중이면 스킬 사용할 수 없다는 소리가 나면서 사용불가
             return;
+
+        orb = NetworkObjectPool.instance.SpawnFromPool(orbFactory[orbType].name, firePosition.position, firePosition.rotation);
+        orb.GetComponent<OrbBase>().SetParent(firePosition);
         StartCoroutine(Hold());
         WeaponSystem.instance.StartActionCallback((int)weaponSetting.weaponName);
     }
 
     IEnumerator Hold()
     {
-        orb = NetworkObjectPool.instance.SpawnFromPool(orbFactory[orbType].name, firePosition.position, firePosition.rotation);
-        yield return new WaitForEndOfFrame();
-        orb.GetComponent<OrbBase>().SetParent(firePosition);
+        
 
         yield return new WaitForSecondsRealtime(4f);
         yield return new WaitForEndOfFrame();
