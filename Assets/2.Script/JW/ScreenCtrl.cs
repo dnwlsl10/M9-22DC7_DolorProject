@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 public class ScreenCtrl : MonoBehaviour
 {
-    public GameObject[] imagUI;
-    private MeshRenderer screenMesh; // ½ºÅ©¸° ¸Þ½¬
-    [SerializeField] private List<Material> screenMat = new List<Material>(); // UVº° Material
-    //------------------------ ¼¼ÆÃ°ª
+    // public GameObject[] imagUI;
+    private MeshRenderer screenMesh; // ï¿½ï¿½Å©ï¿½ï¿½ ï¿½Þ½ï¿½
+    [SerializeField] private List<Material> screenMat = new List<Material>(); // UVï¿½ï¿½ Material
+    //------------------------ ï¿½ï¿½ï¿½Ã°ï¿½
     float min = 0f;
     float max = 1f;
     public float turnTime = 7f;
@@ -18,7 +18,7 @@ public class ScreenCtrl : MonoBehaviour
     private void Awake()
     {
         screenMesh = GetComponent<MeshRenderer>();
-        for (int i = 1; i < screenMesh.materials.Length; i++) //ÃÊ±â °ËÀº È­¸é ¼¼ÆÃ
+        for (int i = 1; i < screenMesh.materials.Length; i++) //ï¿½Ê±ï¿½ ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             if (i == 1 || i == 2)
             {
@@ -44,25 +44,25 @@ public class ScreenCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) //¹öÆ°À¸·Î ½ºÅ©¸° Å×½ºÆ®
+        if (Input.GetMouseButtonDown(0)) //ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ ï¿½×½ï¿½Æ®
         {
             StartCoroutine("OnScreenDelay");
-            for (int i = 0; i < imagUI.Length; i++)
-            {
-                imagUI[i].SetActive(true);
-            }
+            // for (int i = 0; i < imagUI.Length; i++)
+            // {
+            //     imagUI[i].SetActive(true);
+            // }
         }
     }
 
     IEnumerator OnScreenDelay()
     {
-        for (int i = 0; i < screenMat.Count; i++) //Mat¼ø¼­´ë·Î ÄÚ·çÆ¾ µ¿ÀÛ
+        for (int i = 0; i < screenMat.Count; i++) //Matï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú·ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½
         {
             yield return StartCoroutine(ChangeScreen(screenMat[i]));
         }
     }
 
-    IEnumerator ChangeScreen(Material mat) //Matº° °ª ¼öÁ¤
+    IEnumerator ChangeScreen(Material mat) //Matï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     {
         float screenExposure = mat.GetFloat("Vector1_2599837B");
         float screenBlur = mat.GetFloat("Vector1_4D0B16C4");
