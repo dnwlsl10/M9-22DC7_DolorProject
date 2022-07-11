@@ -2443,8 +2443,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68af67e3b5768304f8c0a937250c2484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  win: {fileID: 614655428}
-  lose: {fileID: 1557022289}
+  victory: {fileID: 614655428}
+  defeat: {fileID: 1557022289}
+  dissolveVal: 0
+  dissolveMinValue: 0
+  dissolveMaxValue: 1
 --- !u!4 &1423412228
 Transform:
   m_ObjectHideFlags: 0
@@ -3006,6 +3009,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4c24176c89ca904fa59052b386453ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gamePlayTime: 0
   timeText:
   - {fileID: 1227858587}
   - {fileID: 654483446}
