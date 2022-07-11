@@ -451,11 +451,7 @@ MonoBehaviour:
   m_AvatarMask: {fileID: 0}
   m_ApplyAvatarMask: 1
   m_TrackOffset: 0
-<<<<<<< Updated upstream
-  m_InfiniteClip: {fileID: -5650167494236798970}
-=======
   m_InfiniteClip: {fileID: 0}
->>>>>>> Stashed changes
   m_OpenClipOffsetRotation: {x: 0, y: 0, z: 0, w: 1}
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
   m_ApplyOffsets: 0
