@@ -9,6 +9,7 @@ public class Lobby : MonoBehaviour
     public Garage garage;
     public System.Action<int> OnCompelet;
     public ScenecTigger scenecTigger;
+    public GameObject blackBG;
     [SerializeField]
     private bool isTest;
     public void Start()
@@ -21,7 +22,7 @@ public class Lobby : MonoBehaviour
         scenecTigger.OnChangeScene = () =>
         {
             Debug.Log(selectionMachine.selectID);
-            OnCompelet(selectionMachine.selectID);
+            StartCoroutine(FadeOut());       
         };
     }
 
@@ -41,15 +42,16 @@ public class Lobby : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            this.OnCompelet(selectionMachine.selectID);
+            StartCoroutine(FadeOut());
         };
     }
 
-    private void Update()
+    public IEnumerator FadeOut()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            this.OnCompelet(0);
-        }
+        yield return new WaitForEndOfFrame();
+        blackBG.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+        OnCompelet(selectionMachine.selectID);
     }
 }

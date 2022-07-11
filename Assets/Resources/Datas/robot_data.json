@@ -13,8 +13,8 @@
         "name": "Mars",
         "prefab_name": "Robot_Mars",
         "hologram_name": "Hologram_Mars",
-        "connect_name": "Connect_Mars",
-        "inGame_name": "InGame_Mars",
+        "connect_name": "Connect_Mars Variant",
+        "inGame_name": "InGame_Mars Variant",
         "desc": "Hubirs 행성의 병기 Mars"
     }
 ]

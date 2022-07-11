@@ -38,6 +38,8 @@ public class Connect : MonoBehaviourPunCallbacks
     public AudioClip[] connectBgms;
     public AudioClip onGameStartSFX;
     public AudioClip onCountSFX;
+
+    public GameObject blackBG;
     public void Start() {if(isTest) Init();}
    
     public void Init(UserInfo userInfoData = null)
@@ -139,10 +141,11 @@ public class Connect : MonoBehaviourPunCallbacks
             yield return eof;
             this.count[i].SetActive(false);
         }
-        yield return StartCoroutine(loadingScreenProcess.LoadingPhotonScreenProcess("InGame"));
-
-        if(isTest) yield break;
-        OnCompelet();
+        StartCoroutine(loadingScreenProcess.LoadingPhotonScreenProcess("InGame", (ao) =>{
+            blackBG.SetActive(true);
+            ao.completed += (obj) =>{OnCompelet();};
+            PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
+        }));
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message){
