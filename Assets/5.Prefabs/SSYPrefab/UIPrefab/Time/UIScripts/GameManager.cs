@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsConnected){
             DataManager.GetInstance().LoadDatas();
-            var selectPrefab = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
+            selectPrefab = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
             InitGame();
         }
         else
@@ -62,7 +62,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             #if test
             Debug.LogWarning("GameManager is in test mode");
             PhotonNetwork.ConnectUsingSettings();
-            selectPrefab.name = "InGame_Mars Variant";
+            if(selectPrefab !=null)
+            selectPrefab = DataManager.GetInstance().dicRobotDatas[0];
             #else
             throw new System.Exception("Not Connected to Photon Server");
             #endif
@@ -73,7 +74,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         Transform spawn = spawnPoint[PhotonNetwork.IsMasterClient ? 0 : 1];
 
-        myMech = PhotonNetwork.Instantiate(selectPrefab.name, spawn.position, spawn.rotation);
+        myMech = PhotonNetwork.Instantiate(selectPrefab.inGame_name, spawn.position, spawn.rotation);
         Instantiate(networkObjectPool);
 
         photonView.RPC("Ready", RpcTarget.MasterClient);

@@ -26762,6 +26762,7 @@ MonoBehaviour:
   enableUIKeys: {fileID: 6034712694642506015}
   disableUIKeys: {fileID: 6034712694642506015}
   fillamount_progress: {fileID: 7252784865663947037}
+  attackLight: {fileID: 0}
 --- !u!1 &7252784866389545690
 GameObject:
   m_ObjectHideFlags: 0
