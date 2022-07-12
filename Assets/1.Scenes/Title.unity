@@ -446,16 +446,44 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1103805223548975401, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
       propertyPath: m_SceneBindings.Array.size
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1103805223548975401, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
       propertyPath: m_SceneBindings.Array.data[4].key
       value: 
       objectReference: {fileID: -3411803572672169495, guid: dd293c4be5ce0b242adec5767df3ccfe, type: 2}
     - target: {fileID: 1103805223548975401, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
+      propertyPath: m_SceneBindings.Array.data[5].key
+      value: 
+      objectReference: {fileID: 3488576701929156393, guid: dd293c4be5ce0b242adec5767df3ccfe, type: 2}
+    - target: {fileID: 1103805223548975401, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
+      propertyPath: m_SceneBindings.Array.data[6].key
+      value: 
+      objectReference: {fileID: -6017403784139598182, guid: dd293c4be5ce0b242adec5767df3ccfe, type: 2}
+    - target: {fileID: 1103805223548975401, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
       propertyPath: m_SceneBindings.Array.data[4].value
       value: 
       objectReference: {fileID: 1664534743}
+    - target: {fileID: 2910135142902328520, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
+      propertyPath: startDelay.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2910135142902328520, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 2910135142902328520, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
+      propertyPath: InitialModule.startSizeY.scalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2910135142902328526, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2910135142902328526, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 27.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4009908299342511855, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
       propertyPath: m_Name
       value: Title (1)

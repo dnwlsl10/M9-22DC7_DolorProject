@@ -8,10 +8,9 @@ public class UIPracice : MonoBehaviour
     public AudioClip onTouchSFX;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 10)
-        {
+
             AudioPool.instance.Play(onTouchSFX.name, 2, this.transform.position);
             OnSelceted();
-        }
+        
     }
 }
