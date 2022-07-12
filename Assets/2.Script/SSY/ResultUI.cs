@@ -15,6 +15,11 @@ public class ResultUI : MonoBehaviour
     [SerializeField] float dissolveMinValue = 0f;
     [SerializeField] float dissolveMaxValue = 1f;
     
+    private void Awake() {
+        victory.SetActive(false);
+        defeat.SetActive(false);
+    }
+
     public void ShowResult(bool win)
     {
         StartCoroutine(FadeResult(win ? this.victory : this.defeat));
@@ -23,6 +28,7 @@ public class ResultUI : MonoBehaviour
     
     IEnumerator FadeResult(GameObject obj)
     {
+        obj.SetActive(true);
         SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
         Material mat = sr.material;
 

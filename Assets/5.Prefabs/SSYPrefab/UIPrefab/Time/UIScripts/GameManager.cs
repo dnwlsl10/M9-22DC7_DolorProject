@@ -52,16 +52,24 @@ public class GameManager : MonoBehaviourPunCallbacks
         else
             instance = this;
 
-        if (PhotonNetwork.IsConnected){
-            DataManager.GetInstance().LoadDatas();
-            var selectPrefab = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
+        DataManager.GetInstance().LoadDatas();
+        if (PhotonNetwork.IsConnected && userInfo != null){
+            selectPrefab = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
             InitGame();
         }
         else
         {
             #if test
             Debug.LogWarning("GameManager is in test mode");
-            PhotonNetwork.ConnectUsingSettings();
+            selectPrefab = DataManager.GetInstance().dicRobotDatas[1];
+            if (PhotonNetwork.IsConnected == false) 
+            {
+                PhotonNetwork.ConnectUsingSettings();
+            }
+            else
+            {
+                InitGame();
+            }
             #else
             throw new System.Exception("Not Connected to Photon Server");
             #endif
@@ -72,7 +80,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         Transform spawn = spawnPoint[PhotonNetwork.IsMasterClient ? 0 : 1];
 
-        myMech = PhotonNetwork.Instantiate(selectPrefab.name, spawn.position, spawn.rotation);
+        myMech = PhotonNetwork.Instantiate(selectPrefab.prefab_name, spawn.position, spawn.rotation);
         Instantiate(networkObjectPool);
 
         photonView.RPC("Ready", RpcTarget.MasterClient);
