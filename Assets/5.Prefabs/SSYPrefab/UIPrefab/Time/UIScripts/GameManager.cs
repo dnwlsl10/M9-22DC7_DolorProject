@@ -52,8 +52,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         else
             instance = this;
 
-        if (PhotonNetwork.IsConnected){
-            DataManager.GetInstance().LoadDatas();
+        DataManager.GetInstance().LoadDatas();
+        if (PhotonNetwork.IsConnected && userInfo != null){
             selectPrefab = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
             InitGame();
         }
@@ -61,9 +61,15 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             #if test
             Debug.LogWarning("GameManager is in test mode");
-            PhotonNetwork.ConnectUsingSettings();
-            if(selectPrefab !=null)
-            selectPrefab = DataManager.GetInstance().dicRobotDatas[0];
+            selectPrefab = DataManager.GetInstance().dicRobotDatas[1];
+            if (PhotonNetwork.IsConnected == false) 
+            {
+                PhotonNetwork.ConnectUsingSettings();
+            }
+            else
+            {
+                InitGame();
+            }
             #else
             throw new System.Exception("Not Connected to Photon Server");
             #endif

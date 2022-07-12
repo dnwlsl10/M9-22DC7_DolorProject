@@ -112,6 +112,13 @@ public class HandIK : MonoBehaviourPun, IInitialize
         vrController.MapLocal();
     }
 
+    private void OnCollisionEnter(Collision other) {
+        if (vrController.rb.velocity.magnitude > 2 && other.gameObject.layer == LayerMask.NameToLayer("Map"))
+        {
+            other.gameObject.GetComponent<IDamageable>()?.TakeDamage(1000, transform.position);
+        }
+    }
+
 #if test
     IEnumerator Start() {
         if (transform.root.GetComponent<Photon.Pun.PhotonView>().Mine == false || Utility.isVRConnected)
