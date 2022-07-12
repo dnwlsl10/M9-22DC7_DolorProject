@@ -8,6 +8,8 @@ public class ScenecTigger : MonoBehaviour
     public System.Action OnChangeScene;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player")) OnChangeScene();
+        if (other.gameObject.CompareTag("Player")) {
+            OnChangeScene();
+        }
     }
 }

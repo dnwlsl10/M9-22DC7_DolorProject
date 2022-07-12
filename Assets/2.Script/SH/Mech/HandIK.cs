@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
-using RootMotion.FinalIK;
-public class HandIK : MonoBehaviour, IInitialize
+using Photon.Pun;
+public class HandIK : MonoBehaviourPun, IInitialize
 {
     // [ContextMenu("Switch Movement Method")]
     // void ChangeMethod() => vrController.UseTransformToMove = !vrController.UseTransformToMove;
@@ -64,18 +64,7 @@ public class HandIK : MonoBehaviour, IInitialize
         public Vector3 trackingPositionOffset;
         public Vector3 trackingRotationOffset;
         public Rigidbody rb;
-        // bool useTransformToMove;
-        // public bool UseTransformToMove {
-        //     get {return useTransformToMove;} 
-        //     set
-        //     {
-        //         useTransformToMove = value;
-        //         rb.isKinematic = value;
-        //         rb.GetComponent<Collider>().enabled = !value;
 
-        //         print("Now Using " + (value ? "Transform" : "RigidBody"));
-        //     }
-        // }
         [Tooltip("Scale multiplied for calculate Robot's hand position")]
         public float scale = 1;
         [Range(0, 1), Tooltip("Only applied when using Rigidbody movement system")]
@@ -85,25 +74,17 @@ public class HandIK : MonoBehaviour, IInitialize
 
         public void MapLocal()
         {
-            // if (scale == 1)
-            //     rigTarget.position = vrTarget.TransformPoint(trackingPositionOffset);
-            // else
-            // {
-                Vector3 dir = vrTarget.position - vrOrigin.position;
-                Vector3 position = rigOrigin.position + dir * scale;
-                // if (useTransformToMove)
-                //     rigTarget.position = position;
-                // else
-                // {
-                    if (Vector3.Distance(rigTarget.position, position) > teleportDistance)
-                    {
-                        rigTarget.position = position;
-                        print("TP");
-                    }
-                    else
-                        rb.velocity = (position - rigTarget.position) / Time.fixedDeltaTime * speedMultiplier;
-                // }
-            // }
+            Vector3 dir = vrTarget.position - vrOrigin.position;
+            Vector3 position = rigOrigin.position + dir * scale;
+
+            if (Vector3.Distance(rigTarget.position, position) > teleportDistance)
+            {
+                rigTarget.position = position;
+                print("TP");
+            }
+            else
+                rb.velocity = (position - rigTarget.position) / Time.fixedDeltaTime * speedMultiplier;
+
             rigTarget.rotation = vrTarget.rotation * Quaternion.Euler(trackingRotationOffset);
         }
     }
@@ -114,12 +95,28 @@ public class HandIK : MonoBehaviour, IInitialize
     bool isLeft;
     private void Awake()
     {
-        isLeft = vrController.controller == XRNode.LeftHand;
+        if (photonView.Mine)
+        {
+            isLeft = vrController.controller == XRNode.LeftHand;
+            GetComponent<Collider>().enabled = true;
+        }
+        else
+        {
+            GetComponent<Collider>().enabled = false;
+            Destroy(this);
+        }
     }
 
     private void FixedUpdate() 
     {
         vrController.MapLocal();
+    }
+
+    private void OnCollisionEnter(Collision other) {
+        if (vrController.rb.velocity.magnitude > 2 && other.gameObject.layer == LayerMask.NameToLayer("Map"))
+        {
+            other.gameObject.GetComponent<IDamageable>()?.TakeDamage(1000, transform.position);
+        }
     }
 
 #if test

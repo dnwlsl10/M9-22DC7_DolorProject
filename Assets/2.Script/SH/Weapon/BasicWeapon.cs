@@ -122,19 +122,16 @@ public class BasicWeapon : WeaponBase, IInitialize
         lastAttackTime = Time.time;
         CurrentAmmo--;
 
-        photonView.CustomRPC(this, "RPCAttack", RpcTarget.AllViaServer, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        photonView.CustomRPC(this, "RPCAttack", RpcTarget.AllViaServer, bulletSpawnPoint.position);
+        var bt = NetworkObjectPool.instance.SpawnFromPool<Bullet>(bullet.name, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+            bt.SetAttackDistance(weaponSetting.attackDistance);
         if (CurrentAmmo <= 0)
             StartReload();
     }
 
     [PunRPC]
-    private void RPCAttack(Vector3 bulletPosition, Quaternion bulletRotation)
+    private void RPCAttack(Vector3 bulletPosition)
     {
-        if (photonView.Mine){
-            var bt = NetworkObjectPool.instance.SpawnFromPool<Bullet>(bullet.name, bulletPosition, bulletRotation);
-        }
-    
-        
         StartCoroutine(OnMuzzleFlashEffect());
         if (onFireSFX) AudioPool.instance.Play(onFireSFX.name, 2, bulletPosition);
     }

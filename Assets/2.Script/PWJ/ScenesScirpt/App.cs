@@ -35,11 +35,12 @@ public class App : MonoBehaviour
 
                         var logo = GameObject.FindObjectOfType<Logo>();
 
+                        logo.Init();
+
                         logo.onComplete = () =>
                         {
                             this.ChangeScene(eSceneType.Title);
-                         };
-                        logo.Init();
+                        };
                     };
                 }
                 break;
@@ -47,14 +48,13 @@ public class App : MonoBehaviour
             case eSceneType.Title:
                 {
                     AsyncOperation ao = SceneManager.LoadSceneAsync("Title");
-
-                    ao.allowSceneActivation = false;
-
                     ao.completed += (obj) =>
                     {
                         Debug.Log(obj.isDone);
 
                         var title = GameObject.FindObjectOfType<Title>();
+
+                        title.Init();
 
                         title.OnClick = () =>
                         {
@@ -65,20 +65,14 @@ public class App : MonoBehaviour
                 break;
             case eSceneType.Lobby:
                 {
-                    AsyncOperation ao = SceneManager.LoadSceneAsync("Lobby");
-                    ao.completed += (obj) =>
+                    var lobby = GameObject.FindObjectOfType<Lobby>();
+
+                    lobby.Init();
+
+                    lobby.OnCompelet = (id) =>
                     {
-                        Debug.Log(obj.isDone);
-
-                        var lobby = GameObject.FindObjectOfType<Lobby>();
-
-                        lobby.Init();
-
-                        lobby.OnCompelet = (id) =>
-                        {
-                            userInfo = new UserInfo(id);
-                            this.ChangeScene(eSceneType.Connect);
-                        };
+                        userInfo = new UserInfo(id);
+                        this.ChangeScene(eSceneType.Connect);
                     };
                 }
                 break;
@@ -116,5 +110,4 @@ public class App : MonoBehaviour
         }
 
     }
-
 }

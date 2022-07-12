@@ -13,7 +13,7 @@ public class Logo : MonoBehaviour
     private IEnumerator WaitForDisplayLogo()
     {
         Debug.Log("1");
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(10f);
         Debug.Log("2");
         this.onComplete();
     }

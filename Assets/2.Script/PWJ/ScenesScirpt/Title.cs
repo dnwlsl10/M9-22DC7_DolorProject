@@ -6,25 +6,39 @@ public class Title : MonoBehaviour
     public System.Action OnClick;
     public LoadingScreenProcess loadingAsyc;
     public GameObject txtObj;
-    public AsyncOperation ao;
-
-    private void Start()   
+    public GameObject blackBg;
+    //public AsyncOperation ao;
+    private WaitForEndOfFrame of = new WaitForEndOfFrame();
+    private WaitForSeconds os = new WaitForSeconds(5f);
+    public void Init() 
     {
         txtObj.gameObject.SetActive(false);
-
-        loadingAsyc.LoadingNormalScreenProcess("Lobby" ,  (ao) =>{
-            this.ao = ao;
-            txtObj.gameObject.SetActive(true);
-            StartCoroutine(OnAnyKeyDown());
-        });       
+        StartCoroutine(EndTitleAni());
     }
 
-    IEnumerator OnAnyKeyDown(){
-        
-        while(!Input.anyKeyDown)
-        {
+    IEnumerator EndTitleAni()
+    {
+        yield return os;
+        txtObj.gameObject.SetActive(true);
+        StartCoroutine(OnClickAnyKey());
+    }
+
+    IEnumerator OnClickAnyKey(){
+
+        while(!Input.anyKey)
             yield return null;
-            ao.allowSceneActivation = true;   
-        }
+
+        yield return of;
+        blackBg.gameObject.SetActive(true);
+
+        StartCoroutine(loadingAsyc.LoadingNormalScreenProcess(("Lobby"), (ao) =>{
+
+            ao.completed += (obj) =>
+            {
+               this.OnClick();
+            };
+            
+            ao.allowSceneActivation = true;
+        }));
     }
 }

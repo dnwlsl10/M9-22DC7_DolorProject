@@ -12,7 +12,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager instance;
     public event System.Action onGameStart;
+    public LoadingScreenProcess asyncScene;
     public System.Action OnChangeLobby;
+    private RobotData selectPrefab;
 
     [Header("Time")]
     // [SerializeField] float gamePlayTime;
@@ -37,20 +39,37 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom() => InitGame();
 #endif
 
-    void Awake()
+    void Awake(){
+        #if test
+        Init();
+        #endif
+    }
+
+    public void Init(UserInfo userInfo = null)
     {
         if (instance != null)
             Destroy(instance);
         else
             instance = this;
 
-        if (PhotonNetwork.IsConnected)
+        DataManager.GetInstance().LoadDatas();
+        if (PhotonNetwork.IsConnected && userInfo != null){
+            selectPrefab = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
             InitGame();
+        }
         else
         {
             #if test
             Debug.LogWarning("GameManager is in test mode");
-            PhotonNetwork.ConnectUsingSettings();
+            selectPrefab = DataManager.GetInstance().dicRobotDatas[1];
+            if (PhotonNetwork.IsConnected == false) 
+            {
+                PhotonNetwork.ConnectUsingSettings();
+            }
+            else
+            {
+                InitGame();
+            }
             #else
             throw new System.Exception("Not Connected to Photon Server");
             #endif
@@ -61,7 +80,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         Transform spawn = spawnPoint[PhotonNetwork.IsMasterClient ? 0 : 1];
 
-        myMech = PhotonNetwork.Instantiate(mechPrefab.name, spawn.position, spawn.rotation);
+        myMech = PhotonNetwork.Instantiate(selectPrefab.prefab_name, spawn.position, spawn.rotation);
         Instantiate(networkObjectPool);
 
         photonView.RPC("Ready", RpcTarget.MasterClient);
@@ -102,7 +121,18 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void RegisterMech(PhotonView mech) => players.Add(mech);
     public void OnPlayerDeath() => photonView.RPC("Death", RpcTarget.All);    
     public override void OnPlayerLeftRoom(Player otherPlayer) => ShowResult(true);
-    public override void OnLeftRoom() => PhotonNetwork.LoadLevel(0);
+    public override void OnLeftRoom(){
+
+        StartCoroutine(asyncScene.LoadingPhotonScreen(("Lobby"), (ao) =>{
+            ao.completed += (obj) =>{
+
+                OnChangeLobby();
+            };
+            ao.allowSceneActivation = true;
+        }));
+    }
+
+
 
     void CompareHp(float myhp, float enemyhp) // 적과 내 HP를  비교
     {

@@ -9,8 +9,7 @@ public class LoadingScreenProcess : MonoBehaviourPun
 {
     public Image progressBar;
     public GameObject bg;
-    public PhotonView pv;
-    public IEnumerator LoadingPhotonScreenProcess(string sceneName)
+    public IEnumerator LoadingPhotonScreenProcess(string sceneName ,System.Action<AsyncOperation> OnComplete)
     {
         if (PhotonNetwork.IsMasterClient)
         {
@@ -33,15 +32,40 @@ public class LoadingScreenProcess : MonoBehaviourPun
                 progressBar.fillAmount += 0.01f;
                 if (progressBar.fillAmount >= 1f)
                 {
-                    PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
+                    OnComplete(PhotonNetwork._AsyncLevelLoadingOperation);
                     yield break;
                 }
             }
         }      
     }
 
+    public IEnumerator LoadingPhotonScreen(string sceneName, System.Action<AsyncOperation> OnComplete)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel("InGame");
+        }
+        PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = false;
+
+        while (!PhotonNetwork._AsyncLevelLoadingOperation.isDone)
+        {
+            yield return null;
+
+            if (PhotonNetwork._AsyncLevelLoadingOperation.progress < 0.9f)
+            {
+                Debug.Log(PhotonNetwork._AsyncLevelLoadingOperation.progress);
+            }
+            else
+            {
+                yield return new WaitForSeconds(3f);
+                OnComplete(PhotonNetwork._AsyncLevelLoadingOperation);
+            }
+        }
+    }
+
     public IEnumerator LoadingNormalScreenProcess(string sceneName , System.Action<AsyncOperation> OnComplete)
     {
+        yield return new WaitForSeconds(3f);
         AsyncOperation ao = SceneManager.LoadSceneAsync(sceneName);
         ao.allowSceneActivation = false;
         while (!ao.isDone)
@@ -49,7 +73,6 @@ public class LoadingScreenProcess : MonoBehaviourPun
             yield return null;
             if (ao.progress < 0.9f)
             {
-                Debug.Log("90%");
                 progressBar.fillAmount = ao.progress;
             }
             else
@@ -57,7 +80,6 @@ public class LoadingScreenProcess : MonoBehaviourPun
                 progressBar.fillAmount += 0.01f;
                 if (progressBar.fillAmount >= 1f)
                 {
-                    Debug.Log(ao.isDone);
                     OnComplete(ao);
                     yield break;
                 }

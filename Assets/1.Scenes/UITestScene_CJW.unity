@@ -569,7 +569,7 @@ MonoBehaviour:
   m_StopNaN: 0
   m_Dithering: 0
   m_ClearDepth: 1
-  m_AllowXRRendering: 0
+  m_AllowXRRendering: 1
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
@@ -1099,6 +1099,9 @@ MonoBehaviour:
   rotator: {fileID: 2153374442844213954}
   effect: {fileID: 527845208083601179}
   mats: []
+  onFindPlayerSFX: {fileID: 0}
+  onEarthSFX: {fileID: 0}
+  myAs: {fileID: 0}
 --- !u!4 &184517832803887630
 Transform:
   m_ObjectHideFlags: 0
@@ -2138,12 +2141,10 @@ MonoBehaviour:
   disableUIKeys: {fileID: 112712659498422265}
   originOrbA: {fileID: 4363770834344861550}
   originOrbB: {fileID: 8952277391434361250}
-  originOrbC: {fileID: 4154256513040253421}
   orbBAvailable: {fileID: 3303045600289889413}
   orbBReload: {fileID: 4420137290744809053}
-  orbCAvailable: {fileID: 3319934519028668965}
-  orbCReload: {fileID: 4271560217906064609}
   orbType: 0
+  isLock: 0
   orbAvailable: []
   orbReload: []
 --- !u!4 &363045451805632638
@@ -2749,6 +2750,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   hp: 0
+  lockHp: 0
 --- !u!1 &480319897170444024
 GameObject:
   m_ObjectHideFlags: 0
@@ -12964,7 +12966,6 @@ MonoBehaviour:
   - {fileID: 8882929318612687507, guid: c5c8ed6524cbed84898f1dd24a1769a0, type: 3}
   orbType: 0
   cooldown: 0
-  bUseOrb: 0
 --- !u!4 &1660815941056996239
 Transform:
   m_ObjectHideFlags: 0
@@ -15889,6 +15890,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   hp: 0
+  lockHp: 0
 --- !u!114 &2535996687462830148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16287,16 +16289,10 @@ MonoBehaviour:
   handSide: 1
   gmSystem: {fileID: 8890576788980436927}
   bulletSpawnPoint: {fileID: 0}
-  randomPath:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   muzzleFlashEffect: {fileID: 0}
   bullet: {fileID: 7862229890340024945, guid: dcd588c0baea5234f945038cd6857d49, type: 3}
   onFireSFX: {fileID: 0}
-  onReloadSFX: {fileID: 0}
+  onFailedSFX: {fileID: 0}
   isAutomatic: 1
   target: {fileID: 0}
 --- !u!1 &2545755494836645742
@@ -20865,6 +20861,9 @@ MonoBehaviour:
   rotator: {fileID: 3213442716097621220}
   effect: {fileID: 3902769101462169917}
   mats: []
+  onFindPlayerSFX: {fileID: 0}
+  onEarthSFX: {fileID: 0}
+  myAs: {fileID: 0}
 --- !u!1 &3744085890482363162
 GameObject:
   m_ObjectHideFlags: 0
@@ -54580,8 +54579,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ca8edcf096e7974984fb74cdab6276f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bGrabRightHand: 0
   uIOrb: {fileID: 361921611402892415}
+  onTouchSFX: {fileID: 0}
 --- !u!4 &8684454476860927996
 Transform:
   m_ObjectHideFlags: 0
@@ -55097,6 +55096,9 @@ MonoBehaviour:
     m_Bits: 0
   crossHairImage: {fileID: 887073655573389575}
   state: 0
+  ac: {fileID: 0}
+  onTrackingSFX: {fileID: 0}
+  onTrackCompleteSFX: {fileID: 0}
 --- !u!224 &8903899925562094041
 RectTransform:
   m_ObjectHideFlags: 0

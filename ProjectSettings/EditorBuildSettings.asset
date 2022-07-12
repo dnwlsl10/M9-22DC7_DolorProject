@@ -11,27 +11,27 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/1.Scenes/TestScene_Woojin/TestScene_Woojin 1.unity
     guid: 531a3d57591847e48b90fc76ab6a5f1e
-  - enabled: 0
+  - enabled: 1
     path: Assets/1.Scenes/TestScene_YSH.unity
     guid: 3fe31c7e63528f447b53a84e3ff30ca2
   - enabled: 0
-    path: Assets/1.Scenes/GamaManagerTest.unity
-    guid: 34f9d1d6ecf08224f9a14530f05a3f28
-  - enabled: 1
     path: Assets/1.Scenes/App.unity
     guid: d179c31c37e11cb408a297da1cce654f
-  - enabled: 1
+  - enabled: 0
     path: Assets/1.Scenes/Logo.unity
     guid: 4ea51ee19d2c6534580c98416b12c6c7
-  - enabled: 1
+  - enabled: 0
     path: Assets/1.Scenes/Title.unity
     guid: 00fc4e528c4b6c542ac5af878afa7362
-  - enabled: 1
+  - enabled: 0
     path: Assets/1.Scenes/Lobby.unity
     guid: 66311082f98ef7b44bd8cef69a6badf3
-  - enabled: 1
+  - enabled: 0
     path: Assets/1.Scenes/Connect.unity
     guid: d4fd26fa915d1fc48b1e414f6cbd78a3
+  - enabled: 1
+    path: Assets/1.Scenes/InGame_Combining.unity
+    guid: 5896f17115ac0c843bd3839facd5b70d
   m_configObjects:
     com.unity.xr.magicleap.magic_leap_settings: {fileID: 11400000, guid: 671134c96a5340542bc4cf5343f8c0df, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 78b16c0f7251e904fb4ef4e7ba438e19, type: 2}
