@@ -29131,6 +29131,10 @@ PrefabInstance:
       propertyPath: bulletSpawnPoint
       value: 
       objectReference: {fileID: 3948895276902030882}
+    - target: {fileID: 539951605094041219, guid: df700dbc90b28f844aad9a231c83b4b3, type: 3}
+      propertyPath: weaponSetting.attackDistance
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 666033776476145112, guid: df700dbc90b28f844aad9a231c83b4b3, type: 3}
       propertyPath: centerEye
       value: 

@@ -141,8 +141,8 @@ public class Connect : MonoBehaviourPunCallbacks
             yield return eof;
             this.count[i].SetActive(false);
         }
-        StartCoroutine(loadingScreenProcess.LoadingPhotonScreenProcess("InGame", (ao) =>{
-            Camera.main.gameObject.GetComponentInChildren<SphereCollider>().gameObject.SetActive(true);
+        StartCoroutine(loadingScreenProcess.LoadingPhotonScreenProcess("InGame_Combining", (ao) =>{
+            Camera.main.gameObject.GetComponentInChildren<SphereCollider>(true).gameObject.SetActive(true);
             ao.completed += (obj) =>{OnCompelet();};
             PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
         }));
