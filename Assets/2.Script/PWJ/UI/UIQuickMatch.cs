@@ -7,9 +7,9 @@ public class UIQuickMatch : MonoBehaviour
     public System.Action OnSelceted;
     public AudioClip onTouchSFX;
     private void OnTriggerEnter(Collider other) {
- 
+
             AudioPool.instance.Play(onTouchSFX.name, 2, this.transform.position);
             OnSelceted();
-      
+     
     }
 }
