@@ -418,7 +418,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progressBar: {fileID: 1036616028}
   bg: {fileID: 0}
-  pv: {fileID: 0}
 --- !u!114 &1339203749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,6 +440,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1103805223492802920, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1103805223548975401, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
       propertyPath: m_SceneBindings.Array.size
       value: 5

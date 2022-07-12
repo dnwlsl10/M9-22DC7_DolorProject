@@ -47,6 +47,7 @@ public class MechNetworkManager : MonoBehaviourPun, IInitialize
     [SerializeField] List<Renderer> localDisableMesh;
     [SerializeField] List<GameObject> LayerToChangeRemote;
     [SerializeField] List<Component> componentsForOnlyLocal;
+    [SerializeField] private GameObject targetBody;
 
     private void Awake() 
     {
@@ -70,7 +71,7 @@ public class MechNetworkManager : MonoBehaviourPun, IInitialize
         foreach (var component in componentsForOnlyLocal)
             if (component) Destroy(component);
         
-        this.gameObject.tag = "Enemy";
+        this.targetBody.tag = "Enemy";
         gameObject.layer = LayerMask.NameToLayer("RemoteBound");
     }
     private void Start() 

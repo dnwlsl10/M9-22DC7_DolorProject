@@ -39,29 +39,38 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom() => InitGame();
 #endif
 
-    void Awake(){
-        #if test
-        Init();
-        #endif
-    }
+    // void Awake(){
+    //     #if test
+    //     Init();
+    //     #endif
+    // }
 
-    public void Init(UserInfo userInfo = null)
+    public void Awake()
     {
         if (instance != null)
             Destroy(instance);
         else
             instance = this;
 
+        // DataManager.GetInstance().LoadDatas();
+        // selectPrefab = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
         if (PhotonNetwork.IsConnected){
-            DataManager.GetInstance().LoadDatas();
-            var selectPrefab = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
+      
             InitGame();
         }
         else
         {
             #if test
             Debug.LogWarning("GameManager is in test mode");
-            PhotonNetwork.ConnectUsingSettings();
+            selectPrefab = DataManager.GetInstance().dicRobotDatas[1];
+            if (PhotonNetwork.IsConnected == false) 
+            {
+                PhotonNetwork.ConnectUsingSettings();
+            }
+            else
+            {
+                InitGame();
+            }
             #else
             throw new System.Exception("Not Connected to Photon Server");
             #endif
@@ -72,7 +81,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         Transform spawn = spawnPoint[PhotonNetwork.IsMasterClient ? 0 : 1];
 
-        myMech = PhotonNetwork.Instantiate(selectPrefab.name, spawn.position, spawn.rotation);
+        myMech = PhotonNetwork.Instantiate(mechPrefab.name, spawn.position, spawn.rotation);
         Instantiate(networkObjectPool);
 
         photonView.RPC("Ready", RpcTarget.MasterClient);
@@ -114,18 +123,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void OnPlayerDeath() => photonView.RPC("Death", RpcTarget.All);    
     public override void OnPlayerLeftRoom(Player otherPlayer) => ShowResult(true);
     public override void OnLeftRoom(){
-
-        StartCoroutine(asyncScene.LoadingPhotonScreen(("Lobby"), (ao) =>{
-            ao.completed += (obj) =>{
-
-                OnChangeLobby();
-            };
-            ao.allowSceneActivation = true;
-        }));
+        Debug.Log("Left Room");
     }
-
-
-
     void CompareHp(float myhp, float enemyhp) // 적과 내 HP를  비교
     {
         if (myhp > enemyhp) //내 HP가 상대 HP보다 크면 VICTORY
@@ -174,7 +173,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     IEnumerator LeaveRoom()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(8F);
         PhotonNetwork.LeaveRoom();
     }
 #endregion

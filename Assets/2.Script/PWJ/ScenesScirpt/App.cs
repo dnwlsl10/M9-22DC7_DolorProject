@@ -97,9 +97,9 @@ public class App : MonoBehaviour
                 break;
             case eSceneType.InGame:
                 {
-                    var inGame = GameObject.FindObjectOfType<InGameManager>();
+                    var inGame = GameObject.FindObjectOfType<GameManager>();
 
-                    inGame.Init(userInfo);
+                    //inGame.Init(userInfo);
 
                     inGame.OnChangeLobby = () => 
                     {

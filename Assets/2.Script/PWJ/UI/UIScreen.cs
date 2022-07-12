@@ -13,7 +13,6 @@ public class UIScreen : MonoBehaviour
     public UIGuidedMissile uIGuidedMissile; 
     public UIStatus uIStatus;
     public UIShield uIShield;
-
     public UIOrb uIOrb;
     [SerializeField] private Status status;
     [SerializeField] private BasicWeapon bw;

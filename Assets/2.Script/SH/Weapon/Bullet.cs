@@ -20,6 +20,7 @@ public class Bullet : MonoBehaviourPun
     [Space]
     [SerializeField] private float speed;
     float attackDistance;
+    bool isDamageable;
 
     private void Awake()
     {
@@ -29,17 +30,20 @@ public class Bullet : MonoBehaviourPun
     private void OnEnable() 
     {
         prevPosition = transform.position - transform.forward * Time.deltaTime;
-        StartCoroutine(DisableAfter(attackDistance/speed));
+        isDamageable = true;
+        if (photonView.Mine)
+            StartCoroutine(DisableAfter());
     }
 
     private void Update() {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
-        if (photonView.Mine == false) return;
+        transform.position += transform.forward * Time.deltaTime * speed;
+        if (photonView.Mine == false || isDamageable == false) return;
 
         Vector3 dir = transform.position - prevPosition;
         if (Physics.Raycast(prevPosition, dir.normalized, out raycastHit, dir.magnitude, bulletHitLayer, QueryTriggerInteraction.UseGlobal))
         {
             raycastHit.collider.GetComponent<IDamageable>()?.TakeDamage(damage, raycastHit.point);
+            isDamageable = false;
             photonView.CustomRPC(this, "RPCCollision", RpcTarget.All, raycastHit.point, raycastHit.normal, 1 << raycastHit.collider.gameObject.layer, raycastHit.collider.gameObject.layer != orbBLayer);
         }
         prevPosition = transform.position;
@@ -74,9 +78,12 @@ public class Bullet : MonoBehaviourPun
     [PunRPC]
     private void Deactivate() => gameObject.SetActive(false);
 
-    IEnumerator DisableAfter(float time)
+    IEnumerator DisableAfter()
     {
-        yield return new WaitForSeconds(time);
-        photonView.CustomRPC(this, "Deactivate", RpcTarget.All);
+        while (attackDistance == -1) yield return null;
+
+        yield return new WaitForSeconds(attackDistance/speed);
+        if (isDamageable)
+            photonView.CustomRPC(this, "Deactivate", RpcTarget.All);
     }
 }

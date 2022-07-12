@@ -44,6 +44,7 @@ public class OrbTrigger : MonoBehaviour
             this.orbType = (eOrbType)orbIndex;
             changePrefabIndex?.Invoke(orbIndex);
             col.enabled = true;
+            WeaponSystem.instance.UnlockWeapon(WeaponName.Orb);
         }));
     }
     private void OnCollisionEnter(Collision other) 
@@ -52,6 +53,7 @@ public class OrbTrigger : MonoBehaviour
 
         if(other.collider.CompareTag("RightHand"))
         {
+            WeaponSystem.instance.LockWeapon(WeaponName.Orb);
             col.enabled = false;
             AudioPool.instance.Play(onTouchSFX.name, 2, this.transform.position);
             ChangeColor(((int)orbType + 1) % numOrbType);

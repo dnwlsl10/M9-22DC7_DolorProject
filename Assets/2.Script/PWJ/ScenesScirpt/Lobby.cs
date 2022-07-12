@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class Lobby : MonoBehaviour
 {
@@ -12,11 +13,15 @@ public class Lobby : MonoBehaviour
     public GameObject blackBG;
     [SerializeField]
     private bool isTest;
+
+    void Awake(){
+        if(PhotonNetwork.IsConnected) PhotonNetwork.Disconnect();
+    }
     public void Start()
     {
         if (isTest)
         {
-            Debug.Log("Test �Դϴ�.");
+            Debug.Log("Test 모드");
             this.Init();
         }
         scenecTigger.OnChangeScene = () =>

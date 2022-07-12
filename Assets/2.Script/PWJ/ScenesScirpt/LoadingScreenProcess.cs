@@ -9,11 +9,11 @@ public class LoadingScreenProcess : MonoBehaviourPun
 {
     public Image progressBar;
     public GameObject bg;
-    public IEnumerator LoadingPhotonScreenProcess(string sceneName ,System.Action<AsyncOperation> OnComplete)
+    public IEnumerator LoadingPhotonScreenProcess(int sceneindex ,System.Action<AsyncOperation> OnComplete)
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("InGame");
+            PhotonNetwork.LoadLevel(sceneindex);
         }
         PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = false;
         bg.SetActive(true);
@@ -39,12 +39,11 @@ public class LoadingScreenProcess : MonoBehaviourPun
         }      
     }
 
-    public IEnumerator LoadingPhotonScreen(string sceneName, System.Action<AsyncOperation> OnComplete)
+    public IEnumerator LoadingPhotonScreen(int sceneindex)
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.LoadLevel("InGame");
-        }
+
+        PhotonNetwork.LoadLevel(sceneindex);
+        
         PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = false;
 
         while (!PhotonNetwork._AsyncLevelLoadingOperation.isDone)
@@ -58,7 +57,7 @@ public class LoadingScreenProcess : MonoBehaviourPun
             else
             {
                 yield return new WaitForSeconds(3f);
-                OnComplete(PhotonNetwork._AsyncLevelLoadingOperation);
+                PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
             }
         }
     }
