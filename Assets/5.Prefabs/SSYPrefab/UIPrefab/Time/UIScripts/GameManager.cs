@@ -123,12 +123,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void OnPlayerDeath() => photonView.RPC("Death", RpcTarget.All);    
     public override void OnPlayerLeftRoom(Player otherPlayer) => ShowResult(true);
     public override void OnLeftRoom(){
-        Debug.Log("Left Room And AsyncLoad Scean");
-        StartCoroutine(asyncScene.LoadingPhotonScreen(0));
+        Debug.Log("Left Room");
     }
-
-
-
     void CompareHp(float myhp, float enemyhp) // 적과 내 HP를  비교
     {
         if (myhp > enemyhp) //내 HP가 상대 HP보다 크면 VICTORY
