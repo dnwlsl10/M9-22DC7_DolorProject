@@ -31,11 +31,12 @@ public class Bullet : MonoBehaviourPun
     {
         prevPosition = transform.position - transform.forward * Time.deltaTime;
         isDamageable = true;
-        StartCoroutine(DisableAfter(attackDistance/speed));
+        if (photonView.Mine)
+            StartCoroutine(DisableAfter());
     }
 
     private void Update() {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        transform.position += transform.forward * Time.deltaTime * speed;
         if (photonView.Mine == false || isDamageable == false) return;
 
         Vector3 dir = transform.position - prevPosition;
@@ -77,9 +78,11 @@ public class Bullet : MonoBehaviourPun
     [PunRPC]
     private void Deactivate() => gameObject.SetActive(false);
 
-    IEnumerator DisableAfter(float time)
+    IEnumerator DisableAfter()
     {
-        yield return new WaitForSeconds(time);
+        while (attackDistance == -1) yield return null;
+
+        yield return new WaitForSeconds(attackDistance/speed);
         if (isDamageable)
             photonView.CustomRPC(this, "Deactivate", RpcTarget.All);
     }

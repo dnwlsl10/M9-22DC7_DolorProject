@@ -10,6 +10,8 @@ public class AudioPool : MonoBehaviour
     Dictionary<string, AudioClip> clipDictionary = new Dictionary<string, AudioClip>();
     Queue<Audio>[] poolQueue = new Queue<Audio>[3];
 
+    public GameObject audiosourcePrefab;
+
     private void Awake() {
         if (instance != null)
         {
@@ -40,7 +42,7 @@ public class AudioPool : MonoBehaviour
 
     private void CreateNewSource(int audioType)
     {
-        GameObject go = new GameObject(System.Enum.GetName(typeof(AudioType), audioType), typeof(AudioSource), typeof(Audio));
+        GameObject go = Instantiate(audiosourcePrefab);
         go.transform.parent = transform;
         go.GetComponent<Audio>().Initialize(audioType);
         go.SetActive(false);
