@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             #if test
             Debug.LogWarning("GameManager is in test mode");
             PhotonNetwork.ConnectUsingSettings();
+            selectPrefab.name = "InGame_Mars Variant";
             #else
             throw new System.Exception("Not Connected to Photon Server");
             #endif
@@ -116,6 +117,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom(){
 
         StartCoroutine(asyncScene.LoadingPhotonScreen(("Lobby"), (ao) =>{
+            Camera.main.GetComponentInChildren<SphereCollider>().gameObject.SetActive(true);
             ao.completed += (obj) =>{
 
                 OnChangeLobby();
