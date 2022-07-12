@@ -1,15 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Title : MonoBehaviour
 {
     public System.Action OnClick;
-    public void Update()
+    public LoadingScreenProcess loadingAsyc;
+    public GameObject txtObj;
+    public GameObject blackBg;
+    //public AsyncOperation ao;
+    private WaitForEndOfFrame of = new WaitForEndOfFrame();
+    private WaitForSeconds os = new WaitForSeconds(5f);
+    public void Init() 
     {
-        if (Input.anyKeyDown)
-        {
-            this.OnClick();
-        }
+        txtObj.gameObject.SetActive(false);
+        StartCoroutine(EndTitleAni());
+    }
+
+    IEnumerator EndTitleAni()
+    {
+        yield return os;
+        txtObj.gameObject.SetActive(true);
+        StartCoroutine(OnClickAnyKey());
+    }
+
+    IEnumerator OnClickAnyKey(){
+
+        while(!Input.anyKey)
+            yield return null;
+
+        yield return of;
+        blackBg.gameObject.SetActive(true);
+
+        StartCoroutine(loadingAsyc.LoadingNormalScreenProcess(("Lobby"), (ao) =>{
+
+            ao.completed += (obj) =>
+            {
+               this.OnClick();
+            };
+            
+            ao.allowSceneActivation = true;
+        }));
     }
 }

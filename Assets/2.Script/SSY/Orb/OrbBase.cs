@@ -9,13 +9,21 @@ public class OrbBase : MonoBehaviourPun
     [SerializeField]
     protected float onShootSpeed;
     protected float orbSpeed;
+    protected Transform parent;
 
     protected void Update()
     {
         OrbMoving();
     }
-    protected void OnEnable() {
+    protected void OnEnable() 
+    {
         Init();
+        if (parent) transform.parent = parent;
+    }
+
+    protected void OnDisable()
+    {
+        parent = null;
     }
 
     protected virtual void Init()
@@ -32,13 +40,12 @@ public class OrbBase : MonoBehaviourPun
         if (tr.TryGetComponent<PhotonView>(out var pv) && pv.ViewID > 0)
             photonView.CustomRPC(this, "SetPRPC", RpcTarget.All, pv.ViewID);
         else
-            StartCoroutine(MoveToParent(tr));
+            parent = tr;
     }
     [PunRPC]
     protected void SetPRPC(int viewID)
     {
-        Transform tr = PhotonNetwork.GetPhotonView(viewID).transform;
-        StartCoroutine(MoveToParent(tr));
+        parent = PhotonNetwork.GetPhotonView(viewID).transform;
     }
     Audio audio;
     [SerializeField] AudioClip clip;

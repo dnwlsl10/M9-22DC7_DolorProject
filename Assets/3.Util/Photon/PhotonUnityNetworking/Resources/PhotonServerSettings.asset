@@ -28,44 +28,39 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: kr
+  DevRegion: 
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
   - animPlay
+  - BDmg
   - BulletHit
   - CallRpc
   - CDCHit
   - ClickRpc
+  - Collapse
   - CrossFade
+  - Death
   - DestroyRpc
   - GameStart
   - GameStartRPC
   - LinkExit
   - LinkStart
+  - OnTimeOver
+  - RcvHp
   - Ready
   - RegistSelf
   - RPCAttack
   - RPCCollision
-  - RPCPath
   - RPCSetWeight
   - RPCSpawn
   - SetPRPC
+  - SetTargetRPC
   - ShieldD
   - TD_RPC
-  - SetTargetRPC
-  - HP
-  - SendHp
-<<<<<<< HEAD
-  - Death
-  - OnTimeOver
-  - RcvHp
-  - BDmg
-  - Collapse
-=======
->>>>>>> cjw/dev
+  - Deactivate
   DisableAutoOpenWizard: 1
   ShowSettings: 1
-  DevRegionSetOnce: 1
+  DevRegionSetOnce: 0

@@ -8,7 +8,7 @@ public class AudioPool : MonoBehaviour
     public static AudioPool instance;
     public AudioClip[] clips;
     Dictionary<string, AudioClip> clipDictionary = new Dictionary<string, AudioClip>();
-    Queue<GameObject>[] poolQueue = new Queue<GameObject>[3];
+    Queue<Audio>[] poolQueue = new Queue<Audio>[3];
 
     private void Awake() {
         if (instance != null)
@@ -20,9 +20,9 @@ public class AudioPool : MonoBehaviour
         instance = this;
         transform.position = Vector3.zero;
 
-        poolQueue[0] = new Queue<GameObject>();
-        poolQueue[1] = new Queue<GameObject>();
-        poolQueue[2] = new Queue<GameObject>();
+        poolQueue[0] = new Queue<Audio>();
+        poolQueue[1] = new Queue<Audio>();
+        poolQueue[2] = new Queue<Audio>();
 
         for (int i = 0; i < clips.Length; i++)
             clipDictionary.Add(clips[i].name, clips[i]);
@@ -38,16 +38,15 @@ public class AudioPool : MonoBehaviour
         CreateNewSource(2);
     }
 
-    private GameObject CreateNewSource(int audioType)
+    private void CreateNewSource(int audioType)
     {
         GameObject go = new GameObject(System.Enum.GetName(typeof(AudioType), audioType), typeof(AudioSource), typeof(Audio));
         go.transform.parent = transform;
         go.GetComponent<Audio>().Initialize(audioType);
         go.SetActive(false);
-        return go;
     }
 
-    public Audio Play(string name, int type, Vector3 position)
+    public Audio Play(string name, int type, Vector3 position, float volume=1)
     {
         if (name == null) return null;
         
@@ -65,15 +64,14 @@ public class AudioPool : MonoBehaviour
         if (poolQueue[type].Count <= 0)
             CreateNewSource(type);
         
-        GameObject go = poolQueue[type].Dequeue();
-        go.transform.position = position;
-        Audio audio = go.GetComponent<Audio>();
-        audio.Play(clipDictionary[name]);
+        Audio audio = poolQueue[type].Dequeue();
+        audio.transform.position = position;
+        audio.Play(clipDictionary[name], volume);
 
         return audio;
     }
 
-    public Audio Play(string name, int type, Vector3 position, Transform parent)
+    public Audio Play(string name, int type, Vector3 position, Transform parent, float volume=1)
     {
         if (name == null) return null;
 
@@ -84,7 +82,7 @@ public class AudioPool : MonoBehaviour
 
     public void ReturnToPool(Audio a)
     {
-        poolQueue[a.audioType].Enqueue(a.gameObject);
+        poolQueue[a.audioType].Enqueue(a);
         if (a.transform.parent != transform)
             StartCoroutine(SetParent(a.transform));
     }
