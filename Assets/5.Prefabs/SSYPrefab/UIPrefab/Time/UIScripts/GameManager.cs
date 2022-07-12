@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer) => ShowResult(true);
     public override void OnLeftRoom(){
 
-        StartCoroutine(asyncScene.LoadingPhotonScreen(("Lobby"), (ao) =>{
+        StartCoroutine(asyncScene.LoadingPhotonScreen(3, (ao) =>{
             Camera.main.GetComponentInChildren<SphereCollider>().gameObject.SetActive(true);
             ao.completed += (obj) =>{
 
