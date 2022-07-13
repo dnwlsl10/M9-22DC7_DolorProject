@@ -4833,11 +4833,11 @@ MonoBehaviour:
   EffectsOnCollision:
   - {fileID: 1795992203533318, guid: 890aba7398207db48978724168fac5a7, type: 3}
   effectNormalPositionOffset: 0.1
-  setParent: 1
+  setParent: 0
   damage: 1
   bulletHitLayer:
     serializedVersion: 2
-    m_Bits: 134285376
+    m_Bits: 134285312
   speed: 30
 --- !u!114 &-4488741340066538533
 MonoBehaviour:

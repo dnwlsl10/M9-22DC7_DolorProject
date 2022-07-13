@@ -116,6 +116,7 @@ public class Connect : MonoBehaviourPunCallbacks
       
     public override void OnJoinedRoom()
     {
+        print(PhotonNetwork.CurrentLobby.Name + " " + PhotonNetwork.CurrentRoom.Name);
         if(this.roomMode == eRoomMode.QuickMatchRoom)  IsMasterClient(PhotonNetwork.IsMasterClient);
     }
 
@@ -143,7 +144,7 @@ public class Connect : MonoBehaviourPunCallbacks
         }
         StartCoroutine(loadingScreenProcess.LoadingPhotonScreenProcess(5, (ao) =>{
             Camera.main.gameObject.GetComponentInChildren<SphereCollider>(true).gameObject.SetActive(true);
-            ao.completed += (obj) =>{OnCompelet();};
+           // ao.completed += (obj) =>{OnCompelet();};
             PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
         }));
     }

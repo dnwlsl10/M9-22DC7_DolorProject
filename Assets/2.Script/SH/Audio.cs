@@ -10,6 +10,8 @@ public class Audio : MonoBehaviour
 
     private void Awake() {
         source = GetComponent<AudioSource>();
+        source.spatialBlend = 1;
+        
     }
 
     public void Initialize(int audioType)

@@ -99,7 +99,7 @@ public class App : MonoBehaviour
                 {
                     var inGame = GameObject.FindObjectOfType<GameManager>();
 
-                    inGame.Init(userInfo);
+                    //inGame.Init(userInfo);
 
                     inGame.OnChangeLobby = () => 
                     {

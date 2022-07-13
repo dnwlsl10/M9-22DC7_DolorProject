@@ -17,9 +17,9 @@ namespace Project.Scripts.Fractures
 
         private void Start()
         {
-            GetComponent<Collider>().enabled = true;
+            // GetComponent<Collider>().enabled = true;
             FractureGameobject();
-            GetComponent<Collider>().enabled = true;
+            // GetComponent<Collider>().enabled = true;
         }
 GameObject go;
 ChunkGraphManager cg;
