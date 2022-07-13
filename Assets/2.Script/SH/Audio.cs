@@ -68,7 +68,8 @@ public class Audio : MonoBehaviour
     }
 
     private void OnDisable() {
-        AudioPool.instance.ReturnToPool(this);
+        
+        AudioPool.instance?.ReturnToPool(this);
     }
 
     private void OnDestroy() {

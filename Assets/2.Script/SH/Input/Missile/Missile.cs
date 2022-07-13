@@ -31,7 +31,7 @@ public class Missile : MonoBehaviourPun
     {
         target = tr;
         gameObject.SetActive(true);
-        //  StartCoroutine(CustomDisable());
+         StartCoroutine(CustomDisable());
     }
 
     IEnumerator CustomDisable()
@@ -55,8 +55,7 @@ public class Missile : MonoBehaviourPun
 
         var contact = other.GetContact(0);
         other.collider.GetComponent<IDamageable>()?.TakeDamage(damage, contact.point);
-
-        gm?.Destory();
+        
         photonView.CustomRPC(this, "RPCCollision", RpcTarget.AllViaServer, contact.point, contact.normal);
     }
     [PunRPC]
@@ -74,6 +73,7 @@ public class Missile : MonoBehaviourPun
 
     void OnDisable()
     {
+        gm?.Destory();
         target = null;
     }
 }

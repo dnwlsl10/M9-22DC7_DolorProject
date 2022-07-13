@@ -163,10 +163,10 @@ namespace Project.Scripts.Fractures
             chunkMesh.subMeshCount = 2;
             chunkMesh.SetIndices(inside.getIndexes(), MeshTopology.Triangles, 1);
 
-            UnityEditor.AssetDatabase.CreateAsset(chunkMesh, "Assets/LFS/Meshes/Chunk["+index+"].asset");
+            // UnityEditor.AssetDatabase.CreateAsset(chunkMesh, "Assets/LFS/Meshes/Chunk["+index+"].asset");
             // UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Meshes/Chunk["+index+"].asset", typeof(Mesh)) as Mesh;
-            // return chunkMesh;
-            return UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/LFS/Meshes/Chunk["+index+"].asset", typeof(Mesh)) as Mesh;
+            return chunkMesh;
+            // return UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/LFS/Meshes/Chunk["+index+"].asset", typeof(Mesh)) as Mesh;
         }
 
         private static Mesh GetWorldMesh(GameObject gameObject)

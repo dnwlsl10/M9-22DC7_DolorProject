@@ -123,6 +123,7 @@ MonoBehaviour:
     m_Bits: 134357056
   vfx: {fileID: 8882929319085064557}
   blackHole: {fileID: 8882929317887460080}
+  damage: 20
 --- !u!114 &1656883373293766088
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -131,22 +131,27 @@ public class Connect : MonoBehaviourPunCallbacks
     }
 
     public void FindUserBgmSFX(){
-        AudioPool.instance.Play(onGameStartSFX.name, 1, this.transform.position);
-        photonView.RPC("GameStartRPC", RpcTarget.AllBuffered);
+        photonView.CustomRPC(this, "GameStartRPC", RpcTarget.AllBuffered);
     }
 
     [PunRPC]
-    void GameStartRPC() => StartCoroutine(OnStartCount());
+    void GameStartRPC(){
+   
+        StartCoroutine(OnStartCount());
+    }
     IEnumerator OnStartCount()
     {
+        yield return null;
+        AudioPool.instance.Play(onGameStartSFX.name, 1, this.transform.position);
+
         for(int i =0 ; i< count.Length; i++){
             this.count[i].SetActive(true);
             AudioPool.instance.Play(onCountSFX.name, 2, this.transform.position);
             yield return eof;
             this.count[i].SetActive(false);
         }
-        StartCoroutine(loadingScreenProcess.LoadingPhotonScreenProcess(5, (ao) =>{
-            Camera.main.gameObject.GetComponentInChildren<SphereCollider>(true).gameObject.SetActive(true);
+
+        yield return StartCoroutine(loadingScreenProcess.LoadingPhotonScreenProcess(5, (ao) =>{
            // ao.completed += (obj) =>{OnCompelet();};
             PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
         }));

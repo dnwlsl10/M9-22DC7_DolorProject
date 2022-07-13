@@ -42,7 +42,9 @@ public class Bullet : MonoBehaviourPun
         Vector3 dir = transform.position - prevPosition;
         if (Physics.Raycast(prevPosition, dir.normalized, out raycastHit, dir.magnitude, bulletHitLayer, QueryTriggerInteraction.UseGlobal))
         {
-            raycastHit.collider.GetComponent<IDamageable>()?.TakeDamage(damage, raycastHit.point);
+            IDamageable damageable = raycastHit.collider.GetComponent<IDamageable>();
+            damageable?.TakeDamage(damage, raycastHit.point);
+            if (damageable != null) WeaponSystem.instance.GetComponent<GuidedMissile>().GetGauge(0.05f);
             isDamageable = false;
             photonView.CustomRPC(this, "RPCCollision", RpcTarget.All, raycastHit.point, raycastHit.normal, 1 << raycastHit.collider.gameObject.layer, raycastHit.collider.gameObject.layer != orbBLayer);
         }

@@ -50,3 +50,9 @@ MonoBehaviour:
   - name: MissileHItEffect
     prefab: {fileID: 5271948925172720486, guid: 68c4301db66944b4cbe77b555b192fd7, type: 3}
     initSize: 20
+  - name: FractureSmall
+    prefab: {fileID: 74650664939899593, guid: 470c74a077ce17f4b8b206c081d16395, type: 3}
+    initSize: 1
+  - name: FractureBig
+    prefab: {fileID: 9217893729165224176, guid: 227c45e1e91c67e499d09a58bdd82294, type: 3}
+    initSize: 1

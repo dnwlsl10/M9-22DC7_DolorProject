@@ -57,6 +57,7 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] int maxDetectCollider;
     [SerializeField] float scanRadius;
     [SerializeField] GameObject[] fracturedBuilding;
+    [SerializeField] AudioClip bdSfx;
     private void Collapse(Building bldg)
     {
         currentCollapsingBuilding++;
@@ -67,9 +68,11 @@ public class BuildingManager : MonoBehaviour
         fracturedBldg.transform.localScale = bldg.building.lossyScale;
         
         int colNum = Physics.OverlapSphereNonAlloc(bldg.hitPosition, scanRadius, colliders, layer, QueryTriggerInteraction.Ignore);
+        if (bdSfx) AudioPool.instance.Play(bdSfx.name, 2 , bldg.building.position);
         print("COLNUM" + colNum);
         for (int i = 0; i < colNum; i++)
         {
+            colliders[i].gameObject.layer = 0;
             colliders[i].attachedRigidbody.AddExplosionForce(explosionForce, bldg.hitPosition, scanRadius, 0, ForceMode.Impulse);
         }
         StartCoroutine(DisableAfter(fracturedBldg));

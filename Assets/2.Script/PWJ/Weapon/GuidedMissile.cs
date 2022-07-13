@@ -89,7 +89,7 @@ public class GuidedMissile : WeaponBase , IInitialize
     {
         base.Initialize();
         CurrentAmmo = 0;
-        upGaugeRate = 10f;
+        upGaugeRate = 0.05f;
         if(SceneManager.GetActiveScene().name == "Connect") return;
         StartReload();
     }
@@ -156,9 +156,8 @@ public class GuidedMissile : WeaponBase , IInitialize
             }
         }
     }
-
-    public void GetGauge(){
-        CurrentAmmo += 0.05f;
+    public void GetGauge(float val){
+        CurrentAmmo += val;
     }
     private void OnAttack()
     {
@@ -166,6 +165,7 @@ public class GuidedMissile : WeaponBase , IInitialize
         var missile = NetworkObjectPool.instance.SpawnFromPool<Missile>(bullet.name, bulletSpawnPoint.transform.position, qrot, false);
         missile.gm = this;
         missile.damage  = weaponSetting.damage;
+        
         AudioPool.instance.Play(onFireSFX.name, 2, bulletSpawnPoint.position);
         
         if(targetPV?.ViewID > 0)

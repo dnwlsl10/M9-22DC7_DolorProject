@@ -1,5 +1,6 @@
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class BuildingDamageable : MonoBehaviourPun, IDamageable
 {
@@ -12,16 +13,17 @@ public class BuildingDamageable : MonoBehaviourPun, IDamageable
     }
 
     [PunRPC]
-    private void BDmg(float damage, Vector3 point)
+    private void BDmg(float damage, Vector3 point, PhotonMessageInfo info)
     {
         if (canTakeDmg == false) return;
-        
+
         hp -= damage;
         Debug.Log("Current HP : " + hp);
         if (hp <= 0)
         {
             canTakeDmg = false;
             photonView.CustomRPC(this, "Collapse", RpcTarget.AllViaServer, point);
+            photonView.CustomRPC(this, "GMUp", info.Sender);
         }
     }
 
@@ -29,5 +31,11 @@ public class BuildingDamageable : MonoBehaviourPun, IDamageable
     private void Collapse(Vector3 position)
     {
         BuildingManager.instance.TryCollapse(new Building(transform, position, buildingIndex));
+    }
+
+    [PunRPC]
+    private void GMUp()
+    {
+        WeaponSystem.instance.GetComponent<GuidedMissile>().GetGauge(15);
     }
 }

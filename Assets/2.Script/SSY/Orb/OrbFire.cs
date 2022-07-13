@@ -21,7 +21,7 @@ public class OrbFire : WeaponBase
 
     public override void Initialize(){
         base.Initialize();
-        cooldown = weaponSetting.attackRate;
+        cooldown = 0;
     }
 
     public override void StartWeaponAction() //GetKeyDown

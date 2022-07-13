@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 4373287134052610044}
   - component: {fileID: 4379266948899883698}
   - component: {fileID: 4390409830821195364}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Street_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4373287134052610044
 Transform:
@@ -91,12 +91,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4373145781967214728}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Street_03_Cross_Section
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4373145781967214728
 Transform:
@@ -123,14 +123,14 @@ GameObject:
   m_Component:
   - component: {fileID: 4546393694998471119}
   - component: {fileID: 4546393694998471112}
-  - component: {fileID: 4546393694998471113}
   - component: {fileID: 4546393694998471114}
-  m_Layer: 0
+  - component: {fileID: 8124096491480816874}
+  m_Layer: 27
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967294
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4546393694998471119
 Transform:
@@ -153,20 +153,6 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4546393694998471115}
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &4546393694998471113
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4546393694998471115}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &4546393694998471114
 MeshRenderer:
@@ -209,6 +195,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &8124096491480816874
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4546393694998471115}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 9.999999, y: 2.220446e-16, z: 9.999999}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4873508590406201689
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,12 +217,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1441457393488967118}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1441457393488967118
 Transform:
@@ -254,12 +253,12 @@ GameObject:
   - component: {fileID: 8430522686998781271}
   - component: {fileID: 8430522686998781269}
   - component: {fileID: 8430522686998781268}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Stree_01 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 63
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522686998781271
 Transform:
@@ -336,12 +335,12 @@ GameObject:
   - component: {fileID: 8430522687009431208}
   - component: {fileID: 8430522687009431206}
   - component: {fileID: 8430522687009431209}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Stree_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 63
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522687009431208
 Transform:
@@ -418,12 +417,12 @@ GameObject:
   - component: {fileID: 8430522687280779010}
   - component: {fileID: 8430522687280779008}
   - component: {fileID: 8430522687280779011}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Stree_01 (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 63
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522687280779010
 Transform:
@@ -500,12 +499,12 @@ GameObject:
   - component: {fileID: 8430522687402094848}
   - component: {fileID: 8430522687402094847}
   - component: {fileID: 8430522687402094846}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Street_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522687402094848
 Transform:
@@ -582,12 +581,12 @@ GameObject:
   - component: {fileID: 8430522687449027370}
   - component: {fileID: 8430522687449027368}
   - component: {fileID: 8430522687449027371}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Stree_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 63
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522687449027370
 Transform:
@@ -664,12 +663,12 @@ GameObject:
   - component: {fileID: 8430522687519890572}
   - component: {fileID: 8430522687519890570}
   - component: {fileID: 8430522687519890573}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Stree_01 (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 63
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522687519890572
 Transform:
@@ -744,12 +743,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8430522687685671938}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Streets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 63
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522687685671938
 Transform:
@@ -790,12 +789,12 @@ GameObject:
   - component: {fileID: 8430522687915546538}
   - component: {fileID: 8430522687915546537}
   - component: {fileID: 8430522687915546536}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Street_03 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522687915546538
 Transform:
@@ -872,12 +871,12 @@ GameObject:
   - component: {fileID: 8430522687951812911}
   - component: {fileID: 8430522687951812909}
   - component: {fileID: 8430522687951812908}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Stree_01 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 63
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522687951812911
 Transform:
@@ -954,12 +953,12 @@ GameObject:
   - component: {fileID: 8430522688102944957}
   - component: {fileID: 8430522688102944955}
   - component: {fileID: 8430522688102944954}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Stree_01 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 63
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522688102944957
 Transform:
@@ -1036,12 +1035,12 @@ GameObject:
   - component: {fileID: 8430522688151410754}
   - component: {fileID: 8430522688151410752}
   - component: {fileID: 8430522688151410755}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Stree_01 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 63
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522688151410754
 Transform:
@@ -1118,12 +1117,12 @@ GameObject:
   - component: {fileID: 8430522688168030142}
   - component: {fileID: 8430522688168030140}
   - component: {fileID: 8430522688168030143}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Stree_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 63
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522688168030142
 Transform:
@@ -1198,12 +1197,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8430522688262211081}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Street_03_Cross_Section (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522688262211081
 Transform:
@@ -1233,12 +1232,12 @@ GameObject:
   - component: {fileID: 8430522688282223405}
   - component: {fileID: 8430522688282223400}
   - component: {fileID: 8430522688282223403}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Stree_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 63
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522688282223405
 Transform:
@@ -1315,12 +1314,12 @@ GameObject:
   - component: {fileID: 8430522688339510690}
   - component: {fileID: 8430522688339510688}
   - component: {fileID: 8430522688339510691}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Stree_01 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 63
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522688339510690
 Transform:
@@ -1397,12 +1396,12 @@ GameObject:
   - component: {fileID: 8430522688434092002}
   - component: {fileID: 8430522688434092000}
   - component: {fileID: 8430522688434092003}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Stree_01 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 63
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522688434092002
 Transform:
@@ -1479,12 +1478,12 @@ GameObject:
   - component: {fileID: 8430522688568785883}
   - component: {fileID: 8430522688568785881}
   - component: {fileID: 8430522688568785880}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Stree_01 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 63
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522688568785883
 Transform:
@@ -1561,12 +1560,12 @@ GameObject:
   - component: {fileID: 8430522688788814905}
   - component: {fileID: 8430522688788814903}
   - component: {fileID: 8430522688788814902}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Stree_01 (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 63
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522688788814905
 Transform:
@@ -1643,12 +1642,12 @@ GameObject:
   - component: {fileID: 8430522688891866339}
   - component: {fileID: 8430522688891866334}
   - component: {fileID: 8430522688891866337}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Street_03 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8430522688891866339
 Transform:

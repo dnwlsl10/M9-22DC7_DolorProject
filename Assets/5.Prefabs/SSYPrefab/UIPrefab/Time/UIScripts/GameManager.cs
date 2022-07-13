@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager instance;
     public event System.Action onGameStart;
-    public LoadingScreenProcess asyncScene;
     public System.Action OnChangeLobby;
     private RobotData selectPrefab;
 
@@ -32,7 +31,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     private List<PhotonView> players = new List<PhotonView>();
     private int playerCount;
     private int prevSecond;
-    public AudioClip inGameBgm;
 
 #if test
     public override void OnConnectedToMaster() => PhotonNetwork.JoinLobby();
@@ -65,7 +63,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             #if test
             Debug.LogWarning("GameManager is in test mode");
-            selectPrefab = DataManager.GetInstance().dicRobotDatas[1];
+            // selectPrefab = DataManager.GetInstance().dicRobotDatas[1];
             if (PhotonNetwork.IsConnected == false) 
             {
                 PhotonNetwork.ConnectUsingSettings();
@@ -82,7 +80,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void InitGame()
     {
-        AudioPool.instance.Play(inGameBgm.name, 1 , this.transform.position , 0.5f);
         Transform spawn = spawnPoint[PhotonNetwork.IsMasterClient ? 0 : 1];
 
         myMech = PhotonNetwork.Instantiate(mechPrefab.name, spawn.position, spawn.rotation);
@@ -127,7 +124,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void OnPlayerDeath() => photonView.RPC("Death", RpcTarget.All);    
     public override void OnPlayerLeftRoom(Player otherPlayer) => ShowResult(true);
     public override void OnLeftRoom(){
-        Debug.Log("Left Room");
+        PhotonNetwork.LoadLevel(0);
     }
     void CompareHp(float myhp, float enemyhp) // 적과 내 HP를  비교
     {
@@ -156,11 +153,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         while (playerCount != players.Count || players.Count != PhotonNetwork.CurrentRoom.PlayerCount)
             yield return null;
 
+
         photonView.RPC("GameStart", RpcTarget.AllViaServer);
     }
     IEnumerator StartCountDown()
     {
-        yield return new WaitForSecondsRealtime(3);
+        yield return new WaitForSecondsRealtime(8f);
 
         foreach (var door in GameObject.FindObjectsOfType<DoorSystem>())
         {

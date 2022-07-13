@@ -21,6 +21,7 @@ public class OrbB : OrbBase, IDamageable
 
     [SerializeField] Transform vfx;
     [SerializeField] Transform blackHole;
+    [SerializeField] float damage;
     bool robotDamaged;
     int bulletLayer;
 
@@ -57,7 +58,7 @@ public class OrbB : OrbBase, IDamageable
 
         Collider[] cols = Physics.OverlapSphere(transform.position, maxScale, damageableLayer);
         for (int i = 0; i < cols.Length; i++)
-            cols[i].GetComponent<IDamageable>()?.TakeDamage(100, transform.position);
+            cols[i].GetComponent<IDamageable>()?.TakeDamage(damage, transform.position);
     }
 
     private void OnTriggerExit(Collider other) {

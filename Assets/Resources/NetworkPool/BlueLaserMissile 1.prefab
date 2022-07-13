@@ -4838,7 +4838,7 @@ MonoBehaviour:
   bulletHitLayer:
     serializedVersion: 2
     m_Bits: 134285312
-  speed: 30
+  speed: 60
 --- !u!114 &-4488741340066538533
 MonoBehaviour:
   m_ObjectHideFlags: 0

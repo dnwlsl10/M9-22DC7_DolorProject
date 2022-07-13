@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class MechLand : MonoBehaviour, IInitialize
 {
+    [ContextMenu("ADD")]
     public void Reset()
     {
 #if UNITY_EDITOR
-        groundLayer = LayerMask.GetMask("Ground"); groundDetectDistance = 0.6f; if (componentsAfterStartScene.Count == 0) {
+        // groundLayer = LayerMask.GetMask("Ground"); groundDetectDistance = 0.6f; 
+        if (componentsAfterStartScene.Count == 0) {
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<HandIK>(true));
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<MechMovementController>(true));
             componentsAfterStartScene.AddRange(transform.root.GetComponentsInChildren<WeaponBase>(true));
@@ -23,6 +25,7 @@ public class MechLand : MonoBehaviour, IInitialize
     public List<Behaviour> componentsAfterStartScene;
     public float groundDetectDistance = 1;
     CharacterController cc;
+    public GameObject groundVfx;
     private void Awake() 
     {
         anim = GetComponent<Animator>();
@@ -59,6 +62,9 @@ public class MechLand : MonoBehaviour, IInitialize
         while (Physics.Raycast(transform.position, -transform.up, groundDetectDistance * 3, groundLayer) == false)
             yield return null;
 
+
+            groundVfx.SetActive(true); //이펙트
+            Destroy(this.groundVfx , 3f);
         if (clip) AudioPool.instance.Play(clip.name, 2, transform.position);
 
         while (Physics.Raycast(transform.position, -transform.up, groundDetectDistance, groundLayer) == false)
