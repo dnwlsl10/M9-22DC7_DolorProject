@@ -9,14 +9,8 @@ public class UIPracice : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-<<<<<<< HEAD
-            AudioPool.instance.Play(onTouchSFX.name, 2, this.transform.position);
-            OnSelceted();
-        
-=======
         AudioPool.instance.Play(onTouchSFX.name, 2, this.transform.position);
         OnSelceted();
 
->>>>>>> develop
     }
 }
