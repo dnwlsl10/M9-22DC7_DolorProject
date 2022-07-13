@@ -8,7 +8,8 @@ public class ZoneWall : MonoBehaviour
     // private string playername;
 
     public int outZoneDamage = 10;
-
+    public AudioClip insideZone;
+    public AudioClip outsideZone;
     private bool inZone;
     // void Start()
     // {
@@ -25,6 +26,7 @@ public class ZoneWall : MonoBehaviour
             //포스트프로세싱 아웃버전 
             inZone = false;
             StartCoroutine(DamagePlayer());
+            AudioPool.instance.Play(outsideZone.name, 2 , other.transform.position);
         }
     }
     void OnTriggerEnter(Collider other) //인 상태일 때
@@ -32,7 +34,8 @@ public class ZoneWall : MonoBehaviour
         if(other.gameObject == GameManager.instance.myMech)
         {
             //포스트프로세싱 인버전 
-            inZone = true;
+            inZone = true; 
+            AudioPool.instance.Play(insideZone.name, 2, other.transform.position);
         }
     }
     IEnumerator DamagePlayer()

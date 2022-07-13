@@ -54,7 +54,7 @@ public class UIScreen : MonoBehaviour
         sw.weaponSetting.bLock = false;
         uIOrb.isLock = false;
         of.weaponSetting.bLock = false;
-        of.Cooldown = of.weaponSetting.maxAmmo;
+        of.Cooldown = of.weaponSetting.attackRate;
         WeaponSystem.instance.UnlockWeapon(of.weaponSetting.weaponName);
     }
 

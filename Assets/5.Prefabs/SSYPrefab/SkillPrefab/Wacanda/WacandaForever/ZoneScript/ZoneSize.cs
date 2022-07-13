@@ -35,7 +35,7 @@ public class ZoneSize : MonoBehaviour
 
         while(transform.localScale.x > secondSize) //현재 사이즈가 두번째 사이즈까지 반복
         {
-            currentSize -=  Time.deltaTime * 0.005f;
+            currentSize -=  Time.deltaTime * 0.008f;
             transform.localScale = Vector3.one * currentSize;
             yield return null;
         }
@@ -46,7 +46,7 @@ public class ZoneSize : MonoBehaviour
 
         while (transform.localScale.x > thirdSize)
         {
-            currentSize -= Time.deltaTime * 0.005f;
+            currentSize -= Time.deltaTime * 0.008f;
             transform.localScale = Vector3.one * currentSize;
             yield return null;
         }

@@ -26,6 +26,7 @@ public class InsideSize : MonoBehaviour
 
     IEnumerator ChangeInsideSize()
     {
+        yield return new WaitForSeconds(16f);
         while(changeVal > dissolveMaxValue)
         {
             changeVal -= 0.005f;

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public enum AudioType {BGM, Loop, OneShot}
 public class AudioPool : MonoBehaviour
 {
@@ -13,6 +12,8 @@ public class AudioPool : MonoBehaviour
     public GameObject audiosourcePrefab;
 
     private void Awake() {
+
+      
         if (instance != null)
         {
             Destroy(gameObject);
@@ -31,6 +32,10 @@ public class AudioPool : MonoBehaviour
         
         InitPool();
         DontDestroyOnLoad(gameObject);
+    }
+
+    public void ChangeScene(){
+      
     }
 
     private void InitPool()

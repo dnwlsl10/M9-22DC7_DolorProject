@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     private int playerCount;
     private int prevSecond;
 
+    public AudioClip ingameBgm;
+
 #if test
     public override void OnConnectedToMaster() => PhotonNetwork.JoinLobby();
     public override void OnJoinedLobby() => PhotonNetwork.CreateRoom("TestRoom", new RoomOptions{MaxPlayers = 1, IsVisible = false, IsOpen = false}, TypedLobby.Default);
@@ -124,6 +126,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void OnPlayerDeath() => photonView.RPC("Death", RpcTarget.All);    
     public override void OnPlayerLeftRoom(Player otherPlayer) => ShowResult(true);
     public override void OnLeftRoom(){
+
         PhotonNetwork.LoadLevel(0);
     }
     void CompareHp(float myhp, float enemyhp) // 적과 내 HP를  비교
@@ -158,7 +161,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     IEnumerator StartCountDown()
     {
-        yield return new WaitForSecondsRealtime(8f);
+        yield return new WaitForSecondsRealtime(14f);
 
         foreach (var door in GameObject.FindObjectsOfType<DoorSystem>())
         {
@@ -175,7 +178,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     IEnumerator LeaveRoom()
     {
-        yield return new WaitForSeconds(8F);
+        yield return new WaitForSeconds(5F);
+        myMech.GetComponentInChildren<BlackBackGround>().StartChangeSceanBlackBackGround();
+        yield return new WaitForSeconds(3F);
         PhotonNetwork.LeaveRoom();
     }
 #endregion
@@ -185,6 +190,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC] private void GameStart()
     {
         isGameStart = true;
+        AudioPool.instance.Play(ingameBgm.name, 2, this.myMech.transform.position, 0.8f);
         StartCoroutine(StartCountDown());
     } 
     [PunRPC] private void OnTimeOver()

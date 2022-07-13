@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Audio : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class Audio : MonoBehaviour
     public int audioType;
 
     private void Awake() {
+        SceneManager.activeSceneChanged += (obj ,obj2) =>{
+            this.gameObject.SetActive(false);
+        };
         source = GetComponent<AudioSource>();     
     }
 

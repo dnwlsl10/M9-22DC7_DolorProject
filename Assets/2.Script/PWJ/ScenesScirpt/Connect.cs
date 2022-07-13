@@ -39,7 +39,6 @@ public class Connect : MonoBehaviourPunCallbacks
     public AudioClip onGameStartSFX;
     public AudioClip onCountSFX;
 
-    public GameObject blackBG;
     public void Start() {if(isTest) Init();}
    
     public void Init(UserInfo userInfoData = null)
@@ -131,7 +130,7 @@ public class Connect : MonoBehaviourPunCallbacks
     }
 
     public void FindUserBgmSFX(){
-        photonView.CustomRPC(this, "GameStartRPC", RpcTarget.AllBuffered);
+        photonView.RPC("GameStartRPC", RpcTarget.AllBuffered);
     }
 
     [PunRPC]
@@ -145,6 +144,7 @@ public class Connect : MonoBehaviourPunCallbacks
         AudioPool.instance.Play(onGameStartSFX.name, 1, this.transform.position);
 
         for(int i =0 ; i< count.Length; i++){
+            yield return eof;
             this.count[i].SetActive(true);
             AudioPool.instance.Play(onCountSFX.name, 2, this.transform.position);
             yield return eof;
@@ -152,7 +152,9 @@ public class Connect : MonoBehaviourPunCallbacks
         }
 
         yield return StartCoroutine(loadingScreenProcess.LoadingPhotonScreenProcess(5, (ao) =>{
-           // ao.completed += (obj) =>{OnCompelet();};
+           ao.completed += (obj) =>{
+            //OnCompelet();
+            };
             PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
         }));
     }
