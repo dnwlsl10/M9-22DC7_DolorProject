@@ -10423,15 +10423,9 @@ MonoBehaviour:
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
   m_SynchronizeParameters:
-  - Type: 4
-    SynchronizeType: 1
-    Name: Rotating
   - Type: 1
     SynchronizeType: 1
     Name: TurnSpeed
-  - Type: 4
-    SynchronizeType: 2
-    Name: RotateMirror
   - Type: 9
     SynchronizeType: 0
     Name: Land
