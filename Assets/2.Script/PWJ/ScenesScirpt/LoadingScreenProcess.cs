@@ -39,12 +39,11 @@ public class LoadingScreenProcess : MonoBehaviourPun
         }      
     }
 
-    public IEnumerator LoadingPhotonScreen(int sceneindex, System.Action<AsyncOperation> OnComplete)
+    public IEnumerator LoadingPhotonScreen(int sceneindex)
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.LoadLevel(sceneindex);
-        }
+
+        PhotonNetwork.LoadLevel(sceneindex);
+        
         PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = false;
 
         while (!PhotonNetwork._AsyncLevelLoadingOperation.isDone)
@@ -58,7 +57,7 @@ public class LoadingScreenProcess : MonoBehaviourPun
             else
             {
                 yield return new WaitForSeconds(3f);
-                OnComplete(PhotonNetwork._AsyncLevelLoadingOperation);
+                PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
             }
         }
     }

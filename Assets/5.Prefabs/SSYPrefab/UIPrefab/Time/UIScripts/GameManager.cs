@@ -39,22 +39,23 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom() => InitGame();
 #endif
 
-    void Awake(){
-        #if test
-        Init();
-        #endif
-    }
+    // void Awake(){
+    //     #if test
+    //     Init();
+    //     #endif
+    // }
 
-    public void Init(UserInfo userInfo = null)
+    public void Awake()
     {
         if (instance != null)
             Destroy(instance);
         else
             instance = this;
 
-        DataManager.GetInstance().LoadDatas();
-        if (PhotonNetwork.IsConnected && userInfo != null){
-            selectPrefab = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
+        // DataManager.GetInstance().LoadDatas();
+        // selectPrefab = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
+        if (PhotonNetwork.IsConnected){
+      
             InitGame();
         }
         else
@@ -80,7 +81,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         Transform spawn = spawnPoint[PhotonNetwork.IsMasterClient ? 0 : 1];
 
-        myMech = PhotonNetwork.Instantiate(selectPrefab.inGame_name, spawn.position, spawn.rotation);
+        myMech = PhotonNetwork.Instantiate(mechPrefab.name, spawn.position, spawn.rotation);
         Instantiate(networkObjectPool);
 
         photonView.RPC("Ready", RpcTarget.MasterClient);
@@ -122,19 +123,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void OnPlayerDeath() => photonView.RPC("Death", RpcTarget.All);    
     public override void OnPlayerLeftRoom(Player otherPlayer) => ShowResult(true);
     public override void OnLeftRoom(){
-
-        StartCoroutine(asyncScene.LoadingPhotonScreen(3, (ao) =>{
-            Camera.main.GetComponentInChildren<SphereCollider>().gameObject.SetActive(true);
-            ao.completed += (obj) =>{
-
-                OnChangeLobby();
-            };
-            ao.allowSceneActivation = true;
-        }));
+        Debug.Log("Left Room");
     }
-
-
-
     void CompareHp(float myhp, float enemyhp) // 적과 내 HP를  비교
     {
         if (myhp > enemyhp) //내 HP가 상대 HP보다 크면 VICTORY
@@ -183,7 +173,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     IEnumerator LeaveRoom()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(8F);
         PhotonNetwork.LeaveRoom();
     }
 #endregion

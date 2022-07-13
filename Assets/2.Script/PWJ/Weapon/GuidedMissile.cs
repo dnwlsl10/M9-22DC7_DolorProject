@@ -89,7 +89,7 @@ public class GuidedMissile : WeaponBase , IInitialize
     {
         base.Initialize();
         CurrentAmmo = 0;
-        upGaugeRate = 0.05f;
+        upGaugeRate = 10f;
         if(SceneManager.GetActiveScene().name == "Connect") return;
         StartReload();
     }
@@ -169,7 +169,7 @@ public class GuidedMissile : WeaponBase , IInitialize
         AudioPool.instance.Play(onFireSFX.name, 2, bulletSpawnPoint.position);
         
         if(targetPV?.ViewID > 0)
-            missile.photonView.RPC("SetTargetRPC", RpcTarget.AllViaServer, targetPV);
+            missile.photonView.RPC("SetTargetRPC", RpcTarget.AllViaServer, targetPV.ViewID);
         else
         {
             print("AAA");

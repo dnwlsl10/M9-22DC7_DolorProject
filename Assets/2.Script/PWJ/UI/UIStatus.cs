@@ -8,7 +8,6 @@ public class UIStatus : UIBase
     [Header("UIGuidedMissile")]
     public Image fillamount_progress;
     private Coroutine coroutineHolder;
-    public Light attackLight;
     public override void EventValue(float hp, float maxHP)
     {
         value = hp / maxHP;
@@ -37,9 +36,7 @@ public class UIStatus : UIBase
     IEnumerator OnDelay()
     {
         Set();
-        attackLight.gameObject.SetActive(true);
         yield return new WaitForSeconds(1f);
-        attackLight.gameObject.SetActive(false);
         Set();
     }
 }
