@@ -218,6 +218,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &769513018 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1004791767, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
+  m_PrefabInstance: {fileID: 1664534742}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1036616026
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,50 +445,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1103805223492802920, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
-      propertyPath: m_ClearFlags
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 1103805223548975401, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
       propertyPath: m_SceneBindings.Array.size
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1103805223548975401, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
-      propertyPath: m_SceneBindings.Array.data[4].key
+      propertyPath: m_SceneBindings.Array.data[7].key
       value: 
-      objectReference: {fileID: -3411803572672169495, guid: dd293c4be5ce0b242adec5767df3ccfe, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1103805223548975401, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
-      propertyPath: m_SceneBindings.Array.data[5].key
+      propertyPath: m_SceneBindings.Array.data[8].key
       value: 
-      objectReference: {fileID: 3488576701929156393, guid: dd293c4be5ce0b242adec5767df3ccfe, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1103805223548975401, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
-      propertyPath: m_SceneBindings.Array.data[6].key
+      propertyPath: m_SceneBindings.Array.data[7].value
       value: 
-      objectReference: {fileID: -6017403784139598182, guid: dd293c4be5ce0b242adec5767df3ccfe, type: 2}
+      objectReference: {fileID: 769513018}
     - target: {fileID: 1103805223548975401, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
-      propertyPath: m_SceneBindings.Array.data[4].value
+      propertyPath: m_SceneBindings.Array.data[8].value
       value: 
-      objectReference: {fileID: 1664534743}
-    - target: {fileID: 2910135142902328520, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
-      propertyPath: startDelay.scalar
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2910135142902328520, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 2910135142902328520, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
-      propertyPath: InitialModule.startSizeY.scalar
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2910135142902328526, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 4.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2910135142902328526, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 27.5
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 769513018}
     - target: {fileID: 4009908299342511855, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
       propertyPath: m_Name
       value: Title (1)
@@ -532,13 +513,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7212981189213146272, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
---- !u!95 &1664534743 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 1103805223789619540, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
-  m_PrefabInstance: {fileID: 1664534742}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1664534744 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1103805223116668392, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}

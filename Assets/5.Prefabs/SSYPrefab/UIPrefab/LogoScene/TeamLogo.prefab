@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2494886886195442522}
   - component: {fileID: 2494886886195442523}
   m_Layer: 0
-  m_Name: LogoIn
+  m_Name: LogoInSound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5057,7 +5057,7 @@ GameObject:
   - component: {fileID: 2494886886843056929}
   - component: {fileID: 2494886886843056958}
   m_Layer: 0
-  m_Name: LogoMid
+  m_Name: LogoMidSound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10055,7 +10055,7 @@ GameObject:
   - component: {fileID: 2494886887078680000}
   - component: {fileID: 2494886887078680001}
   m_Layer: 0
-  m_Name: LogoOut
+  m_Name: LogoOutSound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

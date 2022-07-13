@@ -17,8 +17,8 @@ public class OrbA : OrbBase
     {
         yield return new WaitForSeconds(3f);
 
-        visualEffect.SetFloat("Size", 2f);
-        yield return new WaitForSeconds(6f);
+        visualEffect.SetFloat("Size", 3f); //변화된 오브의 크기
+        yield return new WaitForSeconds(10f);
         visualEffect.SetFloat("Size", 0f);
         yield return new WaitForSeconds(1f);
         
