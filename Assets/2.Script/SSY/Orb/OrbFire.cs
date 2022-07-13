@@ -19,6 +19,12 @@ public class OrbFire : WeaponBase
         }
     }
 
+    Animator anim;
+    private void Awake() {
+        anim = transform.root.GetComponent<Animator>();
+        anim.Play("OrbStop", 2, 1);
+    }
+
     public override void Initialize(){
         base.Initialize();
         cooldown = 0;
@@ -34,6 +40,8 @@ public class OrbFire : WeaponBase
         orb.GetComponent<OrbBase>().SetParent(firePosition);
         StartCoroutine(Hold());
         WeaponSystem.instance.StartActionCallback((int)weaponSetting.weaponName);
+
+        anim.CrossFade("OrbStart", 0.2f, 2);
     }
 
     IEnumerator Hold()
@@ -51,6 +59,7 @@ public class OrbFire : WeaponBase
         if (orb == null)
             return;
 
+        anim.CrossFade("OrbStop", 0.2f, 2);
         WeaponSystem.instance.StopActionCallback((int)weaponSetting.weaponName);
         lastAttackTime = Time.time; //초기화
         StartCoroutine(StartCooldown());
