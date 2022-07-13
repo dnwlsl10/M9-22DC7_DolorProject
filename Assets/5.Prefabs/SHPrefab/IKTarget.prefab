@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 4493909192352591265}
   - component: {fileID: 4493909192352591264}
   - component: {fileID: 4493909192352591270}
-  m_Layer: 10
+  m_Layer: 24
   m_Name: RightHandTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,10 +90,10 @@ SphereCollider:
   m_GameObject: {fileID: 4493909192352591266}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
-  m_Center: {x: 0.5, y: 0, z: 0}
+  m_Radius: 0.35
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4493909192352591270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,6 +117,7 @@ MonoBehaviour:
     rb: {fileID: 4493909192352591265}
     scale: 25
     speedMultiplier: 1
+    teleportDistance: 3
   characterHandMesh: {fileID: 0}
 --- !u!1 &4493909193067242884
 GameObject:
@@ -130,7 +131,7 @@ GameObject:
   - component: {fileID: 4493909193067242891}
   - component: {fileID: 4493909193067242890}
   - component: {fileID: 4493909193067242888}
-  m_Layer: 10
+  m_Layer: 24
   m_Name: LeftHandTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,10 +177,10 @@ SphereCollider:
   m_GameObject: {fileID: 4493909193067242884}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
-  m_Center: {x: -0.5, y: -0, z: -0}
+  m_Radius: 0.35
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4493909193067242888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,4 +204,5 @@ MonoBehaviour:
     rb: {fileID: 4493909193067242891}
     scale: 25
     speedMultiplier: 1
+    teleportDistance: 3
   characterHandMesh: {fileID: 0}
