@@ -98,14 +98,14 @@ public class GuidedMissileCrossHair : MonoBehaviourPun
         if(state ==eState.Fire) yield break;
         yield return new WaitForEndOfFrame();
         
-        Vector3 direction = centerEye.position;
+        Vector3 direction = centerEye.position + new Vector3(Random.Range(-1,1), Random.Range(-1, 1) , 0f);
 
         while (Vector3.Distance(crossHairImage.position, direction) > 0.03f)
         {
             if (state == eState.Normal) yield break;
             OnTrackingSFX();
             crossHairImage.LookAt(cameraEye.transform.position);
-            crossHairImage.position = Vector3.Lerp(crossHairImage.position, centerEye.position, 0.05f);
+            crossHairImage.position = Vector3.Lerp(crossHairImage.position, direction, 0.05f);
            // crossHairImage.rotation = Quaternion.Euler(crossHairImage.rotation.eulerAngles + new Vector3(0f, 0f, rotateSpeed));
             isLook = false;
             yield return new WaitForEndOfFrame();

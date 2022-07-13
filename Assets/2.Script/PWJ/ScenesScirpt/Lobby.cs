@@ -24,15 +24,15 @@ public class Lobby : MonoBehaviour
             Debug.Log("Test 모드");
             this.Init();
         }
-        scenecTigger.OnChangeScene = () =>
-        {
-            Debug.Log(selectionMachine.selectID);
-            StartCoroutine(FadeOut());       
-        };
     }
 
     public void Init()
     {
+        scenecTigger.OnChangeScene = () =>
+        {
+            Debug.Log(selectionMachine.selectID);
+            StartCoroutine(FadeOut());
+        };
         DataManager.GetInstance().LoadDatas();
         var robotDatas = DataManager.GetInstance().dicRobotDatas;
         foreach (var data in robotDatas)

@@ -31,8 +31,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private List<PhotonView> players = new List<PhotonView>();
     private int playerCount;
     private int prevSecond;
-
-    public AudioClip ingameBgm;
+    public AudioSource ingameBgm;
 
 #if test
     public override void OnConnectedToMaster() => PhotonNetwork.JoinLobby();
@@ -40,32 +39,29 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom() => InitGame();
 #endif
 
-    // void Awake(){
-    //     #if test
-    //     Init();
-    //     #endif
-    // }
     public void Init(UserInfo userInfo)
-    {
-        // DataManager.GetInstance().LoadDatas();
-        // selectPrefab = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
-    }
-    public void Awake()
     {
         if (instance != null)
             Destroy(instance);
         else
             instance = this;
 
+        DataManager.GetInstance().LoadDatas();
+        selectPrefab = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
+        
         if (PhotonNetwork.IsConnected){
-      
+            
+            if(userInfo == null)
+            { 
+                selectPrefab = DataManager.GetInstance().dicRobotDatas[1];
+                throw new System.Exception("Do UserInfo");
+            }
             InitGame();
         }
         else
         {
             #if test
             Debug.LogWarning("GameManager is in test mode");
-            // selectPrefab = DataManager.GetInstance().dicRobotDatas[1];
             if (PhotonNetwork.IsConnected == false) 
             {
                 PhotonNetwork.ConnectUsingSettings();
@@ -84,7 +80,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         Transform spawn = spawnPoint[PhotonNetwork.IsMasterClient ? 0 : 1];
 
-        myMech = PhotonNetwork.Instantiate(mechPrefab.name, spawn.position, spawn.rotation);
+        myMech = PhotonNetwork.Instantiate(selectPrefab.inGame_name, spawn.position, spawn.rotation);
         Instantiate(networkObjectPool);
 
         photonView.RPC("Ready", RpcTarget.MasterClient);
@@ -127,7 +123,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer) => ShowResult(true);
     public override void OnLeftRoom(){
 
-        PhotonNetwork.LoadLevel(0);
+        PhotonNetwork.LoadLevel(3);
     }
     void CompareHp(float myhp, float enemyhp) // 적과 내 HP를  비교
     {
@@ -190,7 +186,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC] private void GameStart()
     {
         isGameStart = true;
-        AudioPool.instance.Play(ingameBgm.name, 2, this.myMech.transform.position, 0.8f);
+        ingameBgm.enabled = true;
         StartCoroutine(StartCountDown());
     } 
     [PunRPC] private void OnTimeOver()

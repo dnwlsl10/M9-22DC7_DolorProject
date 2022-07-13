@@ -4831,7 +4831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EffectsOnCollision:
-  - {fileID: 1795992203533318, guid: 890aba7398207db48978724168fac5a7, type: 3}
+  - {fileID: 5271948925172720486, guid: c837c30d6ba85764d80dccc2068eaac6, type: 3}
   effectNormalPositionOffset: 0.1
   setParent: 0
   damage: 1

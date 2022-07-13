@@ -94,7 +94,7 @@ public class Connect : MonoBehaviourPunCallbacks
             case eRoomMode.PracticeRoom: {
                     this.roomMode = room;
                     RoomOptions roomOpt = new RoomOptions();
-                    roomOpt.MaxPlayers = 2;
+                    roomOpt.MaxPlayers = 1;
                     roomOpt.IsVisible = false;
                     roomOpt.IsOpen = false;
                     this.roomName = roomMode.ToString();
@@ -153,7 +153,7 @@ public class Connect : MonoBehaviourPunCallbacks
 
         yield return StartCoroutine(loadingScreenProcess.LoadingPhotonScreenProcess(5, (ao) =>{
            ao.completed += (obj) =>{
-            //OnCompelet();
+               if (!isTest) OnCompelet();
             };
             PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
         }));

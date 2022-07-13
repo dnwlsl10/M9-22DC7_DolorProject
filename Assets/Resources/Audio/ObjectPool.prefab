@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pools:
-  - name: Hit 10
-    prefab: {fileID: 1795992203533318, guid: 890aba7398207db48978724168fac5a7, type: 3}
+  - name: BulletEffect
+    prefab: {fileID: 5271948925172720486, guid: c837c30d6ba85764d80dccc2068eaac6, type: 3}
     initSize: 10
   - name: MissileHItEffect
     prefab: {fileID: 5271948925172720486, guid: 68c4301db66944b4cbe77b555b192fd7, type: 3}

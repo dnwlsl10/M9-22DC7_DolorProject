@@ -40,12 +40,25 @@ public class OrbBase : MonoBehaviourPun
         if (tr.TryGetComponent<PhotonView>(out var pv) && pv.ViewID > 0)
             photonView.CustomRPC(this, "SetPRPC", RpcTarget.All, pv.ViewID);
         else
+        {
+            print("SetParentNotRpc");
             parent = tr;
+            try{
+                transform.parent = parent;
+            }
+            finally{}
+
+        }
     }
     [PunRPC]
     protected void SetPRPC(int viewID)
     {
         parent = PhotonNetwork.GetPhotonView(viewID).transform;
+        try
+        {
+            transform.parent = parent;
+        }
+        finally { }
     }
     Audio audio;
     [SerializeField] AudioClip clip;

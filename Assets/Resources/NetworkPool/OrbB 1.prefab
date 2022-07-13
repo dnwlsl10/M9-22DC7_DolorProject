@@ -113,9 +113,9 @@ MonoBehaviour:
   onShootSpeed: 1
   clip: {fileID: 8300000, guid: 1364d43d4e4410740a703bb6f7a25d24, type: 3}
   speedUp: 1
-  startSize: 3
+  startSize: 2
   minScale: 0.5
-  maxScale: 10
+  maxScale: 15
   timeToMaxScale: 1
   maxCount: 20
   damageableLayer:
