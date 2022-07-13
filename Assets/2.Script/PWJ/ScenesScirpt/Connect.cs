@@ -112,7 +112,10 @@ public class Connect : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom(){}
 
-    public override void OnCreatedRoom() => Debug.Log(roomMode);
+    public override void OnCreatedRoom(){
+        Debug.Log(roomMode);
+        Debug.Log(PhotonNetwork.CurrentRoom.Name);
+    } 
       
     public override void OnJoinedRoom()
     {
