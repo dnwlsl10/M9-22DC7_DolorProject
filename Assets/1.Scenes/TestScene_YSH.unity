@@ -3986,6 +3986,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Robot_Mars 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2705916427777778069, guid: 93af689fb102ff043870945f90e02340, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2975807836728042971, guid: 93af689fb102ff043870945f90e02340, type: 3}
+      propertyPath: sceneViewId
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2975807837097039020, guid: 93af689fb102ff043870945f90e02340, type: 3}
+      propertyPath: sceneViewId
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3370530952347843375, guid: 93af689fb102ff043870945f90e02340, type: 3}
       propertyPath: m_RootOrder
       value: 15
@@ -4030,47 +4042,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8525943604989730539, guid: 93af689fb102ff043870945f90e02340, type: 3}
-      propertyPath: m_Enabled
-      value: 0
+    - target: {fileID: 8905615473235987126, guid: 93af689fb102ff043870945f90e02340, type: 3}
+      propertyPath: sceneViewId
+      value: 5
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8525943604989730539, guid: 93af689fb102ff043870945f90e02340, type: 3}
-    - {fileID: 4764996272700194304, guid: 93af689fb102ff043870945f90e02340, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93af689fb102ff043870945f90e02340, type: 3}
---- !u!1 &4171321038243475294 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8460470146490826948, guid: 93af689fb102ff043870945f90e02340, type: 3}
-  m_PrefabInstance: {fileID: 4171321038243475293}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4171321038243475295 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2433951400251143230, guid: 93af689fb102ff043870945f90e02340, type: 3}
-  m_PrefabInstance: {fileID: 4171321038243475293}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &4171321038243475296
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4171321038243475294}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.006151904, y: 0.015567189, z: 0.019461026}
-  m_Center: {x: -0.0048584896, y: 0.0011744153, z: -0.0015671608}
---- !u!65 &4171321038243475297
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4171321038243475295}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.006151904, y: 0.015567189, z: 0.019461026}
-  m_Center: {x: 0.00485849, y: 0.0011744153, z: -0.0015671608}

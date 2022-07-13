@@ -19,20 +19,20 @@ public class MechNetworkManager : MonoBehaviourPun, IInitialize
         }
 
         Transform root = GetComponent<VRIK>().references.pelvis.parent;
-        Transform meshRoot = Utility.FindChildMatchName(root, new string[]{"Mesh", "mesh"});
+        // Transform meshRoot = Utility.FindChildMatchName(root, new string[]{"Mesh", "mesh"});
         
-        if (localDisableMesh.Count == 0)
-        {
-            localDisableMesh = new List<Renderer>();
-            for (int i = 0; i < meshRoot.childCount; i++)
-            {
-                Transform child = meshRoot.GetChild(i);
-                if (child.name.Equals("Arm")) continue;
+        // if (localDisableMesh.Count == 0)
+        // {
+        //     localDisableMesh = new List<Renderer>();
+        //     for (int i = 0; i < root.childCount; i++)
+        //     {
+        //         Transform child = root.GetChild(i);
+        //         if (child.name.Equals("Arm")) continue;
 
-                Renderer[] tmp = child.GetComponentsInChildren<Renderer>();
-                localDisableMesh.AddRange(tmp);
-            }
-        }
+        //         Renderer[] tmp = child.GetComponentsInChildren<Renderer>();
+        //         localDisableMesh.AddRange(tmp);
+        //     }
+        // }
 
         if (LayerToChangeRemote.Count == 0)
         {
