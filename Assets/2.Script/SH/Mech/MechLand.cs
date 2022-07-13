@@ -62,9 +62,12 @@ public class MechLand : MonoBehaviour, IInitialize
         while (Physics.Raycast(transform.position, -transform.up, groundDetectDistance * 3, groundLayer) == false)
             yield return null;
 
-
+if (groundVfx)
+    {
             groundVfx.SetActive(true); //이펙트
             Destroy(this.groundVfx , 3f);
+
+    }
         if (clip) AudioPool.instance.Play(clip.name, 2, transform.position);
 
         while (Physics.Raycast(transform.position, -transform.up, groundDetectDistance, groundLayer) == false)
