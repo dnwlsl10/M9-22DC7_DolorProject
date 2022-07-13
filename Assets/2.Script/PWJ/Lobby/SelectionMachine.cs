@@ -43,7 +43,7 @@ public class SelectionMachine : MonoBehaviour
         selectRobotList.Add(robot);
         potal.gameObject.SetActive(false);
         controllerLights.gameObject.SetActive(false);
-        AudioPool.instance.Play(onLobbyBgmSFX.name, 1, this.transform.position);
+        AudioPool.instance.Play(onLobbyBgmSFX.name, 1, this.transform.position , 0.5f);
     }
     void Start()
     {

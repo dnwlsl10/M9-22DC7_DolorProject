@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private List<PhotonView> players = new List<PhotonView>();
     private int playerCount;
     private int prevSecond;
+    public AudioClip inGameBgm;
 
 #if test
     public override void OnConnectedToMaster() => PhotonNetwork.JoinLobby();
@@ -44,7 +45,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     //     Init();
     //     #endif
     // }
-
+    public void Init(UserInfo userInfo)
+    {
+        // DataManager.GetInstance().LoadDatas();
+        // selectPrefab = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
+    }
     public void Awake()
     {
         if (instance != null)
@@ -52,8 +57,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         else
             instance = this;
 
-        // DataManager.GetInstance().LoadDatas();
-        // selectPrefab = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
         if (PhotonNetwork.IsConnected){
       
             InitGame();
@@ -79,6 +82,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void InitGame()
     {
+        AudioPool.instance.Play(inGameBgm.name, 1 , this.transform.position , 0.5f);
         Transform spawn = spawnPoint[PhotonNetwork.IsMasterClient ? 0 : 1];
 
         myMech = PhotonNetwork.Instantiate(mechPrefab.name, spawn.position, spawn.rotation);

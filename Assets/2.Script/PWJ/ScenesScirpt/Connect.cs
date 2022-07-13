@@ -84,7 +84,7 @@ public class Connect : MonoBehaviourPunCallbacks
 
         foreach (var bgm in connectBgms)
         {
-            AudioPool.instance.Play(bgm.name, 1, this.transform.position);
+            AudioPool.instance.Play(bgm.name, 1, this.transform.position, 0.5f);
         }
     }
 
