@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject mechPrefab;
     [SerializeField] List<Transform> spawnPoint;
     [SerializeField] GameObject networkObjectPool;
+    public ZoneSize zs;
+    public InsideSize insidezs;
 
     public GameObject myMech { get; private set; }
     private List<PhotonView> players = new List<PhotonView>();
@@ -50,10 +52,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         selectPrefab = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
         
         if (PhotonNetwork.IsConnected){
-            
             if(userInfo == null)
             { 
-                selectPrefab = DataManager.GetInstance().dicRobotDatas[1];
+               selectPrefab = DataManager.GetInstance().dicRobotDatas[1];
                 throw new System.Exception("Do UserInfo");
             }
             InitGame();
@@ -78,11 +79,13 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void InitGame()
     {
+
         Transform spawn = spawnPoint[PhotonNetwork.IsMasterClient ? 0 : 1];
 
         myMech = PhotonNetwork.Instantiate(selectPrefab.inGame_name, spawn.position, spawn.rotation);
         Instantiate(networkObjectPool);
-
+        zs.Init();
+        insidezs.Init();
         photonView.RPC("Ready", RpcTarget.MasterClient);
         if (PhotonNetwork.IsMasterClient)
             StartCoroutine(CheckBeforeStart());
@@ -122,8 +125,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void OnPlayerDeath() => photonView.RPC("Death", RpcTarget.All);    
     public override void OnPlayerLeftRoom(Player otherPlayer) => ShowResult(true);
     public override void OnLeftRoom(){
-
-        PhotonNetwork.LoadLevel(3);
+       
     }
     void CompareHp(float myhp, float enemyhp) // 적과 내 HP를  비교
     {
@@ -137,6 +139,13 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void ShowResult(bool isWinner)
     {
+        if(isWinner){
+            for(int i = 0 ; i < players.Count; i++){
+              if(!players[i].Mine){
+                    players[i].GetComponent<Status>().OnRemotePlayerDeath();
+                }
+            }
+        }
         isGameStart = false;
         ResultUI ru = myMech.GetComponentInChildren<ResultUI>();
         #if UNITY_EDITOR
@@ -170,6 +179,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     IEnumerator Deactivate(GameObject obj)
     {
         yield return new WaitForSecondsRealtime(3f);
+        LightManager.instance.OnDefultLight();
         obj.SetActive(false);
     }
     IEnumerator LeaveRoom()
@@ -178,6 +188,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         myMech.GetComponentInChildren<BlackBackGround>().StartChangeSceanBlackBackGround();
         yield return new WaitForSeconds(3F);
         PhotonNetwork.LeaveRoom();
+        yield return new WaitForSeconds(1F);
+        PhotonNetwork.LoadLevel(3);
+        PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = false;
+        PhotonNetwork._AsyncLevelLoadingOperation.completed += (obj) =>
+        {
+            OnChangeLobby();
+        };
+        PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
     }
 #endregion
     

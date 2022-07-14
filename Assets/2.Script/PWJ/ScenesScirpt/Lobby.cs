@@ -59,4 +59,13 @@ public class Lobby : MonoBehaviour
         yield return new WaitForSeconds(3f);
         OnCompelet(selectionMachine.selectID);
     }
+
+    public void Update(){
+        if(Input.GetKeyDown(KeyCode.DownArrow)){
+            OnCompelet(0);
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow)){
+            OnCompelet(1);
+        }
+    }
 }

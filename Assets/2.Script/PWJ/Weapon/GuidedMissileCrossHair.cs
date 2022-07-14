@@ -97,9 +97,8 @@ public class GuidedMissileCrossHair : MonoBehaviourPun
     {
         if(state ==eState.Fire) yield break;
         yield return new WaitForEndOfFrame();
-        
-        Vector3 direction = centerEye.position + new Vector3(Random.Range(-1,1), Random.Range(-1, 1) , 0f);
-
+        // Vector3 direction = centerEye.position + new Vector3(Random.Range(-1,1), Random.Range(-1, 1) , 0f);
+        Vector3 direction = centerEye.position + centerEye.right * Random.Range(-0.2f, 0.2f) + centerEye.up * Random.Range(-0.2f, 0.2f);
         while (Vector3.Distance(crossHairImage.position, direction) > 0.03f)
         {
             if (state == eState.Normal) yield break;

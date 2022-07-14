@@ -52,7 +52,7 @@ public class CrossHair : MonoBehaviourPun, IInitialize
             return;
         }
 
-        imageRenderer = crossHairImage.GetComponent<Renderer>();
+        imageRenderer = crossHairImage.GetComponentInChildren<Renderer>();
         attackDistance = transform.parent.GetComponent<BasicWeapon>().weaponSetting.attackDistance;
         mat = imageRenderer.material;
         colorProperty = Shader.PropertyToID("_Color");

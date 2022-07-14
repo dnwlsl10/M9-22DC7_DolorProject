@@ -144,7 +144,6 @@ public class Connect : MonoBehaviourPunCallbacks
         AudioPool.instance.Play(onGameStartSFX.name, 1, this.transform.position);
 
         for(int i =0 ; i< count.Length; i++){
-            yield return eof;
             this.count[i].SetActive(true);
             AudioPool.instance.Play(onCountSFX.name, 2, this.transform.position);
             yield return eof;
@@ -152,8 +151,9 @@ public class Connect : MonoBehaviourPunCallbacks
         }
 
         yield return StartCoroutine(loadingScreenProcess.LoadingPhotonScreenProcess(5, (ao) =>{
+           robot.GetComponentInChildren<BlackBackGround>().StartChangeSceanBlackBackGround();
            ao.completed += (obj) =>{
-               if (!isTest) OnCompelet();
+               OnCompelet();
             };
             PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
         }));

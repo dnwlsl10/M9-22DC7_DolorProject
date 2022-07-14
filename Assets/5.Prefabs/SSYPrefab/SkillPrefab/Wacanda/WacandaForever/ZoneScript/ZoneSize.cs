@@ -14,7 +14,7 @@ public class ZoneSize : MonoBehaviour
     [SerializeField] float secondSize; //4.5
     [SerializeField] float thirdSize; //3
 
-    private void Start() {
+    public void Init() {
         GameManager.instance.onGameStart += OnGameStart;
     }
 
@@ -50,5 +50,9 @@ public class ZoneSize : MonoBehaviour
             transform.localScale = Vector3.one * currentSize;
             yield return null;
         }
+    }
+
+    private void OnDisable() {
+        GameManager.instance.onGameStart -= OnGameStart;
     }
 }

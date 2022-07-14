@@ -9,17 +9,15 @@ public class Title : MonoBehaviour
     public GameObject blackBg;
     //public AsyncOperation ao;
     private WaitForEndOfFrame of = new WaitForEndOfFrame();
-    private WaitForSeconds os = new WaitForSeconds(5f);
+    private WaitForSeconds os = new WaitForSeconds(9f);
     public void Init() 
     {
-        txtObj.gameObject.SetActive(false);
         StartCoroutine(EndTitleAni());
     }
 
     IEnumerator EndTitleAni()
     {
         yield return os;
-        txtObj.gameObject.SetActive(true);
         StartCoroutine(OnClickAnyKey());
     }
 

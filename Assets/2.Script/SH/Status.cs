@@ -9,6 +9,7 @@ public class Status : MonoBehaviourPun, IDamageable
     [SerializeField] private int maxHP = 100;
     [SerializeField] private float hp; // show inspector
     public bool lockHp;
+    public GameObject diePrefab;
     public float HP
     {
         get{return hp;}
@@ -49,9 +50,14 @@ public class Status : MonoBehaviourPun, IDamageable
         HP -= damage;
     }
 
-    private void OnDeath()
+    public void OnDeath()
     {
         lockHp = true;
         GameManager.instance?.OnPlayerDeath();
+    }
+
+    public void OnRemotePlayerDeath()
+    {
+        diePrefab.gameObject.SetActive(true);
     }
 }

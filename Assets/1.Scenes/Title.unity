@@ -474,6 +474,10 @@ PrefabInstance:
       propertyPath: m_SceneBindings.Array.data[8].value
       value: 
       objectReference: {fileID: 769513018}
+    - target: {fileID: 2910135142902328527, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4009908299342511855, guid: e6e471ab2dc267a429d79e4dd02b6762, type: 3}
       propertyPath: m_Name
       value: Title (1)

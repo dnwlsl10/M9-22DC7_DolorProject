@@ -166,7 +166,7 @@ public class GuidedMissile : WeaponBase , IInitialize
         missile.gm = this;
         missile.damage  = weaponSetting.damage;
         
-        AudioPool.instance.Play(onFireSFX.name, 2, bulletSpawnPoint.position);
+        AudioPool.instance.Play(onFireSFX.name, 2, bulletSpawnPoint.position, 0.6f);
         
         if(targetPV?.ViewID > 0)
             missile.photonView.RPC("SetTargetRPC", RpcTarget.AllViaServer, targetPV.ViewID);

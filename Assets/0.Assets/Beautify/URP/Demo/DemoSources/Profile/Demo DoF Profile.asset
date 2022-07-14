@@ -224,7 +224,7 @@ MonoBehaviour:
     m_Value: {fileID: 0}
   bloomIntensity:
     m_OverrideState: 1
-    m_Value: 2.03
+    m_Value: 5.47
     min: 0
     max: 10
   bloomThreshold:

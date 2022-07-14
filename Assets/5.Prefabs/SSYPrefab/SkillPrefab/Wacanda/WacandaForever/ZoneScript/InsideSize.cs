@@ -13,7 +13,7 @@ public class InsideSize : MonoBehaviour
     [Header("defult value")]
     [SerializeField] float dissolveMinValue = 1.2f;
     [SerializeField] float dissolveMaxValue = -0.2f;
-    void Start()
+    public void Init()
     {
         transform.GetChild(0).gameObject.SetActive(false);
         mr = transform.GetChild(1).GetComponent<MeshRenderer>();
@@ -21,7 +21,10 @@ public class InsideSize : MonoBehaviour
         changeVal = dissolveMinValue;
         mat.SetFloat("_Dissolve", changeVal);
         GameManager.instance.onGameStart += OnGameStart;
+    }
 
+    private void OnDisable() {
+        GameManager.instance.onGameStart -= OnGameStart;
     }
 
     IEnumerator ChangeInsideSize()

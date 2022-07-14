@@ -15,6 +15,7 @@ public class LoadingScreenProcess : MonoBehaviourPun
         {
             PhotonNetwork.LoadLevel(sceneindex);
         }
+
         PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = false;
         bg.SetActive(true);
 

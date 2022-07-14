@@ -26,17 +26,20 @@ public class UIStatus : UIBase
                 coroutineHolder = null;
             }
 
-            if (hp > 0)
+            if (hp < 100 && hp > 0)
             {
                 coroutineHolder = StartCoroutine(OnDelay());
             }
+
         }
     }
 
     IEnumerator OnDelay()
     {
         Set();
+        LightManager.instance.OnDamageLight();
         yield return new WaitForSeconds(1f);
+        LightManager.instance.OFFDamageLight();
         Set();
     }
 }
