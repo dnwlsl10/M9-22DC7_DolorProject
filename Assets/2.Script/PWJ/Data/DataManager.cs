@@ -26,10 +26,10 @@ public class DataManager
         if (json.Length <= 0) throw new System.Exception("JSONLENGTH");
         var arrItemDatas = JsonConvert.DeserializeObject<RobotData[]>(json);
         
-        foreach (var data in arrItemDatas)
-        {
-            Debug.LogFormat("{0}, {1}, {2}", data.id, data.name, data.desc);
-        }
+        // foreach (var data in arrItemDatas)
+        // {
+        //     Debug.LogFormat("{0}, {1}, {2}", data.id, data.name, data.desc);
+        // }
         this.dicRobotDatas = arrItemDatas.ToDictionary(x => x.id);
     }
 }

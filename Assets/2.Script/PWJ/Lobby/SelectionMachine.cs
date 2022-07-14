@@ -41,9 +41,6 @@ public class SelectionMachine : MonoBehaviour
         var robot = obj.GetComponent<UIRobot>();
         robot.Init(robotData);
         selectRobotList.Add(robot);
-        potal.gameObject.SetActive(false);
-        controllerLights.gameObject.SetActive(false);
-        AudioPool.instance.Play(onLobbyBgmSFX.name, 1, this.transform.position , 0.5f);
     }
     void Start()
     {
@@ -55,6 +52,7 @@ public class SelectionMachine : MonoBehaviour
         this.OnSetBtn();
         potal.gameObject.SetActive(false);
         controllerLights.gameObject.SetActive(false);
+        AudioPool.instance.Play(onLobbyBgmSFX.name, 1, this.transform.position , 0.5f);
     }
 
     void OnSetBtn()

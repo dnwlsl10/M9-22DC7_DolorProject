@@ -40,8 +40,6 @@ public class App : MonoBehaviour
                     AsyncOperation ao = SceneManager.LoadSceneAsync("Logo");
                     ao.completed += (obj) =>
                     {
-                        Debug.Log(obj.isDone);
-
                         var logo = GameObject.FindObjectOfType<Logo>();
 
                         logo.Init();
@@ -59,7 +57,7 @@ public class App : MonoBehaviour
                     AsyncOperation ao = SceneManager.LoadSceneAsync("Title");
                     ao.completed += (obj) =>
                     {
-                        Debug.Log(obj.isDone);
+                        // Debug.Log(obj.isDone);
 
                         var title = GameObject.FindObjectOfType<Title>();
 
@@ -90,7 +88,7 @@ public class App : MonoBehaviour
                     AsyncOperation ao = SceneManager.LoadSceneAsync("Connect");
                     ao.completed += (obj) =>
                     {
-                        Debug.Log(obj.isDone);
+                        // Debug.Log(obj.isDone);
 
                         var connect = GameObject.FindObjectOfType<Connect>();
 

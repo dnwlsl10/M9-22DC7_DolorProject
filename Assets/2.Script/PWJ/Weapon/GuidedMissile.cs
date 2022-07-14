@@ -95,7 +95,7 @@ public class GuidedMissile : WeaponBase , IInitialize
     }
     public override void StartWeaponAction() //키를 누르때
     {   
-        Debug.Log("Missle Test");
+        // Debug.Log("Missle Test");
         if(CurrentAmmo < weaponSetting.maxAmmo) return;
 
         if(gmSystem.state == eState.Normal)
@@ -172,7 +172,6 @@ public class GuidedMissile : WeaponBase , IInitialize
             missile.photonView.RPC("SetTargetRPC", RpcTarget.AllViaServer, targetPV.ViewID);
         else
         {
-            print("AAA");
             missile.Launch(target);
         }
 
@@ -186,7 +185,7 @@ public class GuidedMissile : WeaponBase , IInitialize
     int destoryCount = 0;
     public void Destory(){
         destoryCount++;
-        Debug.Log("미사일 파괴 갯수");
+        // Debug.Log("미사일 파괴 갯수");
         if(destoryCount == weaponSetting.maxAmmo){
             bFire = false;
             StartReload();

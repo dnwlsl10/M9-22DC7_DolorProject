@@ -32,7 +32,7 @@ public class OrbFire : WeaponBase
 
     public override void StartWeaponAction() //GetKeyDown
     {
-        print("Start Orb"); 
+        // print("Start Orb"); 
         if (Time.time - lastAttackTime < weaponSetting.attackRate) //만약 스킬 쿨타임 중이면 스킬 사용할 수 없다는 소리가 나면서 사용불가
             return;
 

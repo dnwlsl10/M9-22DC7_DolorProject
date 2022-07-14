@@ -54,7 +54,7 @@ public class Audio : MonoBehaviour
         while(source.volume > 0.1f)
         {
             source.volume = source.volume - Time.deltaTime;
-            print(source.volume);
+            // print(source.volume);
             yield return null;
         }
         
@@ -76,7 +76,7 @@ public class Audio : MonoBehaviour
         AudioPool.instance?.ReturnToPool(this);
     }
 
-    private void OnDestroy() {
-        Debug.LogWarning("AudioPool Object has been destroyed");
-    }
+    // private void OnDestroy() {
+    //     Debug.LogWarning("AudioPool Object has been destroyed");
+    // }
 }

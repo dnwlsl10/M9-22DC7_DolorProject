@@ -48,7 +48,7 @@ public class GuidedMissileCrossHair : MonoBehaviourPun
         if (coroutineOnTrack != null){
             StopCoroutine(coroutineOnTrack);
             coroutineOnTrack = null;
-            Debug.Log("Stop Missile");
+            // Debug.Log("Stop Missile");
             crossHairImage.gameObject.SetActive(false);
             StopAs();
         }
@@ -60,7 +60,7 @@ public class GuidedMissileCrossHair : MonoBehaviourPun
         if(coroutineOnTracking != null){
             StopCoroutine(coroutineOnTracking);
             coroutineOnTracking = null;
-            Debug.Log("Stop Tracking");
+            // Debug.Log("Stop Tracking");
             StopAs();
         }
     }

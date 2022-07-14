@@ -105,7 +105,7 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
 
     private void Awake() 
     {
-        print(photonView.Mine);
+        // print(photonView.Mine);
         if (photonView.Mine == false)
         {
             Destroy(this);
@@ -198,7 +198,7 @@ public class WeaponSystem : MonoBehaviourPun, IInitialize
         }
         else
         {
-            Debug.Log("Cannot Use Weapon");
+            // Debug.Log("Cannot Use Weapon");
         }
     }
 

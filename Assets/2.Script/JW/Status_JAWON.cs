@@ -33,7 +33,7 @@ public class Status_JAWON : MonoBehaviourPun/*,  IDamageable */
 
     public void TakeDamage(float damage)
     {
-        Debug.Log("Damage" + damage);
+        // Debug.Log("Damage" + damage);
         HP -= damage;
 
         StartCoroutine(test());

@@ -13,46 +13,40 @@ public class LoadingScreenProcess : MonoBehaviourPun
     public IEnumerator LoadingPhotonScreenProcess(int sceneindex)
     {
 
-        if (PhotonNetwork.IsMasterClient) PhotonNetwork.LoadLevel(sceneindex);
+        PhotonNetwork.LoadLevel(sceneindex);
         bg.SetActive(true);
      
-        // PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = false;
+        PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = false;
 
-        // while (!PhotonNetwork._AsyncLevelLoadingOperation.isDone)
-        // {
-        //     yield return null;
-
-        //     if (PhotonNetwork._AsyncLevelLoadingOperation.progress < 0.9f)
-        //     {
-        //         Debug.Log(PhotonNetwork._AsyncLevelLoadingOperation.progress);
-        //         progressBar.fillAmount = PhotonNetwork._AsyncLevelLoadingOperation.progress;
-        //     }
-        //     else
-        //     {
-        //         progressBar.fillAmount += 0.01f;
-        //         if (progressBar.fillAmount >= 1f)
-        //         {
-        //             PhotonNetwork._AsyncLevelLoadingOperation.completed += (ao) =>{
-        //                 connect.OnCompelet();
-        //             };
-        //             PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
-        //             yield break;
-        //         }
-        //     }
-        // }
-
-        while(PhotonNetwork.LevelLoadingProgress < 1)
+        while (!PhotonNetwork._AsyncLevelLoadingOperation.isDone)
         {
             yield return null;
 
-            progressBar.fillAmount = PhotonNetwork.LevelLoadingProgress;
+            if (PhotonNetwork._AsyncLevelLoadingOperation.progress < 0.9f)
+            {
+                // Debug.Log(PhotonNetwork._AsyncLevelLoadingOperation.progress);
+                progressBar.fillAmount = PhotonNetwork._AsyncLevelLoadingOperation.progress;
+            }
+            else
+            {
+                progressBar.fillAmount += 0.01f;
+                if (progressBar.fillAmount >= 1f)
+                {
+                    PhotonNetwork._AsyncLevelLoadingOperation.completed += (ao) =>{
+                        connect.OnCompelet();
+                    };
+                    PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
+                    yield break;
+                }
+            }
         }
-    }
 
-    [PunRPC]
-    void LoadOK()
-    {
+        // while(PhotonNetwork.LevelLoadingProgress < 1)
+        // {
+        //     yield return null;
 
+        //     progressBar.fillAmount = PhotonNetwork.LevelLoadingProgress;
+        // }
     }
 
     public IEnumerator LoadingPhotonScreen(int sceneindex)
@@ -68,7 +62,7 @@ public class LoadingScreenProcess : MonoBehaviourPun
 
             if (PhotonNetwork._AsyncLevelLoadingOperation.progress < 0.9f)
             {
-                Debug.Log(PhotonNetwork._AsyncLevelLoadingOperation.progress);
+                // Debug.Log(PhotonNetwork._AsyncLevelLoadingOperation.progress);
             }
             else
             {

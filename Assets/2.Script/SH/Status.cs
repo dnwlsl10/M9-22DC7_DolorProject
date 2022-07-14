@@ -46,7 +46,7 @@ public class Status : MonoBehaviourPun, IDamageable
     [PunRPC]
     private void TD_RPC(float damage)
     {
-        Debug.Log("Damage" + damage);
+        // Debug.Log("Damage" + damage);
         HP -= damage;
     }
 

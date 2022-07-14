@@ -30,7 +30,7 @@ public class UIScreen : MonoBehaviour
     }
     public void LockMode()
     {
-        Debug.Log("Lock");
+        // Debug.Log("Lock");
         bw.weaponSetting.bLock = true;
         bw.CurrentAmmo = 0;
         sw.weaponSetting.bLock = true;
@@ -47,7 +47,7 @@ public class UIScreen : MonoBehaviour
 
     public void UnLockMode()
     {
-        Debug.Log("UnLock");
+        // Debug.Log("UnLock");
         bw.weaponSetting.bLock = false;
         bw.CurrentAmmo = bw.weaponSetting.maxAmmo;
         gm.StartReload();

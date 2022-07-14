@@ -26,8 +26,8 @@ public class NetworkTest : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         maxPlayer = GameObject.FindObjectOfType<Dropdown>().value == 0 ? (byte)1 : (byte)2;
-        print(PhotonNetwork.CountOfPlayers);
-        print(maxPlayer);
+        // print(PhotonNetwork.CountOfPlayers);
+        // print(maxPlayer);
         JoinRandomRoom();
     }
 
@@ -51,7 +51,7 @@ public class NetworkTest : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom()
     {
-        print("Joined Room" + PhotonNetwork.CurrentRoom.PlayerCount);
+        // print("Joined Room" + PhotonNetwork.CurrentRoom.PlayerCount);
         if (maxPlayer == 1) OnPlayerEnteredRoom(null);
     }
 
@@ -62,7 +62,7 @@ public class NetworkTest : MonoBehaviourPunCallbacks
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        print("Room not Exist");
+        // print("Room not Exist");
         CreateRoom();
     }
 
@@ -84,7 +84,7 @@ public class NetworkTest : MonoBehaviourPunCallbacks
     {
         for (float f = 0; f < 3; f += Time.deltaTime)
         {
-            print(Mathf.RoundToInt(f));
+            // print(Mathf.RoundToInt(f));
             yield return null;
         }
 

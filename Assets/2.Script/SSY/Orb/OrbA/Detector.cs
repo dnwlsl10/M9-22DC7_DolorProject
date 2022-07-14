@@ -39,7 +39,7 @@ public class Detector : MonoBehaviourPun
         PhotonView targetPv = PhotonNetwork.GetPhotonView(viewID);
         if (targetPv.Mine == true)
         {
-            print("Shield Break");
+            // print("Shield Break");
             WeaponSystem.instance.LockWeapon(WeaponName.Shield);
         }
 
@@ -48,7 +48,7 @@ public class Detector : MonoBehaviourPun
 
     void Connect(Transform target)
     {
-        print("Link Start");
+        // print("Link Start");
 
         linkIndex = (linkIndex + 1) % connectors.Count;
         int index = linkIndex;
@@ -96,7 +96,7 @@ public class Detector : MonoBehaviourPun
 
     void Disconnect(Transform tr, int index)
     {
-        print("Link Exit");
+        // print("Link Exit");
 
         // dic.Remove(tr);
         connectors[index].Disconnect();

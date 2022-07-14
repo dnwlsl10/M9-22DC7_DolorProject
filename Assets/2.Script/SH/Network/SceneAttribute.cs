@@ -9,8 +9,8 @@ public class SceneAttribute : MonoBehaviour
     private void Awake()
     {
         PhotonNetwork.SingleMode = sceneMode == Online.OfflineMode;
-        #if UNITY_EDITOR
-            Debug.LogWarning(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name + " is " + sceneMode.ToString() + " Scene.");
-        #endif
+        // #if UNITY_EDITOR
+        //     Debug.LogWarning(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name + " is " + sceneMode.ToString() + " Scene.");
+        // #endif
     }
 }

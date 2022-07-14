@@ -31,7 +31,7 @@ public class Lobby : MonoBehaviour
     {
         scenecTigger.OnChangeScene = () =>
         {
-            Debug.Log(selectionMachine.selectID);
+            // Debug.Log(selectionMachine.selectID);
             StartCoroutine(FadeOut());
         };
         DataManager.GetInstance().LoadDatas();

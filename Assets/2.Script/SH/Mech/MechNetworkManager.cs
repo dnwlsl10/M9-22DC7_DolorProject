@@ -54,7 +54,7 @@ public class MechNetworkManager : MonoBehaviourPun, IInitialize
         if (photonView.Mine)    SetLocal();
         else                    SetRemote();
 
-        print("Awake");
+        // print("Awake");
         LayerToChangeRemote = null; localDisableMesh = null; componentsForOnlyLocal = null;
     }
 

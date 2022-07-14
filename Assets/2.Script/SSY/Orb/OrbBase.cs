@@ -41,7 +41,7 @@ public class OrbBase : MonoBehaviourPun
             photonView.CustomRPC(this, "SetPRPC", RpcTarget.All, pv.ViewID);
         else
         {
-            print("SetParentNotRpc");
+            // print("SetParentNotRpc");
             parent = tr;
             try{
                 transform.parent = parent;

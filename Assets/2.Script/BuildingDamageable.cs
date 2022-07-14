@@ -18,7 +18,7 @@ public class BuildingDamageable : MonoBehaviourPun, IDamageable
         if (canTakeDmg == false) return;
 
         hp -= damage;
-        Debug.Log("Current HP : " + hp);
+        // Debug.Log("Current HP : " + hp);
         if (hp <= 0)
         {
             canTakeDmg = false;

@@ -58,7 +58,7 @@ public class TestCrossHair : MonoBehaviour
                     lr.SetPosition(0, ray.origin);
                     lr.SetPosition(1, targetHit.point);
                     if(Physics.Raycast(reveresRay, out RaycastHit screenHit , 100f, screenLayer)){
-                        Debug.Log("test");
+                        // Debug.Log("test");
                         lr.SetPosition(0, reveresRay.origin);
                         lr.SetPosition(1, screenHit.point);
                         crossHairImage.position = Vector3.Lerp(this.crossHairImage.position, screenHit.point, Time.deltaTime * 5f);

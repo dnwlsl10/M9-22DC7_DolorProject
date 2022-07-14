@@ -43,7 +43,7 @@ public class UIEarth : MonoBehaviour
             mat.SetFloat("_Alpha", val);
             val += 0.1f;
         }
-        Debug.Log("Clean");
+        // Debug.Log("Clean");
     }
     public void Init(){
         this.gameObject.SetActive(true);

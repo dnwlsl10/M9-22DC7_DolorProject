@@ -80,7 +80,7 @@ public class HandIK : MonoBehaviourPun, IInitialize
             if (Vector3.Distance(rigTarget.position, position) > teleportDistance)
             {
                 rigTarget.position = position;
-                print("TP");
+                // print("TP");
             }
             else
                 rb.velocity = (position - rigTarget.position) / Time.fixedDeltaTime * speedMultiplier;

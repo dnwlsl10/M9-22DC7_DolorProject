@@ -84,7 +84,7 @@ public class ColliderGenerator : MonoBehaviour, IInitialize
     {
         foreach (Object script in attchScriptList)
         {
-            print(script.GetType());
+            // print(script.GetType());
             System.Type type = null;
             if (script.GetType() == typeof(UnityEditor.MonoScript))
             {

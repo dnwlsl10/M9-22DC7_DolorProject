@@ -53,7 +53,7 @@ public class Connect : MonoBehaviourPunCallbacks
         PhotonNetwork.LogLevel = PunLogLevel.Full;
         PhotonNetwork.SendRate = 30;
         PhotonNetwork.SerializationRate = 20;
-        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.AutomaticallySyncScene = false;
         PhotonNetwork.GameVersion = gameVersion;
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -66,7 +66,7 @@ public class Connect : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
-        Debug.Log(PhotonNetwork.InLobby);
+        // Debug.Log(PhotonNetwork.InLobby);
         this.roomMode = eRoomMode.Lobby;
 
         if (bConnected) return;

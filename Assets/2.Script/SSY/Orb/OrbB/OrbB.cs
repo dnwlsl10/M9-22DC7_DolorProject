@@ -89,7 +89,7 @@ public class OrbB : OrbBase, IDamageable
 
     IEnumerator CompressSize(float targetSpeed, float targetScale) //총알을 한번 맞을때
     {
-        print("Compress" + targetScale);
+        // print("Compress" + targetScale);
         for (float f = 0; f < 0.5f; f += Time.deltaTime) // 0.1f == 지금 총알과 다음 총알 딜레이 시간 만큼 하면 자연스러울 것.!!!
         {
             orbSpeed = Mathf.Lerp(orbSpeed, targetSpeed, f/0.1f);

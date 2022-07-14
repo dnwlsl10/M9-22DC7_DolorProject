@@ -2476,7 +2476,7 @@ namespace Photon.Pun
         {
             if (SingleMode)
             {
-                Debug.Log("Unity Instantiate");
+                // Debug.Log("Unity Instantiate");
                 GameObject obj = UnityEngine.Object.Instantiate((GameObject)Resources.Load(prefabName), position, rotation);
                 // if (obj.TryGetComponent<UnityE)
                 return obj;
@@ -2486,7 +2486,7 @@ namespace Photon.Pun
                 Debug.LogError("Can not Instantiate before the client joined/created a room. State: "+PhotonNetwork.NetworkClientState);
                 return null;
             }
-            Debug.Log("Photon Instantiate");
+            // Debug.Log("Photon Instantiate");
             Pun.InstantiateParameters netParams = new InstantiateParameters(prefabName, position, rotation, group, data, currentLevelPrefix, null, LocalPlayer, ServerTimestamp);
             return NetworkInstantiate(netParams, false);
         }

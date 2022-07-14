@@ -9966,7 +9966,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5270339530053691210
 Transform:
   m_ObjectHideFlags: 0
@@ -9991,7 +9991,7 @@ ParticleSystem:
   serializedVersion: 7
   lengthInSec: 1
   simulationSpeed: 0
-  stopAction: 0
+  stopAction: 1
   cullingMode: 1
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -19605,7 +19605,7 @@ ParticleSystem:
   serializedVersion: 7
   lengthInSec: 2
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 1
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}

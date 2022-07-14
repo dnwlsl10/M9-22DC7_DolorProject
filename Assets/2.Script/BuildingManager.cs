@@ -69,7 +69,7 @@ public class BuildingManager : MonoBehaviour
         
         int colNum = Physics.OverlapSphereNonAlloc(bldg.hitPosition, scanRadius, colliders, layer, QueryTriggerInteraction.Ignore);
         if (bdSfx) AudioPool.instance.Play(bdSfx.name, 2 , bldg.building.position);
-        print("COLNUM" + colNum);
+        // print("COLNUM" + colNum);
         for (int i = 0; i < colNum; i++)
         {
             colliders[i].gameObject.layer = 0;

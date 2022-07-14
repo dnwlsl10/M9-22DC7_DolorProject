@@ -39,7 +39,7 @@ public class UIOrb : UIBase
         tmpB = originOrbB.localPosition;
 
         while(Vector3.Distance(originOrbA.localPosition, tmpB) > 0.1f){
-            Debug.Log("test");
+            // Debug.Log("test");
             yield return new WaitForEndOfFrame();
             originOrbA.localPosition = Vector3.Lerp(originOrbA.localPosition, tmpB, Time.deltaTime);
             originOrbB.localPosition = Vector3.Lerp(originOrbB.localPosition, tmp, Time.deltaTime);

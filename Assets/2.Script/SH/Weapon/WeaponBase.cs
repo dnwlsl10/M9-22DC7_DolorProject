@@ -36,7 +36,7 @@ public class WeaponBase : MonoBehaviourPun
 
     public virtual void Initialize()
     {
-        Debug.Log("init");
+        // Debug.Log("init");
         lastAttackTime = -weaponSetting.attackRate;
         isReloading = false;
         isAttacking = false;

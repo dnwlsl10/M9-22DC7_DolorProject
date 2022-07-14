@@ -127,7 +127,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void OnPlayerDeath() => photonView.RPC("Death", RpcTarget.All);    
     public override void OnPlayerLeftRoom(Player otherPlayer) => ShowResult(true);
     public override void OnLeftRoom(){
-       
+       PhotonNetwork.LoadLevel(3);
+        PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = false;
+        PhotonNetwork._AsyncLevelLoadingOperation.completed += (obj) =>
+        {
+            OnChangeLobby();
+        };
+        PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
     }
     void CompareHp(float myhp, float enemyhp) // 적과 내 HP를  비교
     {
@@ -191,13 +197,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(3F);
         PhotonNetwork.LeaveRoom();
         yield return new WaitForSeconds(1F);
-        PhotonNetwork.LoadLevel(3);
-        PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = false;
-        PhotonNetwork._AsyncLevelLoadingOperation.completed += (obj) =>
-        {
-            OnChangeLobby();
-        };
-        PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
+        
     }
 #endregion
     
