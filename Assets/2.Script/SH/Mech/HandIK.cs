@@ -98,7 +98,7 @@ public class HandIK : MonoBehaviourPun, IInitialize
         if (photonView.Mine)
         {
             isLeft = vrController.controller == XRNode.LeftHand;
-            GetComponent<Collider>().enabled = true;
+            // GetComponent<Collider>().enabled = true;
         }
         else
         {
