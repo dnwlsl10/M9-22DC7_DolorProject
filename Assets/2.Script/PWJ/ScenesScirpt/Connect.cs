@@ -50,7 +50,7 @@ public class Connect : MonoBehaviourPunCallbacks
             this.robotData = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
         }
 
-        PhotonNetwork.LogLevel = PunLogLevel.Full;
+        PhotonNetwork.LogLevel = PunLogLevel.ErrorsOnly;
         PhotonNetwork.SendRate = 30;
         PhotonNetwork.SerializationRate = 20;
         PhotonNetwork.AutomaticallySyncScene = false;
