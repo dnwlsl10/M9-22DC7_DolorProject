@@ -82,5 +82,5 @@ Material:
     - _uvoffset: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _MainColor: {r: 1.0847121, g: 1.3832428, b: 2.0350354, a: 0}
+    - _MainColor: {r: 0.67348444, g: 0.8864256, b: 1.3597972, a: 0}
   m_BuildTextureStacks: []
