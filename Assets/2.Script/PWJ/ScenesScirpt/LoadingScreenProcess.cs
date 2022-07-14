@@ -7,37 +7,52 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class LoadingScreenProcess : MonoBehaviourPun
 {
+    public Connect connect;
     public Image progressBar;
     public GameObject bg;
-    public IEnumerator LoadingPhotonScreenProcess(int sceneindex ,System.Action<AsyncOperation> OnComplete)
+    public IEnumerator LoadingPhotonScreenProcess(int sceneindex)
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.LoadLevel(sceneindex);
-        }
 
-        PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = false;
+        if (PhotonNetwork.IsMasterClient) PhotonNetwork.LoadLevel(sceneindex);
         bg.SetActive(true);
+     
+        // PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = false;
 
-        while (!PhotonNetwork._AsyncLevelLoadingOperation.isDone)
+        // while (!PhotonNetwork._AsyncLevelLoadingOperation.isDone)
+        // {
+        //     yield return null;
+
+        //     if (PhotonNetwork._AsyncLevelLoadingOperation.progress < 0.9f)
+        //     {
+        //         Debug.Log(PhotonNetwork._AsyncLevelLoadingOperation.progress);
+        //         progressBar.fillAmount = PhotonNetwork._AsyncLevelLoadingOperation.progress;
+        //     }
+        //     else
+        //     {
+        //         progressBar.fillAmount += 0.01f;
+        //         if (progressBar.fillAmount >= 1f)
+        //         {
+        //             PhotonNetwork._AsyncLevelLoadingOperation.completed += (ao) =>{
+        //                 connect.OnCompelet();
+        //             };
+        //             PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
+        //             yield break;
+        //         }
+        //     }
+        // }
+
+        while(PhotonNetwork.LevelLoadingProgress < 1)
         {
             yield return null;
 
-            if (PhotonNetwork._AsyncLevelLoadingOperation.progress < 0.9f)
-            {
-                Debug.Log(PhotonNetwork._AsyncLevelLoadingOperation.progress);
-                progressBar.fillAmount = PhotonNetwork._AsyncLevelLoadingOperation.progress;
-            }
-            else
-            {
-                progressBar.fillAmount += 0.01f;
-                if (progressBar.fillAmount >= 1f)
-                {
-                    OnComplete(PhotonNetwork._AsyncLevelLoadingOperation);
-                    yield break;
-                }
-            }
-        }      
+            progressBar.fillAmount = PhotonNetwork.LevelLoadingProgress;
+        }
+    }
+
+    [PunRPC]
+    void LoadOK()
+    {
+
     }
 
     public IEnumerator LoadingPhotonScreen(int sceneindex)

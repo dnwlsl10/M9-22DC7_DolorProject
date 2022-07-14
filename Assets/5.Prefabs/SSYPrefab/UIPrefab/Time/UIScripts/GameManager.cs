@@ -41,13 +41,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom() => InitGame();
 #endif
 
-    public void Init(UserInfo userInfo)
+    public void Awake()
     {
         if (instance != null)
             Destroy(instance);
         else
             instance = this;
 
+        UserInfo userInfo = App.instance.userInfo;
+        OnChangeLobby += () => App.instance.ChangeScene(eSceneType.Lobby);
         DataManager.GetInstance().LoadDatas();
         selectPrefab = DataManager.GetInstance().dicRobotDatas[userInfo.userId];
         

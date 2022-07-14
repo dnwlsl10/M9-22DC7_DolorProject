@@ -8,10 +8,19 @@ public enum eSceneType
 }
 public class App : MonoBehaviour
 {
+    public static App instance;
+
     private eSceneType sceneType;
-    private UserInfo userInfo;
+    public UserInfo userInfo;
     private void Awake()
     {
+        if (instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+
+        instance = this;
         Screen.SetResolution(1920, 1080, false);
     }
 
@@ -97,14 +106,14 @@ public class App : MonoBehaviour
                 break;
             case eSceneType.InGame:
                 {
-                    var inGame = GameObject.FindObjectOfType<GameManager>();
+                    // var inGame = GameObject.FindObjectOfType<GameManager>();
 
-                    inGame.Init(userInfo);
+                    // inGame.Init(userInfo);
 
-                    inGame.OnChangeLobby = () => 
-                    {
-                        this.ChangeScene(eSceneType.Lobby);
-                    };
+                    // inGame.OnChangeLobby = () => 
+                    // {
+                    //     this.ChangeScene(eSceneType.Lobby);
+                    // };
                 }
                 break;
         }

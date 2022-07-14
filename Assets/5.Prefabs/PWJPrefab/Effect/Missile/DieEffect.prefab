@@ -9950,7 +9950,7 @@ ParticleSystem:
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -14649,8 +14649,6 @@ GameObject:
   - component: {fileID: 5270339534086681148}
   - component: {fileID: 5446360382179065852}
   - component: {fileID: 5469843197083934946}
-  - component: {fileID: -6753884196011235786}
-  - component: {fileID: 7651666787970238732}
   m_Layer: 0
   m_Name: DieEffect
   m_TagString: Untagged
@@ -14667,7 +14665,7 @@ Transform:
   m_GameObject: {fileID: 5271948925172720486}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -1.9006801, y: 2.58, z: 4.910924}
-  m_LocalScale: {x: 0.55009, y: 0.55009, z: 0.55009}
+  m_LocalScale: {x: 0.007065577, y: 0.0070655756, z: 0.0070655756}
   m_Children:
   - {fileID: 5270339530427960642}
   - {fileID: 5270339530090656602}
@@ -19383,40 +19381,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &-6753884196011235786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5271948925172720486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ccd60d7912432f4392e15d6b37aebd1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7651666787970238732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5271948925172720486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &5271948926751879972
 GameObject:
   m_ObjectHideFlags: 0

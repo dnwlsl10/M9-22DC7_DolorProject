@@ -18,6 +18,7 @@ public class ZoneSize : MonoBehaviour
         GameManager.instance.onGameStart += OnGameStart;
     }
 
+
     void OnGameStart()
     {
         StartCoroutine(TestChangeSize());

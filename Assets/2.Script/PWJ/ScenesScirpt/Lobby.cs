@@ -15,7 +15,8 @@ public class Lobby : MonoBehaviour
     private bool isTest;
 
     void Awake(){
-        if(PhotonNetwork.IsConnected) PhotonNetwork.Disconnect();
+        if(PhotonNetwork.IsConnected) 
+            PhotonNetwork.Disconnect();
     }
     public void Start()
     {

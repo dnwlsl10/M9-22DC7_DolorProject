@@ -150,13 +150,7 @@ public class Connect : MonoBehaviourPunCallbacks
             this.count[i].SetActive(false);
         }
 
-        yield return StartCoroutine(loadingScreenProcess.LoadingPhotonScreenProcess(5, (ao) =>{
-           robot.GetComponentInChildren<BlackBackGround>().StartChangeSceanBlackBackGround();
-           ao.completed += (obj) =>{
-               OnCompelet();
-            };
-            PhotonNetwork._AsyncLevelLoadingOperation.allowSceneActivation = true;
-        }));
+        yield return StartCoroutine(loadingScreenProcess.LoadingPhotonScreenProcess(5));
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message){

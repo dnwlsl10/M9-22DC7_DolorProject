@@ -36,6 +36,6 @@ public class BuildingDamageable : MonoBehaviourPun, IDamageable
     [PunRPC]
     private void GMUp()
     {
-        WeaponSystem.instance.GetComponent<GuidedMissile>().GetGauge(15);
+        WeaponSystem.instance.GetComponent<GuidedMissile>().GetGauge(5f);
     }
 }

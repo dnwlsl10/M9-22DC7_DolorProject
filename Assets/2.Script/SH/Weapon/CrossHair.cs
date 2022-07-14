@@ -91,9 +91,9 @@ public class CrossHair : MonoBehaviourPun, IInitialize
         }
         else imageRenderer.enabled = false;
 
-        #if UNITY_EDITOR && test
-            lr.SetPosition(0, ray.origin);
-            lr.SetPosition(1, aimPosition);
-        #endif
+        // #if UNITY_EDITOR && test
+        //     lr.SetPosition(0, ray.origin);
+        //     lr.SetPosition(1, aimPosition);
+        // #endif
     }
 }

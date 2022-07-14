@@ -62,6 +62,8 @@ MonoBehaviour:
   - TD_RPC
   - Deactivate
   - GMUp
+  - LoadComplete
+  - LoadOK
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
