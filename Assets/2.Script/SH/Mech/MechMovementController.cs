@@ -70,6 +70,7 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
     {
         cachedMine = photonView.Mine;
         groundLayer = LayerMask.GetMask("Map");
+        tr = GetComponent<Transform>();
 
         string[] walkStateNames = System.Enum.GetNames(typeof(WalkState));
         walkStateHash = new int[walkStateNames.Length];
@@ -79,7 +80,6 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
         anim = GetComponent<Animator>();
         if (cachedMine)
         {
-            tr = GetComponent<Transform>();
             // rb = GetComponent<Rigidbody>();
             cc = GetComponent<CharacterController>();
         }
@@ -190,8 +190,11 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
     public void PlayFootStepSound()
     {
         if (Physics.Raycast(tr.position+tr.up*0.1f, -tr.up, 0.2f, groundLayer))
-            // audio.PlayOneShot(footstep);
+        {
+
             AudioPool.instance.Play(footstep.name, 2, tr.position);
+        }
+            // audio.PlayOneShot(footstep);
     }
 
 #region 
