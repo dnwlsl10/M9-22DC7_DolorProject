@@ -69,6 +69,7 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
     void Awake()
     {
         cachedMine = photonView.Mine;
+        groundLayer = LayerMask.GetMask("Map");
 
         string[] walkStateNames = System.Enum.GetNames(typeof(WalkState));
         walkStateHash = new int[walkStateNames.Length];
@@ -185,10 +186,10 @@ public class MechMovementController : MonoBehaviourPun, IInitialize
         else
             anim.SetFloat("TurnSpeed", rotSpeed/22.5f);
     }
-
+    LayerMask groundLayer;
     public void PlayFootStepSound()
     {
-        if (Physics.Raycast(tr.position+tr.up*0.1f, -tr.up, 0.2f, LayerMask.GetMask("Ground")))
+        if (Physics.Raycast(tr.position+tr.up*0.1f, -tr.up, 0.2f, groundLayer))
             // audio.PlayOneShot(footstep);
             AudioPool.instance.Play(footstep.name, 2, tr.position);
     }

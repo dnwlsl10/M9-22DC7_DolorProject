@@ -10421,7 +10421,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerEye: {fileID: 5037225719885630957}
-  footstep: {fileID: 8300000, guid: 6caff95e2e6f4da428ffd199890b1cd7, type: 3}
+  footstep: {fileID: 8300000, guid: 53239bcda7593ea4091e06fff0933ea3, type: 3}
   leftHandJoystick: {fileID: 6972639530819350904, guid: b212627b2d7d7b547ba7c981ca0c6bec, type: 3}
   moveSpeed: 1
   rotateStartThreshold: 30
