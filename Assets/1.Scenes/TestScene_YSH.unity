@@ -1686,7 +1686,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &770568858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1699,7 +1699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e9c0d132e943ad418c2d5374e6c3d26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 2705916427777778069, guid: 93af689fb102ff043870945f90e02340, type: 3}
+  playerPrefab: {fileID: 2705916427777778069, guid: ef9020258f0dd4e4bb06f3807e29f7f8, type: 3}
   maxPlayer: 1
 --- !u!4 &770568859
 Transform:
@@ -1978,6 +1978,10 @@ PrefabInstance:
     - target: {fileID: 5271948925172720486, guid: 68c4301db66944b4cbe77b555b192fd7, type: 3}
       propertyPath: m_Name
       value: MissileHItEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 5271948925172720486, guid: 68c4301db66944b4cbe77b555b192fd7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5446360382179065852, guid: 68c4301db66944b4cbe77b555b192fd7, type: 3}
       propertyPath: stopAction
@@ -4128,7 +4132,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2705916427777778069, guid: 93af689fb102ff043870945f90e02340, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2975807836728042971, guid: 93af689fb102ff043870945f90e02340, type: 3}
       propertyPath: sceneViewId
